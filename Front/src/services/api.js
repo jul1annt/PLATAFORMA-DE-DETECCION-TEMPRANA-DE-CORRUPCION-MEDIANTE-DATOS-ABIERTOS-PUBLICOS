@@ -22,4 +22,11 @@ export const syncFuente = (id) => api.post(`/sync/${id}`);
 // Logs
 export const getLogs = (id) => api.get(`/logs/${id}`);
 
+// Procesamiento (Épica 2)
+export const runProcesamiento = () => api.post('/procesamiento/process');
+export const getContratosProcesados = (estado = '') => api.get(`/procesamiento/contratos${estado ? `?estado=${estado}` : ''}`);
+export const getCalidadResumen = () => api.get('/procesamiento/calidad/resumen');
+export const getCalidadProblemas = () => api.get('/procesamiento/calidad/problemas');
+export const getCambios = () => api.get('/procesamiento/cambios');
+
 export default api;
