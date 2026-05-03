@@ -1,2 +1,20 @@
 .env
 __pycache__/
+
+# Node
+node_modules/
+dist/
+build/
+.npm/
+
+# Python
+venv/
+.venv/
+env/
+.env/
+*.pyc
+
+# IDEs
+.vscode/
+.idea/
+.DS_Store
