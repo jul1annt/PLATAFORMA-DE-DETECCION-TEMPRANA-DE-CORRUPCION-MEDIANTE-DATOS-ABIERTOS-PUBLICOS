@@ -60,3 +60,13 @@ class SyncLogResponseDTO(BaseModel):
     attempt_number: int
 
     model_config = ConfigDict(from_attributes=True)
+
+class DataSourceSummaryDTO(BaseModel):
+    id: UUID
+    name: str
+    type: str
+    last_sync_at: Optional[datetime] = None
+    total_records_fetched: int
+    total_syncs: int
+    successful_syncs: int
+    failed_syncs: int

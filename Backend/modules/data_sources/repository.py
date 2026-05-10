@@ -1,9 +1,9 @@
 from uuid import UUID
 from datetime import datetime, timezone, timedelta
-from typing import List, Optional
+from typing import List, Optional, Dict, Any
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
-from sqlalchemy import or_, tuple_
+from sqlalchemy import or_, tuple_, func
 
 from modules.data_sources.models.entity import DataSource, SyncLog
 from modules.data_sources.models.dto import DataSourceCreateDTO, DataSourceUpdateDTO, LogStatus
@@ -140,3 +140,37 @@ class DataSourceRepository:
         stmt = select(SyncLog).order_by(SyncLog.started_at.desc())
         result = await self.session.execute(stmt)
         return list(result.scalars().all())
+
+    # ── Summary methods ──────────────────────────────────────────────────────
+
+    async def get_source_summary(self, source_id: UUID) -> Optional[Dict[str, Any]]:
+        """Aggregate sync_logs for a source and return summary data.
+        Returns None if the data source does not exist.
+        """
+        # Verify source exists
+        source = await self.get_by_id(source_id)
+        if not source:
+            return None
+
+        stmt = (
+            select(
+                func.coalesce(func.sum(SyncLog.records_fetched), 0).label("total_records_fetched"),
+                func.count(SyncLog.id).label("total_syncs"),
+                func.count(SyncLog.id).filter(SyncLog.status == LogStatus.SUCCESS).label("successful_syncs"),
+                func.count(SyncLog.id).filter(SyncLog.status == LogStatus.FAILED).label("failed_syncs"),
+            )
+            .where(SyncLog.source_id == source_id)
+        )
+        result = await self.session.execute(stmt)
+        row = result.one()
+
+        return {
+            "id": source.id,
+            "name": source.name,
+            "type": source.type.value if hasattr(source.type, "value") else source.type,
+            "last_sync_at": source.last_sync_at,
+            "total_records_fetched": row.total_records_fetched,
+            "total_syncs": row.total_syncs,
+            "successful_syncs": row.successful_syncs,
+            "failed_syncs": row.failed_syncs,
+        }

@@ -16,6 +16,7 @@ from modules.data_sources.models.dto import (
     SyncStatus,
     LogStatus,
     SyncLogResponseDTO,
+    DataSourceSummaryDTO,
 )
 from modules.data_sources.patterns.factory import DataSourceConnectorFactory
 from interfaces.data_sources_interface import DataSourcesInterface
@@ -187,3 +188,10 @@ class DataSourceService(DataSourcesInterface):
     async def get_all_sync_logs(self) -> List[SyncLogResponseDTO]:
         logs = await self.repository.get_all_logs()
         return [SyncLogResponseDTO.model_validate(log) for log in logs]
+
+    async def get_source_summary(self, source_id: UUID) -> DataSourceSummaryDTO:
+        """Return aggregated sync statistics for a data source."""
+        summary = await self.repository.get_source_summary(source_id)
+        if summary is None:
+            raise NotFoundException("Data source not found")
+        return DataSourceSummaryDTO(**summary)

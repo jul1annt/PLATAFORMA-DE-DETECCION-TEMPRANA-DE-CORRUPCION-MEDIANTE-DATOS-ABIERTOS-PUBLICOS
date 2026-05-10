@@ -11,6 +11,7 @@ from modules.data_sources.models.dto import (
     DataSourceResponseDTO,
     DataSourceTestResultDTO,
     SyncLogResponseDTO,
+    DataSourceSummaryDTO,
 )
 from modules.data_sources.repository import DataSourceRepository
 from modules.data_sources.service import DataSourceService
@@ -28,6 +29,23 @@ async def create_data_source(dto: DataSourceCreateDTO, service: DataSourceServic
 @router.get("/", response_model=List[DataSourceResponseDTO])
 async def get_all_data_sources(service: DataSourceService = Depends(get_service)):
     return await service.get_all_sources()
+
+# NOTE: /{id}/summary and /logs must be declared BEFORE /{id} to avoid
+# FastAPI treating the literal strings as UUID path parameters.
+
+@router.get("/{id}/summary", response_model=DataSourceSummaryDTO, tags=["data-sources"])
+async def get_data_source_summary(
+    id: UUID,
+    service: DataSourceService = Depends(get_service),
+):
+    """Return aggregated sync statistics for a data source (auditor view)."""
+    try:
+        return await service.get_source_summary(id)
+    except NotFoundException:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Data source {id} not found",
+        )
 
 @router.get("/{id}", response_model=DataSourceResponseDTO)
 async def get_data_source(id: UUID, service: DataSourceService = Depends(get_service)):
