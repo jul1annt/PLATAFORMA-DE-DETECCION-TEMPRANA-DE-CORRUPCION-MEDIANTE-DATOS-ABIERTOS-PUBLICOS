@@ -5,8 +5,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from sqlalchemy import or_, tuple_
 
-from modules.data_sources.models.entity import DataSource
-from modules.data_sources.models.dto import DataSourceCreateDTO, DataSourceUpdateDTO
+from modules.data_sources.models.entity import DataSource, SyncLog
+from modules.data_sources.models.dto import DataSourceCreateDTO, DataSourceUpdateDTO, LogStatus
 
 class DataSourceRepository:
     def __init__(self, session: AsyncSession):
@@ -85,3 +85,58 @@ class DataSourceRepository:
                     due_sources.append(source)
                     
         return due_sources
+
+    # ── Sync Log methods ────────────────────────────────────────────────────
+
+    async def create_sync_log(self, source_id: UUID) -> SyncLog:
+        """Create a sync log entry with status IN_PROGRESS."""
+        log = SyncLog(
+            source_id=source_id,
+            started_at=datetime.now(timezone.utc),
+            status=LogStatus.IN_PROGRESS,
+            attempt_number=1,
+        )
+        self.session.add(log)
+        await self.session.commit()
+        await self.session.refresh(log)
+        return log
+
+    async def update_sync_log(
+        self,
+        log_id: UUID,
+        status: LogStatus,
+        finished_at: datetime,
+        records_fetched: Optional[int] = None,
+        error_message: Optional[str] = None,
+        attempt_number: int = 1,
+    ) -> Optional[SyncLog]:
+        """Update a sync log entry after a sync attempt concludes."""
+        stmt = select(SyncLog).where(SyncLog.id == log_id)
+        result = await self.session.execute(stmt)
+        log = result.scalars().first()
+        if not log:
+            return None
+        log.status = status
+        log.finished_at = finished_at
+        log.records_fetched = records_fetched
+        log.error_message = error_message
+        log.attempt_number = attempt_number
+        await self.session.commit()
+        await self.session.refresh(log)
+        return log
+
+    async def get_logs_by_source(self, source_id: UUID) -> List[SyncLog]:
+        """Return all sync logs for a given source ordered by started_at DESC."""
+        stmt = (
+            select(SyncLog)
+            .where(SyncLog.source_id == source_id)
+            .order_by(SyncLog.started_at.desc())
+        )
+        result = await self.session.execute(stmt)
+        return list(result.scalars().all())
+
+    async def get_all_logs(self) -> List[SyncLog]:
+        """Return all sync logs across every source ordered by started_at DESC."""
+        stmt = select(SyncLog).order_by(SyncLog.started_at.desc())
+        result = await self.session.execute(stmt)
+        return list(result.scalars().all())

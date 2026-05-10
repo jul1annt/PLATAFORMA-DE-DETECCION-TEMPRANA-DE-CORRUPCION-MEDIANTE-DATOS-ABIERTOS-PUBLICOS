@@ -12,6 +12,11 @@ class SyncStatus(str, Enum):
     SUCCESS = "SUCCESS"
     FAILED = "FAILED"
 
+class LogStatus(str, Enum):
+    SUCCESS = "SUCCESS"
+    FAILED = "FAILED"
+    IN_PROGRESS = "IN_PROGRESS"
+
 class DataSourceCreateDTO(BaseModel):
     name: str
     type: DataSourceType
@@ -43,3 +48,15 @@ class DataSourceTestResultDTO(BaseModel):
     success: bool
     message: str
     response_time_ms: Optional[int] = None
+
+class SyncLogResponseDTO(BaseModel):
+    id: UUID
+    source_id: UUID
+    started_at: datetime
+    finished_at: Optional[datetime] = None
+    status: LogStatus
+    records_fetched: Optional[int] = None
+    error_message: Optional[str] = None
+    attempt_number: int
+
+    model_config = ConfigDict(from_attributes=True)

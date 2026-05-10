@@ -1,4 +1,6 @@
+import asyncio
 import json
+import logging
 from uuid import UUID
 from datetime import datetime, timezone
 from cryptography.fernet import Fernet
@@ -8,15 +10,19 @@ from core.config import settings
 from core.exceptions import NotFoundException
 from modules.data_sources.repository import DataSourceRepository
 from modules.data_sources.models.dto import (
-    DataSourceCreateDTO, 
-    DataSourceUpdateDTO, 
+    DataSourceCreateDTO,
+    DataSourceUpdateDTO,
     DataSourceTestResultDTO,
-    SyncStatus
+    SyncStatus,
+    LogStatus,
+    SyncLogResponseDTO,
 )
 from modules.data_sources.patterns.factory import DataSourceConnectorFactory
 from interfaces.data_sources_interface import DataSourcesInterface
 from core.events.event_bus import event_bus
 from core.events import event_types
+
+logger = logging.getLogger(__name__)
 
 class DataSourceService(DataSourcesInterface):
     def __init__(self, repository: DataSourceRepository):
@@ -87,45 +93,97 @@ class DataSourceService(DataSourcesInterface):
     async def sync_source(self, id: UUID):
         entity = await self.get_source(id)
         credentials = self._decrypt_credentials(entity.credentials) if isinstance(entity.credentials, str) else entity.credentials
-        
+
         adapter = DataSourceConnectorFactory.get_adapter(
             source_type=entity.type,
             endpoint_url=entity.endpoint_url,
             credentials=credentials
         )
-        
-        try:
-            # Simulate fetch data
-            data = await adapter.fetch_data()
-            status = SyncStatus.SUCCESS
-            
-            # Publish event
-            await event_bus.publish(
-                event_types.DATA_FETCHED,
-                {
-                    "source_id": str(entity.id),
-                    "source_type": entity.type.value if hasattr(entity.type, 'value') else entity.type,
-                    "data": data
-                }
+
+        max_retries = settings.MAX_SYNC_RETRIES
+        retry_delay = settings.SYNC_RETRY_DELAY_SECONDS
+
+        # Create log with IN_PROGRESS status at the start
+        sync_log = await self.repository.create_sync_log(source_id=entity.id)
+
+        data = None
+        last_error: str | None = None
+        attempt = 0
+
+        for attempt in range(1, max_retries + 1):
+            try:
+                logger.info(f"Sync attempt {attempt}/{max_retries} for source {entity.id}")
+                data = await adapter.fetch_data()
+                last_error = None
+                break  # Success — exit retry loop
+            except Exception as exc:
+                last_error = str(exc)
+                logger.warning(
+                    f"Sync attempt {attempt}/{max_retries} failed for source {entity.id}: {last_error}"
+                )
+                if attempt < max_retries:
+                    await asyncio.sleep(retry_delay)
+
+        finished_at = datetime.now(timezone.utc)
+
+        if last_error is not None:
+            # All attempts failed
+            await self.repository.update_sync_log(
+                log_id=sync_log.id,
+                status=LogStatus.FAILED,
+                finished_at=finished_at,
+                error_message=last_error,
+                attempt_number=attempt,
             )
-            
-        except Exception:
-            status = SyncStatus.FAILED
-            
-        # Update last sync status
-        update_dto = DataSourceUpdateDTO()
-        update_dto.last_sync_status = status
-        # Since last_sync_at is not in UpdateDTO, we must update entity directly or add to DTO.
-        # Actually it's better to update entity in the service or via repo.
-        # Let's add last_sync_at to DTO if needed or just update it via a special method.
-        # For now, let's update entity and save.
-        entity.last_sync_at = datetime.now(timezone.utc)
-        entity.last_sync_status = status
-        
+            entity.last_sync_at = finished_at
+            entity.last_sync_status = SyncStatus.FAILED
+            await self.repository.session.commit()
+            await self.repository.session.refresh(entity)
+            logger.error(
+                f"Sync for source {entity.id} failed after {attempt} attempt(s): {last_error}"
+            )
+            return
+
+        # Successful sync
+        records_fetched = len(data) if isinstance(data, (list, dict)) else None
+
+        await self.repository.update_sync_log(
+            log_id=sync_log.id,
+            status=LogStatus.SUCCESS,
+            finished_at=finished_at,
+            records_fetched=records_fetched,
+            attempt_number=attempt,
+        )
+
+        entity.last_sync_at = finished_at
+        entity.last_sync_status = SyncStatus.SUCCESS
         await self.repository.session.commit()
         await self.repository.session.refresh(entity)
+
+        # Publish DATA_FETCHED event
+        await event_bus.publish(
+            event_types.DATA_FETCHED,
+            {
+                "source_id": str(entity.id),
+                "source_type": entity.type.value if hasattr(entity.type, "value") else entity.type,
+                "data": data,
+            }
+        )
+        logger.info(
+            f"Sync for source {entity.id} succeeded on attempt {attempt}. "
+            f"Records fetched: {records_fetched}"
+        )
 
     async def sync_due_sources(self) -> None:
         due_sources = await self.repository.get_due_sources()
         for source in due_sources:
             await self.sync_source(source.id)
+
+    async def get_sync_logs(self, source_id: UUID) -> List[SyncLogResponseDTO]:
+        await self.get_source(source_id)  # raises NotFoundException if not found
+        logs = await self.repository.get_logs_by_source(source_id)
+        return [SyncLogResponseDTO.model_validate(log) for log in logs]
+
+    async def get_all_sync_logs(self) -> List[SyncLogResponseDTO]:
+        logs = await self.repository.get_all_logs()
+        return [SyncLogResponseDTO.model_validate(log) for log in logs]

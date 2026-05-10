@@ -4,11 +4,13 @@ from uuid import UUID
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from core.database import get_db
+from core.exceptions import NotFoundException
 from modules.data_sources.models.dto import (
     DataSourceCreateDTO,
     DataSourceUpdateDTO,
     DataSourceResponseDTO,
-    DataSourceTestResultDTO
+    DataSourceTestResultDTO,
+    SyncLogResponseDTO,
 )
 from modules.data_sources.repository import DataSourceRepository
 from modules.data_sources.service import DataSourceService
@@ -48,3 +50,26 @@ async def test_connection(id: UUID, service: DataSourceService = Depends(get_ser
 async def sync_data_source(id: UUID, service: DataSourceService = Depends(get_service)):
     await service.sync_source(id)
     return {"detail": "Sync successful"}
+
+# ── Sync Log endpoints ────────────────────────────────────────────────────
+# NOTE: /logs must be declared BEFORE /{id} to avoid FastAPI treating
+# the literal string "logs" as a UUID path parameter.
+
+@router.get("/logs", response_model=List[SyncLogResponseDTO], tags=["sync-logs"])
+async def get_all_sync_logs(service: DataSourceService = Depends(get_service)):
+    """Return sync history for all data sources."""
+    return await service.get_all_sync_logs()
+
+@router.get("/{id}/logs", response_model=List[SyncLogResponseDTO], tags=["sync-logs"])
+async def get_sync_logs_by_source(
+    id: UUID,
+    service: DataSourceService = Depends(get_service),
+):
+    """Return sync history for a specific data source."""
+    try:
+        return await service.get_sync_logs(id)
+    except NotFoundException:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Data source {id} not found",
+        )

@@ -14,18 +14,26 @@ Este es el backend de la plataforma, construido como un monolito modular utiliza
 
 Abre tu terminal (PowerShell), asegúrate de estar ubicado en la carpeta principal del backend (ej. `C:\DeteccionCorrupcion`) y sigue estos pasos:
 
-### 1. Activar el Entorno Virtual
+### 1. Activar el Entorno Virtual e Instalar Dependencias
 ```powershell
-.\venv\Scripts\activate
-```
+python -m venv venv
 
-*(Si es la primera vez que clonas el proyecto, instala las dependencias ejecutando: `pip install -r requirements.txt`)*
+.\venv\Scripts\activate
+
+# ¡Importante! Instala las dependencias después de activar el entorno:
+pip install -r requirements.txt
+```
 
 ### 2. Configurar Variables de Entorno
 Asegúrate de tener tu archivo `.env` configurado en la raíz de la carpeta. Puedes copiar el contenido de `.env.example` y llenarlo con tu configuración local.
 
+> **Nota:** Si necesitas generar un nuevo `ENCRYPTION_KEY` seguro, puedes ejecutar el siguiente comando de Python en tu terminal y pegar el resultado en tu archivo `.env`:
+> ```powershell
+> python -c "from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())"
+> ```
+
 ### 3. Crear Tablas de la Base de Datos
-Para generar la base de datos de SQLite inicial, ejecuta un script de inicialización. (El archivo `init_db.py` ya crea las tablas necesarias llamando a `create_all` de forma asíncrona):
+Para generar las tablas en la base de datos PostgreSQL, ejecuta el script de inicialización (`init_db.py`). Este script ya contiene la importación de todos los modelos y crea las tablas necesarias utilizando `create_all` de forma asíncrona:
 
 ```powershell
 $env:PYTHONPATH="."
