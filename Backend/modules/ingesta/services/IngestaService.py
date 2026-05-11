@@ -85,23 +85,29 @@ class IngestaService:
         try:
             adapter = get_adapter(fuente.tipo, fuente.endpoint, fuente.api_key)
 
-            params = {}
+            fecha_desde = None
             if fuente.ultima_sync:
-                params["fecha_desde"] = fuente.ultima_sync.strftime("%Y-%m-%d")
+                fecha_desde = fuente.ultima_sync.strftime("%Y-%m-%d")
 
-            datos = adapter.fetch(params=params)
+            total_traidos   = 0
+            total_insertados = 0
 
-            insertados = self.repo.insertar_raw_secop_bulk(datos, fuente_id)
+            # Itera batch por batch sin cargar todo en memoria
+            for batch in adapter.fetch_todos(fecha_desde=fecha_desde):
+                insertados = self.repo.insertar_raw_secop_bulk(batch, fuente_id)
+                total_traidos    += len(batch)
+                total_insertados += insertados
+                print(f"[SYNC] traidos={total_traidos} | insertados={total_insertados}")
 
             self.repo.actualizar_ultima_sync(fuente_id, datetime.now(timezone.utc))
 
             return {
-                "registros_traidos": len(datos),
-                "registros_insertados": insertados,
-                "registros_duplicados": len(datos) - insertados,
-                "fuente": fuente.nombre,
-                "desde": params.get("fecha_desde", "2020-01-01"),
-                "hasta": datetime.today().strftime("%Y-%m-%d")
+                "registros_traidos":     total_traidos,
+                "registros_insertados":  total_insertados,
+                "registros_duplicados":  total_traidos - total_insertados,
+                "fuente":  fuente.nombre,
+                "desde":   fecha_desde or "2020-01-01",
+                "hasta":   datetime.today().strftime("%Y-%m-%d")
             }
         except Exception as e:
             raise HTTPException(status_code=502, detail=f"Fallo en sincronización: {str(e)}")
