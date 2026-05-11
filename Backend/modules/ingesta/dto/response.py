@@ -1,11 +1,13 @@
 from pydantic import BaseModel
 from typing import Optional
 from datetime import datetime
+from shared.enums import TipoFormato
 
 class FuenteDatosResponseDTO(BaseModel):
     id: int
     nombre: str
     tipo: str
+    formato: TipoFormato
     endpoint: str
     frecuencia_dias: int
     activo: bool

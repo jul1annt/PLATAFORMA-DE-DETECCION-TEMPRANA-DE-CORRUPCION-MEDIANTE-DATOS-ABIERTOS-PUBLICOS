@@ -21,7 +21,11 @@ class IngestaService:
                 status_code=status.HTTP_409_CONFLICT,
                 detail=f"Ya existe una fuente con el nombre '{dto.nombre}'"
             )
-        fuente = FuenteDatos(**dto.model_dump())
+
+        data = dto.model_dump()
+        data["endpoint"] = str(data["endpoint"])   # <-- fix
+
+        fuente = FuenteDatos(**data)
         creada = self.repo.create(fuente)
         return FuenteDatosResponseDTO.model_validate(creada)
 
@@ -38,7 +42,12 @@ class IngestaService:
         fuente = self.repo.get_by_id(fuente_id)
         if not fuente:
             raise HTTPException(status_code=404, detail="Fuente no encontrada")
-        actualizada = self.repo.update(fuente, dto.model_dump(exclude_none=True))
+
+        data = dto.model_dump(exclude_none=True)
+        if "endpoint" in data:
+            data["endpoint"] = str(data["endpoint"])   # <-- fix
+
+        actualizada = self.repo.update(fuente, data)
         return FuenteDatosResponseDTO.model_validate(actualizada)
 
     def eliminar_fuente(self, fuente_id: int) -> None:
@@ -54,7 +63,7 @@ class IngestaService:
         if not fuente:
             raise HTTPException(status_code=404, detail="Fuente no encontrada")
         try:
-            adapter = get_adapter(fuente.tipo, fuente.api_key)
+            adapter = get_adapter(fuente.tipo,fuente.endpoint, fuente.api_key)
             datos = adapter.fetch(params={"$limit": 5})
             return ConexionTestResponseDTO(
                 exitoso=True,
@@ -74,7 +83,7 @@ class IngestaService:
         if not fuente:
             raise HTTPException(status_code=404, detail="Fuente no encontrada")
         try:
-            adapter = get_adapter(fuente.tipo, fuente.api_key)
+            adapter = get_adapter(fuente.tipo,fuente.endpoint, fuente.api_key)
             datos = adapter.fetch()
             # Aquí se persisten los datos crudos (RawData - lo definimos en la siguiente HU)
             self.repo.actualizar_ultima_sync(fuente_id, datetime.now(timezone.utc))

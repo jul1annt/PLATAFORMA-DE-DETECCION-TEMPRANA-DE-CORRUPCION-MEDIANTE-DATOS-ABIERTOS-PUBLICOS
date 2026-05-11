@@ -1,3 +1,5 @@
+revisa el .env.example
+
 python -m venv venv
 venv\Scripts\activate
 
@@ -10,3 +12,5 @@ alembic init database/migrations
 alembic revision --autogenerate -m "crear tabla fuentes_datos"
 
 alembic upgrade head
+
+uvicorn main:app --reload --port 8000

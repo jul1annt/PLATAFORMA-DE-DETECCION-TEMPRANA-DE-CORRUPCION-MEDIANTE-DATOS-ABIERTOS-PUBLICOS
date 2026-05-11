@@ -7,6 +7,8 @@ class Settings(BaseSettings):
     DB_PASSWORD: str
     DB_NAME: str
     ENCRYPTION_KEY: str
+    SECRET_KEY: str
+    SCHEDULER_TIMEZONE: str = "America/Bogota"
 
     @property
     def DATABASE_URL(self) -> str:
