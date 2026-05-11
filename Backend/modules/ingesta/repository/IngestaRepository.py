@@ -22,16 +22,28 @@ class IngestaRepository(BaseRepository[FuenteDatos]):
             .filter(FuenteDatos.id == fuente_id)\
             .update({"ultima_sync": timestamp})
         self.db.commit()
-
+        
     def insertar_raw_secop_bulk(self, registros: list[dict], fuente_id: int) -> int:
         if not registros:
             return 0
 
-        for r in registros:
-            r["fuente_id"] = fuente_id
+        columnas_validas = {c.key for c in RawSecop.__table__.columns
+                            if c.key not in ("id", "sincronizado_en")}
 
-        # INSERT ... ON CONFLICT DO NOTHING (evita duplicados por id_del_proceso)
-        stmt = pg_insert(RawSecop).values(registros)
+        def limpiar_valor(v):
+            if isinstance(v, dict):
+                return str(v)        # objeto anidado → string
+            if isinstance(v, list):
+                return str(v)        # array → string
+            return v
+
+        limpios = []
+        for r in registros:
+            fila = {col: limpiar_valor(r.get(col, None)) for col in columnas_validas}
+            fila["fuente_id"] = fuente_id
+            limpios.append(fila)
+
+        stmt = pg_insert(RawSecop).values(limpios)
         stmt = stmt.on_conflict_do_nothing(index_elements=["id_del_proceso"])
 
         result = self.db.execute(stmt)

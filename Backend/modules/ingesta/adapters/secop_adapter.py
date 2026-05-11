@@ -7,6 +7,10 @@ class SecopAdapter(BaseProveedorAdapter):
 
     FECHA_INICIAL = "2020-01-01"
 
+    def __init__(self, endpoint: str, api_key: str = None):
+        self.endpoint = endpoint
+        self.api_key = api_key
+
     def get_nombre(self) -> str:
         return "SECOP"
 
