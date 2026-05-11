@@ -83,10 +83,25 @@ class IngestaService:
         if not fuente:
             raise HTTPException(status_code=404, detail="Fuente no encontrada")
         try:
-            adapter = get_adapter(fuente.tipo,fuente.endpoint, fuente.api_key)
-            datos = adapter.fetch()
-            # Aquí se persisten los datos crudos (RawData - lo definimos en la siguiente HU)
+            adapter = get_adapter(fuente.tipo, fuente.endpoint, fuente.api_key)
+
+            params = {}
+            if fuente.ultima_sync:
+                params["fecha_desde"] = fuente.ultima_sync.strftime("%Y-%m-%d")
+
+            datos = adapter.fetch(params=params)
+
+            insertados = self.repo.insertar_raw_secop_bulk(datos, fuente_id)
+
             self.repo.actualizar_ultima_sync(fuente_id, datetime.now(timezone.utc))
-            return {"registros_traidos": len(datos), "fuente": fuente.nombre}
+
+            return {
+                "registros_traidos": len(datos),
+                "registros_insertados": insertados,
+                "registros_duplicados": len(datos) - insertados,
+                "fuente": fuente.nombre,
+                "desde": params.get("fecha_desde", "2020-01-01"),
+                "hasta": datetime.today().strftime("%Y-%m-%d")
+            }
         except Exception as e:
             raise HTTPException(status_code=502, detail=f"Fallo en sincronización: {str(e)}")
