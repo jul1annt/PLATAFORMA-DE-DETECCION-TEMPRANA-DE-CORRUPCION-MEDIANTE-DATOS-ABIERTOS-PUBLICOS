@@ -1,3 +1,5 @@
+from modules.ingesta.dto.response import SincronizacionHistorialResponseDTO
+from modules.ingesta.model.SincronizacionHistorial import EstadoSync
 from sqlalchemy.orm import Session
 from datetime import datetime, timezone
 from fastapi import HTTPException, status
@@ -82,6 +84,9 @@ class IngestaService:
         fuente = self.repo.get_by_id(fuente_id)
         if not fuente:
             raise HTTPException(status_code=404, detail="Fuente no encontrada")
+
+        historial = self.repo.crear_historial(fuente_id)
+
         try:
             adapter = get_adapter(fuente.tipo, fuente.endpoint, fuente.api_key)
 
@@ -89,25 +94,44 @@ class IngestaService:
             if fuente.ultima_sync:
                 fecha_desde = fuente.ultima_sync.strftime("%Y-%m-%d")
 
-            total_traidos   = 0
+            total_traidos    = 0
             total_insertados = 0
 
-            # Itera batch por batch sin cargar todo en memoria
             for batch in adapter.fetch_todos(fecha_desde=fecha_desde):
-                insertados = self.repo.insertar_raw_secop_bulk(batch, fuente_id)
+                insertados        = self.repo.insertar_raw_secop_bulk(batch, fuente_id)
                 total_traidos    += len(batch)
                 total_insertados += insertados
-                print(f"[SYNC] traidos={total_traidos} | insertados={total_insertados}")
 
             self.repo.actualizar_ultima_sync(fuente_id, datetime.now(timezone.utc))
+            self.repo.cerrar_historial(
+                historial.id, total_traidos, total_insertados, EstadoSync.EXITOSO
+            )
 
             return {
+                "historial_id":          historial.id,
                 "registros_traidos":     total_traidos,
                 "registros_insertados":  total_insertados,
                 "registros_duplicados":  total_traidos - total_insertados,
-                "fuente":  fuente.nombre,
-                "desde":   fecha_desde or "2020-01-01",
-                "hasta":   datetime.today().strftime("%Y-%m-%d")
+                "fuente":                fuente.nombre,
+                "desde":                 fecha_desde or "2020-01-01",
+                "hasta":                 datetime.today().strftime("%Y-%m-%d")
             }
+
         except Exception as e:
+            self.repo.cerrar_historial(
+                historial.id, 0, 0, EstadoSync.ERROR, error=str(e)
+            )
             raise HTTPException(status_code=502, detail=f"Fallo en sincronización: {str(e)}")
+
+    def listar_historial(self, fuente_id: int = None) -> list[SincronizacionHistorialResponseDTO]:
+        registros = self.repo.get_historial(fuente_id=fuente_id)
+        resultado = []
+        for r in registros:
+            dto = SincronizacionHistorialResponseDTO.model_validate(r)
+            fuente = self.repo.get_by_id(r.fuente_id)
+            if fuente:
+                dto.fuente_nombre = fuente.nombre
+            resultado.append(dto)
+        return resultado
+
+        
