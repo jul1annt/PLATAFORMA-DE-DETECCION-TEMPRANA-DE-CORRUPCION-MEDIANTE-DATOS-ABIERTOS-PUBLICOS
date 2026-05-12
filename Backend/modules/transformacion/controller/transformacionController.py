@@ -1,15 +1,22 @@
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
-from core.database import SessionLocal
-from modules.transformacion.dto.request import ContratoProcesadoFilterDTO, ReprocesarRequestDTO
-from modules.transformacion.dto.response import ContratoProcesadoResponseDTO, PaginatedResponseDTO
-from modules.transformacion.services.trasformacionservice import TransformacionService
-from modules.transformacion.repository.transformacion import TransformacionRepository
+from typing import Optional
 from datetime import date
 from decimal import Decimal
-from typing import Optional
+
+from core.database import SessionLocal
+from modules.transformacion.dto.request import (
+    ContratoProcesadoFilterDTO, AnomaliaFilterDTO, ReprocesarRequestDTO
+)
+from modules.transformacion.dto.response import (
+    ContratoProcesadoResponseDTO, AnomaliaResponseDTO, EstadisticaCampoResponseDTO,
+    PaginatedContratosDTO, PaginatedAnomaliasDTO, ReprocesarResultadoDTO
+)
+from modules.transformacion.services.trasformacionservice import TransformacionService
+from modules.transformacion.repository.transformacion import TransformacionRepository
 
 router = APIRouter(prefix="/procesados", tags=["Transformacion"])
+
 
 def get_db():
     db = SessionLocal()
@@ -18,68 +25,154 @@ def get_db():
     finally:
         db.close()
 
-@router.post("/reprocesar", 
-             summary="Reprocesar datos crudos",
-             description="Toma registros de la tabla raw_secop que no han sido procesados, los normaliza (fechas, montos, texto) y los guarda en la tabla de contratos procesados.")
-def reprocesar_datos(request: ReprocesarRequestDTO, db: Session = Depends(get_db)):
+
+# ──────────────────────────────────────────────────────────────────────
+# POST /api/procesados/reprocesar
+# ──────────────────────────────────────────────────────────────────────
+@router.post(
+    "/reprocesar",
+    response_model=ReprocesarResultadoDTO,
+    summary="Ejecutar pipeline de normalización",
+    description=(
+        "Lee registros crudos de `raw_secop`, detecta anomalías (campos faltantes, "
+        "fechas futuras, montos negativos), normaliza los datos y los guarda en "
+        "`contratos_procesados`. No modifica `raw_secop`. "
+        "Usa `forzar_reproceso=true` para re-evaluar registros ya procesados."
+    ),
+)
+def reprocesar(request: ReprocesarRequestDTO, db: Session = Depends(get_db)):
     service = TransformacionService(db)
     try:
-        resultado = service.process_raw_data(limite=request.limite, forzar_reproceso=request.forzar_reproceso)
-        return resultado
+        resultado = service.process_raw_data(
+            limite=request.limite,
+            forzar_reproceso=request.forzar_reproceso,
+        )
+        return ReprocesarResultadoDTO(**resultado)
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        logger_msg = str(e)
+        raise HTTPException(status_code=500, detail=logger_msg)
 
-@router.get("/search", 
-            response_model=PaginatedResponseDTO, 
-            summary="Buscar contratos procesados",
-            description="Permite realizar búsquedas avanzadas sobre los datos ya normalizados utilizando filtros por entidad, proveedor, fechas y valores.")
-def search_procesados(
-    entidad: Optional[str] = None,
-    proveedor: Optional[str] = None,
-    fecha_inicio: Optional[date] = None,
-    fecha_fin: Optional[date] = None,
-    valor_min: Optional[Decimal] = None,
-    valor_max: Optional[Decimal] = None,
-    tipo_contrato: Optional[str] = None,
-    page: int = Query(1, ge=1),
-    size: int = Query(50, ge=1, le=1000),
-    db: Session = Depends(get_db)
+
+# ──────────────────────────────────────────────────────────────────────
+# GET /api/procesados/
+# ──────────────────────────────────────────────────────────────────────
+@router.get(
+    "/",
+    response_model=PaginatedContratosDTO,
+    summary="Listar contratos procesados",
+    description="Devuelve todos los contratos normalizados con paginación.",
+)
+def list_procesados(
+    page: int = Query(1, ge=1, description="Número de página"),
+    size: int = Query(50, ge=1, le=1000, description="Registros por página"),
+    db: Session = Depends(get_db),
 ):
     repo = TransformacionRepository(db)
-    
-    filters = ContratoProcesadoFilterDTO(
-        entidad=entidad,
-        proveedor=proveedor,
-        fecha_inicio=fecha_inicio,
-        fecha_fin=fecha_fin,
-        valor_min=valor_min,
-        valor_max=valor_max,
-        tipo_contrato=tipo_contrato
-    )
-    
+    filters = ContratoProcesadoFilterDTO()
     skip = (page - 1) * size
-    items, total = repo.search(filters=filters, skip=skip, limit=size)
-    
-    return PaginatedResponseDTO(
-        total=total,
-        page=page,
-        size=size,
-        items=items
-    )
+    items, total = repo.search_contratos(filters=filters, skip=skip, limit=size)
+    return PaginatedContratosDTO(total=total, page=page, size=size, items=items)
 
-@router.get("/{id}", response_model=ContratoProcesadoResponseDTO, summary="Obtener detalle de contrato procesado")
+
+# ──────────────────────────────────────────────────────────────────────
+# GET /api/procesados/search
+# ──────────────────────────────────────────────────────────────────────
+@router.get(
+    "/search",
+    response_model=PaginatedContratosDTO,
+    summary="Buscar contratos procesados",
+    description=(
+        "Filtros combinables: entidad, proveedor, tipo de contrato, estado, "
+        "rango de fechas de publicación y rango de valores."
+    ),
+)
+def search_procesados(
+    entidad: Optional[str] = Query(None, description="Nombre o parte de la entidad"),
+    proveedor: Optional[str] = Query(None, description="Nombre o parte del proveedor"),
+    tipo_contrato: Optional[str] = Query(None, description="Tipo de contrato"),
+    estado: Optional[str] = Query(None, description="Estado del procedimiento"),
+    fecha_inicio: Optional[date] = Query(None, description="Fecha mínima de publicación (YYYY-MM-DD)"),
+    fecha_fin: Optional[date] = Query(None, description="Fecha máxima de publicación (YYYY-MM-DD)"),
+    valor_min: Optional[Decimal] = Query(None, description="Valor mínimo del contrato"),
+    valor_max: Optional[Decimal] = Query(None, description="Valor máximo del contrato"),
+    page: int = Query(1, ge=1),
+    size: int = Query(50, ge=1, le=1000),
+    db: Session = Depends(get_db),
+):
+    repo = TransformacionRepository(db)
+    filters = ContratoProcesadoFilterDTO(
+        entidad=entidad, proveedor=proveedor,
+        tipo_contrato=tipo_contrato, estado=estado,
+        fecha_inicio=fecha_inicio, fecha_fin=fecha_fin,
+        valor_min=valor_min, valor_max=valor_max,
+    )
+    skip = (page - 1) * size
+    items, total = repo.search_contratos(filters=filters, skip=skip, limit=size)
+    return PaginatedContratosDTO(total=total, page=page, size=size, items=items)
+
+
+# ──────────────────────────────────────────────────────────────────────
+# GET /api/procesados/{id}
+# ──────────────────────────────────────────────────────────────────────
+@router.get(
+    "/{id}",
+    response_model=ContratoProcesadoResponseDTO,
+    summary="Detalle de contrato procesado",
+    description="Devuelve el registro normalizado por su ID en `contratos_procesados`.",
+)
 def get_procesado(id: int, db: Session = Depends(get_db)):
     repo = TransformacionRepository(db)
-    contrato = repo.get_by_id(id)
+    contrato = repo.get_contrato_by_id(id)
     if not contrato:
         raise HTTPException(status_code=404, detail="Contrato procesado no encontrado")
     return contrato
 
-@router.get("/", response_model=PaginatedResponseDTO, summary="Listar registros procesados")
-def list_procesados(
+
+# ──────────────────────────────────────────────────────────────────────
+# GET /api/procesados/anomalias/
+# ──────────────────────────────────────────────────────────────────────
+@router.get(
+    "/anomalias/",
+    response_model=PaginatedAnomaliasDTO,
+    summary="Listar anomalías detectadas",
+    description=(
+        "Devuelve los registros de `contrato_anomalo_incompleto`. "
+        "Filtrable por `raw_secop_id`, `motivo` (CAMPO_FALTANTE | FECHA_FUTURA | MONTO_NEGATIVO) "
+        "y `campo_afectado`."
+    ),
+)
+def list_anomalias(
+    raw_secop_id: Optional[int] = Query(None, description="ID del registro crudo"),
+    motivo: Optional[str] = Query(None, description="CAMPO_FALTANTE | FECHA_FUTURA | MONTO_NEGATIVO"),
+    campo_afectado: Optional[str] = Query(None, description="Campo que presentó la anomalía"),
     page: int = Query(1, ge=1),
     size: int = Query(50, ge=1, le=1000),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
-    # Reuses search with empty filters
-    return search_procesados(page=page, size=size, db=db)
+    repo = TransformacionRepository(db)
+    filters = AnomaliaFilterDTO(
+        raw_secop_id=raw_secop_id,
+        motivo=motivo,
+        campo_afectado=campo_afectado,
+    )
+    skip = (page - 1) * size
+    items, total = repo.search_anomalias(filters=filters, skip=skip, limit=size)
+    return PaginatedAnomaliasDTO(total=total, page=page, size=size, items=items)
+
+
+# ──────────────────────────────────────────────────────────────────────
+# GET /api/procesados/estadisticas/campos-faltantes
+# ──────────────────────────────────────────────────────────────────────
+@router.get(
+    "/estadisticas/campos-faltantes",
+    response_model=list[EstadisticaCampoResponseDTO],
+    summary="Estadísticas de campos faltantes",
+    description=(
+        "Devuelve el ranking de campos obligatorios que más frecuentemente "
+        "han llegado vacíos o nulos en los datos crudos. "
+        "Ordenado de mayor a menor frecuencia."
+    ),
+)
+def get_estadisticas(db: Session = Depends(get_db)):
+    repo = TransformacionRepository(db)
+    return repo.get_all_estadisticas()
