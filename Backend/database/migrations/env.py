@@ -10,6 +10,9 @@ from alembic import context
 from core.config import settings
 from shared.base_model import Base
 from modules.ingesta.model.FuenteDatos import FuenteDatos
+from modules.ingesta.model.RawSecop import RawSecop
+from modules.ingesta.model.SincronizacionHistorial import SincronizacionHistorial
+from modules.transformacion.model.ContratoProcesado import ContratoProcesado
 
 # Alembic Config object
 config = context.config
