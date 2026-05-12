@@ -12,9 +12,18 @@ class ContratoAnomaloIncompleto(Base):
 
     id              = Column(BigInteger, primary_key=True, autoincrement=True)
     raw_secop_id    = Column(BigInteger, ForeignKey("raw_secop.id"), nullable=False, index=True)
-    motivo          = Column(String(50),  nullable=False)   # CAMPO_FALTANTE | FECHA_FUTURA | MONTO_NEGATIVO
+    id_contrato_procesado = Column(BigInteger, ForeignKey("contratos_procesados.id"), nullable=True, index=True)
+    
+    # Legacy fields (mantener por retrocompatibilidad)
+    motivo          = Column(String(50),  nullable=True)    # CAMPO_FALTANTE | FECHA_FUTURA | MONTO_NEGATIVO
+    valor_detectado = Column(Text, nullable=True)           # valor crudo que disparó la anomalía
+    
+    # Nuevos fields
+    tipo_anomalia   = Column(String(50), nullable=True)     # Reemplaza a motivo
+    valor_original  = Column(Text, nullable=True)           # Reemplaza a valor_detectado
+    descripcion     = Column(Text, nullable=True)           # Ej. "El contrato no contiene valor_total_adjudicacion"
+    
     campo_afectado  = Column(String(100), nullable=False)   # nombre de la columna afectada
-    valor_detectado = Column(Text)                          # valor crudo que disparó la anomalía (puede ser NULL)
     created_at      = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
 
     __table_args__ = (

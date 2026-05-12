@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session
 from sqlalchemy import text
-from typing import List, Tuple, Optional
+from typing import List, Tuple, Optional, Dict
+from sqlalchemy import func
 
 from modules.transformacion.model.ContratoProcesado import ContratoProcesado
 from modules.transformacion.model.ContratoAnomaloIncompleto import ContratoAnomaloIncompleto
@@ -55,6 +56,12 @@ class TransformacionRepository:
             q = q.filter(ContratoProcesado.valor_total_normalizado >= filters.valor_min)
         if filters.valor_max is not None:
             q = q.filter(ContratoProcesado.valor_total_normalizado <= filters.valor_max)
+        if filters.solo_incompletos:
+            q = q.filter(ContratoProcesado.es_incompleto == True)
+        if filters.nivel_confianza_min is not None:
+            q = q.filter(ContratoProcesado.nivel_confianza >= filters.nivel_confianza_min)
+        if filters.nivel_confianza_max is not None:
+            q = q.filter(ContratoProcesado.nivel_confianza <= filters.nivel_confianza_max)
 
         total = q.count()
         items = q.order_by(ContratoProcesado.fecha_publicacion_normalizada.desc()).offset(skip).limit(limit).all()
@@ -76,8 +83,12 @@ class TransformacionRepository:
 
         if filters.raw_secop_id:
             q = q.filter(ContratoAnomaloIncompleto.raw_secop_id == filters.raw_secop_id)
+        if filters.id_contrato_procesado:
+            q = q.filter(ContratoAnomaloIncompleto.id_contrato_procesado == filters.id_contrato_procesado)
         if filters.motivo:
             q = q.filter(ContratoAnomaloIncompleto.motivo == filters.motivo.upper())
+        if filters.tipo_anomalia:
+            q = q.filter(ContratoAnomaloIncompleto.tipo_anomalia == filters.tipo_anomalia.upper())
         if filters.campo_afectado:
             q = q.filter(ContratoAnomaloIncompleto.campo_afectado == filters.campo_afectado)
 
@@ -110,3 +121,32 @@ class TransformacionRepository:
         return self.session.query(EstadisticaCamposFaltantes)\
             .order_by(EstadisticaCamposFaltantes.contador_faltantes.desc())\
             .all()
+
+    def get_metricas_calidad(self) -> Dict[str, float]:
+        total_contratos = self.session.query(ContratoProcesado).count()
+        incompletos = self.session.query(ContratoProcesado).filter(ContratoProcesado.es_incompleto == True).count()
+        
+        completos = total_contratos - incompletos
+        porcentaje_incompletos = (incompletos / total_contratos * 100) if total_contratos > 0 else 0.0
+        porcentaje_completos = (completos / total_contratos * 100) if total_contratos > 0 else 0.0
+        
+        return {
+            "total_contratos": total_contratos,
+            "incompletos": incompletos,
+            "porcentaje_incompletos": round(porcentaje_incompletos, 2),
+            "completos": completos,
+            "porcentaje_completos": round(porcentaje_completos, 2),
+        }
+
+    def recalculate_porcentajes_estadisticas_campos(self) -> None:
+        total_contratos = self.session.query(ContratoProcesado).count()
+        if total_contratos == 0:
+            return
+            
+        estadisticas = self.session.query(EstadisticaCamposFaltantes).all()
+        for est in estadisticas:
+            porcentaje = (est.contador_faltantes / total_contratos) * 100
+            est.porcentaje_total = round(porcentaje, 2)
+        
+        # Commit will be handled by the caller or we can flush
+        self.session.flush()

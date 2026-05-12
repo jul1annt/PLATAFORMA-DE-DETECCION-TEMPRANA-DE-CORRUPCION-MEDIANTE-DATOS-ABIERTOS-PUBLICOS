@@ -1,4 +1,3 @@
-import pytest
 from datetime import date, datetime
 from decimal import Decimal
 from modules.transformacion.services.normalization_service import (

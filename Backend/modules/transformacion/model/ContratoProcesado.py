@@ -1,4 +1,5 @@
-from sqlalchemy import Column, BigInteger, String, Text, Numeric, Date, DateTime, ForeignKey, Index, UniqueConstraint
+from sqlalchemy import Column, BigInteger, String, Text, Numeric, Date, DateTime, ForeignKey, Index, Boolean, Integer
+from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.sql import func
 from shared.base_model import Base
 
@@ -34,6 +35,12 @@ class ContratoProcesado(Base):
 
     # Control de integridad
     normalized_hash = Column(String(64), unique=True, nullable=False, index=True)
+
+    # Identificación de registros incompletos
+    es_incompleto = Column(Boolean, default=False, index=True)
+    cantidad_campos_faltantes = Column(Integer, default=0)
+    campos_faltantes = Column(JSONB, default=list)
+    nivel_confianza = Column(Integer, default=100, index=True)
 
     created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
 

@@ -10,7 +10,8 @@ from modules.transformacion.dto.request import (
 )
 from modules.transformacion.dto.response import (
     ContratoProcesadoResponseDTO, AnomaliaResponseDTO, EstadisticaCampoResponseDTO,
-    PaginatedContratosDTO, PaginatedAnomaliasDTO, ReprocesarResultadoDTO
+    PaginatedContratosDTO, PaginatedAnomaliasDTO, ReprocesarResultadoDTO,
+    MetricasCalidadDTO, CampoFaltanteDTO
 )
 from modules.transformacion.services.trasformacionservice import TransformacionService
 from modules.transformacion.repository.transformacion import TransformacionRepository
@@ -95,17 +96,47 @@ def search_procesados(
     fecha_fin: Optional[date] = Query(None, description="Fecha máxima de publicación (YYYY-MM-DD)"),
     valor_min: Optional[Decimal] = Query(None, description="Valor mínimo del contrato"),
     valor_max: Optional[Decimal] = Query(None, description="Valor máximo del contrato"),
+    solo_incompletos: Optional[bool] = Query(False, description="Filtrar solo contratos incompletos"),
+    nivel_confianza_min: Optional[int] = Query(None, ge=0, le=100, description="Nivel de confianza mínimo"),
+    nivel_confianza_max: Optional[int] = Query(None, ge=0, le=100, description="Nivel de confianza máximo"),
     page: int = Query(1, ge=1),
     size: int = Query(50, ge=1, le=1000),
     db: Session = Depends(get_db),
 ):
+    if nivel_confianza_min is not None and nivel_confianza_max is not None:
+        if nivel_confianza_min > nivel_confianza_max:
+            raise HTTPException(status_code=400, detail="nivel_confianza_min no puede ser mayor que nivel_confianza_max")
+
     repo = TransformacionRepository(db)
     filters = ContratoProcesadoFilterDTO(
         entidad=entidad, proveedor=proveedor,
         tipo_contrato=tipo_contrato, estado=estado,
         fecha_inicio=fecha_inicio, fecha_fin=fecha_fin,
         valor_min=valor_min, valor_max=valor_max,
+        solo_incompletos=solo_incompletos,
+        nivel_confianza_min=nivel_confianza_min,
+        nivel_confianza_max=nivel_confianza_max,
     )
+    skip = (page - 1) * size
+    items, total = repo.search_contratos(filters=filters, skip=skip, limit=size)
+    return PaginatedContratosDTO(total=total, page=page, size=size, items=items)
+
+# ──────────────────────────────────────────────────────────────────────
+# GET /api/procesados/incompletos
+# ──────────────────────────────────────────────────────────────────────
+@router.get(
+    "/incompletos",
+    response_model=PaginatedContratosDTO,
+    summary="Listar contratos incompletos",
+    description="Devuelve SOLO contratos incompletos con paginación.",
+)
+def list_incompletos(
+    page: int = Query(1, ge=1),
+    size: int = Query(50, ge=1, le=1000),
+    db: Session = Depends(get_db),
+):
+    repo = TransformacionRepository(db)
+    filters = ContratoProcesadoFilterDTO(solo_incompletos=True)
     skip = (page - 1) * size
     items, total = repo.search_contratos(filters=filters, skip=skip, limit=size)
     return PaginatedContratosDTO(total=total, page=page, size=size, items=items)
@@ -176,3 +207,38 @@ def list_anomalias(
 def get_estadisticas(db: Session = Depends(get_db)):
     repo = TransformacionRepository(db)
     return repo.get_all_estadisticas()
+
+# ──────────────────────────────────────────────────────────────────────
+# GET /api/procesados/metricas/calidad
+# ──────────────────────────────────────────────────────────────────────
+@router.get(
+    "/metricas/calidad",
+    response_model=MetricasCalidadDTO,
+    summary="Métricas de calidad de datos",
+    description="Resumen de contratos completos vs incompletos y sus porcentajes.",
+)
+def metricas_calidad(db: Session = Depends(get_db)):
+    repo = TransformacionRepository(db)
+    return repo.get_metricas_calidad()
+
+# ──────────────────────────────────────────────────────────────────────
+# GET /api/procesados/metricas/campos-faltantes
+# ──────────────────────────────────────────────────────────────────────
+@router.get(
+    "/metricas/campos-faltantes",
+    response_model=list[CampoFaltanteDTO],
+    summary="Ranking de campos faltantes",
+    description="Devuelve el conteo y porcentaje de cada campo obligatorio faltante, ordenado de mayor a menor.",
+)
+def metricas_campos_faltantes(db: Session = Depends(get_db)):
+    repo = TransformacionRepository(db)
+    estadisticas = repo.get_all_estadisticas()
+    
+    resultado = []
+    for est in estadisticas:
+        resultado.append(CampoFaltanteDTO(
+            campo=est.nombre_campo,
+            cantidad=est.contador_faltantes,
+            porcentaje=float(est.porcentaje_total) if est.porcentaje_total else 0.0
+        ))
+    return resultado

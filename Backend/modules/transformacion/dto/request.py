@@ -14,12 +14,17 @@ class ContratoProcesadoFilterDTO(BaseModel):
     fecha_fin: Optional[date] = Field(None, description="Fecha máxima de publicación (YYYY-MM-DD)")
     valor_min: Optional[Decimal] = Field(None, description="Valor mínimo del contrato", ge=0)
     valor_max: Optional[Decimal] = Field(None, description="Valor máximo del contrato", ge=0)
+    solo_incompletos: Optional[bool] = Field(False, description="Filtrar solo contratos incompletos")
+    nivel_confianza_min: Optional[int] = Field(None, description="Nivel de confianza mínimo", ge=0, le=100)
+    nivel_confianza_max: Optional[int] = Field(None, description="Nivel de confianza máximo", ge=0, le=100)
 
 
 class AnomaliaFilterDTO(BaseModel):
     """Filtros disponibles para búsqueda de anomalías"""
     raw_secop_id: Optional[int] = Field(None, description="Filtrar por ID de registro crudo")
+    id_contrato_procesado: Optional[int] = Field(None, description="Filtrar por ID de contrato procesado")
     motivo: Optional[str] = Field(None, description="CAMPO_FALTANTE | FECHA_FUTURA | MONTO_NEGATIVO")
+    tipo_anomalia: Optional[str] = Field(None, description="Filtro actualizado por tipo de anomalia")
     campo_afectado: Optional[str] = Field(None, description="Nombre del campo afectado")
 
 

@@ -16,14 +16,11 @@ logger = logging.getLogger(__name__)
 
 # Campos cuya ausencia se considera una anomalía y debe registrarse
 CAMPOS_OBLIGATORIOS = [
-    "id_del_proceso",
     "entidad",
-    "nit_entidad",
-    "fecha_de_publicacion_del",
-    "tipo_de_contrato",
-    "estado_del_procedimiento",
     "nombre_del_proveedor",
     "valor_total_adjudicacion",
+    "fecha_de_publicacion_del",
+    "tipo_de_contrato",
 ]
 
 # Fechas que se validan como no futuras
@@ -61,37 +58,62 @@ class TransformacionService:
         omitidos = 0
 
         for raw in raw_records:
-            anomalias_registro = self._detectar_anomalias(raw)
-            nuevas_anomalias.extend(anomalias_registro)
-
-            # Normalizar todos los campos independientemente de si hay anomalías
+            # Normalizar primero
             normalized = self._normalizar(raw)
             data_hash = generate_hash(normalized)
 
-            # Evitar duplicados por hash
             if forzar_reproceso and self.repo.find_by_hash(data_hash):
                 omitidos += 1
                 continue
+                
+            anomalias_registro = self._detectar_anomalias(raw)
+            
+            # Calcular faltantes en base a los campos obligatorios detectados como anomalía
+            campos_faltantes = [
+                a.campo_afectado for a in anomalias_registro 
+                if a.tipo_anomalia == "CAMPO_FALTANTE"
+            ]
+            cantidad_faltantes = len(campos_faltantes)
+            
+            es_incompleto = False
+            nivel_confianza = 100
+            
+            if cantidad_faltantes == 1:
+                es_incompleto = True
+                nivel_confianza = 80
+            elif cantidad_faltantes == 2:
+                es_incompleto = True
+                nivel_confianza = 60
+            elif cantidad_faltantes >= 3:
+                es_incompleto = True
+                nivel_confianza = 40
 
             normalized["normalized_hash"] = data_hash
-            nuevos_contratos.append(ContratoProcesado(**normalized))
+            normalized["es_incompleto"] = es_incompleto
+            normalized["cantidad_campos_faltantes"] = cantidad_faltantes
+            normalized["campos_faltantes"] = campos_faltantes
+            normalized["nivel_confianza"] = nivel_confianza
+            
+            contrato = ContratoProcesado(**normalized)
+            self.session.add(contrato)
+            self.session.flush() # Flush to get ID
             procesados += 1
+            
+            for anomalia in anomalias_registro:
+                anomalia.id_contrato_procesado = contrato.id
+            
+            nuevas_anomalias.extend(anomalias_registro)
 
-            # Batch insert
-            if len(nuevos_contratos) >= 500:
-                self.repo.save_all_contratos(nuevos_contratos)
-                nuevos_contratos = []
-
-        # Guardar remanentes
-        if nuevos_contratos:
-            self.repo.save_all_contratos(nuevos_contratos)
-
-        # Guardar anomalías en batch
+        # Batch insert anomalias
         if nuevas_anomalias:
             self.repo.save_all_anomalias(nuevas_anomalias)
 
+        self.session.commit()
+
         # Actualizar estadísticas de campos faltantes
         self._actualizar_estadisticas(nuevas_anomalias)
+        self.repo.recalculate_porcentajes_estadisticas_campos()
+        self.session.commit()
 
         return {
             "total_evaluados": len(raw_records),
@@ -110,12 +132,15 @@ class TransformacionService:
         # 1. Campos obligatorios faltantes
         for campo in CAMPOS_OBLIGATORIOS:
             valor = getattr(raw, campo, None)
-            if valor is None or str(valor).strip() == "":
+            if valor is None or (isinstance(valor, str) and valor.strip() == ""):
                 anomalias.append(ContratoAnomaloIncompleto(
                     raw_secop_id=raw.id,
                     motivo="CAMPO_FALTANTE",
-                    campo_afectado=campo,
                     valor_detectado=None,
+                    tipo_anomalia="CAMPO_FALTANTE",
+                    valor_original=None,
+                    descripcion=f"El contrato no contiene {campo}",
+                    campo_afectado=campo,
                 ))
                 self.repo.increment_campo_faltante(campo)
 
@@ -132,8 +157,11 @@ class TransformacionService:
                     anomalias.append(ContratoAnomaloIncompleto(
                         raw_secop_id=raw.id,
                         motivo="FECHA_FUTURA",
-                        campo_afectado=nombre_campo,
                         valor_detectado=str(valor_fecha),
+                        tipo_anomalia="FECHA_FUTURA",
+                        valor_original=str(valor_fecha),
+                        descripcion=f"La fecha {nombre_campo} está en el futuro ({valor_fecha})",
+                        campo_afectado=nombre_campo,
                     ))
 
         # 3. Montos negativos
@@ -148,8 +176,11 @@ class TransformacionService:
                         anomalias.append(ContratoAnomaloIncompleto(
                             raw_secop_id=raw.id,
                             motivo="MONTO_NEGATIVO",
-                            campo_afectado=nombre_campo,
                             valor_detectado=str(monto),
+                            tipo_anomalia="MONTO_NEGATIVO",
+                            valor_original=str(monto),
+                            descripcion=f"El monto de {nombre_campo} no puede ser negativo ({monto})",
+                            campo_afectado=nombre_campo,
                         ))
                 except (TypeError, ValueError):
                     pass
@@ -186,7 +217,7 @@ class TransformacionService:
         """Incrementa los contadores de estadística_campos_faltantes."""
         campos_a_incrementar: Dict[str, int] = {}
         for anomalia in anomalias:
-            if anomalia.motivo == "CAMPO_FALTANTE":
+            if anomalia.tipo_anomalia == "CAMPO_FALTANTE":
                 campos_a_incrementar[anomalia.campo_afectado] = \
                     campos_a_incrementar.get(anomalia.campo_afectado, 0) + 1
 

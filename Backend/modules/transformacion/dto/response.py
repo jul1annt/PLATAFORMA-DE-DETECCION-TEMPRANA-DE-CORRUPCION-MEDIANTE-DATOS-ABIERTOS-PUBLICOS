@@ -1,5 +1,5 @@
 from pydantic import BaseModel, ConfigDict, Field
-from typing import Optional, List
+from typing import Optional, List, Any
 from datetime import date, datetime
 from decimal import Decimal
 
@@ -26,6 +26,13 @@ class ContratoProcesadoResponseDTO(BaseModel):
     departamento_entidad: Optional[str] = Field(None, description="Departamento de la entidad")
     urlproceso: Optional[str] = Field(None, description="URL del proceso en SECOP")
     normalized_hash: str = Field(..., description="Hash SHA256 del contenido normalizado")
+    
+    # Identificación de registros incompletos
+    es_incompleto: bool = Field(False, description="Indica si el contrato tiene campos obligatorios faltantes")
+    cantidad_campos_faltantes: int = Field(0, description="Número de campos obligatorios faltantes")
+    campos_faltantes: Optional[Any] = Field(None, description="Lista de campos faltantes en formato JSON")
+    nivel_confianza: int = Field(100, description="Nivel de confianza de los datos (100, 80, 60, 40)")
+    
     created_at: datetime = Field(..., description="Fecha de creación del registro")
 
     model_config = ConfigDict(from_attributes=True)
@@ -37,9 +44,18 @@ class ContratoProcesadoResponseDTO(BaseModel):
 class AnomaliaResponseDTO(BaseModel):
     id: int = Field(..., description="ID de la anomalía")
     raw_secop_id: int = Field(..., description="ID del registro crudo que presentó la anomalía")
-    motivo: str = Field(..., description="Tipo de anomalía: CAMPO_FALTANTE | FECHA_FUTURA | MONTO_NEGATIVO")
+    id_contrato_procesado: Optional[int] = Field(None, description="ID del contrato procesado si aplica")
+    
+    # Legacy
+    motivo: Optional[str] = Field(None, description="Legacy: Tipo de anomalía")
+    valor_detectado: Optional[str] = Field(None, description="Legacy: Valor que disparó la anomalía")
+    
+    # Nuevos recomendados
+    tipo_anomalia: Optional[str] = Field(None, description="Tipo de anomalía: CAMPO_FALTANTE | FECHA_FUTURA | MONTO_NEGATIVO")
+    valor_original: Optional[str] = Field(None, description="Valor que disparó la anomalía")
+    descripcion: Optional[str] = Field(None, description="Descripción legible del problema")
+    
     campo_afectado: str = Field(..., description="Nombre del campo donde se detectó la anomalía")
-    valor_detectado: Optional[str] = Field(None, description="Valor que disparó la anomalía (puede ser NULL si el campo está vacío)")
     created_at: datetime = Field(..., description="Fecha de registro de la anomalía")
 
     model_config = ConfigDict(from_attributes=True)
@@ -52,9 +68,25 @@ class EstadisticaCampoResponseDTO(BaseModel):
     id: int = Field(..., description="ID del registro")
     nombre_campo: str = Field(..., description="Nombre del campo obligatorio")
     contador_faltantes: int = Field(..., description="Cantidad de veces que faltó este campo")
+    porcentaje_total: Optional[Decimal] = Field(None, description="Porcentaje de veces que falta este campo sobre el total de contratos")
     updated_at: Optional[datetime] = Field(None, description="Última vez que se actualizó el contador")
 
     model_config = ConfigDict(from_attributes=True)
+
+# ──────────────────────────────────────────────
+# RESPUESTA: Métricas
+# ──────────────────────────────────────────────
+class MetricasCalidadDTO(BaseModel):
+    total_contratos: int
+    incompletos: int
+    porcentaje_incompletos: float
+    completos: int
+    porcentaje_completos: float
+
+class CampoFaltanteDTO(BaseModel):
+    campo: str
+    cantidad: int
+    porcentaje: float
 
 
 # ──────────────────────────────────────────────
