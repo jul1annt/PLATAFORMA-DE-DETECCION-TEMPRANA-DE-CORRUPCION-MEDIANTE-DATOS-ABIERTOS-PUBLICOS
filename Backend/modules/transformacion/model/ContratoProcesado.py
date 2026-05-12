@@ -42,6 +42,9 @@ class ContratoProcesado(Base):
     campos_faltantes = Column(JSONB, default=list)
     nivel_confianza = Column(Integer, default=100, index=True)
 
+    # Identificación de registros sospechosos
+    es_sospechoso = Column(Boolean, default=False, index=True)
+
     created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
 
     __table_args__ = (

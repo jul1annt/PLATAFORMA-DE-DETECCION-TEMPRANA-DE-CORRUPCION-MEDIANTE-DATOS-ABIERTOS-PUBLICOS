@@ -58,6 +58,8 @@ class TransformacionRepository:
             q = q.filter(ContratoProcesado.valor_total_normalizado <= filters.valor_max)
         if filters.solo_incompletos:
             q = q.filter(ContratoProcesado.es_incompleto == True)
+        if getattr(filters, 'solo_sospechosos', False):
+            q = q.filter(ContratoProcesado.es_sospechoso == True)
         if filters.nivel_confianza_min is not None:
             q = q.filter(ContratoProcesado.nivel_confianza >= filters.nivel_confianza_min)
         if filters.nivel_confianza_max is not None:
@@ -125,17 +127,26 @@ class TransformacionRepository:
     def get_metricas_calidad(self) -> Dict[str, float]:
         total_contratos = self.session.query(ContratoProcesado).count()
         incompletos = self.session.query(ContratoProcesado).filter(ContratoProcesado.es_incompleto == True).count()
+        sospechosos = self.session.query(ContratoProcesado).filter(ContratoProcesado.es_sospechoso == True).count()
         
         completos = total_contratos - incompletos
         porcentaje_incompletos = (incompletos / total_contratos * 100) if total_contratos > 0 else 0.0
         porcentaje_completos = (completos / total_contratos * 100) if total_contratos > 0 else 0.0
-        
+        porcentaje_sospechosos = (sospechosos / total_contratos * 100) if total_contratos > 0 else 0.0
+
+        # Promedio de nivel_confianza (ignorar NULLs)
+        avg_row = self.session.query(func.avg(ContratoProcesado.nivel_confianza)).scalar()
+        promedio_confianza = round(float(avg_row), 2) if avg_row is not None else 100.0
+
         return {
             "total_contratos": total_contratos,
-            "incompletos": incompletos,
-            "porcentaje_incompletos": round(porcentaje_incompletos, 2),
             "completos": completos,
+            "incompletos": incompletos,
+            "sospechosos": sospechosos,
             "porcentaje_completos": round(porcentaje_completos, 2),
+            "porcentaje_incompletos": round(porcentaje_incompletos, 2),
+            "porcentaje_sospechosos": round(porcentaje_sospechosos, 2),
+            "promedio_confianza": promedio_confianza,
         }
 
     def recalculate_porcentajes_estadisticas_campos(self) -> None:

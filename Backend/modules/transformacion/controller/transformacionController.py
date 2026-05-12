@@ -97,6 +97,7 @@ def search_procesados(
     valor_min: Optional[Decimal] = Query(None, description="Valor mínimo del contrato"),
     valor_max: Optional[Decimal] = Query(None, description="Valor máximo del contrato"),
     solo_incompletos: Optional[bool] = Query(False, description="Filtrar solo contratos incompletos"),
+    solo_sospechosos: Optional[bool] = Query(False, description="Filtrar solo contratos sospechosos"),
     nivel_confianza_min: Optional[int] = Query(None, ge=0, le=100, description="Nivel de confianza mínimo"),
     nivel_confianza_max: Optional[int] = Query(None, ge=0, le=100, description="Nivel de confianza máximo"),
     page: int = Query(1, ge=1),
@@ -114,9 +115,30 @@ def search_procesados(
         fecha_inicio=fecha_inicio, fecha_fin=fecha_fin,
         valor_min=valor_min, valor_max=valor_max,
         solo_incompletos=solo_incompletos,
+        solo_sospechosos=solo_sospechosos,
         nivel_confianza_min=nivel_confianza_min,
         nivel_confianza_max=nivel_confianza_max,
     )
+    skip = (page - 1) * size
+    items, total = repo.search_contratos(filters=filters, skip=skip, limit=size)
+    return PaginatedContratosDTO(total=total, page=page, size=size, items=items)
+
+# ──────────────────────────────────────────────────────────────────────
+# GET /api/procesados/sospechosos
+# ──────────────────────────────────────────────────────────────────────
+@router.get(
+    "/sospechosos",
+    response_model=PaginatedContratosDTO,
+    summary="Listar contratos sospechosos",
+    description="Devuelve SOLO contratos con valores sospechosos (fechas futuras, etc.) con paginación.",
+)
+def list_sospechosos(
+    page: int = Query(1, ge=1),
+    size: int = Query(50, ge=1, le=1000),
+    db: Session = Depends(get_db),
+):
+    repo = TransformacionRepository(db)
+    filters = ContratoProcesadoFilterDTO(solo_sospechosos=True)
     skip = (page - 1) * size
     items, total = repo.search_contratos(filters=filters, skip=skip, limit=size)
     return PaginatedContratosDTO(total=total, page=page, size=size, items=items)

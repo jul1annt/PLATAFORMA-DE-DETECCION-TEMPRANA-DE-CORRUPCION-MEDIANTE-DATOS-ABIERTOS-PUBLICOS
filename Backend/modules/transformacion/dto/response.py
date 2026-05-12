@@ -32,6 +32,9 @@ class ContratoProcesadoResponseDTO(BaseModel):
     cantidad_campos_faltantes: int = Field(0, description="Número de campos obligatorios faltantes")
     campos_faltantes: Optional[Any] = Field(None, description="Lista de campos faltantes en formato JSON")
     nivel_confianza: int = Field(100, description="Nivel de confianza de los datos (100, 80, 60, 40)")
+
+    # Identificación de registros sospechosos
+    es_sospechoso: bool = Field(False, description="Indica si el contrato tiene valores sospechosos (fechas futuras, etc.)")
     
     created_at: datetime = Field(..., description="Fecha de creación del registro")
 
@@ -78,10 +81,13 @@ class EstadisticaCampoResponseDTO(BaseModel):
 # ──────────────────────────────────────────────
 class MetricasCalidadDTO(BaseModel):
     total_contratos: int
-    incompletos: int
-    porcentaje_incompletos: float
     completos: int
+    incompletos: int
+    sospechosos: int
     porcentaje_completos: float
+    porcentaje_incompletos: float
+    porcentaje_sospechosos: float
+    promedio_confianza: float
 
 class CampoFaltanteDTO(BaseModel):
     campo: str

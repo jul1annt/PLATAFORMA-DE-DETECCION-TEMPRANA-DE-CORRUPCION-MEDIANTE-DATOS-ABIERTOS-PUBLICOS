@@ -27,6 +27,7 @@ class ContratoAnomaloIncompleto(Base):
     created_at      = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
 
     __table_args__ = (
-        Index("ix_cai_motivo",     "motivo"),
-        Index("ix_cai_campo",      "campo_afectado"),
+        Index("ix_cai_motivo",       "motivo"),
+        Index("ix_cai_campo",        "campo_afectado"),
+        Index("ix_cai_tipo_anomalia","tipo_anomalia"),
     )

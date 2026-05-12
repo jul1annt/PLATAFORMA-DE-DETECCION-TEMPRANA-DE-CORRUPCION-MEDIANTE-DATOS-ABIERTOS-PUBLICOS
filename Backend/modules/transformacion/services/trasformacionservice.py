@@ -23,11 +23,18 @@ CAMPOS_OBLIGATORIOS = [
     "tipo_de_contrato",
 ]
 
-# Fechas que se validan como no futuras
-CAMPOS_FECHA = [
-    ("fecha_de_publicacion_del",  "fecha_publicacion_normalizada"),
-    ("fecha_adjudicacion",         "fecha_adjudicacion_normalizada"),
-    ("fecha_de_ultima_publicaci",  None),   # Solo se valida, no se guarda
+# Fechas que se validan como no futuras (=> SOSPECHOSO)
+CAMPOS_FECHA_FUTURA = [
+    "fecha_de_publicacion_del",
+    "fecha_adjudicacion",
+    "fecha_de_ultima_publicaci",
+    "fecha_de_apertura_efectiva",
+]
+
+# Montos que se validan como no negativos (=> INCOMPLETO)
+CAMPOS_MONTO = [
+    "precio_base",
+    "valor_total_adjudicacion",
 ]
 
 
@@ -68,28 +75,35 @@ class TransformacionService:
                 
             anomalias_registro = self._detectar_anomalias(raw)
             
-            # Calcular faltantes en base a los campos obligatorios detectados como anomalía
+            # Clasificar: CAMPO_FALTANTE y MONTO_NEGATIVO => incompleto
             campos_faltantes = [
                 a.campo_afectado for a in anomalias_registro 
                 if a.tipo_anomalia == "CAMPO_FALTANTE"
             ]
+            tiene_monto_negativo = any(
+                a.tipo_anomalia == "MONTO_NEGATIVO" for a in anomalias_registro
+            )
+            # FECHA_FUTURA => sospechoso
+            tiene_fecha_futura = any(
+                a.tipo_anomalia == "FECHA_FUTURA" for a in anomalias_registro
+            )
+            
             cantidad_faltantes = len(campos_faltantes)
             
-            es_incompleto = False
+            es_incompleto = cantidad_faltantes > 0 or tiene_monto_negativo
+            es_sospechoso = tiene_fecha_futura
             nivel_confianza = 100
             
             if cantidad_faltantes == 1:
-                es_incompleto = True
                 nivel_confianza = 80
             elif cantidad_faltantes == 2:
-                es_incompleto = True
                 nivel_confianza = 60
             elif cantidad_faltantes >= 3:
-                es_incompleto = True
                 nivel_confianza = 40
 
             normalized["normalized_hash"] = data_hash
             normalized["es_incompleto"] = es_incompleto
+            normalized["es_sospechoso"] = es_sospechoso
             normalized["cantidad_campos_faltantes"] = cantidad_faltantes
             normalized["campos_faltantes"] = campos_faltantes
             normalized["nivel_confianza"] = nivel_confianza
@@ -144,13 +158,9 @@ class TransformacionService:
                 ))
                 self.repo.increment_campo_faltante(campo)
 
-        # 2. Fechas futuras
-        fechas_a_validar = [
-            ("fecha_de_publicacion_del",  raw.fecha_de_publicacion_del),
-            ("fecha_adjudicacion",         raw.fecha_adjudicacion),
-            ("fecha_de_ultima_publicaci",  raw.fecha_de_ultima_publicaci),
-        ]
-        for nombre_campo, valor_fecha in fechas_a_validar:
+        # 2. Fechas futuras => SOSPECHOSO
+        for nombre_campo in CAMPOS_FECHA_FUTURA:
+            valor_fecha = getattr(raw, nombre_campo, None)
             if valor_fecha is not None:
                 fecha_parsed = valor_fecha.date() if isinstance(valor_fecha, datetime) else valor_fecha
                 if isinstance(fecha_parsed, date) and fecha_parsed > hoy:
@@ -160,16 +170,13 @@ class TransformacionService:
                         valor_detectado=str(valor_fecha),
                         tipo_anomalia="FECHA_FUTURA",
                         valor_original=str(valor_fecha),
-                        descripcion=f"La fecha {nombre_campo} está en el futuro ({valor_fecha})",
+                        descripcion="El contrato contiene una fecha futura inválida",
                         campo_afectado=nombre_campo,
                     ))
 
-        # 3. Montos negativos
-        montos_a_validar = [
-            ("precio_base",              raw.precio_base),
-            ("valor_total_adjudicacion", raw.valor_total_adjudicacion),
-        ]
-        for nombre_campo, monto in montos_a_validar:
+        # 3. Montos negativos => INCOMPLETO
+        for nombre_campo in CAMPOS_MONTO:
+            monto = getattr(raw, nombre_campo, None)
             if monto is not None:
                 try:
                     if float(monto) < 0:
@@ -179,7 +186,7 @@ class TransformacionService:
                             valor_detectado=str(monto),
                             tipo_anomalia="MONTO_NEGATIVO",
                             valor_original=str(monto),
-                            descripcion=f"El monto de {nombre_campo} no puede ser negativo ({monto})",
+                            descripcion="El contrato contiene un monto negativo",
                             campo_afectado=nombre_campo,
                         ))
                 except (TypeError, ValueError):
