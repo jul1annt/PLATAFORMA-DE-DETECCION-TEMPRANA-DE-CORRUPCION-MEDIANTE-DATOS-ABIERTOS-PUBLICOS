@@ -15,6 +15,7 @@ from modules.ingesta.model.SincronizacionHistorial import SincronizacionHistoria
 from modules.transformacion.model.ContratoProcesado import ContratoProcesado
 from modules.transformacion.model.ContratoAnomaloIncompleto import ContratoAnomaloIncompleto
 from modules.transformacion.model.EstadisticaCamposFaltantes import EstadisticaCamposFaltantes
+from modules.analitica.model.contrato_outlier import ContratoOutlier
 
 # Alembic Config object
 config = context.config
