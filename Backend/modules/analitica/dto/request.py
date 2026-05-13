@@ -55,3 +55,38 @@ class OutlierFiltroRequest(BaseModel):
     )
     page: int = Field(default=1, ge=1)
     page_size: int = Field(default=50, ge=1, le=200)
+
+class DuplicadoCalculoRequest(BaseModel):
+    """
+    Parámetros para disparar una nueva ejecución del análisis de duplicados en período corto.
+    Todos los campos son opcionales; sin filtros se analiza el universo completo.
+    """
+    fecha_desde: Optional[date] = Field(
+        default=None,
+        description="Filtro por fecha_publicacion_normalizada (inclusive)."
+    )
+    fecha_hasta: Optional[date] = Field(
+        default=None,
+        description="Filtro por fecha_publicacion_normalizada (inclusive)."
+    )
+
+class DuplicadoFiltroRequest(BaseModel):
+    """
+    Parámetros de consulta para listar duplicados ya calculados.
+    """
+    run_id: Optional[str] = Field(
+        default=None,
+        description="Filtrar por ejecución específica. Null = última ejecución."
+    )
+    riesgo: Optional[str] = Field(
+        default=None,
+        description="'ALTO' | 'MEDIO' | 'BAJO'. Null = todos.",
+        pattern="^(ALTO|MEDIO|BAJO)$"
+    )
+    score_minimo: Optional[float] = Field(
+        default=None,
+        ge=0,
+        description="Retorna solo duplicados con score >= este valor."
+    )
+    page: int = Field(default=1, ge=1)
+    page_size: int = Field(default=50, ge=1, le=200)

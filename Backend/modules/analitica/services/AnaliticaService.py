@@ -6,14 +6,22 @@ from uuid import UUID
 
 from sqlalchemy.orm import Session
 
-from modules.analitica.dto.request import OutlierCalculoRequest, OutlierFiltroRequest
+from modules.analitica.dto.request import (
+    OutlierCalculoRequest, OutlierFiltroRequest,
+    DuplicadoCalculoRequest, DuplicadoFiltroRequest
+)
 from modules.analitica.dto.response import (
     RunResumenResponse,
     OutlierListaResponse,
     OutlierDetalleResponse,
     EstadisticasGrupoResponse,
+    DuplicadoResumenResponse,
+    DuplicadoListaResponse,
+    DuplicadoDetalleResponse,
+    RiesgoResumenResponse,
 )
 from modules.analitica.model.contrato_outlier import ContratoOutlier
+from modules.analitica.model.contrato_duplicado_periodo import ContratoDuplicadoPeriodo
 from modules.analitica.repository.repository import AnaliticaRepository
 
 
@@ -218,4 +226,101 @@ class AnaliticaService:
         ultimo = self.repo.obtener_ultimo_run_id()
         if not ultimo:
             raise ValueError("No existe ninguna ejecución de análisis. Ejecuta el cálculo primero.")
+        return ultimo
+
+    # ------------------------------------------------------------------
+    # ANÁLISIS DE DUPLICADOS EN PERÍODO CORTO
+    # ------------------------------------------------------------------
+
+    def calcular_duplicados(self, request: DuplicadoCalculoRequest) -> DuplicadoResumenResponse:
+        run_id = uuid.uuid4()
+        fecha_calculo = datetime.utcnow()
+
+        pares_duplicados = self.repo.obtener_pares_duplicados(
+            fecha_desde=request.fecha_desde,
+            fecha_hasta=request.fecha_hasta,
+        )
+
+        registros: list[ContratoDuplicadoPeriodo] = []
+
+        for par in pares_duplicados:
+            dias = int(par["diferencia_dias"])
+            
+            # Cálculo del score
+            # Máximo score (10.0) si diferencia es 0 días. Va bajando a 0.0 si es 30 días.
+            score = max(0.0, 10.0 - (dias * (10.0 / 30.0)))
+            
+            # Clasificación de riesgo
+            if dias <= 5:
+                riesgo = "ALTO"
+            elif dias <= 15:
+                riesgo = "MEDIO"
+            else:
+                riesgo = "BAJO"
+
+            registros.append(
+                ContratoDuplicadoPeriodo(
+                    run_id=run_id,
+                    contrato_id=par["contrato_id"],
+                    contrato_relacionado_id=par["contrato_relacionado_id"],
+                    proveedor=par["proveedor"],
+                    entidad=par["entidad"],
+                    tipo_contrato=par["tipo_contrato"],
+                    modalidad_contratacion=par["modalidad_contratacion"],
+                    fecha_contrato=par["fecha_contrato"],
+                    fecha_relacionada=par["fecha_relacionada"],
+                    diferencia_dias=dias,
+                    duplicado_score=round(score, 2),
+                    clasificacion_riesgo=riesgo,
+                    fecha_calculo=fecha_calculo,
+                )
+            )
+
+        if registros:
+            self.repo.guardar_duplicados(registros)
+            self.db.commit()
+
+        return self.obtener_resumen_duplicados(run_id)
+
+    def listar_duplicados(self, filtros: DuplicadoFiltroRequest) -> DuplicadoListaResponse:
+        run_id = self._resolver_run_id_duplicados(filtros.run_id)
+
+        items, total = self.repo.obtener_duplicados_periodo(
+            run_id=run_id,
+            riesgo=filtros.riesgo,
+            score_minimo=filtros.score_minimo,
+            page=filtros.page,
+            page_size=filtros.page_size,
+        )
+
+        total_pages = math.ceil(total / filtros.page_size) if total > 0 else 0
+
+        return DuplicadoListaResponse(
+            items=[DuplicadoDetalleResponse.model_validate(item) for item in items],
+            total=total,
+            page=filtros.page,
+            page_size=filtros.page_size,
+            total_pages=total_pages,
+        )
+
+    def obtener_resumen_duplicados(self, run_id: UUID) -> DuplicadoResumenResponse:
+        data = self.repo.obtener_resumen_duplicados_run(run_id)
+        resumen = data["resumen"]
+        por_riesgo = data["por_riesgo"]
+
+        return DuplicadoResumenResponse(
+            run_id=run_id,
+            total_duplicados=resumen.get("total_duplicados", 0) if resumen else 0,
+            promedio_dias_diferencia=round(float(resumen.get("promedio_dias_diferencia", 0.0) or 0), 2) if resumen else 0.0,
+            promedio_score=round(float(resumen.get("promedio_score", 0.0) or 0), 2) if resumen else 0.0,
+            resumen_por_riesgo=[RiesgoResumenResponse(**r) for r in por_riesgo],
+            fecha_calculo=resumen.get("fecha_calculo", datetime.utcnow()) if resumen else datetime.utcnow(),
+        )
+
+    def _resolver_run_id_duplicados(self, run_id_str: Optional[str]) -> UUID:
+        if run_id_str:
+            return UUID(run_id_str)
+        ultimo = self.repo.obtener_ultimo_run_id_duplicados()
+        if not ultimo:
+            raise ValueError("No existe ninguna ejecución de análisis de duplicados. Ejecuta el cálculo primero.")
         return ultimo
