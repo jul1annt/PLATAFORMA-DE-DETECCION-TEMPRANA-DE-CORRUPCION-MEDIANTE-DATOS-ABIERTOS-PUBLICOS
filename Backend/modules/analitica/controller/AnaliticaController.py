@@ -4,8 +4,14 @@ from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 
 from core.dependencies import get_db
-from modules.analitica.dto.request import OutlierCalculoRequest, OutlierFiltroRequest
-from modules.analitica.dto.response import RunResumenResponse, OutlierListaResponse
+from modules.analitica.dto.request import (
+    OutlierCalculoRequest, OutlierFiltroRequest,
+    DuplicadoCalculoRequest, DuplicadoFiltroRequest
+)
+from modules.analitica.dto.response import (
+    RunResumenResponse, OutlierListaResponse,
+    DuplicadoResumenResponse, DuplicadoListaResponse
+)
 from modules.analitica.services.AnaliticaService import AnaliticaService
 
 router = APIRouter(prefix="/analitica", tags=["Analítica"])
@@ -109,3 +115,93 @@ def obtener_resumen_por_run(run_id: UUID, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail=str(e))
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error al obtener resumen del run {run_id}: {str(e)}")
+
+
+# ====================================================================
+# ENDPOINTS: DUPLICADOS EN PERÍODO CORTO
+# ====================================================================
+
+@router.post(
+    "/duplicados/calcular",
+    response_model=DuplicadoResumenResponse,
+    summary="Ejecutar análisis de duplicados en período corto",
+    description=(
+        "Busca contratos del mismo proveedor, misma entidad y características similares "
+        "(mismo tipo o modalidad) que tengan una diferencia de fechas <= 30 días. "
+        "Asigna un score y nivel de riesgo, y guarda los resultados."
+    ),
+)
+def calcular_duplicados(
+    body: DuplicadoCalculoRequest,
+    db: Session = Depends(get_db),
+):
+    try:
+        service = AnaliticaService(db)
+        return service.calcular_duplicados(body)
+    except ValueError as e:
+        raise HTTPException(status_code=422, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error al calcular duplicados: {str(e)}")
+
+
+@router.get(
+    "/duplicados",
+    response_model=DuplicadoListaResponse,
+    summary="Listar contratos duplicados detectados",
+    description="Retorna los contratos duplicados del análisis con filtros opcionales.",
+)
+def listar_duplicados(
+    run_id: str | None = Query(default=None, description="UUID de la ejecución. Default: última."),
+    riesgo: str | None = Query(default=None, description="Filtrar por riesgo: ALTO, MEDIO, BAJO."),
+    score_minimo: float | None = Query(default=None, ge=0, description="Score mínimo."),
+    page: int = Query(default=1, ge=1),
+    page_size: int = Query(default=50, ge=1, le=200),
+    db: Session = Depends(get_db),
+):
+    try:
+        filtros = DuplicadoFiltroRequest(
+            run_id=run_id,
+            riesgo=riesgo,
+            score_minimo=score_minimo,
+            page=page,
+            page_size=page_size,
+        )
+        service = AnaliticaService(db)
+        return service.listar_duplicados(filtros)
+    except ValueError as e:
+        raise HTTPException(status_code=404, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error al listar duplicados: {str(e)}")
+
+
+@router.get(
+    "/duplicados/resumen",
+    response_model=DuplicadoResumenResponse,
+    summary="Resumen de la última ejecución de duplicados (dashboard)",
+)
+def obtener_resumen_duplicados_ultimo(db: Session = Depends(get_db)):
+    try:
+        service = AnaliticaService(db)
+        ultimo_run_id = service.repo.obtener_ultimo_run_id_duplicados()
+        if not ultimo_run_id:
+            raise ValueError("No existe ninguna ejecución de duplicados registrada.")
+        return service.obtener_resumen_duplicados(ultimo_run_id)
+    except ValueError as e:
+        raise HTTPException(status_code=404, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error al obtener resumen de duplicados: {str(e)}")
+
+
+@router.get(
+    "/duplicados/resumen/{run_id}",
+    response_model=DuplicadoResumenResponse,
+    summary="Resumen de una ejecución específica de duplicados",
+)
+def obtener_resumen_duplicados_por_run(run_id: UUID, db: Session = Depends(get_db)):
+    try:
+        service = AnaliticaService(db)
+        return service.obtener_resumen_duplicados(run_id)
+    except ValueError as e:
+        raise HTTPException(status_code=404, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error al obtener resumen de duplicados {run_id}: {str(e)}")
