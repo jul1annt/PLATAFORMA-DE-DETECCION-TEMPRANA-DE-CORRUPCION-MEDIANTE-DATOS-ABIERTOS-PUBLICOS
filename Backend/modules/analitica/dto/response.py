@@ -24,7 +24,7 @@ class EstadisticasGrupoResponse(BaseModel):
 class OutlierDetalleResponse(BaseModel):
     """Un contrato con su clasificación outlier y score."""
     id: UUID
-    contrato_id: UUID
+    contrato_id: int
     run_id: UUID
     grupo: str
     campo_analizado: str

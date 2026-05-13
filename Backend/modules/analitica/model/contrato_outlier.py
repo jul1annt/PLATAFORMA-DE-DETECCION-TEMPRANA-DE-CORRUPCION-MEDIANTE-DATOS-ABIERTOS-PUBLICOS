@@ -1,8 +1,8 @@
 import uuid
 from datetime import datetime
-from sqlalchemy import Column, String, Numeric, Boolean, DateTime, Index
+from sqlalchemy import Column, String, Numeric, Boolean, DateTime, Index, BigInteger
 from sqlalchemy.dialects.postgresql import UUID
-from core.database import Base
+from shared.base_model import Base
 
 
 class ContratoOutlier(Base):
@@ -16,7 +16,7 @@ class ContratoOutlier(Base):
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
 
     # Referencia al contrato analizado (no FK hard para no acoplar módulos)
-    contrato_id = Column(UUID(as_uuid=True), nullable=False)
+    contrato_id = Column(BigInteger, nullable=False)
 
     # Identificador de la ejecución del análisis (agrupa todos los resultados de un mismo run)
     run_id = Column(UUID(as_uuid=True), nullable=False)

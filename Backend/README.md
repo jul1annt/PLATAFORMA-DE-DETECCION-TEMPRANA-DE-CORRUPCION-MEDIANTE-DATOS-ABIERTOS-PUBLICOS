@@ -7,10 +7,8 @@ pip install fastapi uvicorn sqlalchemy psycopg2-binary alembic pydantic pydantic
 
 python -c "from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())"
 
-alembic init database/migrations
-
-alembic revision --autogenerate -m "crear tabla fuentes_datos"
-
-alembic upgrade head
+1. Eliminas todos los archivos de versions/
+2. alembic revision --autogenerate -m "initial"
+3. alembic upgrade head
 
 uvicorn main:app --reload --port 8000
