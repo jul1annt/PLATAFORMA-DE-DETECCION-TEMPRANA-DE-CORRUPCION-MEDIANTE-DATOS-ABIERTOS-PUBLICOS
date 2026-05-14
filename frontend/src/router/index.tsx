@@ -3,6 +3,7 @@ import { MainLayout } from '../layouts/MainLayout';
 import { Dashboard } from '../pages/Dashboard';
 import { FuentesList } from '../pages/FuentesList';
 import { FuenteForm } from '../pages/FuenteForm';
+import { DataQualityDashboard } from '../pages/DataQualityDashboard';
 
 export const router = createBrowserRouter([
   {
@@ -24,6 +25,10 @@ export const router = createBrowserRouter([
       {
         path: 'fuentes/editar/:id',
         element: <FuenteForm />,
+      },
+      {
+        path: 'calidad',
+        element: <DataQualityDashboard />,
       },
       {
         path: 'configuracion',

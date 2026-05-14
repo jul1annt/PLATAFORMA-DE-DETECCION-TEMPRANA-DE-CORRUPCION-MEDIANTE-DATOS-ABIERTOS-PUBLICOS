@@ -1,12 +1,13 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Database, LayoutDashboard, Settings } from 'lucide-react';
+import { Database, LayoutDashboard, Settings, ShieldAlert } from 'lucide-react';
 import { cn } from '../../utils/utils';
 
 export const Sidebar: React.FC = () => {
   const navItems = [
     { name: 'Dashboard', path: '/', icon: LayoutDashboard },
     { name: 'Fuentes de Datos', path: '/fuentes', icon: Database },
+    { name: 'Calidad de Datos', path: '/calidad', icon: ShieldAlert },
     { name: 'Configuración', path: '/configuracion', icon: Settings },
   ];
 
