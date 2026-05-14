@@ -7,6 +7,8 @@ from sqlalchemy.orm import Session
 
 from modules.analitica.model.contrato_outlier import ContratoOutlier
 from modules.analitica.model.contrato_duplicado_periodo import ContratoDuplicadoPeriodo
+from modules.analitica.model.proveedor_adjudicacion_directa import ProveedorAdjudicacionDirecta
+
 
 
 class AnaliticaRepository:
@@ -345,3 +347,197 @@ class AnaliticaRepository:
             "resumen": dict(resumen._mapping) if resumen else {},
             "por_riesgo": [dict(row._mapping) for row in por_riesgo],
         }
+
+    # ------------------------------------------------------------------
+    # LECTURA: cálculo de adjudicaciones directas desde contratos_procesados
+    # ------------------------------------------------------------------
+
+    def calcular_adjudicaciones_directas(
+        self,
+        fecha_desde: Optional[date] = None,
+        fecha_hasta: Optional[date] = None,
+        minimo_directas: int = 3,
+        dias_ventana: int = 90,
+    ) -> list[dict]:
+        """
+        Ejecuta el análisis agregado de adjudicaciones directas por proveedor.
+        Detecta proveedores con más de 'minimo_directas' adjudicaciones en un periodo.
+        """
+        where_extra = ""
+        params: dict = {
+            "minimo_directas": minimo_directas,
+            "dias_ventana": dias_ventana
+        }
+
+        if fecha_desde:
+            where_extra += " AND cp.fecha_publicacion_normalizada >= :fecha_desde"
+            params["fecha_desde"] = fecha_desde
+        if fecha_hasta:
+            where_extra += " AND cp.fecha_publicacion_normalizada <= :fecha_hasta"
+            params["fecha_hasta"] = fecha_hasta
+
+        query = text(f"""
+            WITH contratos_filtrados AS (
+                SELECT
+                    cp.id,
+                    cp.proveedor_normalizado,
+                    cp.nit_proveedor,
+                    cp.entidad_normalizada,
+                    cp.tipo_contrato_normalizado,
+                    cp.modalidad_contratacion,
+                    cp.fecha_publicacion_normalizada,
+                    CASE 
+                        WHEN (
+                            LOWER(cp.modalidad_contratacion) LIKE '%directa%' 
+                            OR LOWER(cp.modalidad_contratacion) LIKE '%contrataci_n_directa%'
+                            OR LOWER(cp.modalidad_contratacion) LIKE '%contratacion_directa%'
+                        )
+                        THEN 1 ELSE 0 
+                    END as es_directa
+                FROM contratos_procesados cp
+                WHERE cp.proveedor_normalizado IS NOT NULL
+                  AND TRIM(cp.proveedor_normalizado) <> ''
+                  AND UPPER(TRIM(cp.proveedor_normalizado)) NOT IN ('NO DEFINIDO', 'N/A', 'SIN INFORMACION', 'SIN INFORMACIÓN', 'SIN REGISTRO')
+                  AND cp.fecha_publicacion_normalizada IS NOT NULL
+                  {where_extra}
+            ),
+
+            resumen_proveedor AS (
+                SELECT
+                    proveedor_normalizado,
+                    nit_proveedor,
+                    COUNT(*)                                                   AS total_contratos,
+                    SUM(es_directa)                                            AS contratos_directos,
+                    MIN(fecha_publicacion_normalizada) FILTER (WHERE es_directa = 1) AS fecha_primera_directa,
+                    MAX(fecha_publicacion_normalizada) FILTER (WHERE es_directa = 1) AS fecha_ultima_directa,
+                    MAX(entidad_normalizada)                                   AS entidad,
+                    MAX(tipo_contrato_normalizado)                             AS tipo_contrato,
+                    MAX(modalidad_contratacion)                                AS modalidad_contratacion,
+                    MAX(fecha_publicacion_normalizada)                         AS fecha_contrato,
+                    MAX(id)                                                    AS contrato_id
+                FROM contratos_filtrados
+                GROUP BY proveedor_normalizado, nit_proveedor
+            )
+
+            SELECT
+                proveedor_normalizado   AS proveedor,
+                nit_proveedor,
+                total_contratos,
+                contratos_directos,
+                ROUND(
+                    (contratos_directos::numeric / NULLIF(total_contratos, 0)) * 100,
+                    2
+                )                       AS porcentaje_directos,
+                entidad,
+                tipo_contrato,
+                modalidad_contratacion,
+                fecha_contrato,
+                contrato_id
+            FROM resumen_proveedor
+            WHERE contratos_directos >= :minimo_directas
+              AND (fecha_ultima_directa - fecha_primera_directa) <= :dias_ventana
+            ORDER BY contratos_directos DESC, porcentaje_directos DESC
+        """)
+
+        resultado = self.db.execute(query, params)
+        return [dict(row._mapping) for row in resultado]
+
+    # ------------------------------------------------------------------
+    # ESCRITURA / LECTURA: proveedor_adjudicacion_directa
+    # ------------------------------------------------------------------
+
+    def guardar_adjudicaciones_directas(
+        self, registros: list[ProveedorAdjudicacionDirecta]
+    ) -> None:
+        self.db.add_all(registros)
+        self.db.flush()
+
+    def obtener_ultimo_run_id_directas(self) -> Optional[UUID]:
+        resultado = self.db.execute(
+            text("""
+                SELECT run_id
+                FROM proveedor_adjudicacion_directa
+                ORDER BY fecha_calculo DESC
+                LIMIT 1
+            """)
+        ).fetchone()
+        return resultado.run_id if resultado else None
+
+    def obtener_proveedores_directas(
+        self,
+        run_id: UUID,
+        riesgo: Optional[str] = None,
+        score_minimo: Optional[float] = None,
+        score_maximo: Optional[float] = None,
+        porcentaje_minimo: Optional[float] = None,
+        porcentaje_maximo: Optional[float] = None,
+        solo_abuso_directas: bool = False,
+        page: int = 1,
+        page_size: int = 50,
+    ) -> tuple[list[ProveedorAdjudicacionDirecta], int]:
+        query = self.db.query(ProveedorAdjudicacionDirecta).filter(
+            ProveedorAdjudicacionDirecta.run_id == run_id
+        )
+
+        if riesgo:
+            query = query.filter(ProveedorAdjudicacionDirecta.clasificacion_riesgo == riesgo)
+        if score_minimo is not None:
+            query = query.filter(ProveedorAdjudicacionDirecta.score_riesgo >= score_minimo)
+        if score_maximo is not None:
+            query = query.filter(ProveedorAdjudicacionDirecta.score_riesgo <= score_maximo)
+        if porcentaje_minimo is not None:
+            query = query.filter(ProveedorAdjudicacionDirecta.porcentaje_directos >= porcentaje_minimo)
+        if porcentaje_maximo is not None:
+            query = query.filter(ProveedorAdjudicacionDirecta.porcentaje_directos <= porcentaje_maximo)
+        if solo_abuso_directas:
+            query = query.filter(
+                ProveedorAdjudicacionDirecta.clasificacion_riesgo.in_(["ALTO", "MEDIO"])
+            )
+
+        total = query.count()
+        items = (
+            query
+            .order_by(
+                ProveedorAdjudicacionDirecta.score_riesgo.desc(),
+                ProveedorAdjudicacionDirecta.porcentaje_directos.desc(),
+            )
+            .offset((page - 1) * page_size)
+            .limit(page_size)
+            .all()
+        )
+        return items, total
+
+    def obtener_resumen_directas(self, run_id: UUID) -> dict:
+        resumen = self.db.execute(
+            text("""
+                SELECT
+                    run_id,
+                    COUNT(*)                       AS total_proveedores_detectados,
+                    AVG(porcentaje_directos)        AS promedio_porcentaje_directos,
+                    AVG(score_riesgo)               AS promedio_score,
+                    MIN(fecha_calculo)              AS fecha_calculo
+                FROM proveedor_adjudicacion_directa
+                WHERE run_id = :run_id
+                GROUP BY run_id
+            """),
+            {"run_id": str(run_id)},
+        ).fetchone()
+
+        por_riesgo = self.db.execute(
+            text("""
+                SELECT
+                    clasificacion_riesgo AS riesgo,
+                    COUNT(*)             AS total
+                FROM proveedor_adjudicacion_directa
+                WHERE run_id = :run_id
+                GROUP BY clasificacion_riesgo
+                ORDER BY total DESC
+            """),
+            {"run_id": str(run_id)},
+        ).fetchall()
+
+        return {
+            "resumen": dict(resumen._mapping) if resumen else {},
+            "por_riesgo": [dict(row._mapping) for row in por_riesgo],
+        }
+

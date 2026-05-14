@@ -1,3 +1,4 @@
+import logging
 import math
 import uuid
 from datetime import datetime
@@ -8,7 +9,8 @@ from sqlalchemy.orm import Session
 
 from modules.analitica.dto.request import (
     OutlierCalculoRequest, OutlierFiltroRequest,
-    DuplicadoCalculoRequest, DuplicadoFiltroRequest
+    DuplicadoCalculoRequest, DuplicadoFiltroRequest,
+    AdjudicacionDirectaCalculoRequest, AdjudicacionDirectaFiltroRequest,
 )
 from modules.analitica.dto.response import (
     RunResumenResponse,
@@ -19,10 +21,16 @@ from modules.analitica.dto.response import (
     DuplicadoListaResponse,
     DuplicadoDetalleResponse,
     RiesgoResumenResponse,
+    ProveedorDirectaResumenResponse,
+    ProveedorDirectaListaResponse,
+    ProveedorDirectaDetalleResponse,
 )
 from modules.analitica.model.contrato_outlier import ContratoOutlier
 from modules.analitica.model.contrato_duplicado_periodo import ContratoDuplicadoPeriodo
+from modules.analitica.model.proveedor_adjudicacion_directa import ProveedorAdjudicacionDirecta
 from modules.analitica.repository.repository import AnaliticaRepository
+
+logger = logging.getLogger(__name__)
 
 
 class AnaliticaService:
@@ -323,4 +331,141 @@ class AnaliticaService:
         ultimo = self.repo.obtener_ultimo_run_id_duplicados()
         if not ultimo:
             raise ValueError("No existe ninguna ejecución de análisis de duplicados. Ejecuta el cálculo primero.")
+        return ultimo
+
+    # ------------------------------------------------------------------
+    # ANÁLISIS DE ABUSO DE ADJUDICACIÓN DIRECTA
+    # ------------------------------------------------------------------
+
+    def calcular_abuso_adjudicacion_directa(
+        self, request: AdjudicacionDirectaCalculoRequest
+    ) -> ProveedorDirectaResumenResponse:
+        """
+        Detecta proveedores con abuso de adjudicación directa.
+        Flujo:
+            1. Ejecutar CTE en PostgreSQL — agrupación por proveedor
+            2. Calcular score y clasificación de riesgo
+            3. Persistir en proveedor_adjudicacion_directa
+            4. Retornar resumen
+        """
+        run_id = uuid.uuid4()
+        fecha_calculo = datetime.utcnow()
+
+        logger.info(f"Iniciando cálculo de abuso de adjudicación directa. Run ID: {run_id}")
+        logger.info(f"Parámetros: minimo_directas={request.minimo_directas}, dias_ventana={request.dias_ventana}")
+
+        filas = self.repo.calcular_adjudicaciones_directas(
+            fecha_desde=request.fecha_desde,
+            fecha_hasta=request.fecha_hasta,
+            minimo_directas=request.minimo_directas,
+            dias_ventana=request.dias_ventana,
+        )
+
+        logger.info(f"Proveedores potenciales detectados por el repositorio: {len(filas)}")
+
+        registros: list[ProveedorAdjudicacionDirecta] = []
+
+        for fila in filas:
+            porcentaje = float(fila["porcentaje_directos"] or 0)
+
+            # Score: porcentaje / 10  (rango 0.0 – 10.0)
+            score = round(porcentaje / 10, 2)
+
+            # Clasificación de riesgo
+            if porcentaje >= 90:
+                clasificacion = "ALTO"
+            elif porcentaje >= 70:
+                clasificacion = "MEDIO"
+            else:
+                clasificacion = "BAJO"
+
+            registros.append(
+                ProveedorAdjudicacionDirecta(
+                    run_id=run_id,
+                    contrato_id=fila.get("contrato_id"),
+                    proveedor=fila["proveedor"],
+                    nit_proveedor=fila.get("nit_proveedor"),
+                    entidad=fila.get("entidad"),
+                    tipo_contrato=fila.get("tipo_contrato"),
+                    modalidad_contratacion=fila.get("modalidad_contratacion"),
+                    fecha_contrato=fila.get("fecha_contrato"),
+                    total_contratos=int(fila["total_contratos"]),
+                    contratos_directos=int(fila["contratos_directos"]),
+                    porcentaje_directos=porcentaje,
+                    score_riesgo=score,
+                    clasificacion_riesgo=clasificacion,
+                    fecha_calculo=fecha_calculo,
+                )
+            )
+
+        if registros:
+            logger.info(f"Guardando {len(registros)} hallazgos en la base de datos.")
+            self.repo.guardar_adjudicaciones_directas(registros)
+            self.db.commit()
+        else:
+            logger.warning("No se encontraron proveedores que cumplan con los criterios de abuso.")
+
+        return self.obtener_resumen_directas(run_id)
+
+    def listar_directas(
+        self, filtros: AdjudicacionDirectaFiltroRequest
+    ) -> ProveedorDirectaListaResponse:
+        """
+        Lista proveedores con abuso de adjudicación directa con filtros y paginación.
+        Si no se pasa run_id, usa el de la última ejecución.
+        """
+        run_id = self._resolver_run_id_directas(filtros.run_id)
+
+        items, total = self.repo.obtener_proveedores_directas(
+            run_id=run_id,
+            riesgo=filtros.riesgo,
+            score_minimo=filtros.score_minimo,
+            score_maximo=filtros.score_maximo,
+            porcentaje_minimo=filtros.porcentaje_minimo,
+            porcentaje_maximo=filtros.porcentaje_maximo,
+            solo_abuso_directas=filtros.solo_abuso_directas,
+            page=filtros.page,
+            page_size=filtros.page_size,
+        )
+
+        total_pages = math.ceil(total / filtros.page_size) if total > 0 else 0
+
+        return ProveedorDirectaListaResponse(
+            items=[ProveedorDirectaDetalleResponse.model_validate(item) for item in items],
+            total=total,
+            page=filtros.page,
+            page_size=filtros.page_size,
+            total_pages=total_pages,
+        )
+
+    def obtener_resumen_directas(
+        self, run_id: UUID
+    ) -> ProveedorDirectaResumenResponse:
+        """Construye el resumen de una ejecución de adjudicación directa."""
+        data = self.repo.obtener_resumen_directas(run_id)
+        resumen = data["resumen"]
+        por_riesgo = data["por_riesgo"]
+
+        return ProveedorDirectaResumenResponse(
+            run_id=run_id,
+            total_proveedores_detectados=resumen.get("total_proveedores_detectados", 0) if resumen else 0,
+            promedio_porcentaje_directos=round(
+                float(resumen.get("promedio_porcentaje_directos", 0.0) or 0), 2
+            ) if resumen else 0.0,
+            promedio_score=round(
+                float(resumen.get("promedio_score", 0.0) or 0), 2
+            ) if resumen else 0.0,
+            resumen_por_riesgo=[RiesgoResumenResponse(**r) for r in por_riesgo],
+            fecha_calculo=resumen.get("fecha_calculo", datetime.utcnow()) if resumen else datetime.utcnow(),
+        )
+
+    def _resolver_run_id_directas(self, run_id_str: Optional[str]) -> UUID:
+        if run_id_str:
+            return UUID(run_id_str)
+        ultimo = self.repo.obtener_ultimo_run_id_directas()
+        if not ultimo:
+            raise ValueError(
+                "No existe ninguna ejecución de análisis de directas. "
+                "Ejecuta el cálculo primero."
+            )
         return ultimo

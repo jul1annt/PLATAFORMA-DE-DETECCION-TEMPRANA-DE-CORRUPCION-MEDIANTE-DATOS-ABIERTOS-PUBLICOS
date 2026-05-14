@@ -111,3 +111,49 @@ class DuplicadoResumenResponse(BaseModel):
     promedio_score: float
     resumen_por_riesgo: list[RiesgoResumenResponse]
     fecha_calculo: datetime
+
+
+# ============================================================
+# ADJUDICACIÓN DIRECTA
+# ============================================================
+
+class ProveedorDirectaDetalleResponse(BaseModel):
+    """Un proveedor con su clasificación de abuso de adjudicación directa."""
+    id: UUID
+    run_id: UUID
+    contrato_id: Optional[int]
+    proveedor: str
+    nit_proveedor: Optional[str]
+    entidad: Optional[str]
+    tipo_contrato: Optional[str]
+    modalidad_contratacion: Optional[str]
+    fecha_contrato: Optional[date]
+    total_contratos: int
+    contratos_directos: int
+    porcentaje_directos: float
+    score_riesgo: float
+    clasificacion_riesgo: str
+    fecha_calculo: datetime
+
+    class Config:
+        from_attributes = True
+
+
+class ProveedorDirectaListaResponse(BaseModel):
+    """Respuesta paginada del listado de proveedores con abuso de directas."""
+    items: list[ProveedorDirectaDetalleResponse]
+    total: int
+    page: int
+    page_size: int
+    total_pages: int
+
+
+class ProveedorDirectaResumenResponse(BaseModel):
+    """Resumen estadístico global de una ejecución de análisis de directas."""
+    run_id: UUID
+    total_proveedores_detectados: int
+    promedio_porcentaje_directos: float
+    promedio_score: float
+    resumen_por_riesgo: list[RiesgoResumenResponse]
+    fecha_calculo: datetime
+
