@@ -35,3 +35,18 @@ export interface ConexionTestResponseDTO {
   mensaje: string;
   registros_muestra: number[] | null;
 }
+
+export type EstadoSync = "EN_PROCESO" | "EXITOSO" | "ERROR";
+
+export interface SincronizacionHistorialResponseDTO {
+  id: number;
+  fuente_id: number;
+  fuente_nombre: string | null;
+  fecha_inicio: string;
+  fecha_fin: string | null;
+  registros_traidos: number;
+  registros_insertados: number;
+  registros_duplicados: number;
+  estado: EstadoSync;
+  mensaje_error: string | null;
+}

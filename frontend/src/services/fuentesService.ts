@@ -4,6 +4,7 @@ import type {
   FuenteDatosResponseDTO,
   FuenteDatosUpdateDTO,
   ConexionTestResponseDTO,
+  SincronizacionHistorialResponseDTO,
 } from '../types/fuente';
 
 export const fuentesService = {
@@ -38,6 +39,16 @@ export const fuentesService = {
 
   sync: async (id: number): Promise<any> => {
     const response = await api.post(`/api/ingesta/fuentes/${id}/sincronizar`);
+    return response.data;
+  },
+
+  getSincronizacionesGlobales: async (): Promise<SincronizacionHistorialResponseDTO[]> => {
+    const response = await api.get('/api/ingesta/fuentes/sincronizaciones');
+    return response.data;
+  },
+
+  getHistorialByFuenteId: async (id: number): Promise<SincronizacionHistorialResponseDTO[]> => {
+    const response = await api.get(`/api/ingesta/fuentes/${id}/sincronizaciones`);
     return response.data;
   },
 };

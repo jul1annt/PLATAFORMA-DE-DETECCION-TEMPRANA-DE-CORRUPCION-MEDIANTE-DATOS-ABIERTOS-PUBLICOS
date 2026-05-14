@@ -1,29 +1,36 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, Edit2, Trash2, Play, RefreshCw, AlertCircle, CheckCircle2 } from 'lucide-react';
+import { Plus, Edit2, Trash2, Play, RefreshCw, AlertCircle, CheckCircle2, History } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { fuentesService } from '../services/fuentesService';
-import type { FuenteDatosResponseDTO, ConexionTestResponseDTO } from '../types/fuente';
+import type { FuenteDatosResponseDTO, ConexionTestResponseDTO, SincronizacionHistorialResponseDTO } from '../types/fuente';
 import { Button } from '../components/ui/Button';
 import { Badge } from '../components/ui/Badge';
 import { Modal } from '../components/ui/Modal';
 import { Skeleton } from '../components/ui/Skeleton';
+import { HistorialSyncModal } from '../components/fuentes/HistorialSyncModal';
 
 export const FuentesList: React.FC = () => {
   const navigate = useNavigate();
   const [fuentes, setFuentes] = useState<FuenteDatosResponseDTO[]>([]);
+  const [sincronizaciones, setSincronizaciones] = useState<SincronizacionHistorialResponseDTO[]>([]);
   const [loading, setLoading] = useState(true);
   const [syncingId, setSyncingId] = useState<number | null>(null);
   
   // Modals state
   const [deleteModal, setDeleteModal] = useState<{ isOpen: boolean; id: number | null }>({ isOpen: false, id: null });
   const [testModal, setTestModal] = useState<{ isOpen: boolean; result: ConexionTestResponseDTO | null; loading: boolean }>({ isOpen: false, result: null, loading: false });
+  const [historialModal, setHistorialModal] = useState<{ isOpen: boolean; id: number | null; nombre: string }>({ isOpen: false, id: null, nombre: '' });
 
   const fetchFuentes = async () => {
     try {
       setLoading(true);
-      const data = await fuentesService.getAll();
-      setFuentes(data);
+      const [dataFuentes, dataSyncs] = await Promise.all([
+        fuentesService.getAll(),
+        fuentesService.getSincronizacionesGlobales().catch(() => []) // Fallback si falla
+      ]);
+      setFuentes(dataFuentes);
+      setSincronizaciones(dataSyncs);
     } catch (error) {
       toast.error('Error al cargar las fuentes de datos');
     } finally {
@@ -140,7 +147,24 @@ export const FuentesList: React.FC = () => {
                       </Badge>
                     </td>
                     <td className="px-6 py-4 text-slate-600">
-                      {fuente.ultima_sync ? new Date(fuente.ultima_sync).toLocaleDateString() : 'Nunca'}
+                      <div className="flex items-center gap-2">
+                        {fuente.ultima_sync ? new Date(fuente.ultima_sync).toLocaleDateString() : 'Nunca'}
+                        {(() => {
+                          const fuenteSyncs = sincronizaciones.filter(s => s.fuente_id === fuente.id).sort((a, b) => new Date(b.fecha_inicio).getTime() - new Date(a.fecha_inicio).getTime());
+                          if (fuenteSyncs.length > 0 && fuenteSyncs[0].estado === 'ERROR') {
+                            return (
+                              <div className="group relative flex items-center justify-center">
+                                <AlertCircle size={16} className="text-red-500 cursor-help" />
+                                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block w-max max-w-xs bg-slate-800 text-white text-xs rounded py-1 px-2 z-10 shadow-lg">
+                                  La última sincronización falló: {fuenteSyncs[0].mensaje_error || 'Error desconocido'}
+                                  <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-slate-800" />
+                                </div>
+                              </div>
+                            );
+                          }
+                          return null;
+                        })()}
+                      </div>
                     </td>
                     <td className="px-6 py-4 text-right">
                       <div className="flex justify-end gap-2">
@@ -162,6 +186,15 @@ export const FuentesList: React.FC = () => {
                           isLoading={syncingId === fuente.id}
                         >
                           <RefreshCw size={14} className="text-emerald-500" />
+                        </Button>
+                        <Button 
+                          variant="outline" 
+                          size="sm" 
+                          className="h-8 w-8 p-0" 
+                          title="Ver Historial"
+                          onClick={() => setHistorialModal({ isOpen: true, id: fuente.id, nombre: fuente.nombre })}
+                        >
+                          <History size={14} className="text-slate-600" />
                         </Button>
                         <Button 
                           variant="outline" 
@@ -246,6 +279,14 @@ export const FuentesList: React.FC = () => {
           </Button>
         </div>
       </Modal>
+
+      {/* Historial Sync Modal */}
+      <HistorialSyncModal
+        isOpen={historialModal.isOpen}
+        onClose={() => setHistorialModal({ isOpen: false, id: null, nombre: '' })}
+        fuenteId={historialModal.id}
+        fuenteNombre={historialModal.nombre}
+      />
     </div>
   );
 };
