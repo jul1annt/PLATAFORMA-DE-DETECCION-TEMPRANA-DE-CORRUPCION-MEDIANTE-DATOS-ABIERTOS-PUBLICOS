@@ -17,6 +17,8 @@ from modules.transformacion.model.ContratoAnomaloIncompleto import ContratoAnoma
 from modules.transformacion.model.EstadisticaCamposFaltantes import EstadisticaCamposFaltantes
 from modules.analitica.model.contrato_outlier import ContratoOutlier
 from modules.analitica.model.contrato_duplicado_periodo import ContratoDuplicadoPeriodo
+from modules.analitica.model.proveedor_adjudicacion_directa import ProveedorAdjudicacionDirecta
+
 
 # Alembic Config object
 config = context.config

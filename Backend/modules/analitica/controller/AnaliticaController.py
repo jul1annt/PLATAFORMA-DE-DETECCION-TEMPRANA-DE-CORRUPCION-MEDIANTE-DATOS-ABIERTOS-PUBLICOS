@@ -6,11 +6,13 @@ from sqlalchemy.orm import Session
 from core.dependencies import get_db
 from modules.analitica.dto.request import (
     OutlierCalculoRequest, OutlierFiltroRequest,
-    DuplicadoCalculoRequest, DuplicadoFiltroRequest
+    DuplicadoCalculoRequest, DuplicadoFiltroRequest,
+    AdjudicacionDirectaCalculoRequest, AdjudicacionDirectaFiltroRequest,
 )
 from modules.analitica.dto.response import (
     RunResumenResponse, OutlierListaResponse,
-    DuplicadoResumenResponse, DuplicadoListaResponse
+    DuplicadoResumenResponse, DuplicadoListaResponse,
+    ProveedorDirectaResumenResponse, ProveedorDirectaListaResponse,
 )
 from modules.analitica.services.AnaliticaService import AnaliticaService
 
@@ -204,4 +206,107 @@ def obtener_resumen_duplicados_por_run(run_id: UUID, db: Session = Depends(get_d
     except ValueError as e:
         raise HTTPException(status_code=404, detail=str(e))
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error al obtener resumen de duplicados {run_id}: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error al obtener resumen de duplicados {run_id}: {str(e)}")
+
+
+# ====================================================================
+# ENDPOINTS: ABUSO DE ADJUDICACIÓN DIRECTA
+# ====================================================================
+
+@router.post(
+    "/directas/calcular",
+    response_model=ProveedorDirectaResumenResponse,
+    summary="Ejecutar análisis de abuso de adjudicación directa",
+    description=(
+        "Detecta proveedores con más contratos directos que el umbral configurado. "
+        "Agrupa por proveedor, calcula porcentaje de directas, score y clasificación de riesgo. "
+        "Persiste los resultados en proveedor_adjudicacion_directa."
+    ),
+)
+def calcular_adjudicaciones_directas(
+    body: AdjudicacionDirectaCalculoRequest,
+    db: Session = Depends(get_db),
+):
+    try:
+        service = AnaliticaService(db)
+        return service.calcular_abuso_adjudicacion_directa(body)
+    except ValueError as e:
+        raise HTTPException(status_code=422, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error al calcular adjudicaciones directas: {str(e)}")
+
+
+@router.get(
+    "/directas",
+    response_model=ProveedorDirectaListaResponse,
+    summary="Listar proveedores con abuso de adjudicación directa",
+    description=(
+        "Retorna los proveedores detectados con filtros opcionales. "
+        "Si no se pasa run_id se usa la última ejecución. "
+        "Usa solo_abuso_directas=true para el filtro del dashboard (solo ALTO y MEDIO)."
+    ),
+)
+def listar_adjudicaciones_directas(
+    run_id: str | None = Query(default=None, description="UUID de la ejecución. Default: última."),
+    riesgo: str | None = Query(default=None, description="Filtrar por riesgo: ALTO, MEDIO, BAJO."),
+    score_minimo: float | None = Query(default=None, ge=0, description="Score mínimo."),
+    score_maximo: float | None = Query(default=None, ge=0, description="Score máximo."),
+    porcentaje_minimo: float | None = Query(default=None, ge=0, le=100, description="Porcentaje mínimo de directas."),
+    porcentaje_maximo: float | None = Query(default=None, ge=0, le=100, description="Porcentaje máximo de directas."),
+    solo_abuso_directas: bool = Query(default=False, description="True = solo ALTO y MEDIO."),
+    page: int = Query(default=1, ge=1),
+    page_size: int = Query(default=50, ge=1, le=200),
+    db: Session = Depends(get_db),
+):
+    try:
+        filtros = AdjudicacionDirectaFiltroRequest(
+            run_id=run_id,
+            riesgo=riesgo,
+            score_minimo=score_minimo,
+            score_maximo=score_maximo,
+            porcentaje_minimo=porcentaje_minimo,
+            porcentaje_maximo=porcentaje_maximo,
+            solo_abuso_directas=solo_abuso_directas,
+            page=page,
+            page_size=page_size,
+        )
+        service = AnaliticaService(db)
+        return service.listar_directas(filtros)
+    except ValueError as e:
+        raise HTTPException(status_code=404, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error al listar adjudicaciones directas: {str(e)}")
+
+
+@router.get(
+    "/directas/resumen",
+    response_model=ProveedorDirectaResumenResponse,
+    summary="Resumen de la última ejecución de adjudicaciones directas (dashboard)",
+)
+def obtener_resumen_directas_ultimo(db: Session = Depends(get_db)):
+    try:
+        service = AnaliticaService(db)
+        ultimo_run_id = service.repo.obtener_ultimo_run_id_directas()
+        if not ultimo_run_id:
+            raise ValueError("No existe ninguna ejecución de adjudicaciones directas registrada.")
+        return service.obtener_resumen_directas(ultimo_run_id)
+    except ValueError as e:
+        raise HTTPException(status_code=404, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error al obtener resumen de directas: {str(e)}")
+
+
+@router.get(
+    "/directas/resumen/{run_id}",
+    response_model=ProveedorDirectaResumenResponse,
+    summary="Resumen de una ejecución específica de adjudicaciones directas",
+)
+def obtener_resumen_directas_por_run(run_id: UUID, db: Session = Depends(get_db)):
+    try:
+        service = AnaliticaService(db)
+        return service.obtener_resumen_directas(run_id)
+    except ValueError as e:
+        raise HTTPException(status_code=404, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error al obtener resumen de directas {run_id}: {str(e)}")
+
