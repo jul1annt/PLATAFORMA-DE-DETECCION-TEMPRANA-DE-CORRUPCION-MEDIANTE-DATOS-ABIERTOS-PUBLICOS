@@ -158,4 +158,34 @@ class AdjudicacionDirectaFiltroRequest(BaseModel):
     )
     page: int = Field(default=1, ge=1)
     page_size: int = Field(default=50, ge=1, le=200)
-
+
+class PesoActualizarRequest(BaseModel):
+    """
+    Petición para actualizar el peso de una anomalía.
+    """
+    peso: float = Field(..., ge=0.0, description="Nuevo peso para la anomalía")
+
+class RiesgoFiltroRequest(BaseModel):
+    """
+    Parámetros de consulta para listar proveedores con riesgo combinado.
+    """
+    run_id: Optional[str] = Field(
+        default=None,
+        description="Filtrar por ejecución específica. Null = última ejecución."
+    )
+    proveedor: Optional[str] = Field(
+        default=None,
+        description="Filtrar por nombre de proveedor (ilike)."
+    )
+    riesgo: Optional[str] = Field(
+        default=None,
+        description="'ALTO' | 'MEDIO' | 'BAJO'. Null = todos.",
+        pattern="^(ALTO|MEDIO|BAJO)$"
+    )
+    score_minimo: Optional[float] = Field(
+        default=None,
+        ge=0,
+        description="Retorna solo proveedores con score final >= este valor."
+    )
+    page: int = Field(default=1, ge=1)
+    page_size: int = Field(default=50, ge=1, le=200)

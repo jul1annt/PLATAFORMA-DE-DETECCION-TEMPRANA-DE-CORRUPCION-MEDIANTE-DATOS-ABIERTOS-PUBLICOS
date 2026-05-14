@@ -11,6 +11,7 @@ from modules.analitica.dto.request import (
     OutlierCalculoRequest, OutlierFiltroRequest,
     DuplicadoCalculoRequest, DuplicadoFiltroRequest,
     AdjudicacionDirectaCalculoRequest, AdjudicacionDirectaFiltroRequest,
+    RiesgoFiltroRequest, PesoActualizarRequest,
 )
 from modules.analitica.dto.response import (
     RunResumenResponse,
@@ -24,10 +25,15 @@ from modules.analitica.dto.response import (
     ProveedorDirectaResumenResponse,
     ProveedorDirectaListaResponse,
     ProveedorDirectaDetalleResponse,
+    PesoAnomaliaResponse,
+    RiesgoProveedorResponse,
+    RiesgoProveedorListaResponse,
+    RiesgoGlobalResumenResponse,
 )
 from modules.analitica.model.contrato_outlier import ContratoOutlier
 from modules.analitica.model.contrato_duplicado_periodo import ContratoDuplicadoPeriodo
 from modules.analitica.model.proveedor_adjudicacion_directa import ProveedorAdjudicacionDirecta
+from modules.analitica.model.riesgo_proveedor import RiesgoProveedor
 from modules.analitica.repository.repository import AnaliticaRepository
 
 logger = logging.getLogger(__name__)
@@ -468,4 +474,112 @@ class AnaliticaService:
                 "No existe ninguna ejecución de análisis de directas. "
                 "Ejecuta el cálculo primero."
             )
+        return ultimo
+
+    # ------------------------------------------------------------------
+    # RIESGO COMBINADO Y PESOS
+    # ------------------------------------------------------------------
+
+    def obtener_pesos(self) -> list[PesoAnomaliaResponse]:
+        pesos = self.repo.obtener_pesos()
+        return [PesoAnomaliaResponse.model_validate(p) for p in pesos]
+
+    def actualizar_peso(self, tipo_anomalia: str, request: PesoActualizarRequest) -> PesoAnomaliaResponse:
+        obj = self.repo.actualizar_peso(tipo_anomalia.upper(), request.peso)
+        if not obj:
+            raise ValueError(f"Tipo de anomalía '{tipo_anomalia}' no encontrado.")
+        return PesoAnomaliaResponse.model_validate(obj)
+
+    def calcular_riesgo_global(self) -> RiesgoGlobalResumenResponse:
+        run_id = uuid.uuid4()
+        fecha_calculo = datetime.utcnow()
+
+        # 1. Obtener pesos actuales
+        pesos_db = self.repo.obtener_pesos()
+        pesos_dict = {p.tipo_anomalia: float(p.peso) for p in pesos_db}
+        peso_outlier = pesos_dict.get("OUTLIER", 1.0)
+        peso_duplicado = pesos_dict.get("DUPLICADO_CORTO", 1.5)
+        peso_directo = pesos_dict.get("ABUSO_DIRECTO", 2.0)
+
+        # 2. Obtener scores cruzados por proveedor usando la última ejecución de cada módulo
+        scores = self.repo.obtener_scores_combinados_por_proveedor()
+
+        registros = []
+        for fila in scores:
+            outlier_val = float(fila.get("max_score_outlier") or 0.0)
+            dup_val = float(fila.get("max_score_duplicado") or 0.0)
+            dir_val = float(fila.get("score_directo") or 0.0)
+
+            score_final = (outlier_val * peso_outlier) + (dup_val * peso_duplicado) + (dir_val * peso_directo)
+
+            # Clasificación simple:
+            if score_final >= 5.0:
+                riesgo = "ALTO"
+            elif score_final >= 2.0:
+                riesgo = "MEDIO"
+            else:
+                riesgo = "BAJO"
+
+            registros.append(
+                RiesgoProveedor(
+                    run_id=run_id,
+                    proveedor=fila["proveedor"],
+                    nit_proveedor=fila["nit_proveedor"],
+                    max_score_outlier=outlier_val,
+                    max_score_duplicado=dup_val,
+                    score_directo=dir_val,
+                    score_final=round(score_final, 2),
+                    clasificacion_riesgo=riesgo,
+                    pesos_aplicados=pesos_dict,
+                    fecha_calculo=fecha_calculo
+                )
+            )
+
+        if registros:
+            self.repo.guardar_riesgo_proveedores(registros)
+            self.db.commit()
+
+        return self.obtener_resumen_riesgo(run_id)
+
+    def listar_riesgos(self, filtros: RiesgoFiltroRequest) -> RiesgoProveedorListaResponse:
+        run_id = self._resolver_run_id_riesgo(filtros.run_id)
+
+        items, total = self.repo.obtener_riesgos(
+            run_id=run_id,
+            proveedor=filtros.proveedor,
+            riesgo=filtros.riesgo,
+            score_minimo=filtros.score_minimo,
+            page=filtros.page,
+            page_size=filtros.page_size,
+        )
+
+        total_pages = math.ceil(total / filtros.page_size) if total > 0 else 0
+
+        return RiesgoProveedorListaResponse(
+            items=[RiesgoProveedorResponse.model_validate(item) for item in items],
+            total=total,
+            page=filtros.page,
+            page_size=filtros.page_size,
+            total_pages=total_pages,
+        )
+
+    def obtener_resumen_riesgo(self, run_id: UUID) -> RiesgoGlobalResumenResponse:
+        data = self.repo.obtener_resumen_riesgo(run_id)
+        resumen = data["resumen"]
+        por_riesgo = data["por_riesgo"]
+
+        return RiesgoGlobalResumenResponse(
+            run_id=run_id,
+            total_proveedores_evaluados=resumen.get("total_proveedores_evaluados", 0) if resumen else 0,
+            promedio_score_final=round(float(resumen.get("promedio_score_final", 0.0) or 0), 2) if resumen else 0.0,
+            resumen_por_riesgo=[RiesgoResumenResponse(**r) for r in por_riesgo],
+            fecha_calculo=resumen.get("fecha_calculo", datetime.utcnow()) if resumen else datetime.utcnow(),
+        )
+
+    def _resolver_run_id_riesgo(self, run_id_str: Optional[str]) -> UUID:
+        if run_id_str:
+            return UUID(run_id_str)
+        ultimo = self.repo.obtener_ultimo_run_id_riesgo()
+        if not ultimo:
+            raise ValueError("No existe ninguna ejecución de riesgo consolidado. Ejecuta el cálculo primero.")
         return ultimo

@@ -18,6 +18,8 @@ from modules.transformacion.model.EstadisticaCamposFaltantes import EstadisticaC
 from modules.analitica.model.contrato_outlier import ContratoOutlier
 from modules.analitica.model.contrato_duplicado_periodo import ContratoDuplicadoPeriodo
 from modules.analitica.model.proveedor_adjudicacion_directa import ProveedorAdjudicacionDirecta
+from modules.analitica.model.peso_anomalia import PesoAnomalia
+from modules.analitica.model.riesgo_proveedor import RiesgoProveedor
 
 
 # Alembic Config object

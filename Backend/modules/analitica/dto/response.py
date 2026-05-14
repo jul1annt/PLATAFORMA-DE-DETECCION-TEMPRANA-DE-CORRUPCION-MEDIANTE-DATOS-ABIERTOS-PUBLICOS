@@ -157,3 +157,45 @@ class ProveedorDirectaResumenResponse(BaseModel):
     resumen_por_riesgo: list[RiesgoResumenResponse]
     fecha_calculo: datetime
 
+
+# ============================================================
+# RIESGO COMBINADO Y PESOS
+# ============================================================
+
+class PesoAnomaliaResponse(BaseModel):
+    tipo_anomalia: str
+    peso: float
+    updated_at: Optional[datetime]
+
+    class Config:
+        from_attributes = True
+
+class RiesgoProveedorResponse(BaseModel):
+    id: UUID
+    run_id: UUID
+    proveedor: str
+    nit_proveedor: Optional[str]
+    max_score_outlier: float
+    max_score_duplicado: float
+    score_directo: float
+    score_final: float
+    clasificacion_riesgo: str
+    pesos_aplicados: dict
+    fecha_calculo: datetime
+
+    class Config:
+        from_attributes = True
+
+class RiesgoProveedorListaResponse(BaseModel):
+    items: list[RiesgoProveedorResponse]
+    total: int
+    page: int
+    page_size: int
+    total_pages: int
+
+class RiesgoGlobalResumenResponse(BaseModel):
+    run_id: UUID
+    total_proveedores_evaluados: int
+    promedio_score_final: float
+    resumen_por_riesgo: list[RiesgoResumenResponse]
+    fecha_calculo: datetime

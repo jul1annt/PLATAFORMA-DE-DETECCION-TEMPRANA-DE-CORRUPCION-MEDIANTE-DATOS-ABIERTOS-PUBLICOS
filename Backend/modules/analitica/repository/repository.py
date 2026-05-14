@@ -8,6 +8,8 @@ from sqlalchemy.orm import Session
 from modules.analitica.model.contrato_outlier import ContratoOutlier
 from modules.analitica.model.contrato_duplicado_periodo import ContratoDuplicadoPeriodo
 from modules.analitica.model.proveedor_adjudicacion_directa import ProveedorAdjudicacionDirecta
+from modules.analitica.model.peso_anomalia import PesoAnomalia
+from modules.analitica.model.riesgo_proveedor import RiesgoProveedor
 
 
 
@@ -541,3 +543,180 @@ class AnaliticaRepository:
             "por_riesgo": [dict(row._mapping) for row in por_riesgo],
         }
 
+    # ==================================================================
+    # RIESGO COMBINADO Y PESOS
+    # ==================================================================
+
+    def inicializar_pesos(self) -> None:
+        """Inicializa los pesos por defecto si no existen."""
+        pesos_default = {
+            "OUTLIER": 1.0,
+            "DUPLICADO_CORTO": 1.5,
+            "ABUSO_DIRECTO": 2.0
+        }
+        for tipo, peso in pesos_default.items():
+            existe = self.db.query(PesoAnomalia).filter_by(tipo_anomalia=tipo).first()
+            if not existe:
+                nuevo = PesoAnomalia(tipo_anomalia=tipo, peso=peso)
+                self.db.add(nuevo)
+        self.db.commit()
+
+    def obtener_pesos(self) -> list[PesoAnomalia]:
+        self.inicializar_pesos()
+        return self.db.query(PesoAnomalia).all()
+
+    def actualizar_peso(self, tipo_anomalia: str, peso: float) -> Optional[PesoAnomalia]:
+        obj = self.db.query(PesoAnomalia).filter_by(tipo_anomalia=tipo_anomalia).first()
+        if obj:
+            obj.peso = peso
+            self.db.commit()
+            self.db.refresh(obj)
+            return obj
+        return None
+
+    def obtener_scores_combinados_por_proveedor(self) -> list[dict]:
+        """
+        Cruza los datos de las tres tablas de analítica usando el ÚLTIMO run_id de cada una,
+        para obtener el score máximo de cada anomalía por proveedor.
+        """
+        run_outlier = self.obtener_ultimo_run_id()
+        run_duplicado = self.obtener_ultimo_run_id_duplicados()
+        run_directa = self.obtener_ultimo_run_id_directas()
+
+        # Usar gen_random_uuid o 0 si no hay run_id para que el query no falle
+        ro = f"'{run_outlier}'" if run_outlier else 'NULL'
+        rd = f"'{run_duplicado}'" if run_duplicado else 'NULL'
+        ra = f"'{run_directa}'" if run_directa else 'NULL'
+
+        query = text(f"""
+            WITH outliers AS (
+                SELECT 
+                    cp.proveedor_normalizado AS proveedor,
+                    cp.nit_proveedor,
+                    MAX(co.score) AS max_score_outlier
+                FROM contrato_outlier co
+                JOIN contratos_procesados cp ON co.contrato_id = cp.id
+                WHERE co.run_id = {ro} AND cp.proveedor_normalizado IS NOT NULL
+                GROUP BY cp.proveedor_normalizado, cp.nit_proveedor
+            ),
+            duplicados AS (
+                SELECT 
+                    proveedor,
+                    NULL AS nit_proveedor, -- En duplicados a veces no tenemos el nit guardado, usamos proveedor
+                    MAX(duplicado_score) AS max_score_duplicado
+                FROM contrato_duplicado_periodo
+                WHERE run_id = {rd} AND proveedor IS NOT NULL
+                GROUP BY proveedor
+            ),
+            directas AS (
+                SELECT 
+                    proveedor,
+                    nit_proveedor,
+                    MAX(score_riesgo) AS score_directo
+                FROM proveedor_adjudicacion_directa
+                WHERE run_id = {ra} AND proveedor IS NOT NULL
+                GROUP BY proveedor, nit_proveedor
+            ),
+            proveedores AS (
+                SELECT proveedor, nit_proveedor FROM outliers
+                UNION
+                SELECT proveedor, nit_proveedor FROM duplicados WHERE nit_proveedor IS NOT NULL
+                UNION
+                SELECT proveedor, NULL FROM duplicados WHERE nit_proveedor IS NULL
+                UNION
+                SELECT proveedor, nit_proveedor FROM directas
+            )
+            SELECT 
+                p.proveedor,
+                MAX(p.nit_proveedor) AS nit_proveedor,
+                COALESCE(MAX(o.max_score_outlier), 0) AS max_score_outlier,
+                COALESCE(MAX(d.max_score_duplicado), 0) AS max_score_duplicado,
+                COALESCE(MAX(a.score_directo), 0) AS score_directo
+            FROM proveedores p
+            LEFT JOIN outliers o ON p.proveedor = o.proveedor
+            LEFT JOIN duplicados d ON p.proveedor = d.proveedor
+            LEFT JOIN directas a ON p.proveedor = a.proveedor
+            WHERE p.proveedor IS NOT NULL AND p.proveedor <> ''
+            GROUP BY p.proveedor
+        """)
+
+        resultado = self.db.execute(query)
+        return [dict(row._mapping) for row in resultado]
+
+    def guardar_riesgo_proveedores(self, registros: list[RiesgoProveedor]) -> None:
+        self.db.add_all(registros)
+        self.db.flush()
+
+    def obtener_ultimo_run_id_riesgo(self) -> Optional[UUID]:
+        resultado = self.db.execute(
+            text("""
+                SELECT run_id
+                FROM riesgo_proveedor
+                ORDER BY fecha_calculo DESC
+                LIMIT 1
+            """)
+        ).fetchone()
+        return resultado.run_id if resultado else None
+
+    def obtener_riesgos(
+        self,
+        run_id: UUID,
+        proveedor: Optional[str] = None,
+        riesgo: Optional[str] = None,
+        score_minimo: Optional[float] = None,
+        page: int = 1,
+        page_size: int = 50,
+    ) -> tuple[list[RiesgoProveedor], int]:
+        query = self.db.query(RiesgoProveedor).filter(
+            RiesgoProveedor.run_id == run_id
+        )
+
+        if proveedor:
+            query = query.filter(RiesgoProveedor.proveedor.ilike(f"%{proveedor}%"))
+        if riesgo:
+            query = query.filter(RiesgoProveedor.clasificacion_riesgo == riesgo)
+        if score_minimo is not None:
+            query = query.filter(RiesgoProveedor.score_final >= score_minimo)
+
+        total = query.count()
+        items = (
+            query
+            .order_by(RiesgoProveedor.score_final.desc())
+            .offset((page - 1) * page_size)
+            .limit(page_size)
+            .all()
+        )
+        return items, total
+
+    def obtener_resumen_riesgo(self, run_id: UUID) -> dict:
+        resumen = self.db.execute(
+            text("""
+                SELECT
+                    run_id,
+                    COUNT(*) AS total_proveedores_evaluados,
+                    AVG(score_final) AS promedio_score_final,
+                    MIN(fecha_calculo) AS fecha_calculo
+                FROM riesgo_proveedor
+                WHERE run_id = :run_id
+                GROUP BY run_id
+            """),
+            {"run_id": str(run_id)}
+        ).fetchone()
+
+        por_riesgo = self.db.execute(
+            text("""
+                SELECT
+                    clasificacion_riesgo AS riesgo,
+                    COUNT(*) AS total
+                FROM riesgo_proveedor
+                WHERE run_id = :run_id
+                GROUP BY clasificacion_riesgo
+                ORDER BY total DESC
+            """),
+            {"run_id": str(run_id)}
+        ).fetchall()
+
+        return {
+            "resumen": dict(resumen._mapping) if resumen else {},
+            "por_riesgo": [dict(row._mapping) for row in por_riesgo],
+        }

@@ -8,11 +8,13 @@ from modules.analitica.dto.request import (
     OutlierCalculoRequest, OutlierFiltroRequest,
     DuplicadoCalculoRequest, DuplicadoFiltroRequest,
     AdjudicacionDirectaCalculoRequest, AdjudicacionDirectaFiltroRequest,
+    RiesgoFiltroRequest, PesoActualizarRequest,
 )
 from modules.analitica.dto.response import (
     RunResumenResponse, OutlierListaResponse,
     DuplicadoResumenResponse, DuplicadoListaResponse,
     ProveedorDirectaResumenResponse, ProveedorDirectaListaResponse,
+    PesoAnomaliaResponse, RiesgoProveedorListaResponse, RiesgoGlobalResumenResponse,
 )
 from modules.analitica.services.AnaliticaService import AnaliticaService
 
@@ -309,4 +311,110 @@ def obtener_resumen_directas_por_run(run_id: UUID, db: Session = Depends(get_db)
         raise HTTPException(status_code=404, detail=str(e))
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error al obtener resumen de directas {run_id}: {str(e)}")
+
+
+# ====================================================================
+# ENDPOINTS: CONFIGURACIÓN DE PESOS
+# ====================================================================
+
+@router.get(
+    "/pesos",
+    response_model=list[PesoAnomaliaResponse],
+    summary="Obtener pesos de anomalías",
+    description="Devuelve la configuración actual de pesos para el cálculo de riesgo combinado.",
+)
+def obtener_pesos(db: Session = Depends(get_db)):
+    try:
+        service = AnaliticaService(db)
+        return service.obtener_pesos()
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error al obtener pesos: {str(e)}")
+
+@router.put(
+    "/pesos/{tipo_anomalia}",
+    response_model=PesoAnomaliaResponse,
+    summary="Actualizar el peso de una anomalía",
+    description="Actualiza el peso que se utilizará en futuros cálculos de riesgo combinado.",
+)
+def actualizar_peso(
+    tipo_anomalia: str,
+    body: PesoActualizarRequest,
+    db: Session = Depends(get_db),
+):
+    try:
+        service = AnaliticaService(db)
+        return service.actualizar_peso(tipo_anomalia, body)
+    except ValueError as e:
+        raise HTTPException(status_code=404, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error al actualizar peso: {str(e)}")
+
+
+# ====================================================================
+# ENDPOINTS: RIESGO COMBINADO POR PROVEEDOR
+# ====================================================================
+
+@router.post(
+    "/riesgo/calcular",
+    response_model=RiesgoGlobalResumenResponse,
+    summary="Ejecutar cálculo de riesgo global combinado",
+    description=(
+        "Cruza los scores más recientes de outliers, duplicados y adjudicación directa. "
+        "Aplica los pesos configurados y clasifica el riesgo del proveedor."
+    ),
+)
+def calcular_riesgo_global(db: Session = Depends(get_db)):
+    try:
+        service = AnaliticaService(db)
+        return service.calcular_riesgo_global()
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error al calcular riesgo global: {str(e)}")
+
+@router.get(
+    "/riesgo",
+    response_model=RiesgoProveedorListaResponse,
+    summary="Listar proveedores con riesgo combinado",
+    description="Retorna el listado de proveedores evaluados con sus scores combinados.",
+)
+def listar_riesgos(
+    run_id: str | None = Query(default=None, description="UUID de la ejecución. Default: última."),
+    proveedor: str | None = Query(default=None, description="Filtrar por nombre de proveedor."),
+    riesgo: str | None = Query(default=None, description="Filtrar por riesgo: ALTO, MEDIO, BAJO."),
+    score_minimo: float | None = Query(default=None, ge=0, description="Score final mínimo."),
+    page: int = Query(default=1, ge=1),
+    page_size: int = Query(default=50, ge=1, le=200),
+    db: Session = Depends(get_db),
+):
+    try:
+        filtros = RiesgoFiltroRequest(
+            run_id=run_id,
+            proveedor=proveedor,
+            riesgo=riesgo,
+            score_minimo=score_minimo,
+            page=page,
+            page_size=page_size,
+        )
+        service = AnaliticaService(db)
+        return service.listar_riesgos(filtros)
+    except ValueError as e:
+        raise HTTPException(status_code=404, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error al listar riesgos: {str(e)}")
+
+@router.get(
+    "/riesgo/resumen",
+    response_model=RiesgoGlobalResumenResponse,
+    summary="Resumen de la última ejecución de riesgo global",
+)
+def obtener_resumen_riesgo_ultimo(db: Session = Depends(get_db)):
+    try:
+        service = AnaliticaService(db)
+        ultimo_run_id = service.repo.obtener_ultimo_run_id_riesgo()
+        if not ultimo_run_id:
+            raise ValueError("No existe ninguna ejecución de riesgo registrada.")
+        return service.obtener_resumen_riesgo(ultimo_run_id)
+    except ValueError as e:
+        raise HTTPException(status_code=404, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error al obtener resumen de riesgo: {str(e)}")
 
