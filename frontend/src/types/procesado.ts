@@ -21,3 +21,30 @@ export interface Procesado {
   
   [key: string]: any;
 }
+
+export interface MetricasCalidad {
+  total_contratos: number;
+  completos: number;
+  incompletos: number;
+  sospechosos: number;
+  porcentaje_completos: number;
+  porcentaje_incompletos: number;
+  porcentaje_sospechosos: number;
+  promedio_confianza: number;
+}
+
+export interface CampoFaltante {
+  campo: string;
+  cantidad: number;
+  porcentaje: number;
+}
+
+export type QualityFilterType = 'ALL' | 'INCOMPLETOS' | 'SOSPECHOSOS' | 'MODIFICADOS';
+
+export interface QualitySummaryProps {
+  metricas: MetricasCalidad | null;
+  camposFaltantes: CampoFaltante[];
+  hayCambiosRecientes: boolean;
+  onFilterChange: (filter: QualityFilterType) => void;
+  activeFilter: QualityFilterType;
+}
