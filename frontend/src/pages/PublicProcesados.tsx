@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import type { Procesado, MetricasCalidad, CampoFaltante, QualityFilterType } from '../types/procesado';
 import { getProcesados, getMetricasCalidad, getCamposFaltantes } from '../services/procesadosService';
 import { AlertIcons } from '../components/AlertIcons';
@@ -13,9 +13,61 @@ export const PublicProcesados: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [activeFilter, setActiveFilter] = useState<QualityFilterType>('ALL');
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 100;
+  const itemsPerPage = 25;
   
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const [montoMin, setMontoMin] = useState(searchParams.get('montoMin') || '');
+  const [montoMax, setMontoMax] = useState(searchParams.get('montoMax') || '');
+  const [fechaDesde, setFechaDesde] = useState(searchParams.get('fechaDesde') || '');
+  const [fechaHasta, setFechaHasta] = useState(searchParams.get('fechaHasta') || '');
+  const [tiposAdjudicacion, setTiposAdjudicacion] = useState<string[]>(searchParams.get('tipo') ? searchParams.get('tipo')!.split(',') : []);
+  const [entidad, setEntidad] = useState(searchParams.get('entidad') || '');
+  const [proveedor, setProveedor] = useState(searchParams.get('proveedor') || '');
+  const [estado, setEstado] = useState(searchParams.get('estado') || '');
+  const [nivelConfianzaMin, setNivelConfianzaMin] = useState(searchParams.get('nivelConfianzaMin') || '');
+  const [nivelConfianzaMax, setNivelConfianzaMax] = useState(searchParams.get('nivelConfianzaMax') || '');
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+
+  const ADJUDICATION_TYPES = ['ABIERTA', 'DIRECTA', 'MÍNIMA CUANTÍA', 'RÉGIMEN ESPECIAL', 'CONCURSO DE MÉRITOS'];
+
+  const handleTipoChange = (tipo: string) => {
+    setTiposAdjudicacion(prev => 
+      prev.includes(tipo) ? prev.filter(t => t !== tipo) : [...prev, tipo]
+    );
+  };
+
+  const applyFilters = () => {
+    const newParams = new URLSearchParams(searchParams);
+    if (montoMin) newParams.set('montoMin', montoMin); else newParams.delete('montoMin');
+    if (montoMax) newParams.set('montoMax', montoMax); else newParams.delete('montoMax');
+    if (fechaDesde) newParams.set('fechaDesde', fechaDesde); else newParams.delete('fechaDesde');
+    if (fechaHasta) newParams.set('fechaHasta', fechaHasta); else newParams.delete('fechaHasta');
+    if (tiposAdjudicacion.length > 0) newParams.set('tipo', tiposAdjudicacion.join(',')); else newParams.delete('tipo');
+    if (entidad) newParams.set('entidad', entidad); else newParams.delete('entidad');
+    if (proveedor) newParams.set('proveedor', proveedor); else newParams.delete('proveedor');
+    if (estado) newParams.set('estado', estado); else newParams.delete('estado');
+    if (nivelConfianzaMin) newParams.set('nivelConfianzaMin', nivelConfianzaMin); else newParams.delete('nivelConfianzaMin');
+    if (nivelConfianzaMax) newParams.set('nivelConfianzaMax', nivelConfianzaMax); else newParams.delete('nivelConfianzaMax');
+    setSearchParams(newParams);
+    setCurrentPage(1);
+  };
+
+  const clearFilters = () => {
+    setMontoMin('');
+    setMontoMax('');
+    setFechaDesde('');
+    setFechaHasta('');
+    setTiposAdjudicacion([]);
+    setEntidad('');
+    setProveedor('');
+    setEstado('');
+    setNivelConfianzaMin('');
+    setNivelConfianzaMax('');
+    setSearchParams(new URLSearchParams());
+    setCurrentPage(1);
+  };
 
   // Reset page when filter changes
   useEffect(() => {
@@ -26,8 +78,31 @@ export const PublicProcesados: React.FC = () => {
     const fetchData = async () => {
       try {
         setLoading(true);
+        const params: Record<string, string> = {};
+        const pMontoMin = searchParams.get('montoMin');
+        const pMontoMax = searchParams.get('montoMax');
+        const pFechaDesde = searchParams.get('fechaDesde');
+        const pFechaHasta = searchParams.get('fechaHasta');
+        const pTipo = searchParams.get('tipo');
+        const pEntidad = searchParams.get('entidad');
+        const pProveedor = searchParams.get('proveedor');
+        const pEstado = searchParams.get('estado');
+        const pNivelConfianzaMin = searchParams.get('nivelConfianzaMin');
+        const pNivelConfianzaMax = searchParams.get('nivelConfianzaMax');
+
+        if (pMontoMin) params.valor_min = pMontoMin;
+        if (pMontoMax) params.valor_max = pMontoMax;
+        if (pFechaDesde) params.fecha_inicio = pFechaDesde;
+        if (pFechaHasta) params.fecha_fin = pFechaHasta;
+        if (pTipo) params.tipo_contrato = pTipo;
+        if (pEntidad) params.entidad = pEntidad;
+        if (pProveedor) params.proveedor = pProveedor;
+        if (pEstado) params.estado = pEstado;
+        if (pNivelConfianzaMin) params.nivel_confianza_min = pNivelConfianzaMin;
+        if (pNivelConfianzaMax) params.nivel_confianza_max = pNivelConfianzaMax;
+
         const [procesadosData, metricasData, camposData] = await Promise.all([
-          getProcesados(),
+          getProcesados(params),
           getMetricasCalidad(),
           getCamposFaltantes()
         ]);
@@ -41,7 +116,7 @@ export const PublicProcesados: React.FC = () => {
       }
     };
     fetchData();
-  }, []);
+  }, [searchParams]);
 
   const hayCambiosRecientes = useMemo(() => {
     return procesados.some(p => p.datos_modificados === true);
@@ -135,21 +210,195 @@ export const PublicProcesados: React.FC = () => {
               onFilterChange={setActiveFilter}
             />
 
-            {/* Filtro Dropdown */}
-            <div className="flex justify-end mb-8">
-              <div className="inline-flex items-center gap-3 bg-white border border-slate-200 px-5 py-2.5 rounded-2xl shadow-sm">
-                <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Filtro activo:</span>
-                <select 
-                  value={activeFilter}
-                  onChange={(e) => setActiveFilter(e.target.value as QualityFilterType)}
-                  className="text-sm font-black text-indigo-700 bg-transparent border-none focus:ring-0 cursor-pointer outline-none min-w-[160px]"
+            {/* Controles de Filtros */}
+            <div className="flex flex-col gap-4 mb-8">
+              <div className="flex justify-between items-center">
+                <button
+                  onClick={() => setIsFilterOpen(!isFilterOpen)}
+                  className="flex items-center gap-2 bg-white border border-slate-200 px-5 py-2.5 rounded-2xl shadow-sm hover:bg-slate-50 transition-colors text-sm font-black text-indigo-950"
                 >
-                  <option value="ALL">Mostrar Todos</option>
-                  <option value="INCOMPLETOS">Solo Incompletos ⚠️</option>
-                  <option value="SOSPECHOSOS">Solo Sospechosos 🚨</option>
-                  <option value="MODIFICADOS">Solo Modificados ⚡</option>
-                </select>
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+                  </svg>
+                  {isFilterOpen ? 'Ocultar Filtros Avanzados' : 'Mostrar Filtros Avanzados'}
+                </button>
+
+                <div className="inline-flex items-center gap-3 bg-white border border-slate-200 px-5 py-2.5 rounded-2xl shadow-sm">
+                  <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Filtro de calidad:</span>
+                  <select 
+                    value={activeFilter}
+                    onChange={(e) => setActiveFilter(e.target.value as QualityFilterType)}
+                    className="text-sm font-black text-indigo-700 bg-transparent border-none focus:ring-0 cursor-pointer outline-none min-w-[160px]"
+                  >
+                    <option value="ALL">Mostrar Todos</option>
+                    <option value="INCOMPLETOS">Solo Incompletos ⚠️</option>
+                    <option value="SOSPECHOSOS">Solo Sospechosos 🚨</option>
+                    <option value="MODIFICADOS">Solo Modificados ⚡</option>
+                  </select>
+                </div>
               </div>
+
+              {/* Panel de Filtros Avanzados */}
+              {isFilterOpen && (
+                <div className="bg-white p-6 rounded-[24px] border border-slate-200 shadow-xl shadow-indigo-100/50 animate-in fade-in slide-in-from-top-4 duration-300">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {/* Monto */}
+                    <div>
+                      <h4 className="text-xs font-black text-slate-400 uppercase tracking-widest mb-4">Rango de Monto</h4>
+                      <div className="flex gap-3">
+                        <div className="flex-1">
+                          <label className="text-[10px] font-bold text-slate-400 block mb-1">Mínimo</label>
+                          <input 
+                            type="number" 
+                            min="0"
+                            placeholder="Ej. 1000000"
+                            value={montoMin}
+                            onChange={(e) => setMontoMin(e.target.value)}
+                            className="w-full text-sm font-bold text-slate-700 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
+                          />
+                        </div>
+                        <div className="flex-1">
+                          <label className="text-[10px] font-bold text-slate-400 block mb-1">Máximo</label>
+                          <input 
+                            type="number" 
+                            min="0"
+                            placeholder="Ej. 50000000"
+                            value={montoMax}
+                            onChange={(e) => setMontoMax(e.target.value)}
+                            className="w-full text-sm font-bold text-slate-700 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Fecha */}
+                    <div>
+                      <h4 className="text-xs font-black text-slate-400 uppercase tracking-widest mb-4">Período</h4>
+                      <div className="flex gap-3">
+                        <div className="flex-1">
+                          <label className="text-[10px] font-bold text-slate-400 block mb-1">Desde</label>
+                          <input 
+                            type="date" 
+                            value={fechaDesde}
+                            onChange={(e) => setFechaDesde(e.target.value)}
+                            className="w-full text-sm font-bold text-slate-700 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
+                          />
+                        </div>
+                        <div className="flex-1">
+                          <label className="text-[10px] font-bold text-slate-400 block mb-1">Hasta</label>
+                          <input 
+                            type="date" 
+                            value={fechaHasta}
+                            onChange={(e) => setFechaHasta(e.target.value)}
+                            className="w-full text-sm font-bold text-slate-700 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Modalidad / Tipo Adjudicación */}
+                    <div>
+                      <h4 className="text-xs font-black text-slate-400 uppercase tracking-widest mb-4">Tipo de Adjudicación</h4>
+                      <div className="flex flex-wrap gap-2">
+                        {ADJUDICATION_TYPES.map(tipo => (
+                          <label key={tipo} className="flex items-center gap-2 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-slate-100 transition-colors">
+                            <input 
+                              type="checkbox" 
+                              className="w-4 h-4 text-indigo-600 rounded focus:ring-indigo-500"
+                              checked={tiposAdjudicacion.includes(tipo)}
+                              onChange={() => handleTipoChange(tipo)}
+                            />
+                            <span className="text-[11px] font-bold text-slate-600 uppercase">{tipo}</span>
+                          </label>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Actores (Entidad y Proveedor) */}
+                    <div>
+                      <h4 className="text-xs font-black text-slate-400 uppercase tracking-widest mb-4">Actores</h4>
+                      <div className="flex flex-col gap-3">
+                        <div>
+                          <label className="text-[10px] font-bold text-slate-400 block mb-1">Entidad</label>
+                          <input 
+                            type="text" 
+                            placeholder="Nombre de la entidad"
+                            value={entidad}
+                            onChange={(e) => setEntidad(e.target.value)}
+                            className="w-full text-sm font-bold text-slate-700 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
+                          />
+                        </div>
+                        <div>
+                          <label className="text-[10px] font-bold text-slate-400 block mb-1">Proveedor</label>
+                          <input 
+                            type="text" 
+                            placeholder="Nombre o NIT"
+                            value={proveedor}
+                            onChange={(e) => setProveedor(e.target.value)}
+                            className="w-full text-sm font-bold text-slate-700 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Estado y Confianza */}
+                    <div className="md:col-span-2 lg:col-span-2">
+                      <h4 className="text-xs font-black text-slate-400 uppercase tracking-widest mb-4">Calidad y Estado</h4>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          <label className="text-[10px] font-bold text-slate-400 block mb-1">Estado del Procedimiento</label>
+                          <input 
+                            type="text" 
+                            placeholder="Ej. Celebrado, Liquidado..."
+                            value={estado}
+                            onChange={(e) => setEstado(e.target.value)}
+                            className="w-full text-sm font-bold text-slate-700 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
+                          />
+                        </div>
+                        <div className="flex gap-3">
+                          <div className="flex-1">
+                            <label className="text-[10px] font-bold text-slate-400 block mb-1">Confianza Mínima (%)</label>
+                            <input 
+                              type="number" 
+                              min="0" max="100"
+                              placeholder="0"
+                              value={nivelConfianzaMin}
+                              onChange={(e) => setNivelConfianzaMin(e.target.value)}
+                              className="w-full text-sm font-bold text-slate-700 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
+                            />
+                          </div>
+                          <div className="flex-1">
+                            <label className="text-[10px] font-bold text-slate-400 block mb-1">Confianza Máxima (%)</label>
+                            <input 
+                              type="number" 
+                              min="0" max="100"
+                              placeholder="100"
+                              value={nivelConfianzaMax}
+                              onChange={(e) => setNivelConfianzaMax(e.target.value)}
+                              className="w-full text-sm font-bold text-slate-700 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="mt-8 flex justify-end gap-3 border-t border-slate-100 pt-6">
+                    <button 
+                      onClick={clearFilters}
+                      className="px-6 py-2 bg-white text-slate-500 text-xs font-black uppercase tracking-widest rounded-xl hover:bg-slate-50 border border-slate-200 transition-all"
+                    >
+                      Limpiar Filtros
+                    </button>
+                    <button 
+                      onClick={applyFilters}
+                      className="px-6 py-2 bg-indigo-600 text-white text-xs font-black uppercase tracking-widest rounded-xl hover:bg-indigo-700 shadow-lg shadow-indigo-200 transition-all"
+                    >
+                      Aplicar Filtros
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Listado de Contratos */}

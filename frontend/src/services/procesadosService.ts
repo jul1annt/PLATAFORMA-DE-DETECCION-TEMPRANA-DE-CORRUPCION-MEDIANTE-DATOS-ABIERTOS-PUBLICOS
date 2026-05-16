@@ -2,14 +2,24 @@ import type { Procesado, MetricasCalidad, CampoFaltante } from '../types/procesa
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
-export const getProcesados = async (): Promise<Procesado[]> => {
-  const response = await fetch(`${API_URL}/api/procesados/search?size=1000`);
+export const getProcesados = async (params?: Record<string, string | number>): Promise<Procesado[]> => {
+  const url = new URL(`${API_URL}/api/procesados/search`);
+  url.searchParams.append('size', '1000');
+  
+  if (params) {
+    Object.entries(params).forEach(([key, value]) => {
+      if (value !== undefined && value !== '') {
+        url.searchParams.append(key, value.toString());
+      }
+    });
+  }
+
+  const response = await fetch(url.toString());
   if (!response.ok) {
     throw new Error('Error al obtener procesados');
   }
   const data = await response.json();
   return data.items || [];
-
 };
 
 export const getMetricasCalidad = async (): Promise<MetricasCalidad> => {
