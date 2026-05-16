@@ -54,3 +54,33 @@ export const getAnomaliasByRawSecopId = async (rawSecopId: number): Promise<any[
   const data = await response.json();
   return data.items || [];
 };
+
+export interface Suggestion {
+  text: string;
+  type: 'ENTIDAD' | 'PROVEEDOR';
+}
+
+export const getAutocompleteSuggestions = (query: string, data: Procesado[]): Suggestion[] => {
+  if (!query || query.length < 2) return [];
+  const normalizedQuery = query.toLowerCase();
+  const suggestionsMap = new Map<string, Suggestion>();
+
+  data.forEach((p) => {
+    if (!p) return;
+    const entidad = String(p.entidad_normalizada || p.entidad || '');
+    const proveedor = String(p.proveedor_normalizado || p.proveedor || '');
+
+    if (entidad && entidad.toLowerCase().includes(normalizedQuery)) {
+      if (!suggestionsMap.has(entidad)) {
+        suggestionsMap.set(entidad, { text: entidad, type: 'ENTIDAD' });
+      }
+    }
+    if (proveedor && proveedor.toLowerCase().includes(normalizedQuery)) {
+      if (!suggestionsMap.has(proveedor)) {
+        suggestionsMap.set(proveedor, { text: proveedor, type: 'PROVEEDOR' });
+      }
+    }
+  });
+
+  return Array.from(suggestionsMap.values()).slice(0, 8);
+};
