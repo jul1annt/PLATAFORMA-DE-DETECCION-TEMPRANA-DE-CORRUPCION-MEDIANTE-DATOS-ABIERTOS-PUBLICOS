@@ -20,6 +20,7 @@ from modules.analitica.model.contrato_duplicado_periodo import ContratoDuplicado
 from modules.analitica.model.proveedor_adjudicacion_directa import ProveedorAdjudicacionDirecta
 from modules.analitica.model.peso_anomalia import PesoAnomalia
 from modules.analitica.model.riesgo_proveedor import RiesgoProveedor
+from modules.auth.model.Admin import Admin
 
 
 # Alembic Config object

@@ -1,9 +1,9 @@
-revisa el .env.example
+revisar el .env.example
 
-python -m venv venv
-venv\Scripts\activate
+source venv/bin/activate        # Linux/Mac
+# venv\Scripts\activate         # Windows
 
-pip install fastapi uvicorn sqlalchemy psycopg2-binary alembic pydantic pydantic-settings python-dotenv apscheduler requests cryptography
+pip install -r requirements.txt
 
 python -c "from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())"
 
@@ -12,3 +12,5 @@ python -c "from cryptography.fernet import Fernet; print(Fernet.generate_key().d
 3. alembic upgrade head
 
 uvicorn main:app --reload --port 8000
+
+con eso el proyecto puede funcionar
