@@ -4,8 +4,13 @@ import { Dashboard } from '../pages/Dashboard';
 import { FuentesList } from '../pages/FuentesList';
 import { FuenteForm } from '../pages/FuenteForm';
 import { DataQualityDashboard } from '../pages/DataQualityDashboard';
+import { PublicProcesados } from '../pages/PublicProcesados';
 
 export const router = createBrowserRouter([
+  {
+    path: '/public/procesados',
+    element: <PublicProcesados />,
+  },
   {
     path: '/',
     element: <MainLayout />,
