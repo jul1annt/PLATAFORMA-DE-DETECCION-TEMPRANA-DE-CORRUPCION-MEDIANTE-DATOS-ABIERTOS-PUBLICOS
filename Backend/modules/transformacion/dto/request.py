@@ -8,7 +8,7 @@ class ContratoProcesadoFilterDTO(BaseModel):
     """Filtros disponibles para búsqueda en contratos_procesados"""
     entidad: Optional[str] = Field(None, description="Nombre o parte del nombre de la entidad pública")
     proveedor: Optional[str] = Field(None, description="Nombre o NIT del proveedor")
-    tipo_contrato: Optional[str] = Field(None, description="Tipo de contrato (ej: Prestación de servicios)")
+    modalidad: Optional[str] = Field(None, description="Modalidad de contratación")
     estado: Optional[str] = Field(None, description="Estado del procedimiento")
     fecha_inicio: Optional[date] = Field(None, description="Fecha mínima de publicación (YYYY-MM-DD)")
     fecha_fin: Optional[date] = Field(None, description="Fecha máxima de publicación (YYYY-MM-DD)")

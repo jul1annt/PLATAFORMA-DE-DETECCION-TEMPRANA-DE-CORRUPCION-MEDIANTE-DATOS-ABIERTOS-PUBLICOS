@@ -36,7 +36,9 @@ class TransformacionRepository:
         self,
         filters: ContratoProcesadoFilterDTO,
         skip: int = 0,
-        limit: int = 50
+        limit: int = 50,
+        sort: Optional[str] = None,
+        order: str = "desc"
     ) -> Tuple[List[ContratoProcesado], int]:
         q = self.session.query(ContratoProcesado)
 
@@ -44,8 +46,8 @@ class TransformacionRepository:
             q = q.filter(ContratoProcesado.entidad_normalizada.ilike(f"%{filters.entidad}%"))
         if filters.proveedor:
             q = q.filter(ContratoProcesado.proveedor_normalizado.ilike(f"%{filters.proveedor}%"))
-        if filters.tipo_contrato:
-            q = q.filter(ContratoProcesado.tipo_contrato_normalizado.ilike(f"%{filters.tipo_contrato}%"))
+        if filters.modalidad:
+            q = q.filter(ContratoProcesado.modalidad_contratacion.ilike(f"%{filters.modalidad}%"))
         if filters.estado:
             q = q.filter(ContratoProcesado.estado_normalizado.ilike(f"%{filters.estado}%"))
         if filters.fecha_inicio:
@@ -66,7 +68,28 @@ class TransformacionRepository:
             q = q.filter(ContratoProcesado.nivel_confianza <= filters.nivel_confianza_max)
 
         total = q.count()
-        items = q.order_by(ContratoProcesado.fecha_publicacion_normalizada.desc()).offset(skip).limit(limit).all()
+        
+        sort_field = ContratoProcesado.fecha_publicacion_normalizada
+        if sort:
+            if sort == "valor":
+                sort_field = ContratoProcesado.valor_total_normalizado
+            elif sort == "fecha":
+                sort_field = ContratoProcesado.fecha_publicacion_normalizada
+            elif sort == "id":
+                sort_field = ContratoProcesado.id
+            elif sort == "entidad":
+                sort_field = ContratoProcesado.entidad_normalizada
+            elif sort == "proveedor":
+                sort_field = ContratoProcesado.proveedor_normalizado
+            elif sort == "riesgo":
+                sort_field = ContratoProcesado.nivel_confianza
+
+        if order == "asc":
+            q = q.order_by(sort_field.asc())
+        else:
+            q = q.order_by(sort_field.desc())
+
+        items = q.offset(skip).limit(limit).all()
         return items, total
 
     # ─── ContratoAnomaloIncompleto ─────────────────────────────────────

@@ -90,7 +90,7 @@ def list_procesados(
 def search_procesados(
     entidad: Optional[str] = Query(None, description="Nombre o parte de la entidad"),
     proveedor: Optional[str] = Query(None, description="Nombre o parte del proveedor"),
-    tipo_contrato: Optional[str] = Query(None, description="Tipo de contrato"),
+    modalidad: Optional[str] = Query(None, description="Modalidad de contratación"),
     estado: Optional[str] = Query(None, description="Estado del procedimiento"),
     fecha_inicio: Optional[date] = Query(None, description="Fecha mínima de publicación (YYYY-MM-DD)"),
     fecha_fin: Optional[date] = Query(None, description="Fecha máxima de publicación (YYYY-MM-DD)"),
@@ -100,8 +100,10 @@ def search_procesados(
     solo_sospechosos: Optional[bool] = Query(False, description="Filtrar solo contratos sospechosos"),
     nivel_confianza_min: Optional[int] = Query(None, ge=0, le=100, description="Nivel de confianza mínimo"),
     nivel_confianza_max: Optional[int] = Query(None, ge=0, le=100, description="Nivel de confianza máximo"),
-    page: int = Query(1, ge=1),
-    size: int = Query(50, ge=1, le=1000),
+    limit: int = Query(50, ge=1, le=1000),
+    offset: int = Query(0, ge=0),
+    sort: Optional[str] = Query(None, description="Campo por el cual ordenar"),
+    order: Optional[str] = Query("desc", description="asc o desc"),
     db: Session = Depends(get_db),
 ):
     if nivel_confianza_min is not None and nivel_confianza_max is not None:
@@ -111,7 +113,7 @@ def search_procesados(
     repo = TransformacionRepository(db)
     filters = ContratoProcesadoFilterDTO(
         entidad=entidad, proveedor=proveedor,
-        tipo_contrato=tipo_contrato, estado=estado,
+        modalidad=modalidad, estado=estado,
         fecha_inicio=fecha_inicio, fecha_fin=fecha_fin,
         valor_min=valor_min, valor_max=valor_max,
         solo_incompletos=solo_incompletos,
@@ -119,9 +121,9 @@ def search_procesados(
         nivel_confianza_min=nivel_confianza_min,
         nivel_confianza_max=nivel_confianza_max,
     )
-    skip = (page - 1) * size
-    items, total = repo.search_contratos(filters=filters, skip=skip, limit=size)
-    return PaginatedContratosDTO(total=total, page=page, size=size, items=items)
+    items, total = repo.search_contratos(filters=filters, skip=offset, limit=limit, sort=sort, order=order)
+    page = (offset // limit) + 1
+    return PaginatedContratosDTO(total=total, page=page, size=limit, items=items)
 
 # ──────────────────────────────────────────────────────────────────────
 # GET /api/procesados/sospechosos
