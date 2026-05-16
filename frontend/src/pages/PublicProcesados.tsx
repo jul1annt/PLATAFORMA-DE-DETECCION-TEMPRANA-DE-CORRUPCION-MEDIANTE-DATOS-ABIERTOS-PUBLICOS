@@ -5,6 +5,7 @@ import { getProcesados, getMetricasCalidad, getCamposFaltantes } from '../servic
 import { AlertIcons } from '../components/AlertIcons';
 import { QualitySummaryBanner } from '../components/QualitySummaryBanner';
 import { SearchAutocomplete } from '../components/SearchAutocomplete';
+import { PublicNavbar } from '../components/layout/PublicNavbar';
 
 export const PublicProcesados: React.FC = () => {
   const [procesados, setProcesados] = useState<Procesado[]>([]);
@@ -15,6 +16,19 @@ export const PublicProcesados: React.FC = () => {
 
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
+
+  // Bridge: if ?filter= came from dashboard KPI cards, translate to ?calidad=
+  useEffect(() => {
+    const filterParam = searchParams.get('filter');
+    if (filterParam) {
+      const newParams = new URLSearchParams(searchParams);
+      newParams.delete('filter');
+      newParams.set('calidad', filterParam);
+      setSearchParams(newParams, { replace: true });
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
 
   const activeFilter = (searchParams.get('calidad') as QualityFilterType) || 'ALL';
   const setActiveFilter = (filter: QualityFilterType) => {
@@ -137,6 +151,8 @@ export const PublicProcesados: React.FC = () => {
         
         if (activeFilter === 'INCOMPLETOS') params.solo_incompletos = 'true';
         if (activeFilter === 'SOSPECHOSOS') params.solo_sospechosos = 'true';
+        if (activeFilter === 'ALTO_RIESGO') params.solo_alto_riesgo = 'true';
+
 
         const [procesadosData, metricasData, camposData] = await Promise.all([
           getProcesados(params),
@@ -225,31 +241,9 @@ export const PublicProcesados: React.FC = () => {
         <div className="absolute top-[20%] right-[10%] w-[30%] h-[30%] rounded-full bg-blue-200 blur-[100px]"></div>
       </div>
 
-      {/* Header Estilo Screenshot */}
-      <header className="bg-white/80 backdrop-blur-md border-b border-slate-100 sticky top-0 z-40">
-        <div className="max-w-[1400px] mx-auto px-8 h-20 flex justify-between items-center">
-          <div className="flex items-center gap-3">
-            <div className="w-11 h-11 bg-indigo-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-indigo-200">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-              </svg>
-            </div>
-            <span className="text-xl font-black text-indigo-950 tracking-tight">
-              Plataforma Anticorrupcion
-            </span>
-          </div>
-          <button
-            id="procesados-admin-login-btn"
-            onClick={() => navigate('/admin/login')}
-            className="flex items-center gap-2 px-6 py-2.5 bg-[#05051e] text-white text-xs font-black uppercase tracking-widest rounded-full hover:bg-black transition-all shadow-xl shadow-indigo-100"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-            </svg>
-            Panel Administrativo
-          </button>
-        </div>
-      </header>
+      {/* ── Shared Public Navbar ─────────────────────────────────────────────── */}
+      <PublicNavbar />
+
 
       <main className="max-w-[1400px] mx-auto px-8 py-12 relative z-10">
         {/* Título Principal */}

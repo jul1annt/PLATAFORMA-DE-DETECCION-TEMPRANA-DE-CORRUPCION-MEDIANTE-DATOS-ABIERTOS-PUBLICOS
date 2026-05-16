@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getProcesadoById, getAnomaliasByRawSecopId } from '../services/procesadosService';
 import type { Procesado, AnomaliaContrato } from '../types/procesado';
+import { PublicNavbar } from '../components/layout/PublicNavbar';
+
 
 export const PublicContratoDetalle: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -80,9 +82,12 @@ export const PublicContratoDetalle: React.FC = () => {
         <div className="absolute top-[20%] right-[10%] w-[30%] h-[30%] rounded-full bg-blue-200 blur-[100px]"></div>
       </div>
 
-      {/* Header Minimalista */}
-      <header className="bg-white/80 backdrop-blur-md border-b border-slate-100 sticky top-0 z-40">
-        <div className="max-w-[1000px] mx-auto px-8 h-20 flex items-center justify-between">
+      {/* ── Shared Public Navbar ───────────────────────────────────────────── */}
+      <PublicNavbar />
+
+      <main className="max-w-[1000px] mx-auto px-8 py-6 relative z-10">
+        {/* Back button */}
+        <div className="mb-8">
           <button
             onClick={() => navigate('/public/procesados')}
             className="flex items-center gap-2 px-5 py-2.5 bg-white border border-slate-200 text-slate-600 text-xs font-bold uppercase tracking-widest rounded-full hover:bg-slate-50 transition-all shadow-sm"
@@ -92,18 +97,8 @@ export const PublicContratoDetalle: React.FC = () => {
             </svg>
             Volver al listado
           </button>
-          <div className="flex items-center gap-2">
-            <span className="text-sm font-black text-indigo-900 uppercase tracking-widest opacity-50">Auditoría de Contrato</span>
-            <div className="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center text-indigo-600">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-              </svg>
-            </div>
-          </div>
         </div>
-      </header>
 
-      <main className="max-w-[1000px] mx-auto px-8 py-10 relative z-10">
         
         {/* Banner Alertas Superiores */}
         {hasAlerts && (

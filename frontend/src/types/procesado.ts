@@ -39,7 +39,7 @@ export interface CampoFaltante {
   porcentaje: number;
 }
 
-export type QualityFilterType = 'ALL' | 'INCOMPLETOS' | 'SOSPECHOSOS' | 'MODIFICADOS';
+export type QualityFilterType = 'ALL' | 'INCOMPLETOS' | 'SOSPECHOSOS' | 'MODIFICADOS' | 'ALTO_RIESGO';
 
 export interface QualitySummaryProps {
   metricas: MetricasCalidad | null;
@@ -48,6 +48,7 @@ export interface QualitySummaryProps {
   onFilterChange: (filter: QualityFilterType) => void;
   activeFilter: QualityFilterType;
 }
+
 
 export interface AnomaliaContrato {
   id: number;
@@ -60,4 +61,34 @@ export interface AnomaliaContrato {
   nivel_confianza: number;
   clasificacion_riesgo?: string;
   created_at?: string;
+}
+
+// ── Dashboard types ────────────────────────────────────────────────────────────
+
+export interface DashboardMetrics {
+  total_contratos: number;
+  pct_incompletos: number;
+  pct_sospechosos: number;
+  pct_alto_riesgo: number;
+  total_incompletos: number;
+  total_sospechosos: number;
+  total_alto_riesgo: number;
+  promedio_confianza: number;
+}
+
+export interface RiskDistribution {
+  name: string;
+  value: number;
+  color: string;
+}
+
+export interface TopProvider {
+  name: string;
+  contracts: number;
+}
+
+export interface AnomalyDistribution {
+  name: string;
+  value: number;
+  color: string;
 }

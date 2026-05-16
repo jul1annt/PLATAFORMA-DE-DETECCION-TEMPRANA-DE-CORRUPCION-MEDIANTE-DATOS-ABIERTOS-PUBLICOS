@@ -8,6 +8,7 @@ import { FuenteForm } from '../pages/FuenteForm';
 import { DataQualityDashboard } from '../pages/DataQualityDashboard';
 import { PublicProcesados } from '../pages/PublicProcesados';
 import { PublicContratoDetalle } from '../pages/PublicContratoDetalle';
+import { PublicDashboard } from '../pages/PublicDashboard';
 import ProtectedRoute from './ProtectedRoute';
 import AdminLogin from '../pages/admin/AdminLogin';
 import AdminDashboard from '../pages/admin/AdminDashboard';
@@ -18,6 +19,12 @@ export const router = createBrowserRouter([
   {
     path: '/',
     element: <HomePage />,
+  },
+
+  // ── Public: dashboard ──────────────────────────────────────────────────────
+  {
+    path: '/public/dashboard',
+    element: <PublicDashboard />,
   },
 
   // ── Public: procesados ────────────────────────────────────────────────────
