@@ -91,7 +91,8 @@ export const PublicProcesados: React.FC = () => {
             </span>
           </div>
           <button
-            onClick={() => navigate('/')}
+            id="procesados-admin-login-btn"
+            onClick={() => navigate('/admin/login')}
             className="flex items-center gap-2 px-6 py-2.5 bg-[#05051e] text-white text-xs font-black uppercase tracking-widest rounded-full hover:bg-black transition-all shadow-xl shadow-indigo-100"
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">

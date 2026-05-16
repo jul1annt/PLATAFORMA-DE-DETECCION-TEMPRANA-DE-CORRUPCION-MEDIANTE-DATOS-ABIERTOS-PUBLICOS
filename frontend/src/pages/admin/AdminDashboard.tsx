@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Database,
   CheckCircle,
@@ -7,27 +8,36 @@ import {
   RefreshCw,
   ShieldCheck,
   User,
+  ShieldAlert,
+  FileWarning,
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/Card';
 import { useAuth } from '../../context/AuthContext';
 import { fuentesService } from '../../services/fuentesService';
+import { calidadService } from '../../services/calidadService';
+import { ComparativaSincronizaciones } from '../../components/calidad/ComparativaSincronizaciones';
 import type { FuenteDatosResponseDTO, SincronizacionHistorialResponseDTO } from '../../types/fuente';
+import type { MetricasCalidadDTO } from '../../types/calidad';
 
 const AdminDashboard: React.FC = () => {
   const { admin } = useAuth();
+  const navigate = useNavigate();
   const [fuentes, setFuentes] = useState<FuenteDatosResponseDTO[]>([]);
   const [recentSyncs, setRecentSyncs] = useState<SincronizacionHistorialResponseDTO[]>([]);
+  const [metricas, setMetricas] = useState<MetricasCalidadDTO | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [f, s] = await Promise.all([
+        const [f, s, m] = await Promise.all([
           fuentesService.getAll(),
           fuentesService.getSincronizacionesGlobales(),
+          calidadService.getMetricasCalidad(),
         ]);
         setFuentes(f);
         setRecentSyncs(s.slice(0, 5));
+        setMetricas(m);
       } catch (err) {
         console.error('Error cargando dashboard:', err);
       } finally {
@@ -38,26 +48,13 @@ const AdminDashboard: React.FC = () => {
   }, []);
 
   const total = fuentes.length;
-  const activas = fuentes.filter((f) => f.activo).length;
-  const inactivas = total - activas;
-  const syncTimes = fuentes
-    .filter((f) => f.ultima_sync)
-    .map((f) => new Date(f.ultima_sync as string).getTime());
-  const ultimaSync =
-    syncTimes.length > 0 ? new Date(Math.max(...syncTimes)).toLocaleString('es-CO') : 'N/A';
-
+  
   const statCards = [
     { label: 'Total de Fuentes', value: total, icon: Database, color: 'text-blue-400' },
-    { label: 'Fuentes Activas', value: activas, icon: CheckCircle, color: 'text-emerald-400' },
-    { label: 'Fuentes Inactivas', value: inactivas, icon: XCircle, color: 'text-red-400' },
-    { label: 'Última Sync', value: ultimaSync, icon: Clock, color: 'text-amber-400', small: true },
+    { label: 'Contratos Procesados', value: metricas?.total_contratos ?? 0, icon: ShieldAlert, color: 'text-indigo-400' },
+    { label: 'Calidad de Datos', value: `${(metricas?.porcentaje_completos ?? 0).toFixed(1)}%`, icon: CheckCircle, color: 'text-emerald-400' },
+    { label: 'Registros Sospechosos', value: metricas?.sospechosos ?? 0, icon: FileWarning, color: 'text-red-400' },
   ];
-
-  const statusBadge: Record<string, string> = {
-    EXITOSO: 'bg-emerald-100 text-emerald-700',
-    EN_PROCESO: 'bg-amber-100 text-amber-700',
-    ERROR: 'bg-red-100 text-red-700',
-  };
 
   return (
     <div className="space-y-8 animate-in fade-in duration-500">
@@ -95,7 +92,7 @@ const AdminDashboard: React.FC = () => {
                 {loading ? (
                   <div className="h-8 bg-slate-100 animate-pulse rounded w-16" />
                 ) : (
-                  <div className={`font-bold text-slate-900 ${card.small ? 'text-base' : 'text-3xl'}`}>
+                  <div className="font-bold text-slate-900 text-3xl">
                     {card.value}
                   </div>
                 )}
@@ -105,63 +102,74 @@ const AdminDashboard: React.FC = () => {
         })}
       </div>
 
-      {/* Recent syncs table */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-base">
-            <RefreshCw size={16} className="text-slate-500" />
-            Últimas sincronizaciones
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
+      {/* Recent syncs and Quality Summary */}
+      <div className="grid gap-6 lg:grid-cols-3">
+        {/* Sync Comparison (Rich Table) */}
+        <div className="lg:col-span-2">
           {loading ? (
-            <div className="space-y-3">
-              {[...Array(3)].map((_, i) => (
-                <div key={i} className="h-10 bg-slate-100 animate-pulse rounded" />
-              ))}
-            </div>
-          ) : recentSyncs.length === 0 ? (
-            <p className="text-sm text-slate-400 text-center py-6">
-              No hay sincronizaciones registradas.
-            </p>
+            <Card className="h-64 flex items-center justify-center">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-500" />
+            </Card>
           ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="text-left text-xs text-slate-500 border-b border-slate-100">
-                    <th className="pb-2 pr-4 font-medium">Fuente</th>
-                    <th className="pb-2 pr-4 font-medium">Inicio</th>
-                    <th className="pb-2 pr-4 font-medium">Registros</th>
-                    <th className="pb-2 font-medium">Estado</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-50">
-                  {recentSyncs.map((s) => (
-                    <tr key={s.id} className="hover:bg-slate-50 transition-colors">
-                      <td className="py-2.5 pr-4 font-medium text-slate-700">
-                        {s.fuente_nombre ?? `Fuente #${s.fuente_id}`}
-                      </td>
-                      <td className="py-2.5 pr-4 text-slate-500">
-                        {new Date(s.fecha_inicio).toLocaleString('es-CO')}
-                      </td>
-                      <td className="py-2.5 pr-4 text-slate-600">{s.registros_traidos}</td>
-                      <td className="py-2.5">
-                        <span
-                          className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
-                            statusBadge[s.estado] ?? 'bg-slate-100 text-slate-600'
-                          }`}
-                        >
-                          {s.estado}
-                        </span>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+            <ComparativaSincronizaciones fuentes={fuentes} sincronizaciones={recentSyncs} />
           )}
-        </CardContent>
-      </Card>
+        </div>
+
+        {/* Quality Summary Mini-Card */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-base">
+              <ShieldAlert size={16} className="text-indigo-500" />
+              Resumen de Calidad
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            {loading ? (
+              <div className="space-y-4">
+                <div className="h-4 bg-slate-100 animate-pulse rounded w-full" />
+                <div className="h-4 bg-slate-100 animate-pulse rounded w-3/4" />
+                <div className="h-10 bg-slate-100 animate-pulse rounded w-full" />
+              </div>
+            ) : (
+              <>
+                <div className="space-y-2">
+                  <div className="flex justify-between text-sm font-medium">
+                    <span className="text-slate-500">Integridad de datos</span>
+                    <span className="text-indigo-600">{(metricas?.porcentaje_completos ?? 0).toFixed(1)}%</span>
+                  </div>
+                  <div className="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
+                    <div 
+                      className="h-full bg-indigo-500 rounded-full" 
+                      style={{ width: `${metricas?.porcentaje_completos ?? 0}%` }}
+                    />
+                  </div>
+                  <p className="text-[10px] text-slate-400">
+                    Basado en {metricas?.total_contratos ?? 0} registros procesados.
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="p-3 bg-slate-50 rounded-lg border border-slate-100">
+                    <p className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Incompletos</p>
+                    <p className="text-lg font-bold text-slate-700">{metricas?.incompletos ?? 0}</p>
+                  </div>
+                  <div className="p-3 bg-slate-50 rounded-lg border border-slate-100">
+                    <p className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Sospechosos</p>
+                    <p className="text-lg font-bold text-red-500">{metricas?.sospechosos ?? 0}</p>
+                  </div>
+                </div>
+
+                <button 
+                  onClick={() => navigate('/admin/calidad')}
+                  className="w-full py-2.5 bg-indigo-50 text-indigo-600 text-xs font-black uppercase tracking-widest rounded-xl hover:bg-indigo-100 transition-all border border-indigo-100"
+                >
+                  Ver Informe Detallado
+                </button>
+              </>
+            )}
+          </CardContent>
+        </Card>
+      </div>
 
       {/* Admin info card */}
       <Card>

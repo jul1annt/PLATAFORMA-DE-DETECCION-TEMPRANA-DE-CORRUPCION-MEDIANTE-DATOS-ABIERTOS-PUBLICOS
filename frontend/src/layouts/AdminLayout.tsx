@@ -6,6 +6,7 @@ import {
   LogOut,
   RefreshCw,
   ShieldCheck,
+  ShieldAlert,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { cn } from '../utils/utils';
@@ -13,6 +14,7 @@ import { cn } from '../utils/utils';
 const navItems = [
   { name: 'Dashboard', path: '/admin', icon: LayoutDashboard, end: true },
   { name: 'Fuentes de Datos', path: '/admin/fuentes', icon: Database, end: false },
+  { name: 'Calidad de Datos', path: '/admin/calidad', icon: ShieldAlert, end: false },
   { name: 'Logs de Sync', path: '/admin/sync-logs', icon: RefreshCw, end: false },
 ];
 

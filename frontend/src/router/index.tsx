@@ -1,6 +1,7 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 import { MainLayout } from '../layouts/MainLayout';
 import { AdminLayout } from '../layouts/AdminLayout';
+import { HomePage } from '../pages/HomePage';
 import { Dashboard } from '../pages/Dashboard';
 import { FuentesList } from '../pages/FuentesList';
 import { FuenteForm } from '../pages/FuenteForm';
@@ -9,10 +10,15 @@ import { PublicProcesados } from '../pages/PublicProcesados';
 import ProtectedRoute from './ProtectedRoute';
 import AdminLogin from '../pages/admin/AdminLogin';
 import AdminDashboard from '../pages/admin/AdminDashboard';
-import AdminFuentes from '../pages/admin/AdminFuentes';
 import AdminSyncLogs from '../pages/admin/AdminSyncLogs';
 
 export const router = createBrowserRouter([
+  // ── Landing / Home ────────────────────────────────────────────────────────
+  {
+    path: '/',
+    element: <HomePage />,
+  },
+
   // ── Public: procesados ────────────────────────────────────────────────────
   {
     path: '/public/procesados',
@@ -34,16 +40,20 @@ export const router = createBrowserRouter([
         element: <AdminLayout />,
         children: [
           { index: true, element: <AdminDashboard /> },
-          { path: 'fuentes', element: <AdminFuentes /> },
+          { path: 'fuentes', element: <FuentesList /> },
+          { path: 'fuentes/nueva', element: <FuenteForm /> },
+          { path: 'fuentes/editar/:id', element: <FuenteForm /> },
+          { path: 'calidad', element: <DataQualityDashboard /> },
           { path: 'sync-logs', element: <AdminSyncLogs /> },
         ],
       },
     ],
   },
 
-  // ── Main app (existing, unchanged) ───────────────────────────────────────
+  // ── Legacy internal app (MainLayout) ─────────────────────────────────────
+  // Kept under /app to preserve all existing functionality
   {
-    path: '/',
+    path: '/app',
     element: <MainLayout />,
     children: [
       { index: true, element: <Dashboard /> },
@@ -59,7 +69,12 @@ export const router = createBrowserRouter([
           </div>
         ),
       },
-      { path: '*', element: <Navigate to="/" replace /> },
     ],
+  },
+
+  // ── Catch-all ─────────────────────────────────────────────────────────────
+  {
+    path: '*',
+    element: <Navigate to="/" replace />,
   },
 ]);

@@ -57,7 +57,7 @@ export const FuenteForm: React.FC = () => {
           });
         } catch (error) {
           toast.error('Error al cargar la fuente');
-          navigate('/fuentes');
+          navigate('/admin/fuentes');
         }
       };
       loadFuente();
@@ -80,7 +80,7 @@ export const FuenteForm: React.FC = () => {
         });
         toast.success('Fuente creada exitosamente');
       }
-      navigate('/fuentes');
+      navigate('/admin/fuentes');
     } catch (error: any) {
       toast.error(error?.response?.data?.detail || 'Ocurrió un error al guardar');
     } finally {
@@ -92,7 +92,7 @@ export const FuenteForm: React.FC = () => {
     <div className="space-y-6 animate-in fade-in duration-500 max-w-3xl mx-auto">
       <div className="flex items-center gap-4">
         <button 
-          onClick={() => navigate('/fuentes')}
+          onClick={() => navigate('/admin/fuentes')}
           className="p-2 text-slate-500 hover:text-slate-900 hover:bg-slate-100 rounded-full transition-colors"
         >
           <ArrowLeft size={20} />
@@ -162,7 +162,7 @@ export const FuenteForm: React.FC = () => {
             />
 
             <div className="flex justify-end gap-3 pt-4 border-t border-slate-100">
-              <Button type="button" variant="outline" onClick={() => navigate('/fuentes')}>
+              <Button type="button" variant="outline" onClick={() => navigate('/admin/fuentes')}>
                 Cancelar
               </Button>
               <Button type="submit" isLoading={isSubmitting} className="gap-2">

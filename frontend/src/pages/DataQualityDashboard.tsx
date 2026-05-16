@@ -60,10 +60,29 @@ export const DataQualityDashboard: React.FC = () => {
             Monitoreo global de la integridad y salud de los contratos procesados.
           </p>
         </div>
-        <Button onClick={fetchDashboardData} variant="outline" className="gap-2" isLoading={loading}>
-          <RefreshCcw size={16} />
-          Actualizar Datos
-        </Button>
+        <div className="flex gap-2">
+          <Button 
+            onClick={async () => {
+              try {
+                toast.loading('Iniciando reprocesamiento...', { id: 'reproceso' });
+                await calidadService.reprocesar();
+                toast.success('Reprocesamiento completado', { id: 'reproceso' });
+                fetchDashboardData();
+              } catch (error) {
+                toast.error('Error al reprocesar datos', { id: 'reproceso' });
+              }
+            }} 
+            variant="secondary" 
+            className="gap-2"
+          >
+            <RefreshCcw size={16} />
+            Reprocesar Datos
+          </Button>
+          <Button onClick={fetchDashboardData} variant="outline" className="gap-2" isLoading={loading}>
+            <RefreshCcw size={16} />
+            Actualizar Datos
+          </Button>
+        </div>
       </div>
 
       {loading ? (

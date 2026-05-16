@@ -88,7 +88,7 @@ export const FuentesList: React.FC = () => {
           <h1 className="text-2xl font-bold text-slate-900">Fuentes de Datos</h1>
           <p className="text-slate-500 mt-1">Gestiona las fuentes de información del sistema.</p>
         </div>
-        <Button onClick={() => navigate('/fuentes/nueva')} className="gap-2">
+        <Button onClick={() => navigate('/admin/fuentes/nueva')} className="gap-2">
           <Plus size={18} />
           Nueva Fuente
         </Button>
@@ -201,7 +201,7 @@ export const FuentesList: React.FC = () => {
                           size="sm" 
                           className="h-8 w-8 p-0" 
                           title="Editar"
-                          onClick={() => navigate(`/fuentes/editar/${fuente.id}`)}
+                          onClick={() => navigate(`/admin/fuentes/editar/${fuente.id}`)}
                         >
                           <Edit2 size={14} className="text-slate-600" />
                         </Button>

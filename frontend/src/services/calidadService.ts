@@ -11,4 +11,12 @@ export const calidadService = {
     const response = await api.get('/api/procesados/metricas/campos-faltantes');
     return response.data;
   },
+
+  reprocesar: async (limite: number = 1000, forzar: boolean = false): Promise<any> => {
+    const response = await api.post('/api/procesados/reprocesar', {
+      limite,
+      forzar_reproceso: forzar,
+    });
+    return response.data;
+  },
 };
