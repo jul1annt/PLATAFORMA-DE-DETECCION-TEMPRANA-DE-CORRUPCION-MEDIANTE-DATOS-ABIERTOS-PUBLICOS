@@ -4,6 +4,7 @@ import type { Procesado, MetricasCalidad, CampoFaltante, QualityFilterType } fro
 import { getProcesados, getMetricasCalidad, getCamposFaltantes } from '../services/procesadosService';
 import { AlertIcons } from '../components/AlertIcons';
 import { QualitySummaryBanner } from '../components/QualitySummaryBanner';
+import { SearchAutocomplete } from '../components/SearchAutocomplete';
 
 export const PublicProcesados: React.FC = () => {
   const [procesados, setProcesados] = useState<Procesado[]>([]);
@@ -11,6 +12,7 @@ export const PublicProcesados: React.FC = () => {
   const [camposFaltantes, setCamposFaltantes] = useState<CampoFaltante[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -158,12 +160,28 @@ export const PublicProcesados: React.FC = () => {
     return procesados.some(p => p.datos_modificados === true);
   }, [procesados]);
 
+  const searchQuery = searchParams.get('q') || '';
+
   const displayedProcesados = useMemo(() => {
-    if (activeFilter === 'MODIFICADOS') {
-      return procesados.filter(p => p.datos_modificados === true);
+    let filtered = procesados;
+
+    // 1. Aplicar filtro de búsqueda de texto (Autocomplete)
+    if (searchQuery) {
+      const q = searchQuery.toLowerCase();
+      filtered = filtered.filter(p => {
+        if (!p) return false;
+        const e = String(p.entidad_normalizada || p.entidad || '').toLowerCase();
+        const pr = String(p.proveedor_normalizado || p.proveedor || '').toLowerCase();
+        return e.includes(q) || pr.includes(q);
+      });
     }
-    return procesados;
-  }, [procesados, activeFilter]);
+
+    if (activeFilter === 'MODIFICADOS') {
+      filtered = filtered.filter(p => p.datos_modificados === true);
+    }
+    
+    return filtered;
+  }, [procesados, activeFilter, searchQuery]);
 
   const totalPages = Math.ceil(totalItems / limit);
   const currentPage = Math.floor(offset / limit) + 1;
@@ -296,6 +314,22 @@ export const PublicProcesados: React.FC = () => {
               {/* Panel de Filtros Avanzados */}
               {isFilterOpen && (
                 <div className="bg-white p-6 rounded-[24px] border border-slate-200 shadow-xl shadow-indigo-100/50 animate-in fade-in slide-in-from-top-4 duration-300">
+                  {/* Nueva sección de Búsqueda Inteligente */}
+                  <div className="mb-8 p-6 bg-slate-50/50 rounded-3xl border border-dashed border-slate-200">
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white shadow-md">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                      </div>
+                      <h4 className="text-sm font-black text-indigo-950 uppercase tracking-widest">Búsqueda Inteligente (Autocomplete)</h4>
+                    </div>
+                    <SearchAutocomplete data={procesados} />
+                    <p className="mt-3 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                      Escribe el nombre de una entidad o proveedor para filtrar instantáneamente.
+                    </p>
+                  </div>
+
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {/* Monto */}
                     <div>
@@ -514,8 +548,14 @@ export const PublicProcesados: React.FC = () => {
                   <tbody className="divide-y divide-slate-50">
                     {displayedProcesados.length === 0 ? (
                       <tr>
-                        <td colSpan={8} className="px-10 py-20 text-center text-slate-400 font-medium italic">
-                          No se encontraron registros para mostrar.
+                        <td colSpan={8} className="px-10 py-24 text-center">
+                          <div className="flex flex-col items-center justify-center">
+                            <div className="w-16 h-16 bg-slate-50 text-slate-300 rounded-full flex items-center justify-center text-3xl mb-4 shadow-inner">
+                              🔍
+                            </div>
+                            <h4 className="text-lg font-black text-slate-700 mb-1">No se encontraron contratos relacionados</h4>
+                            <p className="text-sm font-medium text-slate-400">Intenta con otros términos de búsqueda o limpia los filtros.</p>
+                          </div>
                         </td>
                       </tr>
                     ) : (
