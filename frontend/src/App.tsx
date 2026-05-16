@@ -2,12 +2,13 @@ import React from 'react';
 import { RouterProvider } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { router } from './router';
+import { AuthProvider } from './context/AuthContext';
 
 const App: React.FC = () => {
   return (
-    <>
+    <AuthProvider>
       <RouterProvider router={router} />
-      <Toaster 
+      <Toaster
         position="top-right"
         toastOptions={{
           duration: 4000,
@@ -27,7 +28,7 @@ const App: React.FC = () => {
           },
         }}
       />
-    </>
+    </AuthProvider>
   );
 };
 
