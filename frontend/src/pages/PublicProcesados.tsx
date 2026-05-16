@@ -12,8 +12,15 @@ export const PublicProcesados: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [activeFilter, setActiveFilter] = useState<QualityFilterType>('ALL');
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 100;
   
   const navigate = useNavigate();
+
+  // Reset page when filter changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [activeFilter]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -53,6 +60,13 @@ export const PublicProcesados: React.FC = () => {
         return procesados;
     }
   }, [procesados, activeFilter]);
+
+  // Lógica de Paginación
+  const totalPages = Math.ceil(filteredProcesados.length / itemsPerPage);
+  const paginatedProcesados = useMemo(() => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    return filteredProcesados.slice(startIndex, startIndex + itemsPerPage);
+  }, [filteredProcesados, currentPage]);
 
   return (
     <div className="min-h-screen font-sans text-slate-900 relative overflow-hidden bg-slate-50">
@@ -120,7 +134,7 @@ export const PublicProcesados: React.FC = () => {
               onFilterChange={setActiveFilter}
             />
 
-            {/* Filtro Dropdown Estilo Screenshot */}
+            {/* Filtro Dropdown */}
             <div className="flex justify-end mb-8">
               <div className="inline-flex items-center gap-3 bg-white border border-slate-200 px-5 py-2.5 rounded-2xl shadow-sm">
                 <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Filtro activo:</span>
@@ -137,7 +151,7 @@ export const PublicProcesados: React.FC = () => {
               </div>
             </div>
 
-            {/* Listado de Contratos Estilo Screenshot */}
+            {/* Listado de Contratos */}
             <div className="bg-white rounded-[40px] shadow-2xl shadow-indigo-100/30 border border-slate-100 overflow-hidden">
               <div className="px-10 py-8 border-b border-slate-50 flex justify-between items-center bg-white">
                 <div className="flex items-center gap-4">
@@ -148,9 +162,14 @@ export const PublicProcesados: React.FC = () => {
                   </div>
                   <h3 className="text-xl font-black text-indigo-950">Listado de Contratos</h3>
                 </div>
-                <span className="text-xs font-black px-5 py-2.5 bg-indigo-50 text-indigo-600 rounded-2xl border border-indigo-100">
-                  Mostrando {filteredProcesados.length} resultados
-                </span>
+                <div className="flex items-center gap-3">
+                  <span className="text-xs font-black px-5 py-2.5 bg-indigo-50 text-indigo-600 rounded-2xl border border-indigo-100">
+                    Total: {filteredProcesados.length}
+                  </span>
+                  <span className="text-xs font-bold text-slate-400">
+                    Página {currentPage} de {totalPages || 1}
+                  </span>
+                </div>
               </div>
 
               <div className="overflow-x-auto">
@@ -166,44 +185,108 @@ export const PublicProcesados: React.FC = () => {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-50">
-                    {filteredProcesados.map((p, idx) => (
-                      <tr key={p.id || idx} className="hover:bg-slate-50/50 transition-colors group">
-                        <td className="px-10 py-6">
-                          <div className="text-sm font-bold text-slate-700 tracking-tight">{p.proveedor_normalizado || 'N/A'}</div>
-                        </td>
-                        <td className="px-10 py-6">
-                          <div className="flex items-center gap-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-indigo-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                            </svg>
-                            <div className="text-sm font-bold text-slate-500 uppercase tracking-tighter line-clamp-1">{p.entidad_normalizada || 'N/A'}</div>
-                          </div>
-                        </td>
-                        <td className="px-10 py-6">
-                          <span className={`inline-flex items-center px-4 py-1 rounded-xl text-[10px] font-black tracking-widest uppercase ${
-                            idx % 3 === 0 ? 'bg-indigo-50 text-indigo-500 border border-indigo-100' : 
-                            idx % 3 === 1 ? 'bg-emerald-50 text-emerald-500 border border-emerald-100' : 
-                            'bg-violet-50 text-violet-500 border border-violet-100'
-                          }`}>
-                            {p.modalidad_contratacion || 'N/A'}
-                          </span>
-                        </td>
-                        <td className="px-10 py-6 text-sm font-bold text-slate-500">
-                          {p.fecha_publicacion_normalizada ? new Date(p.fecha_publicacion_normalizada).toLocaleDateString('es-ES') : 'N/A'}
-                        </td>
-                        <td className="px-10 py-6">
-                          <div className="text-sm font-black text-slate-900 tracking-tight">
-                            $ {p.valor_total_normalizado?.toLocaleString('es-ES') || '0'}
-                          </div>
-                        </td>
-                        <td className="px-10 py-6">
-                          <AlertIcons procesado={p} />
+                    {paginatedProcesados.length === 0 ? (
+                      <tr>
+                        <td colSpan={6} className="px-10 py-20 text-center text-slate-400 font-medium italic">
+                          No se encontraron registros para mostrar.
                         </td>
                       </tr>
-                    ))}
+                    ) : (
+                      paginatedProcesados.map((p, idx) => {
+                        const isIncompleto = p.es_incompleto === true;
+                        const isAltoRiesgo = p.clasificacion_riesgo === 'ALTO';
+                        const isModificado = p.datos_modificados === true;
+
+                        let rowClass = "hover:bg-slate-50/50 transition-colors group border-l-4";
+                        if (isAltoRiesgo || isModificado) {
+                          rowClass += " bg-red-50/10 border-red-500";
+                        } else if (isIncompleto) {
+                          rowClass += " bg-amber-50/10 border-amber-500";
+                        } else {
+                          rowClass += " border-emerald-400/50";
+                        }
+
+                        return (
+                          <tr key={p.id || idx} className={rowClass}>
+                            <td className="px-10 py-6">
+                              <div className="text-sm font-bold text-slate-700 tracking-tight">{p.proveedor_normalizado || 'N/A'}</div>
+                            </td>
+                            <td className="px-10 py-6">
+                              <div className="flex items-center gap-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-indigo-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                                </svg>
+                                <div className="text-sm font-bold text-slate-500 uppercase tracking-tighter line-clamp-1">{p.entidad_normalizada || 'N/A'}</div>
+                              </div>
+                            </td>
+                            <td className="px-10 py-6">
+                              <span className={`inline-flex items-center px-4 py-1 rounded-xl text-[10px] font-black tracking-widest uppercase ${
+                                idx % 3 === 0 ? 'bg-indigo-50 text-indigo-500 border border-indigo-100' : 
+                                idx % 3 === 1 ? 'bg-emerald-50 text-emerald-500 border border-emerald-100' : 
+                                'bg-violet-50 text-violet-500 border border-violet-100'
+                              }`}>
+                                {p.modalidad_contratacion || 'N/A'}
+                              </span>
+                            </td>
+                            <td className="px-10 py-6 text-sm font-bold text-slate-500">
+                              {p.fecha_publicacion_normalizada ? new Date(p.fecha_publicacion_normalizada).toLocaleDateString('es-ES') : 'N/A'}
+                            </td>
+                            <td className="px-10 py-6">
+                              <div className="text-sm font-black text-slate-900 tracking-tight">
+                                $ {p.valor_total_normalizado?.toLocaleString('es-ES') || '0'}
+                              </div>
+                            </td>
+                            <td className="px-10 py-6">
+                              <AlertIcons procesado={p} />
+                            </td>
+                          </tr>
+                        );
+                      })
+                    )}
                   </tbody>
                 </table>
               </div>
+
+              {/* Controles de Paginación */}
+              {totalPages > 1 && (
+                <div className="px-10 py-6 bg-slate-50/30 border-t border-slate-50 flex items-center justify-between">
+                  <button
+                    onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                    disabled={currentPage === 1}
+                    className="px-6 py-2 bg-white border border-slate-200 rounded-xl text-xs font-black uppercase tracking-widest text-slate-600 disabled:opacity-30 disabled:cursor-not-allowed hover:bg-slate-50 transition-colors shadow-sm"
+                  >
+                    Anterior
+                  </button>
+                  <div className="flex items-center gap-2">
+                    {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                      let pageNum = i + 1;
+                      if (totalPages > 5 && currentPage > 3) {
+                        pageNum = Math.min(currentPage - 2 + i, totalPages - 4 + i);
+                      }
+                      return (
+                        <button
+                          key={pageNum}
+                          onClick={() => setCurrentPage(pageNum)}
+                          className={`w-10 h-10 rounded-xl text-xs font-black transition-all ${
+                            currentPage === pageNum 
+                            ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-100' 
+                            : 'bg-white border border-slate-200 text-slate-400 hover:border-indigo-300'
+                          }`}
+                        >
+                          {pageNum}
+                        </button>
+                      );
+                    })}
+                  </div>
+                  <button
+                    onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                    disabled={currentPage === totalPages}
+                    className="px-6 py-2 bg-white border border-slate-200 rounded-xl text-xs font-black uppercase tracking-widest text-slate-600 disabled:opacity-30 disabled:cursor-not-allowed hover:bg-slate-50 transition-colors shadow-sm"
+                  >
+                    Siguiente
+                  </button>
+                </div>
+              )}
             </div>
           </>
         )}
