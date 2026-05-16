@@ -27,3 +27,20 @@ export const getCamposFaltantes = async (): Promise<CampoFaltante[]> => {
   }
   return response.json();
 };
+
+export const getProcesadoById = async (id: string | number): Promise<Procesado> => {
+  const response = await fetch(`${API_URL}/api/procesados/${id}`);
+  if (!response.ok) {
+    throw new Error('Contrato procesado no encontrado');
+  }
+  return response.json();
+};
+
+export const getAnomaliasByRawSecopId = async (rawSecopId: number): Promise<any[]> => {
+  const response = await fetch(`${API_URL}/api/procesados/anomalias/?raw_secop_id=${rawSecopId}`);
+  if (!response.ok) {
+    return [];
+  }
+  const data = await response.json();
+  return data.items || [];
+};

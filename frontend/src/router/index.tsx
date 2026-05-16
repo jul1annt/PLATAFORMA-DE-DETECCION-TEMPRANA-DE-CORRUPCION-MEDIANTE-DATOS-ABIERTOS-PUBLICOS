@@ -7,6 +7,7 @@ import { FuentesList } from '../pages/FuentesList';
 import { FuenteForm } from '../pages/FuenteForm';
 import { DataQualityDashboard } from '../pages/DataQualityDashboard';
 import { PublicProcesados } from '../pages/PublicProcesados';
+import { PublicContratoDetalle } from '../pages/PublicContratoDetalle';
 import ProtectedRoute from './ProtectedRoute';
 import AdminLogin from '../pages/admin/AdminLogin';
 import AdminDashboard from '../pages/admin/AdminDashboard';
@@ -23,6 +24,10 @@ export const router = createBrowserRouter([
   {
     path: '/public/procesados',
     element: <PublicProcesados />,
+  },
+  {
+    path: '/public/procesados/:id',
+    element: <PublicContratoDetalle />,
   },
 
   // ── Admin login (public) ──────────────────────────────────────────────────

@@ -208,7 +208,11 @@ export const PublicProcesados: React.FC = () => {
                         }
 
                         return (
-                          <tr key={p.id || idx} className={rowClass}>
+                          <tr 
+                            key={p.id || idx} 
+                            onClick={() => navigate(`/public/procesados/${p.id}`)}
+                            className={`${rowClass} cursor-pointer`}
+                          >
                             <td className="px-10 py-6">
                               <div className="text-sm font-bold text-slate-700 tracking-tight">{p.proveedor_normalizado || 'N/A'}</div>
                             </td>

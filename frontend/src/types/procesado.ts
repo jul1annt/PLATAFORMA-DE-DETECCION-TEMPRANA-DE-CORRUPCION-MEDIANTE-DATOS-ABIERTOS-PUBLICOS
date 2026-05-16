@@ -48,3 +48,16 @@ export interface QualitySummaryProps {
   onFilterChange: (filter: QualityFilterType) => void;
   activeFilter: QualityFilterType;
 }
+
+export interface AnomaliaContrato {
+  id: number;
+  raw_secop_id: number;
+  id_contrato_procesado?: number;
+  campo_afectado?: string;
+  motivo: string;
+  descripcion?: string;
+  valor_original?: string;
+  nivel_confianza: number;
+  clasificacion_riesgo?: string;
+  created_at?: string;
+}
