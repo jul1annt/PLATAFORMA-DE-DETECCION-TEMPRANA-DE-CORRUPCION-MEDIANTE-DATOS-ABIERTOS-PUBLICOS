@@ -71,8 +71,10 @@ class TransformacionRepository:
         
         sort_field = ContratoProcesado.fecha_publicacion_normalizada
         if sort:
-            if sort == "valor":
+            if sort == "valor" or sort == "valor_total_normalizado":
                 sort_field = ContratoProcesado.valor_total_normalizado
+            elif sort == "precio_base_normalizado":
+                sort_field = ContratoProcesado.precio_base_normalizado
             elif sort == "fecha":
                 sort_field = ContratoProcesado.fecha_publicacion_normalizada
             elif sort == "id":

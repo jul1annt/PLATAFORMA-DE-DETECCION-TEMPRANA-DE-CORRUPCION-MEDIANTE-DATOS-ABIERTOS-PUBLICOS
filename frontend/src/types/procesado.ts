@@ -5,6 +5,8 @@ export interface Procesado {
   modalidad_contratacion?: string;
   fecha_publicacion_normalizada?: string;
   valor_total_normalizado?: number;
+  precio_base_normalizado?: number;
+  urlproceso?: string;
   
   // Compatibilidad con nombres cortos solicitados (si se mapean o para evitar errores)
   proveedor?: string;

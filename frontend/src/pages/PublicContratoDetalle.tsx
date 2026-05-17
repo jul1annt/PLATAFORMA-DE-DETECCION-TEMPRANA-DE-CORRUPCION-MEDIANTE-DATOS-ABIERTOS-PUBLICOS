@@ -332,21 +332,49 @@ export const PublicContratoDetalle: React.FC = () => {
               </div>
             </div>
             
-            {contrato.urlproceso && (
-              <div className="mt-8 pt-8 border-t border-slate-100 flex justify-center">
-                <a 
-                  href={contrato.urlproceso} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-6 py-3 bg-slate-900 text-white rounded-xl text-xs font-black uppercase tracking-widest hover:bg-indigo-600 transition-colors shadow-lg shadow-slate-200"
+            <div className="mt-8 pt-8 border-t border-slate-100 flex justify-center">
+              {(() => {
+                const getCleanUrl = (url?: string): string => {
+                  if (!url) return '';
+                  const trimmed = url.trim();
+                  if (!trimmed) return '';
+                  
+                  if (trimmed.startsWith('{') && trimmed.endsWith('}')) {
+                    const match = trimmed.match(/https?:\/\/[^\s'}"]+/);
+                    if (match) return match[0];
+                  }
+                  return trimmed;
+                };
+                
+                const cleanUrl = getCleanUrl(contrato.urlproceso);
+                
+                if (cleanUrl) {
+                  return (
+                    <button 
+                      onClick={() => window.open(cleanUrl, "_blank", "noopener,noreferrer")}
+                      className="flex items-center gap-2 px-6 py-3 bg-slate-900 text-white rounded-xl text-xs font-black uppercase tracking-widest hover:bg-indigo-600 transition-colors shadow-lg shadow-slate-200"
+                    >
+                      Ver Original en SECOP
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                      </svg>
+                    </button>
+                  );
+                }
+                
+                return (
+                <button 
+                  disabled
+                  className="flex items-center gap-2 px-6 py-3 bg-slate-200 text-slate-400 rounded-xl text-xs font-black uppercase tracking-widest cursor-not-allowed"
                 >
-                  Ver Original en SECOP
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  URL no disponible
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                   </svg>
-                </a>
-              </div>
-            )}
+                </button>
+                  );
+              })()}
+            </div>
           </div>
         </div>
 

@@ -519,8 +519,11 @@ export const PublicProcesados: React.FC = () => {
                       <th onClick={() => handleSort('proveedor')} className="cursor-pointer group px-6 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-[0.15em] hover:bg-slate-100 transition-colors">
                         Proveedor <SortIcon field="proveedor" />
                       </th>
-                      <th onClick={() => handleSort('valor')} className="cursor-pointer group px-6 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-[0.15em] hover:bg-slate-100 transition-colors">
-                        Valor <SortIcon field="valor" />
+                      <th onClick={() => handleSort('valor_total_normalizado')} className="cursor-pointer group px-6 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-[0.15em] hover:bg-slate-100 transition-colors">
+                        Valor Total <SortIcon field="valor_total_normalizado" />
+                      </th>
+                      <th onClick={() => handleSort('precio_base_normalizado')} className="cursor-pointer group px-6 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-[0.15em] hover:bg-slate-100 transition-colors">
+                        Precio Base <SortIcon field="precio_base_normalizado" />
                       </th>
                       <th onClick={() => handleSort('fecha')} className="cursor-pointer group px-6 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-[0.15em] hover:bg-slate-100 transition-colors">
                         Fecha <SortIcon field="fecha" />
@@ -542,7 +545,7 @@ export const PublicProcesados: React.FC = () => {
                   <tbody className="divide-y divide-slate-50">
                     {displayedProcesados.length === 0 ? (
                       <tr>
-                        <td colSpan={8} className="px-10 py-24 text-center">
+                        <td colSpan={9} className="px-10 py-24 text-center">
                           <div className="flex flex-col items-center justify-center">
                             <div className="w-16 h-16 bg-slate-50 text-slate-300 rounded-full flex items-center justify-center text-3xl mb-4 shadow-inner">
                               🔍
@@ -591,6 +594,11 @@ export const PublicProcesados: React.FC = () => {
                             <td className="px-6 py-4">
                               <div className="text-xs font-black text-slate-900 whitespace-nowrap">
                                 $ {p.valor_total_normalizado?.toLocaleString('es-ES') || '0'}
+                              </div>
+                            </td>
+                            <td className="px-6 py-4">
+                              <div className="text-xs font-black text-slate-900 whitespace-nowrap">
+                                $ {p.precio_base_normalizado?.toLocaleString('es-ES') || '0'}
                               </div>
                             </td>
                             <td className="px-6 py-4 text-xs font-bold text-slate-500 whitespace-nowrap">

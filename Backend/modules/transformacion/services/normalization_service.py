@@ -87,6 +87,31 @@ def normalize_text(text_input: Any) -> str | None:
     # Normalize case (UPPERCASE for standard consistency)
     return text_str.upper() if text_str else None
 
+def normalize_url(url_input: Any) -> str | None:
+    if not url_input:
+        return None
+    
+    url_str = str(url_input).strip()
+    if not url_str:
+        return None
+        
+    # Handle stringified dict like "{'url': 'https://...'}"
+    if url_str.startswith("{") and url_str.endswith("}"):
+        import ast
+        try:
+            parsed = ast.literal_eval(url_str)
+            if isinstance(parsed, dict) and 'url' in parsed:
+                return parsed['url']
+        except (ValueError, SyntaxError):
+            pass
+            
+        import re
+        match = re.search(r"(https?://[^\s'}]+)", url_str)
+        if match:
+            return match.group(1)
+            
+    return url_str
+
 def generate_hash(data: Dict[str, Any]) -> str:
     # Remove None values and created_at/updated_at to ensure consistent hashing of actual data
     cleaned_data = {

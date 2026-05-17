@@ -5,7 +5,7 @@ from typing import Dict, List, Tuple, Any
 from sqlalchemy.orm import Session
 
 from modules.transformacion.services.normalization_service import (
-    normalize_date, normalize_amount, normalize_text, generate_hash
+    normalize_date, normalize_amount, normalize_text, generate_hash, normalize_url
 )
 from modules.transformacion.model.ContratoProcesado import ContratoProcesado
 from modules.transformacion.model.ContratoAnomaloIncompleto import ContratoAnomaloIncompleto
@@ -69,10 +69,6 @@ class TransformacionService:
             normalized = self._normalizar(raw)
             data_hash = generate_hash(normalized)
 
-            if forzar_reproceso and self.repo.find_by_hash(data_hash):
-                omitidos += 1
-                continue
-                
             anomalias_registro = self._detectar_anomalias(raw)
             
             # Clasificar: CAMPO_FALTANTE y MONTO_NEGATIVO => incompleto
@@ -92,14 +88,22 @@ class TransformacionService:
             
             es_incompleto = cantidad_faltantes > 0 or tiene_monto_negativo
             es_sospechoso = tiene_fecha_futura
+            
+            # Start at 100
             nivel_confianza = 100
             
-            if cantidad_faltantes == 1:
-                nivel_confianza = 80
-            elif cantidad_faltantes == 2:
-                nivel_confianza = 60
-            elif cantidad_faltantes >= 3:
-                nivel_confianza = 40
+            # subtract points for missing fields
+            if cantidad_faltantes > 0:
+                nivel_confianza -= (cantidad_faltantes * 20)
+            if tiene_monto_negativo:
+                nivel_confianza -= 20
+                
+            # subtract additional points if suspicious
+            if es_sospechoso:
+                nivel_confianza -= 40
+                
+            # clamp between 0 and 100
+            nivel_confianza = max(0, min(100, nivel_confianza))
 
             normalized["normalized_hash"] = data_hash
             normalized["es_incompleto"] = es_incompleto
@@ -108,15 +112,34 @@ class TransformacionService:
             normalized["campos_faltantes"] = campos_faltantes
             normalized["nivel_confianza"] = nivel_confianza
             
-            contrato = ContratoProcesado(**normalized)
-            self.session.add(contrato)
-            self.session.flush() # Flush to get ID
-            procesados += 1
-            
-            for anomalia in anomalias_registro:
-                anomalia.id_contrato_procesado = contrato.id
-            
-            nuevas_anomalias.extend(anomalias_registro)
+            existente = self.repo.find_by_raw_secop_id(raw.id)
+            if existente:
+                if not forzar_reproceso:
+                    omitidos += 1
+                    continue
+                    
+                # Si forzar_reproceso es True, verificamos si hay algún cambio real
+                if existente.normalized_hash == data_hash and existente.nivel_confianza == nivel_confianza and existente.es_incompleto == es_incompleto and existente.es_sospechoso == es_sospechoso:
+                    omitidos += 1
+                    continue
+                    
+                # Actualizar el registro existente
+                for key, value in normalized.items():
+                    setattr(existente, key, value)
+                
+                procesados += 1
+                # No duplicar anomalías si ya existen (opcional, o borrarlas y recrearlas)
+                # Como el objetivo principal es corregir nivel_confianza, omitiremos duplicar.
+            else:
+                contrato = ContratoProcesado(**normalized)
+                self.session.add(contrato)
+                self.session.flush() # Flush to get ID
+                procesados += 1
+                
+                for anomalia in anomalias_registro:
+                    anomalia.id_contrato_procesado = contrato.id
+                
+                nuevas_anomalias.extend(anomalias_registro)
 
         # Batch insert anomalias
         if nuevas_anomalias:
@@ -214,7 +237,7 @@ class TransformacionService:
             "estado_normalizado":             normalize_text(raw.estado_del_procedimiento),
             "ciudad_entidad":                 normalize_text(raw.ciudad_entidad),
             "departamento_entidad":           normalize_text(raw.departamento_entidad),
-            "urlproceso":                     raw.urlproceso,
+            "urlproceso":                     normalize_url(raw.urlproceso),
         }
 
     # ──────────────────────────────────────────────────────────────
