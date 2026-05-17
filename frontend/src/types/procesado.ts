@@ -20,6 +20,7 @@ export interface Procesado {
   clasificacion_riesgo?: string;
   datos_modificados?: boolean;
   es_sospechoso?: boolean;
+  nivel_confianza?: number;
   
   [key: string]: any;
 }
@@ -39,6 +40,45 @@ export interface CampoFaltante {
   campo: string;
   cantidad: number;
   porcentaje: number;
+}
+
+export interface CampoFaltanteDTO {
+  campo: string;
+  cantidad: number;
+  porcentaje: number;
+}
+
+export interface ProcesamientoLogDTO {
+  id: number;
+  fecha_hora_inicio: string;
+  fecha_hora_fin: string | null;
+  estado: string;
+  forzar_reproceso: boolean;
+  duracion_segundos: number | null;
+  total_evaluados: number;
+  procesados: number;
+  omitidos: number;
+  anomalias_registradas: number;
+  mensaje_error: string | null;
+  created_at: string;
+}
+
+export interface PaginatedProcesamientoLogsDTO {
+  items: ProcesamientoLogDTO[];
+  total: number;
+  page: number;
+  size: number;
+}
+
+export interface ReprocesarResultadoDTO {
+  total_evaluados: number;
+  procesados: number;
+  omitidos: number;
+  anomalias_registradas: number;
+  fecha_hora_inicio: string;
+  fecha_hora_fin: string;
+  duracion_segundos: number;
+  estado: string;
 }
 
 export type QualityFilterType = 'ALL' | 'INCOMPLETOS' | 'SOSPECHOSOS' | 'MODIFICADOS' | 'ALTO_RIESGO';

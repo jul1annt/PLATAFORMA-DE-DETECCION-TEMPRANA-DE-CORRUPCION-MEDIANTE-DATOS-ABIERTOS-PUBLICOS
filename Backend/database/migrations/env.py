@@ -15,6 +15,7 @@ from modules.ingesta.model.SincronizacionHistorial import SincronizacionHistoria
 from modules.transformacion.model.ContratoProcesado import ContratoProcesado
 from modules.transformacion.model.ContratoAnomaloIncompleto import ContratoAnomaloIncompleto
 from modules.transformacion.model.EstadisticaCamposFaltantes import EstadisticaCamposFaltantes
+from modules.transformacion.model.ProcesamientoLog import ProcesamientoLog
 from modules.analitica.model.contrato_outlier import ContratoOutlier
 from modules.analitica.model.contrato_duplicado_periodo import ContratoDuplicadoPeriodo
 from modules.analitica.model.proveedor_adjudicacion_directa import ProveedorAdjudicacionDirecta

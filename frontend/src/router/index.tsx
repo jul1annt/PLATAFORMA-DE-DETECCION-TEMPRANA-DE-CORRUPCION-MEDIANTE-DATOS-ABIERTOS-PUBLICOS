@@ -13,6 +13,7 @@ import ProtectedRoute from './ProtectedRoute';
 import AdminLogin from '../pages/admin/AdminLogin';
 import AdminDashboard from '../pages/admin/AdminDashboard';
 import AdminSyncLogs from '../pages/admin/AdminSyncLogs';
+import { AdminReprocesamiento } from '../pages/admin/AdminReprocesamiento';
 
 export const router = createBrowserRouter([
   // ── Landing / Home ────────────────────────────────────────────────────────
@@ -56,6 +57,7 @@ export const router = createBrowserRouter([
           { path: 'fuentes/nueva', element: <FuenteForm /> },
           { path: 'fuentes/editar/:id', element: <FuenteForm /> },
           { path: 'calidad', element: <DataQualityDashboard /> },
+          { path: 'reprocesamiento', element: <AdminReprocesamiento /> },
           { path: 'sync-logs', element: <AdminSyncLogs /> },
         ],
       },

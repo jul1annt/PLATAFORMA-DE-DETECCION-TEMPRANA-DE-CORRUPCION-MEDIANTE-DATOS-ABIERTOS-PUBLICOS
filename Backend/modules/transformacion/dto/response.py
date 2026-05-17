@@ -119,3 +119,29 @@ class ReprocesarResultadoDTO(BaseModel):
     procesados: int = Field(..., description="Registros que se normalizaron correctamente")
     omitidos: int = Field(..., description="Registros omitidos (ya existían con el mismo hash)")
     anomalias_registradas: int = Field(..., description="Total de anomalías detectadas y guardadas")
+    fecha_hora_inicio: datetime = Field(..., description="Fecha y hora de inicio de la ejecución")
+    fecha_hora_fin: Optional[datetime] = Field(None, description="Fecha y hora de finalización")
+    duracion_segundos: Optional[int] = Field(None, description="Duración total en segundos")
+    estado: str = Field(..., description="Estado de la ejecución (EN_PROCESO, EXITOSO, ERROR)")
+
+class ProcesamientoLogDTO(BaseModel):
+    id: int
+    total_evaluados: int
+    procesados: int
+    omitidos: int
+    anomalias_registradas: int
+    fecha_hora_inicio: datetime
+    fecha_hora_fin: Optional[datetime]
+    duracion_segundos: Optional[int]
+    forzar_reproceso: bool
+    estado: str
+    mensaje_error: Optional[str]
+    created_at: datetime
+    
+    model_config = ConfigDict(from_attributes=True)
+
+class PaginatedProcesamientoLogsDTO(BaseModel):
+    total: int
+    page: int
+    size: int
+    items: List[ProcesamientoLogDTO]

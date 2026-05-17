@@ -6,6 +6,7 @@ from sqlalchemy import func
 from modules.transformacion.model.ContratoProcesado import ContratoProcesado
 from modules.transformacion.model.ContratoAnomaloIncompleto import ContratoAnomaloIncompleto
 from modules.transformacion.model.EstadisticaCamposFaltantes import EstadisticaCamposFaltantes
+from modules.transformacion.model.ProcesamientoLog import ProcesamientoLog
 from modules.transformacion.dto.request import ContratoProcesadoFilterDTO, AnomaliaFilterDTO
 
 
@@ -186,3 +187,11 @@ class TransformacionRepository:
         
         # Commit will be handled by the caller or we can flush
         self.session.flush()
+
+    # ─── ProcesamientoLog ─────────────────────────────────────────────
+    
+    def search_logs(self, skip: int = 0, limit: int = 50) -> Tuple[List[ProcesamientoLog], int]:
+        q = self.session.query(ProcesamientoLog)
+        total = q.count()
+        items = q.order_by(ProcesamientoLog.created_at.desc()).offset(skip).limit(limit).all()
+        return items, total

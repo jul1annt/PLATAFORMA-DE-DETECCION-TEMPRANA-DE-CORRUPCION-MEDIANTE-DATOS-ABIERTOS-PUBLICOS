@@ -31,10 +31,6 @@ class AnomaliaFilterDTO(BaseModel):
 
 class ReprocesarRequestDTO(BaseModel):
     """Parámetros para el endpoint de reprocesamiento"""
-    limite: int = Field(
-        1000, ge=1, le=10000,
-        description="Cantidad máxima de registros crudos a procesar en esta ejecución"
-    )
     forzar_reproceso: bool = Field(
         False,
         description=(

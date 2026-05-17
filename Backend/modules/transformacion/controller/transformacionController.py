@@ -11,7 +11,7 @@ from modules.transformacion.dto.request import (
 from modules.transformacion.dto.response import (
     ContratoProcesadoResponseDTO, AnomaliaResponseDTO, EstadisticaCampoResponseDTO,
     PaginatedContratosDTO, PaginatedAnomaliasDTO, ReprocesarResultadoDTO,
-    MetricasCalidadDTO, CampoFaltanteDTO
+    MetricasCalidadDTO, CampoFaltanteDTO, PaginatedProcesamientoLogsDTO
 )
 from modules.transformacion.services.trasformacionservice import TransformacionService
 from modules.transformacion.repository.transformacion import TransformacionRepository
@@ -45,7 +45,6 @@ def reprocesar(request: ReprocesarRequestDTO, db: Session = Depends(get_db)):
     service = TransformacionService(db)
     try:
         resultado = service.process_raw_data(
-            limite=request.limite,
             forzar_reproceso=request.forzar_reproceso,
         )
         return ReprocesarResultadoDTO(**resultado)
@@ -53,6 +52,25 @@ def reprocesar(request: ReprocesarRequestDTO, db: Session = Depends(get_db)):
         logger_msg = str(e)
         raise HTTPException(status_code=500, detail=logger_msg)
 
+
+# ──────────────────────────────────────────────────────────────────────
+# GET /api/procesados/logs
+# ──────────────────────────────────────────────────────────────────────
+@router.get(
+    "/logs",
+    response_model=PaginatedProcesamientoLogsDTO,
+    summary="Listar historial de ejecuciones",
+    description="Devuelve los logs de ejecución del pipeline de normalización, ordenados por los más recientes.",
+)
+def list_logs(
+    page: int = Query(1, ge=1, description="Número de página"),
+    size: int = Query(20, ge=1, le=100, description="Registros por página"),
+    db: Session = Depends(get_db),
+):
+    repo = TransformacionRepository(db)
+    skip = (page - 1) * size
+    items, total = repo.search_logs(skip=skip, limit=size)
+    return PaginatedProcesamientoLogsDTO(total=total, page=page, size=size, items=items)
 
 # ──────────────────────────────────────────────────────────────────────
 # GET /api/procesados/
