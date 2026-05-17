@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Play, Loader2, RefreshCw, AlertCircle, CheckCircle, XCircle } from 'lucide-react';
+import { Play, Loader2, RefreshCw, AlertCircle, CheckCircle, XCircle, FileSpreadsheet, FileText } from 'lucide-react';
 import { procesamientoService } from '../../services/procesamientoService';
 import type { PaginatedProcesamientoLogsDTO, ProcesamientoLogDTO } from '../../types/procesado';
 import { cn } from '../../utils/utils';
+import { exportToCSV, exportToExcel } from '../../utils/exportUtils';
 
 export const AdminReprocesamiento: React.FC = () => {
   const [logs, setLogs] = useState<PaginatedProcesamientoLogsDTO | null>(null);
@@ -50,18 +51,36 @@ export const AdminReprocesamiento: React.FC = () => {
     try {
       await procesamientoService.reprocesar(forzarReproceso);
       setToast({ type: 'success', message: 'Reprocesamiento finalizado con éxito.' });
-      fetchLogs(); // refresh to show updated data
+      fetchLogs();
     } catch (error: any) {
       console.error('Error in reprocesar:', error);
       setToast({ 
         type: 'error', 
         message: error.response?.data?.detail || 'Error al ejecutar reprocesamiento.' 
       });
-      fetchLogs(); // refresh in case a log was created with ERROR
+      fetchLogs();
     } finally {
       setIsReprocessing(false);
     }
   };
+
+  const buildExportRows = () =>
+    (logs?.items ?? []).map((log: ProcesamientoLogDTO) => ({
+      ID: log.id,
+      Estado: log.estado,
+      'Forzar Reproceso': log.forzar_reproceso ? 'SÍ' : 'NO',
+      'Fecha Inicio': log.fecha_hora_inicio,
+      'Fecha Fin': log.fecha_hora_fin ?? '',
+      'Duración (s)': log.duracion_segundos ?? '',
+      'Total Evaluados': log.total_evaluados,
+      Procesados: log.procesados,
+      Omitidos: log.omitidos,
+      'Anomalías Registradas': log.anomalias_registradas,
+      'Mensaje Error': log.mensaje_error ?? '',
+    }));
+
+  const handleExportCSV = () => exportToCSV(buildExportRows(), 'historial_reprocesamiento');
+  const handleExportExcel = () => exportToExcel(buildExportRows(), 'historial_reprocesamiento');
 
   const getStatusBadge = (estado: string) => {
     switch (estado) {
@@ -103,14 +122,34 @@ export const AdminReprocesamiento: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Header section */}
-      <div>
-        <h1 className="text-2xl font-bold text-slate-900 flex items-center gap-2">
-          <RefreshCw className="text-emerald-500" />
-          Pipeline de Normalización
-        </h1>
-        <p className="text-slate-500 mt-1">
-          Gestiona y supervisa la ejecución del pipeline de normalización de datos.
-        </p>
+      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
+        <div>
+          <h1 className="text-2xl font-bold text-slate-900 flex items-center gap-2">
+            <RefreshCw className="text-emerald-500" />
+            Pipeline de Normalización
+          </h1>
+          <p className="text-slate-500 mt-1">
+            Gestiona y supervisa la ejecución del pipeline de normalización de datos.
+          </p>
+        </div>
+        <div className="flex items-center gap-2 flex-shrink-0">
+          <button
+            onClick={handleExportCSV}
+            disabled={!logs?.items?.length}
+            className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
+          >
+            <FileText size={15} />
+            Exportar CSV
+          </button>
+          <button
+            onClick={handleExportExcel}
+            disabled={!logs?.items?.length}
+            className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold bg-emerald-600 text-white hover:bg-emerald-700 disabled:opacity-40 disabled:cursor-not-allowed shadow-sm transition-all"
+          >
+            <FileSpreadsheet size={15} />
+            Exportar Excel
+          </button>
+        </div>
       </div>
 
       {/* Control Panel */}

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { RefreshCw, AlertCircle, CheckCircle, XCircle, Clock } from 'lucide-react';
+import { RefreshCw, AlertCircle, CheckCircle, XCircle, Clock, FileSpreadsheet, FileText } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/Card';
 import { fuentesService } from '../../services/fuentesService';
 import type { SincronizacionHistorialResponseDTO, EstadoSync } from '../../types/fuente';
+import { exportToCSV, exportToExcel } from '../../utils/exportUtils';
 
 const STATUS_STYLES: Record<EstadoSync, string> = {
   EXITOSO: 'bg-emerald-100 text-emerald-700',
@@ -36,6 +37,22 @@ const AdminSyncLogs: React.FC = () => {
 
   useEffect(() => { fetchLogs(); }, []);
 
+  const buildExportRows = () =>
+    logs.map((log: SincronizacionHistorialResponseDTO) => ({
+      ID: log.id,
+      Fuente: log.fuente_nombre ?? `Fuente #${log.fuente_id}`,
+      'Fecha Inicio': new Date(log.fecha_inicio).toLocaleString('es-CO'),
+      'Fecha Fin': log.fecha_fin ? new Date(log.fecha_fin).toLocaleString('es-CO') : '',
+      'Registros Traídos': log.registros_traidos,
+      'Registros Insertados': log.registros_insertados,
+      'Registros Duplicados': log.registros_duplicados,
+      Estado: log.estado,
+      'Mensaje Error': log.mensaje_error ?? '',
+    }));
+
+  const handleExportCSV = () => exportToCSV(buildExportRows(), 'logs_sincronizacion');
+  const handleExportExcel = () => exportToExcel(buildExportRows(), 'logs_sincronizacion');
+
   return (
     <div className="space-y-6 animate-in fade-in duration-500">
       {/* Header */}
@@ -51,15 +68,33 @@ const AdminSyncLogs: React.FC = () => {
             </p>
           </div>
         </div>
-        <button
-          id="sync-logs-refresh-btn"
-          onClick={fetchLogs}
-          disabled={loading}
-          className="inline-flex items-center gap-2 px-4 py-2 border border-slate-200 hover:bg-slate-50 text-slate-600 text-sm font-medium rounded-lg transition-colors disabled:opacity-50"
-        >
-          <RefreshCw size={14} className={loading ? 'animate-spin' : ''} />
-          Actualizar
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            id="sync-logs-refresh-btn"
+            onClick={fetchLogs}
+            disabled={loading}
+            className="inline-flex items-center gap-2 px-4 py-2 border border-slate-200 hover:bg-slate-50 text-slate-600 text-sm font-medium rounded-lg transition-colors disabled:opacity-50"
+          >
+            <RefreshCw size={14} className={loading ? 'animate-spin' : ''} />
+            Actualizar
+          </button>
+          <button
+            onClick={handleExportCSV}
+            disabled={!logs.length}
+            className="inline-flex items-center gap-2 px-4 py-2 border border-slate-200 hover:bg-slate-50 text-slate-600 text-sm font-medium rounded-lg transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+          >
+            <FileText size={14} />
+            CSV
+          </button>
+          <button
+            onClick={handleExportExcel}
+            disabled={!logs.length}
+            className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-600 text-white text-sm font-medium rounded-lg hover:bg-emerald-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed shadow-sm"
+          >
+            <FileSpreadsheet size={14} />
+            Excel
+          </button>
+        </div>
       </div>
 
       {/* Summary badges */}

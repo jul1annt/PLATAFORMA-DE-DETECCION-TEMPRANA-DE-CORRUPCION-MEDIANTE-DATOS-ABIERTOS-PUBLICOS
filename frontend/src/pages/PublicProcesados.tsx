@@ -1,11 +1,13 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { FileText, FileSpreadsheet } from 'lucide-react';
 import type { Procesado, MetricasCalidad, CampoFaltante, QualityFilterType } from '../types/procesado';
 import { getProcesados, getMetricasCalidad, getCamposFaltantes } from '../services/procesadosService';
 import { AlertIcons } from '../components/AlertIcons';
 import { QualitySummaryBanner } from '../components/QualitySummaryBanner';
 import { SearchAutocomplete } from '../components/SearchAutocomplete';
 import { PublicNavbar } from '../components/layout/PublicNavbar';
+import { exportToCSV, exportToPDF } from '../utils/exportUtils';
 
 export const PublicProcesados: React.FC = () => {
   const [procesados, setProcesados] = useState<Procesado[]>([]);
@@ -232,6 +234,58 @@ export const PublicProcesados: React.FC = () => {
     return <span>{order === 'asc' ? '↑' : '↓'}</span>;
   };
 
+  // ── Export helpers ────────────────────────────────────────────────────────
+  const PDF_COLUMNS = [
+    { header: 'ID', dataKey: 'id' },
+    { header: 'Entidad', dataKey: 'entidad' },
+    { header: 'Proveedor', dataKey: 'proveedor' },
+    { header: 'Modalidad', dataKey: 'modalidad' },
+    { header: 'Valor Total', dataKey: 'valor_total' },
+    { header: 'Fecha Publicación', dataKey: 'fecha' },
+    { header: 'Estado', dataKey: 'estado' },
+    { header: 'Confianza', dataKey: 'confianza' },
+    { header: 'Incompleto', dataKey: 'incompleto' },
+    { header: 'Sospechoso', dataKey: 'sospechoso' },
+  ];
+
+  const buildExportRows = () =>
+    displayedProcesados.map((p) => ({
+      id: p.id,
+      entidad: p.entidad_normalizada || p.entidad || '',
+      proveedor: p.proveedor_normalizado || p.proveedor || '',
+      modalidad: p.modalidad_contratacion || p.modalidad || '',
+      valor_total: p.valor_total_normalizado != null
+        ? Number(p.valor_total_normalizado).toLocaleString('es-CO')
+        : '',
+      fecha: p.fecha_publicacion_normalizada || p.fecha || '',
+      estado: p.estado_normalizado || '',
+      confianza: p.nivel_confianza != null ? `${p.nivel_confianza}%` : '',
+      incompleto: p.es_incompleto ? 'SÍ' : 'NO',
+      sospechoso: p.es_sospechoso ? 'SÍ' : 'NO',
+    }));
+
+  const activeFilterLabel: Record<QualityFilterType, string> = {
+    ALL: 'Todos los contratos',
+    INCOMPLETOS: 'Filtro: Contratos Incompletos',
+    SOSPECHOSOS: 'Filtro: Contratos Sospechosos',
+    MODIFICADOS: 'Filtro: Datos Modificados',
+    ALTO_RIESGO: 'Filtro: Alto Riesgo',
+  };
+
+  const handleExportCSV = () => {
+    exportToCSV(buildExportRows() as Record<string, unknown>[], 'contratos_calidad');
+  };
+
+  const handleExportPDF = async () => {
+    await exportToPDF({
+      title: 'Monitoreo de Calidad de Datos',
+      subtitle: activeFilterLabel[activeFilter] + (searchQuery ? ` | Búsqueda: "${searchQuery}"` : ''),
+      filename: 'contratos_calidad',
+      columns: PDF_COLUMNS,
+      data: buildExportRows() as Record<string, unknown>[],
+    });
+  };
+
   return (
     <div className="min-h-screen font-sans text-slate-900 relative overflow-hidden bg-slate-50">
       {/* Mesh Gradient Background */}
@@ -247,14 +301,34 @@ export const PublicProcesados: React.FC = () => {
 
       <main className="max-w-[1400px] mx-auto px-8 py-12 relative z-10">
         {/* Título Principal */}
-        <div className="mb-12">
-          <h1 className="text-5xl font-black text-indigo-950 tracking-tighter mb-4">
-            Monitoreo de Calidad de Datos
-          </h1>
-          <p className="text-lg text-slate-500 max-w-3xl font-medium">
-            Resumen post-sincronización. Visualice los problemas detectados en la calidad de los datos y 
-            filtre los registros haciendo click en las tarjetas.
-          </p>
+        <div className="mb-12 flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+          <div>
+            <h1 className="text-5xl font-black text-indigo-950 tracking-tighter mb-4">
+              Monitoreo de Calidad de Datos
+            </h1>
+            <p className="text-lg text-slate-500 max-w-3xl font-medium">
+              Resumen post-sincronización. Visualice los problemas detectados en la calidad de los datos y
+              filtre los registros haciendo click en las tarjetas.
+            </p>
+          </div>
+          <div className="flex items-center gap-2 flex-shrink-0">
+            <button
+              onClick={handleExportCSV}
+              disabled={!displayedProcesados.length}
+              className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold border border-indigo-200 bg-white text-indigo-700 hover:bg-indigo-50 disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-sm"
+            >
+              <FileText size={15} />
+              Descargar CSV
+            </button>
+            <button
+              onClick={handleExportPDF}
+              disabled={!displayedProcesados.length}
+              className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold bg-indigo-600 text-white hover:bg-indigo-700 disabled:opacity-40 disabled:cursor-not-allowed active:scale-95 shadow-sm hover:shadow-md transition-all"
+            >
+              <FileSpreadsheet size={15} />
+              Descargar PDF
+            </button>
+          </div>
         </div>
 
         {loading ? (
