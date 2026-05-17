@@ -65,17 +65,36 @@ class AnaliticaService:
         Retorna el resumen de la ejecución.
         """
         run_id = uuid.uuid4()
-        campo = request.campo_analizado
+        campo = request.campo
         fecha_calculo = datetime.utcnow()
+
+        # Validaciones de seguridad (allowlists)
+        CAMPOS_NUMERICOS_VALIDOS = {"valor_total_normalizado", "precio_base_normalizado", "nivel_confianza", "cantidad_campos_faltantes"}
+        CAMPOS_FECHA_VALIDOS = {"fecha_publicacion_normalizada", "fecha_adjudicacion_normalizada"}
+
+        if campo not in CAMPOS_NUMERICOS_VALIDOS:
+            raise ValueError(f"Campo numérico a analizar no es válido: {campo}")
+
+        if request.fecha_campo and request.fecha_campo not in CAMPOS_FECHA_VALIDOS:
+            raise ValueError(f"Campo de fecha para filtrar no es válido: {request.fecha_campo}")
+
+        logger.info(
+            f"[Outliers Analysis] Iniciando ejecución {run_id}. "
+            f"Campo: '{campo}'. Fecha Campo: '{request.fecha_campo}'. "
+            f"Rango: {request.fecha_desde} - {request.fecha_hasta}. "
+            f"Modalidad: '{request.modalidad}'"
+        )
+        start_time = datetime.utcnow()
 
         # PASO 1: calcular Q1, Q3, IQR y límites por grupo en PostgreSQL
         estadisticas_por_grupo: dict[str, dict] = {
             fila["grupo"]: fila
             for fila in self.repo.obtener_estadisticas_por_grupo(
                 campo=campo,
+                fecha_campo=request.fecha_campo,
                 fecha_desde=request.fecha_desde,
                 fecha_hasta=request.fecha_hasta,
-                modalidades=request.modalidades,
+                modalidad=request.modalidad,
             )
         }
 
@@ -88,9 +107,10 @@ class AnaliticaService:
         # PASO 2: traer los contratos válidos del mismo universo
         contratos = self.repo.obtener_contratos_validos(
             campo=campo,
+            fecha_campo=request.fecha_campo,
             fecha_desde=request.fecha_desde,
             fecha_hasta=request.fecha_hasta,
-            modalidades=request.modalidades,
+            modalidad=request.modalidad,
         )
 
         # PASO 3 y 4: clasificar y calcular score
@@ -136,6 +156,14 @@ class AnaliticaService:
         # PASO 5: persistir
         self.repo.guardar_resultados(registros)
         self.db.commit()
+
+        duration = (datetime.utcnow() - start_time).total_seconds()
+        total_analizados = len(registros)
+        total_outliers = sum(1 for r in registros if r.es_outlier)
+        logger.info(
+            f"[Outliers Analysis] Finalizada ejecución {run_id} en {duration:.2f}s. "
+            f"Contratos analizados: {total_analizados}. Outliers detectados: {total_outliers}."
+        )
 
         return self.obtener_resumen(run_id)
 

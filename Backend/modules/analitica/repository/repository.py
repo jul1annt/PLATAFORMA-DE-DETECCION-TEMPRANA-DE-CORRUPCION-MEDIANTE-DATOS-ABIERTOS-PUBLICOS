@@ -21,11 +21,25 @@ class AnaliticaRepository:
     def obtener_estadisticas_por_grupo(
         self,
         campo: str,
+        fecha_campo: Optional[str] = None,
         fecha_desde: Optional[date] = None,
         fecha_hasta: Optional[date] = None,
         modalidades: Optional[list[str]] = None,
+        modalidad: Optional[str] = None,
     ) -> list[dict]:
-        filtros_base = self._construir_filtros_base(campo, fecha_desde, fecha_hasta, modalidades)
+        # Validar rigurosamente contra allowlist antes de interpolar en query SQL
+        CAMPOS_NUMERICOS_VALIDOS = {"valor_total_normalizado", "precio_base_normalizado", "nivel_confianza", "cantidad_campos_faltantes"}
+        if campo not in CAMPOS_NUMERICOS_VALIDOS:
+            raise ValueError(f"Campo numérico no válido: {campo}")
+
+        filtros_base = self._construir_filtros_base(
+            campo=campo,
+            fecha_campo=fecha_campo,
+            fecha_desde=fecha_desde,
+            fecha_hasta=fecha_hasta,
+            modalidades=modalidades,
+            modalidad=modalidad,
+        )
 
         query = text(f"""
             WITH contratos_validos AS (
@@ -71,11 +85,25 @@ class AnaliticaRepository:
     def obtener_contratos_validos(
         self,
         campo: str,
+        fecha_campo: Optional[str] = None,
         fecha_desde: Optional[date] = None,
         fecha_hasta: Optional[date] = None,
         modalidades: Optional[list[str]] = None,
+        modalidad: Optional[str] = None,
     ) -> list[dict]:
-        filtros_base = self._construir_filtros_base(campo, fecha_desde, fecha_hasta, modalidades)
+        # Validar rigurosamente contra allowlist antes de interpolar en query SQL
+        CAMPOS_NUMERICOS_VALIDOS = {"valor_total_normalizado", "precio_base_normalizado", "nivel_confianza", "cantidad_campos_faltantes"}
+        if campo not in CAMPOS_NUMERICOS_VALIDOS:
+            raise ValueError(f"Campo numérico no válido: {campo}")
+
+        filtros_base = self._construir_filtros_base(
+            campo=campo,
+            fecha_campo=fecha_campo,
+            fecha_desde=fecha_desde,
+            fecha_hasta=fecha_hasta,
+            modalidades=modalidades,
+            modalidad=modalidad,
+        )
 
         query = text(f"""
             SELECT
@@ -191,22 +219,38 @@ class AnaliticaRepository:
     def _construir_filtros_base(
         self,
         campo: str,
-        fecha_desde: Optional[date],
-        fecha_hasta: Optional[date],
-        modalidades: Optional[list[str]],
+        fecha_campo: Optional[str] = None,
+        fecha_desde: Optional[date] = None,
+        fecha_hasta: Optional[date] = None,
+        modalidades: Optional[list[str]] = None,
+        modalidad: Optional[str] = None,
     ) -> dict:
         where_extra = ""
         params = {}
 
+        # Determinar qué columna de fecha usar. Por defecto es fecha_publicacion_normalizada.
+        # Validar rigurosamente contra allowlist antes de cualquier interpolación.
+        CAMPOS_FECHA_VALIDOS = {"fecha_publicacion_normalizada", "fecha_adjudicacion_normalizada"}
+        col_fecha = "fecha_publicacion_normalizada"
+        if fecha_campo:
+            if fecha_campo not in CAMPOS_FECHA_VALIDOS:
+                raise ValueError(f"Campo de fecha no válido: {fecha_campo}")
+            col_fecha = fecha_campo
+
         if fecha_desde:
-            where_extra += " AND fecha_publicacion_normalizada >= :fecha_desde"
+            where_extra += f" AND {col_fecha} >= :fecha_desde"
             params["fecha_desde"] = fecha_desde
         if fecha_hasta:
-            where_extra += " AND fecha_publicacion_normalizada <= :fecha_hasta"
+            where_extra += f" AND {col_fecha} <= :fecha_hasta"
             params["fecha_hasta"] = fecha_hasta
         if modalidades:
             where_extra += " AND modalidad_contratacion = ANY(:modalidades)"
             params["modalidades"] = modalidades
+
+        # Filtro de modalidad única (nuevo requisito de selección única)
+        if modalidad:
+            where_extra += " AND modalidad_contratacion = :modalidad"
+            params["modalidad"] = modalidad
 
         return {"where_extra": where_extra, "params": params}
 

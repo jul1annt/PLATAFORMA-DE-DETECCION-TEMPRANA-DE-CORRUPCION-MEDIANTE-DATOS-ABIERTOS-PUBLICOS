@@ -1,4 +1,5 @@
 from datetime import datetime, date
+from decimal import Decimal
 from typing import Optional
 from uuid import UUID
 from pydantic import BaseModel
@@ -164,7 +165,7 @@ class ProveedorDirectaResumenResponse(BaseModel):
 
 class PesoAnomaliaResponse(BaseModel):
     tipo_anomalia: str
-    peso: float
+    peso: Decimal
     updated_at: Optional[datetime]
 
     class Config:

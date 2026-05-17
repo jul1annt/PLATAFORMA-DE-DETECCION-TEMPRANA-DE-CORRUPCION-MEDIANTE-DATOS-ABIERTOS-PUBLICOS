@@ -1,4 +1,5 @@
 from datetime import date
+from decimal import Decimal
 from typing import Optional
 from pydantic import BaseModel, Field
 
@@ -8,22 +9,27 @@ class OutlierCalculoRequest(BaseModel):
     Parámetros para disparar una nueva ejecución del análisis IQR.
     Todos los campos son opcionales; sin filtros se analiza el universo completo.
     """
-    campo_analizado: str = Field(
+    campo: str = Field(
         default="valor_total_normalizado",
         description="Campo numérico de contratos_procesados a analizar.",
-        pattern="^(valor_total_normalizado|precio_base_normalizado)$"
+        pattern="^(valor_total_normalizado|precio_base_normalizado|nivel_confianza|cantidad_campos_faltantes)$"
+    )
+    fecha_campo: Optional[str] = Field(
+        default=None,
+        description="Campo de fecha a usar para filtrar (fecha_publicacion_normalizada o fecha_adjudicacion_normalizada).",
+        pattern="^(fecha_publicacion_normalizada|fecha_adjudicacion_normalizada)$"
     )
     fecha_desde: Optional[date] = Field(
         default=None,
-        description="Filtro por fecha_publicacion_normalizada (inclusive)."
+        description="Filtro por fecha (inclusive)."
     )
     fecha_hasta: Optional[date] = Field(
         default=None,
-        description="Filtro por fecha_publicacion_normalizada (inclusive)."
+        description="Filtro por fecha (inclusive)."
     )
-    modalidades: Optional[list[str]] = Field(
+    modalidad: Optional[str] = Field(
         default=None,
-        description="Lista de modalidades_de_contratacion a incluir. Null = todas."
+        description="Modalidad de contratación única a incluir. Null = todas."
     )
 
 
@@ -163,7 +169,7 @@ class PesoActualizarRequest(BaseModel):
     """
     Petición para actualizar el peso de una anomalía.
     """
-    peso: float = Field(..., ge=0.0, description="Nuevo peso para la anomalía")
+    peso: Decimal = Field(..., ge=Decimal("0.0"), description="Nuevo peso para la anomalía")
 
 class RiesgoFiltroRequest(BaseModel):
     """
