@@ -1,8 +1,8 @@
-"""add user
+"""initial
 
-Revision ID: 06777ff868b7
+Revision ID: f33e2fc6ccf4
 Revises: 
-Create Date: 2026-05-15 21:10:08.452230
+Create Date: 2026-05-17 03:56:58.106841
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 from sqlalchemy.dialects import postgresql
 
 # revision identifiers, used by Alembic.
-revision: str = '06777ff868b7'
+revision: str = 'f33e2fc6ccf4'
 down_revision: Union[str, Sequence[str], None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -110,6 +110,21 @@ def upgrade() -> None:
     sa.PrimaryKeyConstraint('id')
     )
     op.create_index(op.f('ix_peso_anomalia_tipo_anomalia'), 'peso_anomalia', ['tipo_anomalia'], unique=True)
+    op.create_table('procesamiento_logs',
+    sa.Column('id', sa.BigInteger(), autoincrement=True, nullable=False),
+    sa.Column('total_evaluados', sa.Integer(), nullable=True),
+    sa.Column('procesados', sa.Integer(), nullable=True),
+    sa.Column('omitidos', sa.Integer(), nullable=True),
+    sa.Column('anomalias_registradas', sa.Integer(), nullable=True),
+    sa.Column('fecha_hora_inicio', sa.DateTime(timezone=True), nullable=False),
+    sa.Column('fecha_hora_fin', sa.DateTime(timezone=True), nullable=True),
+    sa.Column('duracion_segundos', sa.Integer(), nullable=True),
+    sa.Column('forzar_reproceso', sa.Boolean(), nullable=True),
+    sa.Column('estado', sa.String(length=50), nullable=False),
+    sa.Column('mensaje_error', sa.Text(), nullable=True),
+    sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=False),
+    sa.PrimaryKeyConstraint('id')
+    )
     op.create_table('proveedor_adjudicacion_directa',
     sa.Column('id', sa.UUID(), nullable=False),
     sa.Column('run_id', sa.UUID(), nullable=False),
@@ -352,6 +367,7 @@ def downgrade() -> None:
     op.drop_index('ix_prov_adjdir_porcentaje_directos', table_name='proveedor_adjudicacion_directa')
     op.drop_index('ix_prov_adjdir_clasificacion_riesgo', table_name='proveedor_adjudicacion_directa')
     op.drop_table('proveedor_adjudicacion_directa')
+    op.drop_table('procesamiento_logs')
     op.drop_index(op.f('ix_peso_anomalia_tipo_anomalia'), table_name='peso_anomalia')
     op.drop_table('peso_anomalia')
     op.drop_index(op.f('ix_fuentes_datos_id'), table_name='fuentes_datos')
