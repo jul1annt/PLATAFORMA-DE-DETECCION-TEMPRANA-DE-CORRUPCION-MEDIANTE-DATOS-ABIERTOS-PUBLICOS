@@ -20,4 +20,6 @@ Antes del ajuste, PostgreSQL informó `max_wal_size=1GB`, `checkpoint_timeout=5m
 
 En la lectura posterior a aproximadamente veinte minutos de carga, los contadores seguían en 54 checkpoints temporizados y cinco solicitados, y la sesión nueva confirmó 16GB/1h. El intervalo sin nuevos checkpoints es consistente con el ajuste; no prueba todavía una mejora de latencia porque la fuente de red y otras cargas varían.
 
+Con 12 lotes adicionales confirmados (55–66), cada uno de 100 000 filas, la duración media fue **210,8 s**, la mediana **214,1 s** y el máximo **239,8 s**. Los últimos diez lotes antes del ajuste promediaban **243,8 s**. La diferencia observada es de aproximadamente **13,5 %** en tiempo medio de lote; la medición no aísla el efecto de los checkpoints frente a variaciones de Socrata, red, caché y carga del equipo. El lote 66 dejó 6 600 000 filas confirmadas y 119,3 GiB libres.
+
 Para cerrar P16 aún faltan latencias de las consultas costosas de la API bajo carga concurrente del universo completo, picos de memoria/disco y una recuperación controlada de fallo de red o base junto con exclusión de trabajos entre workers. Las pruebas funcionales existentes ya cubren exclusión y recuperación en PostgreSQL pequeño; no se extrapolan como medición de escala.
