@@ -1,22 +1,20 @@
-import api from '../api/axios';
 import type { MetricasCalidadDTO, CampoFaltanteDTO } from '../types/calidad';
+import type { BackgroundJobAccepted } from '../types/api.generated';
+import api from '../api/axios';
+import { procesamientoService } from './procesamientoService';
 
 export const calidadService = {
-  getMetricasCalidad: async (): Promise<MetricasCalidadDTO> => {
-    const response = await api.get('/api/procesados/metricas/calidad');
+  getMetricasCalidad: async (signal?: AbortSignal): Promise<MetricasCalidadDTO> => {
+    const response = await api.get('/api/procesados/metricas/calidad', { signal });
     return response.data;
   },
 
-  getCamposFaltantes: async (): Promise<CampoFaltanteDTO[]> => {
-    const response = await api.get('/api/procesados/metricas/campos-faltantes');
+  getCamposFaltantes: async (signal?: AbortSignal): Promise<CampoFaltanteDTO[]> => {
+    const response = await api.get('/api/procesados/metricas/campos-faltantes', { signal });
     return response.data;
   },
 
-  reprocesar: async (limite: number = 1000, forzar: boolean = false): Promise<any> => {
-    const response = await api.post('/api/procesados/reprocesar', {
-      limite,
-      forzar_reproceso: forzar,
-    });
-    return response.data;
+  reprocesar: async (forzar: boolean = false): Promise<BackgroundJobAccepted> => {
+    return procesamientoService.reprocesar(forzar);
   },
 };

@@ -14,6 +14,14 @@ interface AnomalyChartProps {
 }
 
 export const AnomalyChart: React.FC<AnomalyChartProps> = ({ data, total }) => {
+  if (total === 0) {
+    return (
+      <div className="flex items-center justify-center h-48 text-slate-400 text-sm font-medium">
+        Sin contratos para evaluar anomalías
+      </div>
+    );
+  }
+
   if (!data || data.length === 0) {
     return (
       <div className="flex items-center justify-center h-48 text-slate-400 text-sm font-medium">
@@ -78,7 +86,7 @@ export const AnomalyChart: React.FC<AnomalyChartProps> = ({ data, total }) => {
             cornerRadius={6}
           />
           <Tooltip
-            formatter={(value: number, name: string) => [`${value}%`, name]}
+            formatter={(value, name) => [`${Number(value ?? 0)}%`, String(name)]}
             contentStyle={{
               background: 'rgba(15,23,42,0.92)',
               border: 'none',

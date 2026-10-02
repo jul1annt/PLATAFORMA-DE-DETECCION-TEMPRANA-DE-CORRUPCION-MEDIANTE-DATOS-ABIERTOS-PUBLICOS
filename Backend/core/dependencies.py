@@ -1,9 +1,3 @@
-from sqlalchemy.orm import Session
-from core.database import SessionLocal
+"""Compatibility import for the application's single database dependency."""
 
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
+from core.database import get_db

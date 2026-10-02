@@ -5,8 +5,8 @@ from shared.base_model import Base
 
 class EstadisticaCamposFaltantes(Base):
     """
-    Contador acumulado de cuántas veces ha faltado cada campo obligatorio.
-    Se incrementa en +1 por cada registro que llega sin ese campo.
+    Conteo reconstruible de contratos procesados con cada campo obligatorio ausente.
+    El porcentaje usa como denominador todos los contratos procesados vigentes.
     """
     __tablename__ = "estadistica_campos_faltantes"
 

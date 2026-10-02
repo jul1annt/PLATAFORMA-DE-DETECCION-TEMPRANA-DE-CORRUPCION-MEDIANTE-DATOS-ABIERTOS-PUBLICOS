@@ -1,4 +1,5 @@
 from sqlalchemy import Column, BigInteger, String, Text, Integer, DateTime, Boolean
+from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.sql import func
 from shared.base_model import Base
 
@@ -25,5 +26,7 @@ class ProcesamientoLog(Base):
     forzar_reproceso = Column(Boolean, default=False)
     estado = Column(String(50), nullable=False) # EN_PROCESO, EXITOSO, ERROR
     mensaje_error = Column(Text, nullable=True)
+    version_reglas = Column(String(32), nullable=False, default="legacy")
+    universo = Column(JSONB, nullable=False, default=dict)
 
     created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)

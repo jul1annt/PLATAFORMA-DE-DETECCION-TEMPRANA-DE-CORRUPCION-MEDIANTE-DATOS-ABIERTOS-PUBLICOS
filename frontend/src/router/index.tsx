@@ -1,48 +1,53 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
-import { MainLayout } from '../layouts/MainLayout';
+import { Suspense, type ReactNode } from 'react';
 import { AdminLayout } from '../layouts/AdminLayout';
-import { HomePage } from '../pages/HomePage';
-import { Dashboard } from '../pages/Dashboard';
-import { FuentesList } from '../pages/FuentesList';
-import { FuenteForm } from '../pages/FuenteForm';
-import { DataQualityDashboard } from '../pages/DataQualityDashboard';
-import { PublicProcesados } from '../pages/PublicProcesados';
-import { PublicContratoDetalle } from '../pages/PublicContratoDetalle';
-import { PublicDashboard } from '../pages/PublicDashboard';
 import ProtectedRoute from './ProtectedRoute';
-import AdminLogin from '../pages/admin/AdminLogin';
-import AdminDashboard from '../pages/admin/AdminDashboard';
-import AdminSyncLogs from '../pages/admin/AdminSyncLogs';
-import { AdminReprocesamiento } from '../pages/admin/AdminReprocesamiento';
-import { AdminAnalitica } from '../pages/admin/AdminAnalitica';
+import {
+  HomePageRoute,
+  FuentesListRoute,
+  FuenteFormRoute,
+  DataQualityDashboardRoute,
+  PublicProcesadosRoute,
+  PublicContratoDetalleRoute,
+  PublicDashboardRoute,
+  AdminLoginRoute,
+  AdminDashboardRoute,
+  AdminSyncLogsRoute,
+  AdminReprocesamientoRoute,
+  AdminAnaliticaRoute,
+} from './lazyPages';
+
+function withSuspense(element: ReactNode) {
+  return <Suspense fallback={<div className="p-8 text-center text-slate-500">Cargando…</div>}>{element}</Suspense>;
+}
 
 export const router = createBrowserRouter([
   // ── Landing / Home ────────────────────────────────────────────────────────
   {
     path: '/',
-    element: <HomePage />,
+    element: withSuspense(<HomePageRoute />),
   },
 
   // ── Public: dashboard ──────────────────────────────────────────────────────
   {
     path: '/public/dashboard',
-    element: <PublicDashboard />,
+    element: withSuspense(<PublicDashboardRoute />),
   },
 
   // ── Public: procesados ────────────────────────────────────────────────────
   {
     path: '/public/procesados',
-    element: <PublicProcesados />,
+    element: withSuspense(<PublicProcesadosRoute />),
   },
   {
     path: '/public/procesados/:id',
-    element: <PublicContratoDetalle />,
+    element: withSuspense(<PublicContratoDetalleRoute />),
   },
 
   // ── Admin login (public) ──────────────────────────────────────────────────
   {
     path: '/admin/login',
-    element: <AdminLogin />,
+    element: withSuspense(<AdminLoginRoute />),
   },
 
   // ── Admin zone (protected) ────────────────────────────────────────────────
@@ -53,39 +58,22 @@ export const router = createBrowserRouter([
       {
         element: <AdminLayout />,
         children: [
-          { index: true, element: <AdminDashboard /> },
-          { path: 'fuentes', element: <FuentesList /> },
-          { path: 'fuentes/nueva', element: <FuenteForm /> },
-          { path: 'fuentes/editar/:id', element: <FuenteForm /> },
-          { path: 'calidad', element: <DataQualityDashboard /> },
-          { path: 'analitica', element: <AdminAnalitica /> },
-          { path: 'reprocesamiento', element: <AdminReprocesamiento /> },
-          { path: 'sync-logs', element: <AdminSyncLogs /> },
+          { index: true, element: withSuspense(<AdminDashboardRoute />) },
+          { path: 'fuentes', element: withSuspense(<FuentesListRoute />) },
+          { path: 'fuentes/nueva', element: withSuspense(<FuenteFormRoute />) },
+          { path: 'fuentes/editar/:id', element: withSuspense(<FuenteFormRoute />) },
+          { path: 'calidad', element: withSuspense(<DataQualityDashboardRoute />) },
+          { path: 'analitica', element: withSuspense(<AdminAnaliticaRoute />) },
+          { path: 'reprocesamiento', element: withSuspense(<AdminReprocesamientoRoute />) },
+          { path: 'sync-logs', element: withSuspense(<AdminSyncLogsRoute />) },
         ],
       },
     ],
   },
 
-  // ── Legacy internal app (MainLayout) ─────────────────────────────────────
-  // Kept under /app to preserve all existing functionality
   {
-    path: '/app',
-    element: <MainLayout />,
-    children: [
-      { index: true, element: <Dashboard /> },
-      { path: 'fuentes', element: <FuentesList /> },
-      { path: 'fuentes/nueva', element: <FuenteForm /> },
-      { path: 'fuentes/editar/:id', element: <FuenteForm /> },
-      { path: 'calidad', element: <DataQualityDashboard /> },
-      {
-        path: 'configuracion',
-        element: (
-          <div className="p-8 text-center text-slate-500">
-            Módulo de configuración en construcción.
-          </div>
-        ),
-      },
-    ],
+    path: '/app/*',
+    element: <Navigate to="/admin" replace />,
   },
 
   // ── Catch-all ─────────────────────────────────────────────────────────────

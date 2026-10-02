@@ -1,0 +1,188 @@
+{
+  "generated_at_utc": "2026-09-30T14:28:19.354743+00:00",
+  "legacy_database": "plataforma_cutover_restore_check",
+  "current_database": "plataforma_cutover_test",
+  "method": {
+    "candidate_lookup": "id_del_proceso; candidate selector only, not a row identity",
+    "full_value_match_fields": 60,
+    "full_value_match_excludes": [
+      "id",
+      "sincronizado_en",
+      "socrata_row_id"
+    ],
+    "award_comparison_tuple": [
+      "fuente_id",
+      "id_del_proceso",
+      "id_adjudicacion",
+      "codigoproveedor",
+      "nit_del_proveedor_adjudicado",
+      "valor_total_adjudicacion"
+    ],
+    "award_tuple_is_authoritative_identity": false,
+    "closest_field_counts_include_tied_candidates": true,
+    "closest_field_counts_are_diagnostic_only": true,
+    "write_operations": 0
+  },
+  "counts": {
+    "legacy_rows": 18980,
+    "legacy_rows_with_socrata_row_id": 0,
+    "legacy_rows_without_process_id": 0,
+    "legacy_process_ids": 18980,
+    "legacy_process_ids_found_in_current": 18980,
+    "legacy_process_ids_absent_from_current": 0,
+    "current_candidate_rows_for_legacy_process_ids": 105640,
+    "legacy_process_ids_with_multiple_current_rows": 478,
+    "exact_full_source_row_matches_unique": 15456,
+    "exact_full_source_row_matches_ambiguous": 119,
+    "exact_full_source_row_without_match": 3405,
+    "award_tuple_matches_unique": 18120,
+    "award_tuple_matches_ambiguous": 157,
+    "award_tuple_without_match": 703,
+    "award_tuple_match_but_other_fields_differ": 2702
+  },
+  "closest_candidate_field_difference_counts": {
+    "codigo_pci": 1290,
+    "ciudad_de_la_unidad_de": 934,
+    "codigo_principal_de_categoria": 441,
+    "entidad": 249,
+    "visualizaciones_del": 129,
+    "departamento_entidad": 78,
+    "ciudad_entidad": 72,
+    "estado_del_procedimiento": 46,
+    "categorias_adicionales": 46,
+    "id_estado_del_procedimiento": 43,
+    "nombre_de_la_unidad_de": 43,
+    "fecha_de_apertura_de_respuesta": 42,
+    "estado_resumen": 23,
+    "precio_base": 23,
+    "nombre_del_proveedor": 20,
+    "fase": 20,
+    "nombre_del_adjudicador": 17,
+    "estado_de_apertura_del_proceso": 15,
+    "duracion": 10,
+    "fecha_de_apertura_efectiva": 3
+  },
+  "closest_candidate_field_difference_types": [
+    {
+      "field": "codigo_pci",
+      "legacy_null_current_populated": 0,
+      "legacy_populated_current_null": 0,
+      "both_populated_different": 1290
+    },
+    {
+      "field": "ciudad_de_la_unidad_de",
+      "legacy_null_current_populated": 0,
+      "legacy_populated_current_null": 0,
+      "both_populated_different": 934
+    },
+    {
+      "field": "codigo_principal_de_categoria",
+      "legacy_null_current_populated": 0,
+      "legacy_populated_current_null": 0,
+      "both_populated_different": 441
+    },
+    {
+      "field": "entidad",
+      "legacy_null_current_populated": 0,
+      "legacy_populated_current_null": 0,
+      "both_populated_different": 249
+    },
+    {
+      "field": "visualizaciones_del",
+      "legacy_null_current_populated": 0,
+      "legacy_populated_current_null": 0,
+      "both_populated_different": 129
+    },
+    {
+      "field": "departamento_entidad",
+      "legacy_null_current_populated": 0,
+      "legacy_populated_current_null": 0,
+      "both_populated_different": 78
+    },
+    {
+      "field": "ciudad_entidad",
+      "legacy_null_current_populated": 0,
+      "legacy_populated_current_null": 0,
+      "both_populated_different": 72
+    },
+    {
+      "field": "estado_del_procedimiento",
+      "legacy_null_current_populated": 0,
+      "legacy_populated_current_null": 0,
+      "both_populated_different": 46
+    },
+    {
+      "field": "categorias_adicionales",
+      "legacy_null_current_populated": 0,
+      "legacy_populated_current_null": 0,
+      "both_populated_different": 46
+    },
+    {
+      "field": "id_estado_del_procedimiento",
+      "legacy_null_current_populated": 0,
+      "legacy_populated_current_null": 0,
+      "both_populated_different": 43
+    },
+    {
+      "field": "nombre_de_la_unidad_de",
+      "legacy_null_current_populated": 0,
+      "legacy_populated_current_null": 0,
+      "both_populated_different": 43
+    },
+    {
+      "field": "fecha_de_apertura_de_respuesta",
+      "legacy_null_current_populated": 0,
+      "legacy_populated_current_null": 0,
+      "both_populated_different": 42
+    },
+    {
+      "field": "estado_resumen",
+      "legacy_null_current_populated": 0,
+      "legacy_populated_current_null": 0,
+      "both_populated_different": 23
+    },
+    {
+      "field": "precio_base",
+      "legacy_null_current_populated": 0,
+      "legacy_populated_current_null": 0,
+      "both_populated_different": 23
+    },
+    {
+      "field": "nombre_del_proveedor",
+      "legacy_null_current_populated": 0,
+      "legacy_populated_current_null": 0,
+      "both_populated_different": 20
+    },
+    {
+      "field": "fase",
+      "legacy_null_current_populated": 0,
+      "legacy_populated_current_null": 0,
+      "both_populated_different": 20
+    },
+    {
+      "field": "nombre_del_adjudicador",
+      "legacy_null_current_populated": 0,
+      "legacy_populated_current_null": 0,
+      "both_populated_different": 17
+    },
+    {
+      "field": "estado_de_apertura_del_proceso",
+      "legacy_null_current_populated": 0,
+      "legacy_populated_current_null": 0,
+      "both_populated_different": 15
+    },
+    {
+      "field": "duracion",
+      "legacy_null_current_populated": 0,
+      "legacy_populated_current_null": 0,
+      "both_populated_different": 10
+    },
+    {
+      "field": "fecha_de_apertura_efectiva",
+      "legacy_null_current_populated": 0,
+      "legacy_populated_current_null": 0,
+      "both_populated_different": 3
+    }
+  ],
+  "interpretation": "Legacy rows have no Socrata row ID. Exact field matches are strong content evidence, but rows with duplicate matches, changed attributes, or no award-tuple match are not assigned an inferred source-row identity."
+}

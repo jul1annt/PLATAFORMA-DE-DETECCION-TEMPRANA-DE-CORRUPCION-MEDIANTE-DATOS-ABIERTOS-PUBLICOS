@@ -1,0 +1,6147 @@
+{
+  "components": {
+    "schemas": {
+      "AdjudicacionDirectaCalculoRequest": {
+        "description": "Parámetros para disparar una nueva ejecución del análisis de abuso\nde adjudicación directa por proveedor.",
+        "properties": {
+          "dias_ventana": {
+            "default": 90,
+            "description": "Ventana de días para analizar la concentración de directas.",
+            "minimum": 1.0,
+            "title": "Dias Ventana",
+            "type": "integer"
+          },
+          "fecha_desde": {
+            "anyOf": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Filtro por fecha_publicacion_normalizada (inclusive).",
+            "title": "Fecha Desde"
+          },
+          "fecha_hasta": {
+            "anyOf": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Filtro por fecha_publicacion_normalizada (inclusive).",
+            "title": "Fecha Hasta"
+          },
+          "minimo_directas": {
+            "default": 3,
+            "description": "Umbral mínimo de contratos directos para considerar abuso.",
+            "minimum": 1.0,
+            "title": "Minimo Directas",
+            "type": "integer"
+          }
+        },
+        "title": "AdjudicacionDirectaCalculoRequest",
+        "type": "object"
+      },
+      "AdminResponse": {
+        "properties": {
+          "email": {
+            "title": "Email",
+            "type": "string"
+          },
+          "id": {
+            "title": "Id",
+            "type": "integer"
+          },
+          "is_active": {
+            "title": "Is Active",
+            "type": "boolean"
+          },
+          "username": {
+            "title": "Username",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "username",
+          "email",
+          "is_active"
+        ],
+        "title": "AdminResponse",
+        "type": "object"
+      },
+      "AnomaliaResponseDTO": {
+        "properties": {
+          "campo_afectado": {
+            "description": "Nombre del campo donde se detectó la anomalía",
+            "title": "Campo Afectado",
+            "type": "string"
+          },
+          "created_at": {
+            "description": "Fecha de registro de la anomalía",
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "descripcion": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Descripción legible del problema",
+            "title": "Descripcion"
+          },
+          "id": {
+            "description": "ID de la anomalía",
+            "title": "Id",
+            "type": "integer"
+          },
+          "id_contrato_procesado": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "ID del contrato procesado si aplica",
+            "title": "Id Contrato Procesado"
+          },
+          "motivo": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Legacy: Tipo de anomalía",
+            "title": "Motivo"
+          },
+          "raw_secop_id": {
+            "description": "ID del registro crudo que presentó la anomalía",
+            "title": "Raw Secop Id",
+            "type": "integer"
+          },
+          "tipo_anomalia": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Tipo de anomalía: CAMPO_FALTANTE | FECHA_FUTURA | MONTO_NEGATIVO",
+            "title": "Tipo Anomalia"
+          },
+          "valor_detectado": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Legacy: Valor que disparó la anomalía",
+            "title": "Valor Detectado"
+          },
+          "valor_original": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Valor que disparó la anomalía",
+            "title": "Valor Original"
+          }
+        },
+        "required": [
+          "id",
+          "raw_secop_id",
+          "campo_afectado",
+          "created_at"
+        ],
+        "title": "AnomaliaResponseDTO",
+        "type": "object"
+      },
+      "AutocompleteDTO": {
+        "properties": {
+          "text": {
+            "title": "Text",
+            "type": "string"
+          },
+          "type": {
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "text",
+          "type"
+        ],
+        "title": "AutocompleteDTO",
+        "type": "object"
+      },
+      "BackgroundJobAccepted": {
+        "properties": {
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "kind": {
+            "title": "Kind",
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "PENDIENTE",
+              "EN_PROCESO",
+              "EXITOSO",
+              "ERROR"
+            ],
+            "title": "Status",
+            "type": "string"
+          },
+          "status_url": {
+            "title": "Status Url",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "kind",
+          "status",
+          "status_url"
+        ],
+        "title": "BackgroundJobAccepted",
+        "type": "object"
+      },
+      "BackgroundJobResponse": {
+        "properties": {
+          "attempts": {
+            "title": "Attempts",
+            "type": "integer"
+          },
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "error_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error Id"
+          },
+          "error_message": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error Message"
+          },
+          "finished_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Finished At"
+          },
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "kind": {
+            "title": "Kind",
+            "type": "string"
+          },
+          "result": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Result"
+          },
+          "started_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Started At"
+          },
+          "status": {
+            "enum": [
+              "PENDIENTE",
+              "EN_PROCESO",
+              "PARCIAL",
+              "EXITOSO",
+              "ERROR"
+            ],
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "kind",
+          "status",
+          "attempts",
+          "created_at",
+          "started_at",
+          "finished_at",
+          "result",
+          "error_id",
+          "error_message"
+        ],
+        "title": "BackgroundJobResponse",
+        "type": "object"
+      },
+      "BackgroundJobStatusSummary": {
+        "properties": {
+          "by_status": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "title": "By Status",
+            "type": "object"
+          },
+          "total": {
+            "title": "Total",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "total",
+          "by_status"
+        ],
+        "title": "BackgroundJobStatusSummary",
+        "type": "object"
+      },
+      "CampoFaltanteDTO": {
+        "properties": {
+          "campo": {
+            "title": "Campo",
+            "type": "string"
+          },
+          "cantidad": {
+            "title": "Cantidad",
+            "type": "integer"
+          },
+          "porcentaje": {
+            "title": "Porcentaje",
+            "type": "number"
+          }
+        },
+        "required": [
+          "campo",
+          "cantidad",
+          "porcentaje"
+        ],
+        "title": "CampoFaltanteDTO",
+        "type": "object"
+      },
+      "ComparativaFuenteDTO": {
+        "properties": {
+          "endpoint": {
+            "title": "Endpoint",
+            "type": "string"
+          },
+          "fuente_id": {
+            "title": "Fuente Id",
+            "type": "integer"
+          },
+          "nombre": {
+            "title": "Nombre",
+            "type": "string"
+          },
+          "tasa_duplicidad": {
+            "title": "Tasa Duplicidad",
+            "type": "number"
+          },
+          "total_duplicados": {
+            "title": "Total Duplicados",
+            "type": "integer"
+          },
+          "total_insertados": {
+            "title": "Total Insertados",
+            "type": "integer"
+          },
+          "total_traidos": {
+            "title": "Total Traidos",
+            "type": "integer"
+          },
+          "ultima_sync_error": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ultima Sync Error"
+          },
+          "ultima_sync_estado": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/EstadoSync"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "fuente_id",
+          "nombre",
+          "endpoint",
+          "ultima_sync_estado",
+          "total_traidos",
+          "total_insertados",
+          "total_duplicados",
+          "tasa_duplicidad"
+        ],
+        "title": "ComparativaFuenteDTO",
+        "type": "object"
+      },
+      "ConexionTestResponseDTO": {
+        "properties": {
+          "exitoso": {
+            "title": "Exitoso",
+            "type": "boolean"
+          },
+          "mensaje": {
+            "title": "Mensaje",
+            "type": "string"
+          },
+          "registros_muestra": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Registros Muestra"
+          }
+        },
+        "required": [
+          "exitoso",
+          "mensaje"
+        ],
+        "title": "ConexionTestResponseDTO",
+        "type": "object"
+      },
+      "ContratoProcesadoResponseDTO": {
+        "properties": {
+          "campos_faltantes": {
+            "anyOf": [
+              {},
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Lista de campos faltantes en formato JSON",
+            "title": "Campos Faltantes"
+          },
+          "cantidad_campos_faltantes": {
+            "default": 0,
+            "description": "Número de campos obligatorios faltantes",
+            "title": "Cantidad Campos Faltantes",
+            "type": "integer"
+          },
+          "ciudad_entidad": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Ciudad de la entidad",
+            "title": "Ciudad Entidad"
+          },
+          "clasificacion_riesgo": {
+            "default": "SIN_EVALUAR",
+            "description": "ALTO | MEDIO | BAJO | SIN_EVALUAR",
+            "enum": [
+              "ALTO",
+              "MEDIO",
+              "BAJO",
+              "SIN_EVALUAR"
+            ],
+            "title": "Clasificacion Riesgo",
+            "type": "string"
+          },
+          "created_at": {
+            "description": "Fecha de creación del registro",
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "departamento_entidad": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Departamento de la entidad",
+            "title": "Departamento Entidad"
+          },
+          "entidad_normalizada": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Nombre de la entidad normalizado",
+            "title": "Entidad Normalizada"
+          },
+          "es_incompleto": {
+            "default": false,
+            "description": "Indica si el contrato tiene campos obligatorios faltantes",
+            "title": "Es Incompleto",
+            "type": "boolean"
+          },
+          "es_sospechoso": {
+            "default": false,
+            "description": "Indica si el contrato tiene valores sospechosos (fechas futuras, etc.)",
+            "title": "Es Sospechoso",
+            "type": "boolean"
+          },
+          "estado_normalizado": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Estado del procedimiento normalizado",
+            "title": "Estado Normalizado"
+          },
+          "fecha_adjudicacion_normalizada": {
+            "anyOf": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Fecha de adjudicación en ISO 8601 (YYYY-MM-DD)",
+            "title": "Fecha Adjudicacion Normalizada"
+          },
+          "fecha_publicacion_normalizada": {
+            "anyOf": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Fecha de publicación en ISO 8601 (YYYY-MM-DD)",
+            "title": "Fecha Publicacion Normalizada"
+          },
+          "id": {
+            "description": "ID único del registro procesado",
+            "title": "Id",
+            "type": "integer"
+          },
+          "id_del_proceso": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Identificador único del proceso de contratación",
+            "title": "Id Del Proceso"
+          },
+          "modalidad_contratacion": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Modalidad de contratación normalizada",
+            "title": "Modalidad Contratacion"
+          },
+          "nit_entidad": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "NIT de la entidad",
+            "title": "Nit Entidad"
+          },
+          "nit_proveedor": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "NIT del proveedor adjudicado",
+            "title": "Nit Proveedor"
+          },
+          "nivel_confianza": {
+            "default": 100,
+            "description": "Nivel de confianza de los datos (100, 80, 60, 40)",
+            "title": "Nivel Confianza",
+            "type": "integer"
+          },
+          "normalized_hash": {
+            "description": "Hash SHA256 del contenido normalizado",
+            "title": "Normalized Hash",
+            "type": "string"
+          },
+          "precio_base_normalizado": {
+            "anyOf": [
+              {
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Precio base normalizado",
+            "title": "Precio Base Normalizado"
+          },
+          "proveedor_normalizado": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Nombre del proveedor normalizado",
+            "title": "Proveedor Normalizado"
+          },
+          "raw_secop_id": {
+            "description": "Referencia al ID original en raw_secop",
+            "title": "Raw Secop Id",
+            "type": "integer"
+          },
+          "riesgo_run_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Riesgo Run Id"
+          },
+          "score_riesgo": {
+            "anyOf": [
+              {
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Score Riesgo"
+          },
+          "tipo_contrato_normalizado": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Tipo de contrato normalizado",
+            "title": "Tipo Contrato Normalizado"
+          },
+          "urlproceso": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "URL del proceso en SECOP",
+            "title": "Urlproceso"
+          },
+          "valor_total_normalizado": {
+            "anyOf": [
+              {
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Valor total del contrato como número limpio",
+            "title": "Valor Total Normalizado"
+          }
+        },
+        "required": [
+          "id",
+          "raw_secop_id",
+          "normalized_hash",
+          "created_at"
+        ],
+        "title": "ContratoProcesadoResponseDTO",
+        "type": "object"
+      },
+      "CreateAdminRequest": {
+        "properties": {
+          "email": {
+            "format": "email",
+            "title": "Email",
+            "type": "string"
+          },
+          "password": {
+            "maxLength": 128,
+            "minLength": 12,
+            "title": "Password",
+            "type": "string"
+          },
+          "username": {
+            "maxLength": 100,
+            "minLength": 3,
+            "pattern": "^[A-Za-z0-9_.-]+$",
+            "title": "Username",
+            "type": "string"
+          }
+        },
+        "required": [
+          "username",
+          "email",
+          "password"
+        ],
+        "title": "CreateAdminRequest",
+        "type": "object"
+      },
+      "DashboardMetricasDTO": {
+        "properties": {
+          "calificacion_confianza": {
+            "enum": [
+              "SIN_DATOS",
+              "EXCELENTE",
+              "ACEPTABLE",
+              "BAJA"
+            ],
+            "title": "Calificacion Confianza",
+            "type": "string"
+          },
+          "estado_datos": {
+            "enum": [
+              "DISPONIBLE",
+              "SIN_DATOS"
+            ],
+            "title": "Estado Datos",
+            "type": "string"
+          },
+          "pct_alto_riesgo": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pct Alto Riesgo"
+          },
+          "pct_incompletos": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pct Incompletos"
+          },
+          "pct_sospechosos": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pct Sospechosos"
+          },
+          "promedio_confianza": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Promedio Confianza"
+          },
+          "total_alto_riesgo": {
+            "title": "Total Alto Riesgo",
+            "type": "integer"
+          },
+          "total_completos": {
+            "title": "Total Completos",
+            "type": "integer"
+          },
+          "total_contratos": {
+            "title": "Total Contratos",
+            "type": "integer"
+          },
+          "total_incompletos": {
+            "title": "Total Incompletos",
+            "type": "integer"
+          },
+          "total_sospechosos": {
+            "title": "Total Sospechosos",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "total_contratos",
+          "total_completos",
+          "pct_incompletos",
+          "pct_sospechosos",
+          "pct_alto_riesgo",
+          "total_incompletos",
+          "total_sospechosos",
+          "total_alto_riesgo",
+          "promedio_confianza",
+          "calificacion_confianza",
+          "estado_datos"
+        ],
+        "title": "DashboardMetricasDTO",
+        "type": "object"
+      },
+      "DistribucionDTO": {
+        "properties": {
+          "color": {
+            "title": "Color",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "value": {
+            "title": "Value",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "name",
+          "value",
+          "color"
+        ],
+        "title": "DistribucionDTO",
+        "type": "object"
+      },
+      "DuplicadoCalculoRequest": {
+        "description": "Parámetros para disparar una nueva ejecución del análisis de duplicados en período corto.\nTodos los campos son opcionales; sin filtros se analiza el universo completo.",
+        "properties": {
+          "fecha_desde": {
+            "anyOf": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Filtro por fecha_publicacion_normalizada (inclusive).",
+            "title": "Fecha Desde"
+          },
+          "fecha_hasta": {
+            "anyOf": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Filtro por fecha_publicacion_normalizada (inclusive).",
+            "title": "Fecha Hasta"
+          }
+        },
+        "title": "DuplicadoCalculoRequest",
+        "type": "object"
+      },
+      "DuplicadoDetalleResponse": {
+        "description": "Un contrato duplicado con su clasificación y score.",
+        "properties": {
+          "clasificacion_riesgo": {
+            "title": "Clasificacion Riesgo",
+            "type": "string"
+          },
+          "contrato_id": {
+            "title": "Contrato Id",
+            "type": "integer"
+          },
+          "contrato_relacionado_id": {
+            "title": "Contrato Relacionado Id",
+            "type": "integer"
+          },
+          "diferencia_dias": {
+            "title": "Diferencia Dias",
+            "type": "integer"
+          },
+          "duplicado_score": {
+            "title": "Duplicado Score",
+            "type": "number"
+          },
+          "entidad": {
+            "title": "Entidad",
+            "type": "string"
+          },
+          "fecha_calculo": {
+            "format": "date-time",
+            "title": "Fecha Calculo",
+            "type": "string"
+          },
+          "fecha_contrato": {
+            "format": "date",
+            "title": "Fecha Contrato",
+            "type": "string"
+          },
+          "fecha_relacionada": {
+            "format": "date",
+            "title": "Fecha Relacionada",
+            "type": "string"
+          },
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "modalidad_contratacion": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Modalidad Contratacion"
+          },
+          "proveedor": {
+            "title": "Proveedor",
+            "type": "string"
+          },
+          "run_id": {
+            "format": "uuid",
+            "title": "Run Id",
+            "type": "string"
+          },
+          "tipo_contrato": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tipo Contrato"
+          }
+        },
+        "required": [
+          "id",
+          "run_id",
+          "contrato_id",
+          "contrato_relacionado_id",
+          "proveedor",
+          "entidad",
+          "tipo_contrato",
+          "modalidad_contratacion",
+          "fecha_contrato",
+          "fecha_relacionada",
+          "diferencia_dias",
+          "duplicado_score",
+          "clasificacion_riesgo",
+          "fecha_calculo"
+        ],
+        "title": "DuplicadoDetalleResponse",
+        "type": "object"
+      },
+      "DuplicadoListaResponse": {
+        "description": "Respuesta paginada del listado de duplicados.",
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/DuplicadoDetalleResponse"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "page": {
+            "title": "Page",
+            "type": "integer"
+          },
+          "page_size": {
+            "title": "Page Size",
+            "type": "integer"
+          },
+          "total": {
+            "title": "Total",
+            "type": "integer"
+          },
+          "total_pages": {
+            "title": "Total Pages",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "items",
+          "total",
+          "page",
+          "page_size",
+          "total_pages"
+        ],
+        "title": "DuplicadoListaResponse",
+        "type": "object"
+      },
+      "DuplicadoResumenResponse": {
+        "description": "Resumen de una ejecución completa del análisis de duplicados.",
+        "properties": {
+          "estado_ejecucion": {
+            "default": "EXITOSO",
+            "title": "Estado Ejecucion",
+            "type": "string"
+          },
+          "fecha_calculo": {
+            "format": "date-time",
+            "title": "Fecha Calculo",
+            "type": "string"
+          },
+          "promedio_dias_diferencia": {
+            "title": "Promedio Dias Diferencia",
+            "type": "number"
+          },
+          "promedio_score": {
+            "title": "Promedio Score",
+            "type": "number"
+          },
+          "resumen_por_riesgo": {
+            "items": {
+              "$ref": "#/components/schemas/RiesgoResumenResponse"
+            },
+            "title": "Resumen Por Riesgo",
+            "type": "array"
+          },
+          "run_id": {
+            "format": "uuid",
+            "title": "Run Id",
+            "type": "string"
+          },
+          "total_duplicados": {
+            "title": "Total Duplicados",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "run_id",
+          "total_duplicados",
+          "promedio_dias_diferencia",
+          "promedio_score",
+          "resumen_por_riesgo",
+          "fecha_calculo"
+        ],
+        "title": "DuplicadoResumenResponse",
+        "type": "object"
+      },
+      "EjecucionAnaliticaEstadoResponse": {
+        "description": "Estado más reciente de un tipo de análisis, incluso si no produjo resumen.",
+        "properties": {
+          "estado": {
+            "title": "Estado",
+            "type": "string"
+          },
+          "fecha_fin": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fecha Fin"
+          },
+          "fecha_inicio": {
+            "format": "date-time",
+            "title": "Fecha Inicio",
+            "type": "string"
+          },
+          "run_id": {
+            "format": "uuid",
+            "title": "Run Id",
+            "type": "string"
+          },
+          "tipo": {
+            "title": "Tipo",
+            "type": "string"
+          }
+        },
+        "required": [
+          "tipo",
+          "run_id",
+          "estado",
+          "fecha_inicio"
+        ],
+        "title": "EjecucionAnaliticaEstadoResponse",
+        "type": "object"
+      },
+      "EstadisticaCampoResponseDTO": {
+        "properties": {
+          "contador_faltantes": {
+            "description": "Cantidad de veces que faltó este campo",
+            "title": "Contador Faltantes",
+            "type": "integer"
+          },
+          "id": {
+            "description": "ID del registro",
+            "title": "Id",
+            "type": "integer"
+          },
+          "nombre_campo": {
+            "description": "Nombre del campo obligatorio",
+            "title": "Nombre Campo",
+            "type": "string"
+          },
+          "porcentaje_total": {
+            "anyOf": [
+              {
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Porcentaje de veces que falta este campo sobre el total de contratos",
+            "title": "Porcentaje Total"
+          },
+          "updated_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Última vez que se actualizó el contador",
+            "title": "Updated At"
+          }
+        },
+        "required": [
+          "id",
+          "nombre_campo",
+          "contador_faltantes"
+        ],
+        "title": "EstadisticaCampoResponseDTO",
+        "type": "object"
+      },
+      "EstadisticasGrupoResponse": {
+        "description": "Resumen estadístico de un grupo (modalidad o tipo de contrato).",
+        "properties": {
+          "grupo": {
+            "title": "Grupo",
+            "type": "string"
+          },
+          "iqr": {
+            "title": "Iqr",
+            "type": "number"
+          },
+          "limite_inferior": {
+            "title": "Limite Inferior",
+            "type": "number"
+          },
+          "limite_superior": {
+            "title": "Limite Superior",
+            "type": "number"
+          },
+          "q1": {
+            "title": "Q1",
+            "type": "number"
+          },
+          "q3": {
+            "title": "Q3",
+            "type": "number"
+          },
+          "total_contratos_analizados": {
+            "title": "Total Contratos Analizados",
+            "type": "integer"
+          },
+          "total_outliers": {
+            "title": "Total Outliers",
+            "type": "integer"
+          },
+          "total_outliers_alto": {
+            "title": "Total Outliers Alto",
+            "type": "integer"
+          },
+          "total_outliers_bajo": {
+            "title": "Total Outliers Bajo",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "grupo",
+          "q1",
+          "q3",
+          "iqr",
+          "limite_inferior",
+          "limite_superior",
+          "total_contratos_analizados",
+          "total_outliers",
+          "total_outliers_alto",
+          "total_outliers_bajo"
+        ],
+        "title": "EstadisticasGrupoResponse",
+        "type": "object"
+      },
+      "EstadoSync": {
+        "enum": [
+          "EN_PROCESO",
+          "EXITOSO",
+          "ERROR",
+          "PARCIAL"
+        ],
+        "title": "EstadoSync",
+        "type": "string"
+      },
+      "ExportJobAccepted": {
+        "properties": {
+          "access_token": {
+            "title": "Access Token",
+            "type": "string"
+          },
+          "download_url": {
+            "title": "Download Url",
+            "type": "string"
+          },
+          "expires_at": {
+            "format": "date-time",
+            "title": "Expires At",
+            "type": "string"
+          },
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "PENDIENTE",
+              "EN_PROCESO",
+              "EXITOSO",
+              "ERROR"
+            ],
+            "title": "Status",
+            "type": "string"
+          },
+          "status_url": {
+            "title": "Status Url",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "status",
+          "access_token",
+          "status_url",
+          "download_url",
+          "expires_at"
+        ],
+        "title": "ExportJobAccepted",
+        "type": "object"
+      },
+      "ExportJobStatus": {
+        "properties": {
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "error_message": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error Message"
+          },
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "result": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Result"
+          },
+          "status": {
+            "enum": [
+              "PENDIENTE",
+              "EN_PROCESO",
+              "EXITOSO",
+              "ERROR"
+            ],
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "status",
+          "created_at",
+          "result",
+          "error_message"
+        ],
+        "title": "ExportJobStatus",
+        "type": "object"
+      },
+      "FuenteDatosCreateDTO": {
+        "properties": {
+          "api_key": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Api Key"
+          },
+          "endpoint": {
+            "format": "uri",
+            "maxLength": 2083,
+            "minLength": 1,
+            "title": "Endpoint",
+            "type": "string"
+          },
+          "formato": {
+            "$ref": "#/components/schemas/TipoFormato",
+            "description": "JSON, CSV o XML"
+          },
+          "frecuencia_dias": {
+            "default": 15,
+            "maximum": 365.0,
+            "minimum": 1.0,
+            "title": "Frecuencia Dias",
+            "type": "integer"
+          },
+          "nombre": {
+            "maxLength": 100,
+            "minLength": 3,
+            "title": "Nombre",
+            "type": "string"
+          },
+          "tipo": {
+            "description": "SECOP, SISCON, etc.",
+            "title": "Tipo",
+            "type": "string"
+          }
+        },
+        "required": [
+          "nombre",
+          "tipo",
+          "formato",
+          "endpoint"
+        ],
+        "title": "FuenteDatosCreateDTO",
+        "type": "object"
+      },
+      "FuenteDatosResponseDTO": {
+        "properties": {
+          "activo": {
+            "title": "Activo",
+            "type": "boolean"
+          },
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "endpoint": {
+            "title": "Endpoint",
+            "type": "string"
+          },
+          "formato": {
+            "$ref": "#/components/schemas/TipoFormato"
+          },
+          "frecuencia_dias": {
+            "title": "Frecuencia Dias",
+            "type": "integer"
+          },
+          "id": {
+            "title": "Id",
+            "type": "integer"
+          },
+          "nombre": {
+            "title": "Nombre",
+            "type": "string"
+          },
+          "tipo": {
+            "title": "Tipo",
+            "type": "string"
+          },
+          "ultima_sync": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ultima Sync"
+          }
+        },
+        "required": [
+          "id",
+          "nombre",
+          "tipo",
+          "formato",
+          "endpoint",
+          "frecuencia_dias",
+          "activo",
+          "ultima_sync",
+          "created_at"
+        ],
+        "title": "FuenteDatosResponseDTO",
+        "type": "object"
+      },
+      "FuenteDatosUpdateDTO": {
+        "properties": {
+          "activo": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Activo"
+          },
+          "api_key": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Api Key"
+          },
+          "endpoint": {
+            "anyOf": [
+              {
+                "format": "uri",
+                "maxLength": 2083,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Endpoint"
+          },
+          "formato": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/TipoFormato"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "frecuencia_dias": {
+            "anyOf": [
+              {
+                "maximum": 365.0,
+                "minimum": 1.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Frecuencia Dias"
+          },
+          "nombre": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Nombre"
+          }
+        },
+        "title": "FuenteDatosUpdateDTO",
+        "type": "object"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "title": "Detail",
+            "type": "array"
+          }
+        },
+        "title": "HTTPValidationError",
+        "type": "object"
+      },
+      "LoginRequest": {
+        "properties": {
+          "password": {
+            "maxLength": 128,
+            "minLength": 8,
+            "title": "Password",
+            "type": "string"
+          },
+          "username": {
+            "maxLength": 100,
+            "minLength": 3,
+            "pattern": "^[A-Za-z0-9_.-]+$",
+            "title": "Username",
+            "type": "string"
+          }
+        },
+        "required": [
+          "username",
+          "password"
+        ],
+        "title": "LoginRequest",
+        "type": "object"
+      },
+      "MessageResponse": {
+        "properties": {
+          "message": {
+            "title": "Message",
+            "type": "string"
+          }
+        },
+        "required": [
+          "message"
+        ],
+        "title": "MessageResponse",
+        "type": "object"
+      },
+      "MetricasCalidadDTO": {
+        "properties": {
+          "calificacion_confianza": {
+            "enum": [
+              "SIN_DATOS",
+              "EXCELENTE",
+              "ACEPTABLE",
+              "BAJA"
+            ],
+            "title": "Calificacion Confianza",
+            "type": "string"
+          },
+          "completos": {
+            "title": "Completos",
+            "type": "integer"
+          },
+          "incompletos": {
+            "title": "Incompletos",
+            "type": "integer"
+          },
+          "porcentaje_completos": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Porcentaje Completos"
+          },
+          "porcentaje_incompletos": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Porcentaje Incompletos"
+          },
+          "porcentaje_sospechosos": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Porcentaje Sospechosos"
+          },
+          "promedio_confianza": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Promedio Confianza"
+          },
+          "sospechosos": {
+            "title": "Sospechosos",
+            "type": "integer"
+          },
+          "total_contratos": {
+            "title": "Total Contratos",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "total_contratos",
+          "completos",
+          "incompletos",
+          "sospechosos",
+          "porcentaje_completos",
+          "porcentaje_incompletos",
+          "porcentaje_sospechosos",
+          "promedio_confianza",
+          "calificacion_confianza"
+        ],
+        "title": "MetricasCalidadDTO",
+        "type": "object"
+      },
+      "OutlierCalculoRequest": {
+        "description": "Parámetros para disparar una nueva ejecución del análisis IQR.\nTodos los campos son opcionales; sin filtros se analiza el universo completo.",
+        "properties": {
+          "campo": {
+            "default": "valor_total_normalizado",
+            "description": "Campo numérico de contratos_procesados a analizar.",
+            "pattern": "^(valor_total_normalizado|precio_base_normalizado|nivel_confianza|cantidad_campos_faltantes)$",
+            "title": "Campo",
+            "type": "string"
+          },
+          "fecha_campo": {
+            "anyOf": [
+              {
+                "pattern": "^(fecha_publicacion_normalizada|fecha_adjudicacion_normalizada)$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Campo de fecha a usar para filtrar (fecha_publicacion_normalizada o fecha_adjudicacion_normalizada).",
+            "title": "Fecha Campo"
+          },
+          "fecha_desde": {
+            "anyOf": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Filtro por fecha (inclusive).",
+            "title": "Fecha Desde"
+          },
+          "fecha_hasta": {
+            "anyOf": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Filtro por fecha (inclusive).",
+            "title": "Fecha Hasta"
+          },
+          "modalidad": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Modalidad de contratación única a incluir. Null = todas.",
+            "title": "Modalidad"
+          }
+        },
+        "title": "OutlierCalculoRequest",
+        "type": "object"
+      },
+      "OutlierDetalleResponse": {
+        "description": "Un contrato con su clasificación outlier y score.",
+        "properties": {
+          "campo_analizado": {
+            "title": "Campo Analizado",
+            "type": "string"
+          },
+          "contrato_id": {
+            "title": "Contrato Id",
+            "type": "integer"
+          },
+          "direccion_outlier": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Direccion Outlier"
+          },
+          "es_outlier": {
+            "title": "Es Outlier",
+            "type": "boolean"
+          },
+          "fecha_calculo": {
+            "format": "date-time",
+            "title": "Fecha Calculo",
+            "type": "string"
+          },
+          "grupo": {
+            "title": "Grupo",
+            "type": "string"
+          },
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "iqr": {
+            "title": "Iqr",
+            "type": "number"
+          },
+          "limite_inferior": {
+            "title": "Limite Inferior",
+            "type": "number"
+          },
+          "limite_superior": {
+            "title": "Limite Superior",
+            "type": "number"
+          },
+          "q1": {
+            "title": "Q1",
+            "type": "number"
+          },
+          "q3": {
+            "title": "Q3",
+            "type": "number"
+          },
+          "run_id": {
+            "format": "uuid",
+            "title": "Run Id",
+            "type": "string"
+          },
+          "score": {
+            "title": "Score",
+            "type": "number"
+          },
+          "valor": {
+            "title": "Valor",
+            "type": "number"
+          }
+        },
+        "required": [
+          "id",
+          "contrato_id",
+          "run_id",
+          "grupo",
+          "campo_analizado",
+          "valor",
+          "q1",
+          "q3",
+          "iqr",
+          "limite_inferior",
+          "limite_superior",
+          "es_outlier",
+          "direccion_outlier",
+          "score",
+          "fecha_calculo"
+        ],
+        "title": "OutlierDetalleResponse",
+        "type": "object"
+      },
+      "OutlierListaResponse": {
+        "description": "Respuesta paginada del listado de outliers.",
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/OutlierDetalleResponse"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "page": {
+            "title": "Page",
+            "type": "integer"
+          },
+          "page_size": {
+            "title": "Page Size",
+            "type": "integer"
+          },
+          "total": {
+            "title": "Total",
+            "type": "integer"
+          },
+          "total_pages": {
+            "title": "Total Pages",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "items",
+          "total",
+          "page",
+          "page_size",
+          "total_pages"
+        ],
+        "title": "OutlierListaResponse",
+        "type": "object"
+      },
+      "PaginatedAnomaliasDTO": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/AnomaliaResponseDTO"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "page": {
+            "title": "Page",
+            "type": "integer"
+          },
+          "size": {
+            "title": "Size",
+            "type": "integer"
+          },
+          "total": {
+            "title": "Total",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "total",
+          "page",
+          "size",
+          "items"
+        ],
+        "title": "PaginatedAnomaliasDTO",
+        "type": "object"
+      },
+      "PaginatedContratosDTO": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/ContratoProcesadoResponseDTO"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "page": {
+            "title": "Page",
+            "type": "integer"
+          },
+          "size": {
+            "title": "Size",
+            "type": "integer"
+          },
+          "total": {
+            "title": "Total",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "total",
+          "page",
+          "size",
+          "items"
+        ],
+        "title": "PaginatedContratosDTO",
+        "type": "object"
+      },
+      "PaginatedProcesamientoLogsDTO": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/ProcesamientoLogDTO"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "page": {
+            "title": "Page",
+            "type": "integer"
+          },
+          "size": {
+            "title": "Size",
+            "type": "integer"
+          },
+          "total": {
+            "title": "Total",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "total",
+          "page",
+          "size",
+          "items"
+        ],
+        "title": "PaginatedProcesamientoLogsDTO",
+        "type": "object"
+      },
+      "PesoActualizarRequest": {
+        "description": "Petición para actualizar el peso de una anomalía.",
+        "properties": {
+          "peso": {
+            "anyOf": [
+              {
+                "maximum": 999.99,
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+                "type": "string"
+              }
+            ],
+            "description": "Nuevo peso para la anomalía (máximo compatible con Numeric(5, 2)).",
+            "title": "Peso"
+          }
+        },
+        "required": [
+          "peso"
+        ],
+        "title": "PesoActualizarRequest",
+        "type": "object"
+      },
+      "PesoAnomaliaResponse": {
+        "properties": {
+          "peso": {
+            "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+            "title": "Peso",
+            "type": "string"
+          },
+          "tipo_anomalia": {
+            "title": "Tipo Anomalia",
+            "type": "string"
+          },
+          "updated_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Updated At"
+          }
+        },
+        "required": [
+          "tipo_anomalia",
+          "peso",
+          "updated_at"
+        ],
+        "title": "PesoAnomaliaResponse",
+        "type": "object"
+      },
+      "ProcesamientoLogDTO": {
+        "properties": {
+          "anomalias_registradas": {
+            "title": "Anomalias Registradas",
+            "type": "integer"
+          },
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "duracion_segundos": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Duracion Segundos"
+          },
+          "estado": {
+            "title": "Estado",
+            "type": "string"
+          },
+          "fecha_hora_fin": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fecha Hora Fin"
+          },
+          "fecha_hora_inicio": {
+            "format": "date-time",
+            "title": "Fecha Hora Inicio",
+            "type": "string"
+          },
+          "forzar_reproceso": {
+            "title": "Forzar Reproceso",
+            "type": "boolean"
+          },
+          "id": {
+            "title": "Id",
+            "type": "integer"
+          },
+          "mensaje_error": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mensaje Error"
+          },
+          "omitidos": {
+            "title": "Omitidos",
+            "type": "integer"
+          },
+          "procesados": {
+            "title": "Procesados",
+            "type": "integer"
+          },
+          "total_evaluados": {
+            "title": "Total Evaluados",
+            "type": "integer"
+          },
+          "universo": {
+            "additionalProperties": true,
+            "title": "Universo",
+            "type": "object"
+          },
+          "version_reglas": {
+            "title": "Version Reglas",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "total_evaluados",
+          "procesados",
+          "omitidos",
+          "anomalias_registradas",
+          "fecha_hora_inicio",
+          "fecha_hora_fin",
+          "duracion_segundos",
+          "forzar_reproceso",
+          "estado",
+          "mensaje_error",
+          "version_reglas",
+          "universo",
+          "created_at"
+        ],
+        "title": "ProcesamientoLogDTO",
+        "type": "object"
+      },
+      "ProveedorDirectaDetalleResponse": {
+        "description": "Un proveedor con su clasificación de abuso de adjudicación directa.",
+        "properties": {
+          "clasificacion_riesgo": {
+            "title": "Clasificacion Riesgo",
+            "type": "string"
+          },
+          "contrato_id": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Contrato Id"
+          },
+          "contratos_directos": {
+            "title": "Contratos Directos",
+            "type": "integer"
+          },
+          "entidad": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Entidad"
+          },
+          "fecha_calculo": {
+            "format": "date-time",
+            "title": "Fecha Calculo",
+            "type": "string"
+          },
+          "fecha_contrato": {
+            "anyOf": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fecha Contrato"
+          },
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "modalidad_contratacion": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Modalidad Contratacion"
+          },
+          "nit_proveedor": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Nit Proveedor"
+          },
+          "porcentaje_directos": {
+            "title": "Porcentaje Directos",
+            "type": "number"
+          },
+          "proveedor": {
+            "title": "Proveedor",
+            "type": "string"
+          },
+          "run_id": {
+            "format": "uuid",
+            "title": "Run Id",
+            "type": "string"
+          },
+          "score_riesgo": {
+            "title": "Score Riesgo",
+            "type": "number"
+          },
+          "tipo_contrato": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tipo Contrato"
+          },
+          "total_contratos": {
+            "title": "Total Contratos",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "run_id",
+          "contrato_id",
+          "proveedor",
+          "nit_proveedor",
+          "entidad",
+          "tipo_contrato",
+          "modalidad_contratacion",
+          "fecha_contrato",
+          "total_contratos",
+          "contratos_directos",
+          "porcentaje_directos",
+          "score_riesgo",
+          "clasificacion_riesgo",
+          "fecha_calculo"
+        ],
+        "title": "ProveedorDirectaDetalleResponse",
+        "type": "object"
+      },
+      "ProveedorDirectaListaResponse": {
+        "description": "Respuesta paginada del listado de proveedores con abuso de directas.",
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/ProveedorDirectaDetalleResponse"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "page": {
+            "title": "Page",
+            "type": "integer"
+          },
+          "page_size": {
+            "title": "Page Size",
+            "type": "integer"
+          },
+          "total": {
+            "title": "Total",
+            "type": "integer"
+          },
+          "total_pages": {
+            "title": "Total Pages",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "items",
+          "total",
+          "page",
+          "page_size",
+          "total_pages"
+        ],
+        "title": "ProveedorDirectaListaResponse",
+        "type": "object"
+      },
+      "ProveedorDirectaResumenResponse": {
+        "description": "Resumen estadístico global de una ejecución de análisis de directas.",
+        "properties": {
+          "estado_ejecucion": {
+            "default": "EXITOSO",
+            "title": "Estado Ejecucion",
+            "type": "string"
+          },
+          "fecha_calculo": {
+            "format": "date-time",
+            "title": "Fecha Calculo",
+            "type": "string"
+          },
+          "promedio_porcentaje_directos": {
+            "title": "Promedio Porcentaje Directos",
+            "type": "number"
+          },
+          "promedio_score": {
+            "title": "Promedio Score",
+            "type": "number"
+          },
+          "resumen_por_riesgo": {
+            "items": {
+              "$ref": "#/components/schemas/RiesgoResumenResponse"
+            },
+            "title": "Resumen Por Riesgo",
+            "type": "array"
+          },
+          "run_id": {
+            "format": "uuid",
+            "title": "Run Id",
+            "type": "string"
+          },
+          "total_proveedores_detectados": {
+            "title": "Total Proveedores Detectados",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "run_id",
+          "total_proveedores_detectados",
+          "promedio_porcentaje_directos",
+          "promedio_score",
+          "resumen_por_riesgo",
+          "fecha_calculo"
+        ],
+        "title": "ProveedorDirectaResumenResponse",
+        "type": "object"
+      },
+      "ReprocesarRequestDTO": {
+        "description": "Parámetros para el endpoint de reprocesamiento",
+        "properties": {
+          "forzar_reproceso": {
+            "default": false,
+            "description": "false (default): procesa registros nuevos o sincronizados después de su último procesamiento. true: ignora si el registro ya fue procesado y lo evalúa de nuevo, útil cuando cambia la lógica de normalización.",
+            "title": "Forzar Reproceso",
+            "type": "boolean"
+          }
+        },
+        "title": "ReprocesarRequestDTO",
+        "type": "object"
+      },
+      "RiesgoGlobalResumenResponse": {
+        "properties": {
+          "estado_ejecucion": {
+            "default": "EXITOSO",
+            "title": "Estado Ejecucion",
+            "type": "string"
+          },
+          "fecha_calculo": {
+            "format": "date-time",
+            "title": "Fecha Calculo",
+            "type": "string"
+          },
+          "promedio_score_final": {
+            "title": "Promedio Score Final",
+            "type": "number"
+          },
+          "resumen_por_riesgo": {
+            "items": {
+              "$ref": "#/components/schemas/RiesgoResumenResponse"
+            },
+            "title": "Resumen Por Riesgo",
+            "type": "array"
+          },
+          "run_id": {
+            "format": "uuid",
+            "title": "Run Id",
+            "type": "string"
+          },
+          "total_proveedores_evaluados": {
+            "title": "Total Proveedores Evaluados",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "run_id",
+          "total_proveedores_evaluados",
+          "promedio_score_final",
+          "resumen_por_riesgo",
+          "fecha_calculo"
+        ],
+        "title": "RiesgoGlobalResumenResponse",
+        "type": "object"
+      },
+      "RiesgoProveedorListaResponse": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/RiesgoProveedorResponse"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "page": {
+            "title": "Page",
+            "type": "integer"
+          },
+          "page_size": {
+            "title": "Page Size",
+            "type": "integer"
+          },
+          "total": {
+            "title": "Total",
+            "type": "integer"
+          },
+          "total_pages": {
+            "title": "Total Pages",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "items",
+          "total",
+          "page",
+          "page_size",
+          "total_pages"
+        ],
+        "title": "RiesgoProveedorListaResponse",
+        "type": "object"
+      },
+      "RiesgoProveedorResponse": {
+        "properties": {
+          "clasificacion_riesgo": {
+            "title": "Clasificacion Riesgo",
+            "type": "string"
+          },
+          "fecha_calculo": {
+            "format": "date-time",
+            "title": "Fecha Calculo",
+            "type": "string"
+          },
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "max_score_duplicado": {
+            "title": "Max Score Duplicado",
+            "type": "number"
+          },
+          "max_score_outlier": {
+            "title": "Max Score Outlier",
+            "type": "number"
+          },
+          "nit_proveedor": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Nit Proveedor"
+          },
+          "pesos_aplicados": {
+            "additionalProperties": true,
+            "description": "Pesos usados y run_ids de los análisis componentes que sustentan el riesgo.",
+            "title": "Pesos Aplicados",
+            "type": "object"
+          },
+          "proveedor": {
+            "title": "Proveedor",
+            "type": "string"
+          },
+          "run_id": {
+            "format": "uuid",
+            "title": "Run Id",
+            "type": "string"
+          },
+          "score_directo": {
+            "title": "Score Directo",
+            "type": "number"
+          },
+          "score_final": {
+            "title": "Score Final",
+            "type": "number"
+          }
+        },
+        "required": [
+          "id",
+          "run_id",
+          "proveedor",
+          "nit_proveedor",
+          "max_score_outlier",
+          "max_score_duplicado",
+          "score_directo",
+          "score_final",
+          "clasificacion_riesgo",
+          "pesos_aplicados",
+          "fecha_calculo"
+        ],
+        "title": "RiesgoProveedorResponse",
+        "type": "object"
+      },
+      "RiesgoResumenResponse": {
+        "description": "Resumen estadístico por nivel de riesgo.",
+        "properties": {
+          "riesgo": {
+            "title": "Riesgo",
+            "type": "string"
+          },
+          "total": {
+            "title": "Total",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "riesgo",
+          "total"
+        ],
+        "title": "RiesgoResumenResponse",
+        "type": "object"
+      },
+      "RunResumenResponse": {
+        "description": "Resumen de una ejecución completa del análisis.",
+        "properties": {
+          "campo_analizado": {
+            "title": "Campo Analizado",
+            "type": "string"
+          },
+          "estadisticas_por_grupo": {
+            "items": {
+              "$ref": "#/components/schemas/EstadisticasGrupoResponse"
+            },
+            "title": "Estadisticas Por Grupo",
+            "type": "array"
+          },
+          "estado_ejecucion": {
+            "default": "EXITOSO",
+            "title": "Estado Ejecucion",
+            "type": "string"
+          },
+          "fecha_calculo": {
+            "format": "date-time",
+            "title": "Fecha Calculo",
+            "type": "string"
+          },
+          "grupos_procesados": {
+            "title": "Grupos Procesados",
+            "type": "integer"
+          },
+          "porcentaje_outliers": {
+            "title": "Porcentaje Outliers",
+            "type": "number"
+          },
+          "run_id": {
+            "format": "uuid",
+            "title": "Run Id",
+            "type": "string"
+          },
+          "total_contratos_analizados": {
+            "title": "Total Contratos Analizados",
+            "type": "integer"
+          },
+          "total_outliers": {
+            "title": "Total Outliers",
+            "type": "integer"
+          },
+          "total_outliers_alto": {
+            "title": "Total Outliers Alto",
+            "type": "integer"
+          },
+          "total_outliers_bajo": {
+            "title": "Total Outliers Bajo",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "run_id",
+          "campo_analizado",
+          "total_contratos_analizados",
+          "total_outliers",
+          "porcentaje_outliers",
+          "total_outliers_alto",
+          "total_outliers_bajo",
+          "grupos_procesados",
+          "estadisticas_por_grupo",
+          "fecha_calculo"
+        ],
+        "title": "RunResumenResponse",
+        "type": "object"
+      },
+      "SincronizacionHistorialPaginaDTO": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/SincronizacionHistorialResponseDTO"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "page": {
+            "title": "Page",
+            "type": "integer"
+          },
+          "size": {
+            "title": "Size",
+            "type": "integer"
+          },
+          "total": {
+            "title": "Total",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "total",
+          "page",
+          "size",
+          "items"
+        ],
+        "title": "SincronizacionHistorialPaginaDTO",
+        "type": "object"
+      },
+      "SincronizacionHistorialResponseDTO": {
+        "properties": {
+          "estado": {
+            "$ref": "#/components/schemas/EstadoSync"
+          },
+          "fecha_fin": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fecha Fin"
+          },
+          "fecha_inicio": {
+            "format": "date-time",
+            "title": "Fecha Inicio",
+            "type": "string"
+          },
+          "fuente_id": {
+            "title": "Fuente Id",
+            "type": "integer"
+          },
+          "fuente_nombre": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fuente Nombre"
+          },
+          "id": {
+            "title": "Id",
+            "type": "integer"
+          },
+          "mensaje_error": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mensaje Error"
+          },
+          "registros_duplicados": {
+            "title": "Registros Duplicados",
+            "type": "integer"
+          },
+          "registros_insertados": {
+            "title": "Registros Insertados",
+            "type": "integer"
+          },
+          "registros_traidos": {
+            "title": "Registros Traidos",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "fuente_id",
+          "fecha_inicio",
+          "fecha_fin",
+          "registros_traidos",
+          "registros_insertados",
+          "registros_duplicados",
+          "estado",
+          "mensaje_error"
+        ],
+        "title": "SincronizacionHistorialResponseDTO",
+        "type": "object"
+      },
+      "SincronizacionHistorialResumenDTO": {
+        "properties": {
+          "en_proceso": {
+            "title": "En Proceso",
+            "type": "integer"
+          },
+          "error": {
+            "title": "Error",
+            "type": "integer"
+          },
+          "exitoso": {
+            "title": "Exitoso",
+            "type": "integer"
+          },
+          "parcial": {
+            "title": "Parcial",
+            "type": "integer"
+          },
+          "total": {
+            "title": "Total",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "total",
+          "exitoso",
+          "en_proceso",
+          "error",
+          "parcial"
+        ],
+        "title": "SincronizacionHistorialResumenDTO",
+        "type": "object"
+      },
+      "TipoFormato": {
+        "enum": [
+          "JSON",
+          "CSV",
+          "XML"
+        ],
+        "title": "TipoFormato",
+        "type": "string"
+      },
+      "TokenResponse": {
+        "properties": {
+          "access_token": {
+            "title": "Access Token",
+            "type": "string"
+          },
+          "expires_in": {
+            "title": "Expires In",
+            "type": "integer"
+          },
+          "token_type": {
+            "default": "bearer",
+            "title": "Token Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "access_token",
+          "expires_in"
+        ],
+        "title": "TokenResponse",
+        "type": "object"
+      },
+      "TopProveedorDTO": {
+        "properties": {
+          "contracts": {
+            "title": "Contracts",
+            "type": "integer"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "nit": {
+            "title": "Nit",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "nit",
+          "contracts"
+        ],
+        "title": "TopProveedorDTO",
+        "type": "object"
+      },
+      "ValidationError": {
+        "properties": {
+          "ctx": {
+            "title": "Context",
+            "type": "object"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "title": "Location",
+            "type": "array"
+          },
+          "msg": {
+            "title": "Message",
+            "type": "string"
+          },
+          "type": {
+            "title": "Error Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError",
+        "type": "object"
+      }
+    },
+    "securitySchemes": {
+      "HTTPBearer": {
+        "scheme": "bearer",
+        "type": "http"
+      }
+    }
+  },
+  "info": {
+    "title": "Plataforma Detección Temprana de Corrupción",
+    "version": "1.0.0"
+  },
+  "openapi": "3.1.0",
+  "paths": {
+    "/api/analitica/directas": {
+      "get": {
+        "description": "Retorna los proveedores detectados con filtros opcionales. Si no se pasa run_id se usa la última ejecución. Usa solo_abuso_directas=true para el filtro del dashboard (solo ALTO y MEDIO).",
+        "operationId": "listar_adjudicaciones_directas_api_analitica_directas_get",
+        "parameters": [
+          {
+            "description": "UUID de la ejecución. Default: última.",
+            "in": "query",
+            "name": "run_id",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "uuid",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "UUID de la ejecución. Default: última.",
+              "title": "Run Id"
+            }
+          },
+          {
+            "description": "Filtrar por riesgo: ALTO, MEDIO, BAJO.",
+            "in": "query",
+            "name": "riesgo",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "pattern": "^(ALTO|MEDIO|BAJO)$",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filtrar por riesgo: ALTO, MEDIO, BAJO.",
+              "title": "Riesgo"
+            }
+          },
+          {
+            "description": "Score mínimo.",
+            "in": "query",
+            "name": "score_minimo",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "minimum": 0,
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Score mínimo.",
+              "title": "Score Minimo"
+            }
+          },
+          {
+            "description": "Score máximo.",
+            "in": "query",
+            "name": "score_maximo",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "minimum": 0,
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Score máximo.",
+              "title": "Score Maximo"
+            }
+          },
+          {
+            "description": "Porcentaje mínimo de directas.",
+            "in": "query",
+            "name": "porcentaje_minimo",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "maximum": 100,
+                  "minimum": 0,
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Porcentaje mínimo de directas.",
+              "title": "Porcentaje Minimo"
+            }
+          },
+          {
+            "description": "Porcentaje máximo de directas.",
+            "in": "query",
+            "name": "porcentaje_maximo",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "maximum": 100,
+                  "minimum": 0,
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Porcentaje máximo de directas.",
+              "title": "Porcentaje Maximo"
+            }
+          },
+          {
+            "description": "True = solo ALTO y MEDIO.",
+            "in": "query",
+            "name": "solo_abuso_directas",
+            "required": false,
+            "schema": {
+              "default": false,
+              "description": "True = solo ALTO y MEDIO.",
+              "title": "Solo Abuso Directas",
+              "type": "boolean"
+            }
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "required": false,
+            "schema": {
+              "default": 1,
+              "minimum": 1,
+              "title": "Page",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "page_size",
+            "required": false,
+            "schema": {
+              "default": 50,
+              "maximum": 200,
+              "minimum": 1,
+              "title": "Page Size",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProveedorDirectaListaResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Listar proveedores con abuso de adjudicación directa",
+        "tags": [
+          "Analítica"
+        ]
+      }
+    },
+    "/api/analitica/directas/calcular": {
+      "post": {
+        "description": "Detecta proveedores con más contratos directos que el umbral configurado. Agrupa por proveedor, calcula porcentaje de directas, score y clasificación de riesgo. Persiste los resultados en proveedor_adjudicacion_directa desde un trabajo en segundo plano.",
+        "operationId": "calcular_adjudicaciones_directas_api_analitica_directas_calcular_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdjudicacionDirectaCalculoRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BackgroundJobAccepted"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Ejecutar análisis de abuso de adjudicación directa",
+        "tags": [
+          "Analítica"
+        ]
+      }
+    },
+    "/api/analitica/directas/resumen": {
+      "get": {
+        "operationId": "obtener_resumen_directas_ultimo_api_analitica_directas_resumen_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProveedorDirectaResumenResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Resumen de la última ejecución de adjudicaciones directas (dashboard)",
+        "tags": [
+          "Analítica"
+        ]
+      }
+    },
+    "/api/analitica/directas/resumen/{run_id}": {
+      "get": {
+        "operationId": "obtener_resumen_directas_por_run_api_analitica_directas_resumen__run_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "run_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Run Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProveedorDirectaResumenResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Resumen de una ejecución específica de adjudicaciones directas",
+        "tags": [
+          "Analítica"
+        ]
+      }
+    },
+    "/api/analitica/duplicados": {
+      "get": {
+        "description": "Retorna los contratos duplicados del análisis con filtros opcionales.",
+        "operationId": "listar_duplicados_api_analitica_duplicados_get",
+        "parameters": [
+          {
+            "description": "UUID de la ejecución. Default: última.",
+            "in": "query",
+            "name": "run_id",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "uuid",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "UUID de la ejecución. Default: última.",
+              "title": "Run Id"
+            }
+          },
+          {
+            "description": "Filtrar por riesgo: ALTO, MEDIO, BAJO.",
+            "in": "query",
+            "name": "riesgo",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "pattern": "^(ALTO|MEDIO|BAJO)$",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filtrar por riesgo: ALTO, MEDIO, BAJO.",
+              "title": "Riesgo"
+            }
+          },
+          {
+            "description": "Score mínimo.",
+            "in": "query",
+            "name": "score_minimo",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "minimum": 0,
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Score mínimo.",
+              "title": "Score Minimo"
+            }
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "required": false,
+            "schema": {
+              "default": 1,
+              "minimum": 1,
+              "title": "Page",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "page_size",
+            "required": false,
+            "schema": {
+              "default": 50,
+              "maximum": 200,
+              "minimum": 1,
+              "title": "Page Size",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DuplicadoListaResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Listar contratos duplicados detectados",
+        "tags": [
+          "Analítica"
+        ]
+      }
+    },
+    "/api/analitica/duplicados/calcular": {
+      "post": {
+        "description": "Busca contratos del mismo proveedor, misma entidad y características similares (mismo tipo o modalidad) que tengan una diferencia de fechas <= 30 días. Asigna un score y nivel de riesgo, guarda los resultados y devuelve el trabajo encolado.",
+        "operationId": "calcular_duplicados_api_analitica_duplicados_calcular_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DuplicadoCalculoRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BackgroundJobAccepted"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Ejecutar análisis de duplicados en período corto",
+        "tags": [
+          "Analítica"
+        ]
+      }
+    },
+    "/api/analitica/duplicados/resumen": {
+      "get": {
+        "operationId": "obtener_resumen_duplicados_ultimo_api_analitica_duplicados_resumen_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DuplicadoResumenResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Resumen de la última ejecución de duplicados (dashboard)",
+        "tags": [
+          "Analítica"
+        ]
+      }
+    },
+    "/api/analitica/duplicados/resumen/{run_id}": {
+      "get": {
+        "operationId": "obtener_resumen_duplicados_por_run_api_analitica_duplicados_resumen__run_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "run_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Run Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DuplicadoResumenResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Resumen de una ejecución específica de duplicados",
+        "tags": [
+          "Analítica"
+        ]
+      }
+    },
+    "/api/analitica/ejecuciones/ultimas": {
+      "get": {
+        "operationId": "obtener_estados_ultimas_ejecuciones_api_analitica_ejecuciones_ultimas_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/EjecucionAnaliticaEstadoResponse"
+                  },
+                  "title": "Response Obtener Estados Ultimas Ejecuciones Api Analitica Ejecuciones Ultimas Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Consultar el estado de las últimas ejecuciones analíticas",
+        "tags": [
+          "Analítica"
+        ]
+      }
+    },
+    "/api/analitica/outliers": {
+      "get": {
+        "description": "Retorna los contratos del análisis con filtros opcionales. Si no se pasa run_id se usa la última ejecución. Usa solo_outliers=true para el filtro del dashboard.",
+        "operationId": "listar_outliers_api_analitica_outliers_get",
+        "parameters": [
+          {
+            "description": "UUID de la ejecución. Default: última.",
+            "in": "query",
+            "name": "run_id",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "uuid",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "UUID de la ejecución. Default: última.",
+              "title": "Run Id"
+            }
+          },
+          {
+            "description": "True = solo contratos marcados como outlier.",
+            "in": "query",
+            "name": "solo_outliers",
+            "required": false,
+            "schema": {
+              "default": false,
+              "description": "True = solo contratos marcados como outlier.",
+              "title": "Solo Outliers",
+              "type": "boolean"
+            }
+          },
+          {
+            "description": "Filtrar por modalidad o tipo de contrato.",
+            "in": "query",
+            "name": "grupo",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filtrar por modalidad o tipo de contrato.",
+              "title": "Grupo"
+            }
+          },
+          {
+            "description": "'ALTO' o 'BAJO'.",
+            "in": "query",
+            "name": "direccion",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "pattern": "^(ALTO|BAJO)$",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "'ALTO' o 'BAJO'.",
+              "title": "Direccion"
+            }
+          },
+          {
+            "description": "Score mínimo.",
+            "in": "query",
+            "name": "score_minimo",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "minimum": 0,
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Score mínimo.",
+              "title": "Score Minimo"
+            }
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "required": false,
+            "schema": {
+              "default": 1,
+              "minimum": 1,
+              "title": "Page",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "page_size",
+            "required": false,
+            "schema": {
+              "default": 50,
+              "maximum": 200,
+              "minimum": 1,
+              "title": "Page Size",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OutlierListaResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Listar contratos analizados",
+        "tags": [
+          "Analítica"
+        ]
+      }
+    },
+    "/api/analitica/outliers/calcular": {
+      "post": {
+        "description": "Dispara el algoritmo IQR sobre contratos_procesados. Agrupa por modalidad de contratación (fallback: tipo de contrato), calcula Q1/Q3/IQR con percentile_cont() de PostgreSQL, clasifica cada contrato y persiste el resultado en contrato_outlier. Retorna el identificador del trabajo para consultar su estado y resultado.",
+        "operationId": "calcular_outliers_api_analitica_outliers_calcular_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OutlierCalculoRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BackgroundJobAccepted"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Ejecutar análisis IQR de outliers",
+        "tags": [
+          "Analítica"
+        ]
+      }
+    },
+    "/api/analitica/outliers/resumen": {
+      "get": {
+        "description": "Retorna totales, porcentaje de outliers y estadísticas por grupo. Es el endpoint principal del widget de métricas del dashboard.",
+        "operationId": "obtener_resumen_ultimo_api_analitica_outliers_resumen_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RunResumenResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Resumen de la última ejecución (dashboard)",
+        "tags": [
+          "Analítica"
+        ]
+      }
+    },
+    "/api/analitica/outliers/resumen/{run_id}": {
+      "get": {
+        "operationId": "obtener_resumen_por_run_api_analitica_outliers_resumen__run_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "run_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Run Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RunResumenResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Resumen de una ejecución específica",
+        "tags": [
+          "Analítica"
+        ]
+      }
+    },
+    "/api/analitica/pesos": {
+      "get": {
+        "description": "Devuelve la configuración actual de pesos para el cálculo de riesgo combinado.",
+        "operationId": "obtener_pesos_api_analitica_pesos_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/PesoAnomaliaResponse"
+                  },
+                  "title": "Response Obtener Pesos Api Analitica Pesos Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Obtener pesos de anomalías",
+        "tags": [
+          "Analítica"
+        ]
+      }
+    },
+    "/api/analitica/pesos/{tipo_anomalia}": {
+      "put": {
+        "description": "Actualiza el peso que se utilizará en futuros cálculos de riesgo combinado.",
+        "operationId": "actualizar_peso_api_analitica_pesos__tipo_anomalia__put",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "tipo_anomalia",
+            "required": true,
+            "schema": {
+              "title": "Tipo Anomalia",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PesoActualizarRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PesoAnomaliaResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Actualizar el peso de una anomalía",
+        "tags": [
+          "Analítica"
+        ]
+      }
+    },
+    "/api/analitica/riesgo": {
+      "get": {
+        "description": "Retorna el listado de proveedores evaluados con sus scores combinados.",
+        "operationId": "listar_riesgos_api_analitica_riesgo_get",
+        "parameters": [
+          {
+            "description": "UUID de la ejecución. Default: última.",
+            "in": "query",
+            "name": "run_id",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "uuid",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "UUID de la ejecución. Default: última.",
+              "title": "Run Id"
+            }
+          },
+          {
+            "description": "Filtrar por nombre de proveedor.",
+            "in": "query",
+            "name": "proveedor",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filtrar por nombre de proveedor.",
+              "title": "Proveedor"
+            }
+          },
+          {
+            "description": "Filtrar por riesgo: ALTO, MEDIO, BAJO.",
+            "in": "query",
+            "name": "riesgo",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "pattern": "^(ALTO|MEDIO|BAJO)$",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filtrar por riesgo: ALTO, MEDIO, BAJO.",
+              "title": "Riesgo"
+            }
+          },
+          {
+            "description": "Score final mínimo.",
+            "in": "query",
+            "name": "score_minimo",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "minimum": 0,
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Score final mínimo.",
+              "title": "Score Minimo"
+            }
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "required": false,
+            "schema": {
+              "default": 1,
+              "minimum": 1,
+              "title": "Page",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "page_size",
+            "required": false,
+            "schema": {
+              "default": 50,
+              "maximum": 200,
+              "minimum": 1,
+              "title": "Page Size",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RiesgoProveedorListaResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Listar proveedores con riesgo combinado",
+        "tags": [
+          "Analítica"
+        ]
+      }
+    },
+    "/api/analitica/riesgo/calcular": {
+      "post": {
+        "description": "Cruza los scores más recientes de outliers, duplicados y adjudicación directa. Aplica los pesos configurados y clasifica el riesgo del proveedor en un trabajo en segundo plano. El trabajo termina con error si falta alguna ejecución componente compatible.",
+        "operationId": "calcular_riesgo_global_api_analitica_riesgo_calcular_post",
+        "responses": {
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BackgroundJobAccepted"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Ejecutar cálculo de riesgo global combinado",
+        "tags": [
+          "Analítica"
+        ]
+      }
+    },
+    "/api/analitica/riesgo/resumen": {
+      "get": {
+        "operationId": "obtener_resumen_riesgo_ultimo_api_analitica_riesgo_resumen_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RiesgoGlobalResumenResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Resumen de la última ejecución de riesgo global",
+        "tags": [
+          "Analítica"
+        ]
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "operationId": "login_api_auth_login_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokenResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Login",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/api/auth/logout": {
+      "post": {
+        "operationId": "logout_api_auth_logout_post",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Logout",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/api/auth/me": {
+      "get": {
+        "operationId": "me_api_auth_me_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Me",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/api/auth/register": {
+      "post": {
+        "operationId": "register_api_auth_register_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAdminRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Register",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/api/exports/{job_id}": {
+      "get": {
+        "operationId": "get_export_status_api_exports__job_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "job_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Job Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "X-Export-Token",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Export-Token"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExportJobStatus"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Export Status",
+        "tags": [
+          "Exportaciones"
+        ]
+      }
+    },
+    "/api/exports/{job_id}/download": {
+      "get": {
+        "operationId": "download_export_api_exports__job_id__download_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "job_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Job Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "X-Export-Token",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Export-Token"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Download Export",
+        "tags": [
+          "Exportaciones"
+        ]
+      }
+    },
+    "/api/ingesta/fuentes/": {
+      "get": {
+        "operationId": "listar_fuentes_api_ingesta_fuentes__get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/FuenteDatosResponseDTO"
+                  },
+                  "title": "Response Listar Fuentes Api Ingesta Fuentes  Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Listar Fuentes",
+        "tags": [
+          "Ingesta - Fuentes de Datos"
+        ]
+      },
+      "post": {
+        "operationId": "crear_fuente_api_ingesta_fuentes__post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FuenteDatosCreateDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FuenteDatosResponseDTO"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Crear Fuente",
+        "tags": [
+          "Ingesta - Fuentes de Datos"
+        ]
+      }
+    },
+    "/api/ingesta/fuentes/comparativa": {
+      "get": {
+        "operationId": "comparativa_fuentes_api_ingesta_fuentes_comparativa_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/ComparativaFuenteDTO"
+                  },
+                  "title": "Response Comparativa Fuentes Api Ingesta Fuentes Comparativa Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Comparativa Fuentes",
+        "tags": [
+          "Ingesta - Fuentes de Datos"
+        ]
+      }
+    },
+    "/api/ingesta/fuentes/sincronizaciones": {
+      "get": {
+        "operationId": "listar_historial_api_ingesta_fuentes_sincronizaciones_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/SincronizacionHistorialResponseDTO"
+                  },
+                  "title": "Response Listar Historial Api Ingesta Fuentes Sincronizaciones Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Listar Historial",
+        "tags": [
+          "Ingesta - Fuentes de Datos"
+        ]
+      }
+    },
+    "/api/ingesta/fuentes/sincronizaciones/export/{formato}": {
+      "get": {
+        "operationId": "exportar_sincronizaciones_api_ingesta_fuentes_sincronizaciones_export__formato__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "formato",
+            "required": true,
+            "schema": {
+              "title": "Formato",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Exportar Sincronizaciones",
+        "tags": [
+          "Ingesta - Fuentes de Datos"
+        ]
+      }
+    },
+    "/api/ingesta/fuentes/sincronizaciones/pagina": {
+      "get": {
+        "operationId": "listar_historial_pagina_api_ingesta_fuentes_sincronizaciones_pagina_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "required": false,
+            "schema": {
+              "default": 1,
+              "minimum": 1,
+              "title": "Page",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "required": false,
+            "schema": {
+              "default": 50,
+              "maximum": 100,
+              "minimum": 1,
+              "title": "Size",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SincronizacionHistorialPaginaDTO"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Listar Historial Pagina",
+        "tags": [
+          "Ingesta - Fuentes de Datos"
+        ]
+      }
+    },
+    "/api/ingesta/fuentes/sincronizaciones/resumen": {
+      "get": {
+        "operationId": "resumen_historial_api_ingesta_fuentes_sincronizaciones_resumen_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SincronizacionHistorialResumenDTO"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Resumen Historial",
+        "tags": [
+          "Ingesta - Fuentes de Datos"
+        ]
+      }
+    },
+    "/api/ingesta/fuentes/{fuente_id}": {
+      "delete": {
+        "operationId": "eliminar_fuente_api_ingesta_fuentes__fuente_id__delete",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "fuente_id",
+            "required": true,
+            "schema": {
+              "title": "Fuente Id",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Eliminar Fuente",
+        "tags": [
+          "Ingesta - Fuentes de Datos"
+        ]
+      },
+      "get": {
+        "operationId": "obtener_fuente_api_ingesta_fuentes__fuente_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "fuente_id",
+            "required": true,
+            "schema": {
+              "title": "Fuente Id",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FuenteDatosResponseDTO"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Obtener Fuente",
+        "tags": [
+          "Ingesta - Fuentes de Datos"
+        ]
+      },
+      "put": {
+        "operationId": "actualizar_fuente_api_ingesta_fuentes__fuente_id__put",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "fuente_id",
+            "required": true,
+            "schema": {
+              "title": "Fuente Id",
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FuenteDatosUpdateDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FuenteDatosResponseDTO"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Actualizar Fuente",
+        "tags": [
+          "Ingesta - Fuentes de Datos"
+        ]
+      }
+    },
+    "/api/ingesta/fuentes/{fuente_id}/probar": {
+      "post": {
+        "operationId": "probar_conexion_api_ingesta_fuentes__fuente_id__probar_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "fuente_id",
+            "required": true,
+            "schema": {
+              "title": "Fuente Id",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConexionTestResponseDTO"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Probar Conexion",
+        "tags": [
+          "Ingesta - Fuentes de Datos"
+        ]
+      }
+    },
+    "/api/ingesta/fuentes/{fuente_id}/sincronizaciones": {
+      "get": {
+        "operationId": "historial_por_fuente_api_ingesta_fuentes__fuente_id__sincronizaciones_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "fuente_id",
+            "required": true,
+            "schema": {
+              "title": "Fuente Id",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/SincronizacionHistorialResponseDTO"
+                  },
+                  "title": "Response Historial Por Fuente Api Ingesta Fuentes  Fuente Id  Sincronizaciones Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Historial Por Fuente",
+        "tags": [
+          "Ingesta - Fuentes de Datos"
+        ]
+      }
+    },
+    "/api/ingesta/fuentes/{fuente_id}/sincronizaciones/pagina": {
+      "get": {
+        "operationId": "historial_pagina_por_fuente_api_ingesta_fuentes__fuente_id__sincronizaciones_pagina_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "fuente_id",
+            "required": true,
+            "schema": {
+              "title": "Fuente Id",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "required": false,
+            "schema": {
+              "default": 1,
+              "minimum": 1,
+              "title": "Page",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "required": false,
+            "schema": {
+              "default": 20,
+              "maximum": 100,
+              "minimum": 1,
+              "title": "Size",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SincronizacionHistorialPaginaDTO"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Historial Pagina Por Fuente",
+        "tags": [
+          "Ingesta - Fuentes de Datos"
+        ]
+      }
+    },
+    "/api/ingesta/fuentes/{fuente_id}/sincronizar": {
+      "post": {
+        "operationId": "sincronizar_fuente_api_ingesta_fuentes__fuente_id__sincronizar_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "fuente_id",
+            "required": true,
+            "schema": {
+              "title": "Fuente Id",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BackgroundJobAccepted"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Sincronizar Fuente",
+        "tags": [
+          "Ingesta - Fuentes de Datos"
+        ]
+      }
+    },
+    "/api/jobs/resumen": {
+      "get": {
+        "operationId": "get_jobs_summary_api_jobs_resumen_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BackgroundJobStatusSummary"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Get Jobs Summary",
+        "tags": [
+          "Trabajos"
+        ]
+      }
+    },
+    "/api/jobs/{job_id}": {
+      "get": {
+        "operationId": "get_job_api_jobs__job_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "job_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Job Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BackgroundJobResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Get Job",
+        "tags": [
+          "Trabajos"
+        ]
+      }
+    },
+    "/api/procesados/": {
+      "get": {
+        "description": "Devuelve todos los contratos normalizados con paginación.",
+        "operationId": "list_procesados_api_procesados__get",
+        "parameters": [
+          {
+            "description": "Número de página",
+            "in": "query",
+            "name": "page",
+            "required": false,
+            "schema": {
+              "default": 1,
+              "description": "Número de página",
+              "minimum": 1,
+              "title": "Page",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Registros por página",
+            "in": "query",
+            "name": "size",
+            "required": false,
+            "schema": {
+              "default": 50,
+              "description": "Registros por página",
+              "maximum": 1000,
+              "minimum": 1,
+              "title": "Size",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedContratosDTO"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Listar contratos procesados",
+        "tags": [
+          "Transformacion"
+        ]
+      }
+    },
+    "/api/procesados/anomalias/": {
+      "get": {
+        "description": "Devuelve los registros de `contrato_anomalo_incompleto`. Filtrable por `raw_secop_id`, `motivo` (CAMPO_FALTANTE | FECHA_FUTURA | MONTO_NEGATIVO) y `campo_afectado`.",
+        "operationId": "list_anomalias_api_procesados_anomalias__get",
+        "parameters": [
+          {
+            "description": "ID del registro crudo",
+            "in": "query",
+            "name": "raw_secop_id",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "ID del registro crudo",
+              "title": "Raw Secop Id"
+            }
+          },
+          {
+            "description": "CAMPO_FALTANTE | FECHA_FUTURA | MONTO_NEGATIVO",
+            "in": "query",
+            "name": "motivo",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "pattern": "^(CAMPO_FALTANTE|FECHA_FUTURA|MONTO_NEGATIVO)$",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "CAMPO_FALTANTE | FECHA_FUTURA | MONTO_NEGATIVO",
+              "title": "Motivo"
+            }
+          },
+          {
+            "description": "Campo que presentó la anomalía",
+            "in": "query",
+            "name": "campo_afectado",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "maxLength": 200,
+                  "minLength": 1,
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Campo que presentó la anomalía",
+              "title": "Campo Afectado"
+            }
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "required": false,
+            "schema": {
+              "default": 1,
+              "minimum": 1,
+              "title": "Page",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "required": false,
+            "schema": {
+              "default": 50,
+              "maximum": 1000,
+              "minimum": 1,
+              "title": "Size",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedAnomaliasDTO"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Listar anomalías detectadas",
+        "tags": [
+          "Transformacion"
+        ]
+      }
+    },
+    "/api/procesados/autocomplete": {
+      "get": {
+        "operationId": "autocomplete_api_procesados_autocomplete_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "q",
+            "required": true,
+            "schema": {
+              "maxLength": 200,
+              "minLength": 2,
+              "title": "Q",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 8,
+              "maximum": 20,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/AutocompleteDTO"
+                  },
+                  "title": "Response Autocomplete Api Procesados Autocomplete Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Autocomplete",
+        "tags": [
+          "Transformacion"
+        ]
+      }
+    },
+    "/api/procesados/estadisticas/campos-faltantes": {
+      "get": {
+        "description": "Devuelve el ranking de campos obligatorios que más frecuentemente han llegado vacíos o nulos en los datos crudos. Ordenado de mayor a menor frecuencia.",
+        "operationId": "get_estadisticas_api_procesados_estadisticas_campos_faltantes_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/EstadisticaCampoResponseDTO"
+                  },
+                  "title": "Response Get Estadisticas Api Procesados Estadisticas Campos Faltantes Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Estadísticas de campos faltantes",
+        "tags": [
+          "Transformacion"
+        ]
+      }
+    },
+    "/api/procesados/export/{formato}": {
+      "get": {
+        "operationId": "exportar_contratos_api_procesados_export__formato__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "formato",
+            "required": true,
+            "schema": {
+              "title": "Formato",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Exportar Contratos",
+        "tags": [
+          "Transformacion"
+        ]
+      }
+    },
+    "/api/procesados/export/{formato}/jobs": {
+      "post": {
+        "operationId": "crear_exportacion_contratos_api_procesados_export__formato__jobs_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "formato",
+            "required": true,
+            "schema": {
+              "title": "Formato",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExportJobAccepted"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Crear una exportación descargable",
+        "tags": [
+          "Transformacion"
+        ]
+      }
+    },
+    "/api/procesados/incompletos": {
+      "get": {
+        "description": "Devuelve SOLO contratos incompletos con paginación.",
+        "operationId": "list_incompletos_api_procesados_incompletos_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "required": false,
+            "schema": {
+              "default": 1,
+              "minimum": 1,
+              "title": "Page",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "required": false,
+            "schema": {
+              "default": 50,
+              "maximum": 1000,
+              "minimum": 1,
+              "title": "Size",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedContratosDTO"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Listar contratos incompletos",
+        "tags": [
+          "Transformacion"
+        ]
+      }
+    },
+    "/api/procesados/logs": {
+      "get": {
+        "description": "Devuelve los logs de ejecución del pipeline de normalización, ordenados por los más recientes.",
+        "operationId": "list_logs_api_procesados_logs_get",
+        "parameters": [
+          {
+            "description": "Número de página",
+            "in": "query",
+            "name": "page",
+            "required": false,
+            "schema": {
+              "default": 1,
+              "description": "Número de página",
+              "minimum": 1,
+              "title": "Page",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Registros por página",
+            "in": "query",
+            "name": "size",
+            "required": false,
+            "schema": {
+              "default": 20,
+              "description": "Registros por página",
+              "maximum": 100,
+              "minimum": 1,
+              "title": "Size",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedProcesamientoLogsDTO"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Listar historial de ejecuciones",
+        "tags": [
+          "Transformacion"
+        ]
+      }
+    },
+    "/api/procesados/logs/export/{formato}": {
+      "get": {
+        "operationId": "exportar_logs_procesamiento_api_procesados_logs_export__formato__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "formato",
+            "required": true,
+            "schema": {
+              "title": "Formato",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Exportar Logs Procesamiento",
+        "tags": [
+          "Transformacion"
+        ]
+      }
+    },
+    "/api/procesados/metricas/calidad": {
+      "get": {
+        "description": "Resumen de contratos completos vs incompletos y sus porcentajes.",
+        "operationId": "metricas_calidad_api_procesados_metricas_calidad_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MetricasCalidadDTO"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Métricas de calidad de datos",
+        "tags": [
+          "Transformacion"
+        ]
+      }
+    },
+    "/api/procesados/metricas/campos-faltantes": {
+      "get": {
+        "description": "Devuelve el conteo y porcentaje de cada campo obligatorio faltante, ordenado de mayor a menor.",
+        "operationId": "metricas_campos_faltantes_api_procesados_metricas_campos_faltantes_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/CampoFaltanteDTO"
+                  },
+                  "title": "Response Metricas Campos Faltantes Api Procesados Metricas Campos Faltantes Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Ranking de campos faltantes",
+        "tags": [
+          "Transformacion"
+        ]
+      }
+    },
+    "/api/procesados/metricas/dashboard": {
+      "get": {
+        "operationId": "dashboard_metricas_api_procesados_metricas_dashboard_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DashboardMetricasDTO"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Dashboard Metricas",
+        "tags": [
+          "Transformacion"
+        ]
+      }
+    },
+    "/api/procesados/metricas/distribucion-anomalias": {
+      "get": {
+        "operationId": "distribucion_anomalias_api_procesados_metricas_distribucion_anomalias_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/DistribucionDTO"
+                  },
+                  "title": "Response Distribucion Anomalias Api Procesados Metricas Distribucion Anomalias Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Distribucion Anomalias",
+        "tags": [
+          "Transformacion"
+        ]
+      }
+    },
+    "/api/procesados/metricas/distribucion-riesgo": {
+      "get": {
+        "operationId": "distribucion_riesgo_api_procesados_metricas_distribucion_riesgo_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/DistribucionDTO"
+                  },
+                  "title": "Response Distribucion Riesgo Api Procesados Metricas Distribucion Riesgo Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Distribucion Riesgo",
+        "tags": [
+          "Transformacion"
+        ]
+      }
+    },
+    "/api/procesados/metricas/top-proveedores": {
+      "get": {
+        "operationId": "top_proveedores_api_procesados_metricas_top_proveedores_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 10,
+              "maximum": 50,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/TopProveedorDTO"
+                  },
+                  "title": "Response Top Proveedores Api Procesados Metricas Top Proveedores Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Top Proveedores",
+        "tags": [
+          "Transformacion"
+        ]
+      }
+    },
+    "/api/procesados/reprocesar": {
+      "post": {
+        "description": "Lee registros crudos de `raw_secop`, detecta anomalías (campos faltantes, fechas futuras, montos negativos), normaliza los datos y los guarda en `contratos_procesados`. No modifica `raw_secop`. Usa `forzar_reproceso=true` para re-evaluar registros ya procesados.",
+        "operationId": "reprocesar_api_procesados_reprocesar_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReprocesarRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BackgroundJobAccepted"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Ejecutar pipeline de normalización",
+        "tags": [
+          "Transformacion"
+        ]
+      }
+    },
+    "/api/procesados/search": {
+      "get": {
+        "description": "Filtros combinables: entidad, proveedor, tipo de contrato, estado, rango de fechas de publicación y rango de valores.",
+        "operationId": "search_procesados_api_procesados_search_get",
+        "parameters": [
+          {
+            "description": "Nombre o parte de la entidad",
+            "in": "query",
+            "name": "entidad",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Nombre o parte de la entidad",
+              "title": "Entidad"
+            }
+          },
+          {
+            "description": "Nombre o parte del proveedor",
+            "in": "query",
+            "name": "proveedor",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Nombre o parte del proveedor",
+              "title": "Proveedor"
+            }
+          },
+          {
+            "description": "Modalidad de contratación",
+            "in": "query",
+            "name": "modalidad",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Modalidad de contratación",
+              "title": "Modalidad"
+            }
+          },
+          {
+            "description": "Estado del procedimiento",
+            "in": "query",
+            "name": "estado",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Estado del procedimiento",
+              "title": "Estado"
+            }
+          },
+          {
+            "description": "Fecha mínima de publicación (YYYY-MM-DD)",
+            "in": "query",
+            "name": "fecha_inicio",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "date",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Fecha mínima de publicación (YYYY-MM-DD)",
+              "title": "Fecha Inicio"
+            }
+          },
+          {
+            "description": "Fecha máxima de publicación (YYYY-MM-DD)",
+            "in": "query",
+            "name": "fecha_fin",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "date",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Fecha máxima de publicación (YYYY-MM-DD)",
+              "title": "Fecha Fin"
+            }
+          },
+          {
+            "description": "Valor mínimo del contrato",
+            "in": "query",
+            "name": "valor_min",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "minimum": 0.0,
+                  "type": "number"
+                },
+                {
+                  "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Valor mínimo del contrato",
+              "title": "Valor Min"
+            }
+          },
+          {
+            "description": "Valor máximo del contrato",
+            "in": "query",
+            "name": "valor_max",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "minimum": 0.0,
+                  "type": "number"
+                },
+                {
+                  "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Valor máximo del contrato",
+              "title": "Valor Max"
+            }
+          },
+          {
+            "description": "Filtrar solo contratos incompletos",
+            "in": "query",
+            "name": "solo_incompletos",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": false,
+              "description": "Filtrar solo contratos incompletos",
+              "title": "Solo Incompletos"
+            }
+          },
+          {
+            "description": "Filtrar solo contratos sospechosos",
+            "in": "query",
+            "name": "solo_sospechosos",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": false,
+              "description": "Filtrar solo contratos sospechosos",
+              "title": "Solo Sospechosos"
+            }
+          },
+          {
+            "description": "Nivel de confianza mínimo",
+            "in": "query",
+            "name": "nivel_confianza_min",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "maximum": 100,
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Nivel de confianza mínimo",
+              "title": "Nivel Confianza Min"
+            }
+          },
+          {
+            "description": "Nivel de confianza máximo",
+            "in": "query",
+            "name": "nivel_confianza_max",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "maximum": 100,
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Nivel de confianza máximo",
+              "title": "Nivel Confianza Max"
+            }
+          },
+          {
+            "description": "Texto en entidad, proveedor, NIT o proceso",
+            "in": "query",
+            "name": "q",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "maxLength": 200,
+                  "minLength": 2,
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Texto en entidad, proveedor, NIT o proceso",
+              "title": "Q"
+            }
+          },
+          {
+            "in": "query",
+            "name": "solo_alto_riesgo",
+            "required": false,
+            "schema": {
+              "default": false,
+              "title": "Solo Alto Riesgo",
+              "type": "boolean"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 50,
+              "maximum": 1000,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "schema": {
+              "default": 0,
+              "minimum": 0,
+              "title": "Offset",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Campo por el cual ordenar",
+            "in": "query",
+            "name": "sort",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "pattern": "^(valor|valor_total_normalizado|precio_base_normalizado|fecha|id|entidad|proveedor|riesgo)$",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Campo por el cual ordenar",
+              "title": "Sort"
+            }
+          },
+          {
+            "in": "query",
+            "name": "order",
+            "required": false,
+            "schema": {
+              "default": "desc",
+              "pattern": "^(asc|desc)$",
+              "title": "Order",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedContratosDTO"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Buscar contratos procesados",
+        "tags": [
+          "Transformacion"
+        ]
+      }
+    },
+    "/api/procesados/sospechosos": {
+      "get": {
+        "description": "Devuelve SOLO contratos con valores sospechosos (fechas futuras, etc.) con paginación.",
+        "operationId": "list_sospechosos_api_procesados_sospechosos_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "required": false,
+            "schema": {
+              "default": 1,
+              "minimum": 1,
+              "title": "Page",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "required": false,
+            "schema": {
+              "default": 50,
+              "maximum": 1000,
+              "minimum": 1,
+              "title": "Size",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedContratosDTO"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Listar contratos sospechosos",
+        "tags": [
+          "Transformacion"
+        ]
+      }
+    },
+    "/api/procesados/{id}": {
+      "get": {
+        "description": "Devuelve el registro normalizado por su ID en `contratos_procesados`.",
+        "operationId": "get_procesado_api_procesados__id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "minimum": 1,
+              "title": "Id",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContratoProcesadoResponseDTO"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Detalle de contrato procesado",
+        "tags": [
+          "Transformacion"
+        ]
+      }
+    }
+  }
+}

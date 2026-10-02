@@ -1,0 +1,96 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_DB: plataforma_test
+          POSTGRES_USER: plataforma
+          POSTGRES_PASSWORD: test_only_password
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U plataforma -d plataforma_test"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    defaults:
+      run:
+        working-directory: Backend
+    env:
+      DB_HOST: localhost
+      DB_PORT: 5432
+      DB_USER: plataforma
+      DB_PASSWORD: test_only_password
+      DB_NAME: plataforma_test
+      TEST_DATABASE_URL: postgresql://plataforma:test_only_password@localhost:5432/plataforma_test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install dependencies
+        run: pip install -r requirements-dev.lock
+      - name: Create ephemeral keys
+        run: |
+          python - <<'PY' >> "$GITHUB_ENV"
+          import secrets
+          from cryptography.fernet import Fernet
+          print(f"SECRET_KEY={secrets.token_urlsafe(48)}")
+          print(f"ENCRYPTION_KEY={Fernet.generate_key().decode()}")
+          PY
+      - name: Check dependencies
+        run: |
+          pip check
+          pip-audit -r requirements-dev.lock --no-deps --disable-pip --vulnerability-service osv
+      - name: Verify published OpenAPI contract
+        run: python scripts/export_openapi.py --check
+      - name: Verify API access policy and inventory
+        run: python scripts/export_access_matrix.py --check
+      - name: Restrict PostgreSQL test role
+        run: >-
+          psql "postgresql://plataforma:test_only_password@localhost:5432/plataforma_test"
+          -v ON_ERROR_STOP=1
+          -c "ALTER ROLE plataforma NOSUPERUSER NOCREATEDB NOCREATEROLE"
+          -c "GRANT CREATE ON SCHEMA public TO plataforma"
+      - name: Apply all migrations to empty PostgreSQL
+        run: alembic upgrade head
+      - name: Run tests
+        run: pytest -q tests
+
+  frontend:
+    runs-on: ubuntu-latest
+    env:
+      VITE_API_URL: https://api.integration.example.test
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - name: Install dependencies
+        run: npm ci
+      - name: Install isolated OpenAPI type tooling
+        run: npm ci --prefix ../tools/openapi-types
+      - name: Verify generated API types
+        run: npm run check --prefix ../tools/openapi-types
+      - name: Audit dependencies
+        run: npm audit --audit-level=high
+      - name: Test authentication client behavior
+        run: npm test
+      - name: Lint and build
+        run: |
+          npm run lint
+          npm run build
+          node -e "const fs=require('node:fs'); const path=require('node:path'); const assets=fs.readdirSync('dist/assets').filter(name=>name.endsWith('.js')).map(name=>fs.readFileSync(path.join('dist/assets',name),'utf8')).join('\\n'); if (!assets.includes(process.env.VITE_API_URL)) throw new Error('Configured VITE_API_URL missing from production bundle'); if (assets.includes('http://localhost:8000')) throw new Error('Production bundle still contains localhost API fallback');"

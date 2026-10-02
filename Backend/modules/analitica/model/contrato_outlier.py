@@ -28,14 +28,14 @@ class ContratoOutlier(Base):
     campo_analizado = Column(String(100), nullable=False, default="valor_total_normalizado")
 
     # Valor del contrato en el momento del análisis
-    valor = Column(Numeric(20, 2), nullable=False)
+    valor = Column(Numeric(38, 2), nullable=False)
 
     # Estadísticas del grupo al que pertenece el contrato
-    q1 = Column(Numeric(20, 2), nullable=False)
-    q3 = Column(Numeric(20, 2), nullable=False)
-    iqr = Column(Numeric(20, 2), nullable=False)
-    limite_inferior = Column(Numeric(20, 2), nullable=False)
-    limite_superior = Column(Numeric(20, 2), nullable=False)
+    q1 = Column(Numeric(38, 2), nullable=False)
+    q3 = Column(Numeric(38, 2), nullable=False)
+    iqr = Column(Numeric(38, 2), nullable=False)
+    limite_inferior = Column(Numeric(38, 2), nullable=False)
+    limite_superior = Column(Numeric(38, 2), nullable=False)
 
     # Resultado de la clasificación
     es_outlier = Column(Boolean, nullable=False, default=False)
@@ -47,7 +47,7 @@ class ContratoOutlier(Base):
     # Outlier alto: (valor - limite_superior) / IQR
     # Outlier bajo: (limite_inferior - valor) / IQR
     # No outlier:   0
-    score = Column(Numeric(10, 4), nullable=False, default=0)
+    score = Column(Numeric(38, 4), nullable=False, default=0)
 
     fecha_calculo = Column(DateTime, nullable=False, default=datetime.utcnow)
 

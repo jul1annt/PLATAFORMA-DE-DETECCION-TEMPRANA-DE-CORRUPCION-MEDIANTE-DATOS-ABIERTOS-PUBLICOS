@@ -11,9 +11,11 @@ from core.config import settings
 from shared.base_model import Base
 from modules.ingesta.model.FuenteDatos import FuenteDatos
 from modules.ingesta.model.RawSecop import RawSecop
+from modules.ingesta.model.RawSecopHistorial import RawSecopHistorial
 from modules.ingesta.model.SincronizacionHistorial import SincronizacionHistorial
 from modules.transformacion.model.ContratoProcesado import ContratoProcesado
 from modules.transformacion.model.ContratoAnomaloIncompleto import ContratoAnomaloIncompleto
+from modules.transformacion.model.ContratoAnomaliaHistorial import ContratoAnomaliaHistorial
 from modules.transformacion.model.EstadisticaCamposFaltantes import EstadisticaCamposFaltantes
 from modules.transformacion.model.ProcesamientoLog import ProcesamientoLog
 from modules.analitica.model.contrato_outlier import ContratoOutlier
@@ -21,7 +23,11 @@ from modules.analitica.model.contrato_duplicado_periodo import ContratoDuplicado
 from modules.analitica.model.proveedor_adjudicacion_directa import ProveedorAdjudicacionDirecta
 from modules.analitica.model.peso_anomalia import PesoAnomalia
 from modules.analitica.model.riesgo_proveedor import RiesgoProveedor
+from modules.analitica.model.AnaliticaEjecucion import AnaliticaEjecucion
 from modules.auth.model.Admin import Admin
+from modules.auth.model.AdminSession import AdminSession
+from modules.auth.model.LoginAttempt import LoginAttempt
+from modules.jobs.model import BackgroundJob
 
 
 # Alembic Config object

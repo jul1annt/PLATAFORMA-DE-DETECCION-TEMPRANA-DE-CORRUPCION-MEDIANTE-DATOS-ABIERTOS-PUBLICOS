@@ -1,59 +1,74 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Database,
   CheckCircle,
-  XCircle,
-  Clock,
-  RefreshCw,
   ShieldCheck,
   User,
   ShieldAlert,
   FileWarning,
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/Card';
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../context/useAuth';
 import { fuentesService } from '../../services/fuentesService';
 import { calidadService } from '../../services/calidadService';
 import { ComparativaSincronizaciones } from '../../components/calidad/ComparativaSincronizaciones';
-import type { FuenteDatosResponseDTO, SincronizacionHistorialResponseDTO } from '../../types/fuente';
+import type { ComparativaFuenteDTO } from '../../services/fuentesService';
 import type { MetricasCalidadDTO } from '../../types/calidad';
+import { getErrorMessage } from '../../utils/errors';
 
 const AdminDashboard: React.FC = () => {
   const { admin } = useAuth();
   const navigate = useNavigate();
-  const [fuentes, setFuentes] = useState<FuenteDatosResponseDTO[]>([]);
-  const [recentSyncs, setRecentSyncs] = useState<SincronizacionHistorialResponseDTO[]>([]);
+  const [comparativa, setComparativa] = useState<ComparativaFuenteDTO[] | null>(null);
   const [metricas, setMetricas] = useState<MetricasCalidadDTO | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const activeRequest = useRef<AbortController | null>(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [f, s, m] = await Promise.all([
-          fuentesService.getAll(),
-          fuentesService.getSincronizacionesGlobales(),
-          calidadService.getMetricasCalidad(),
-        ]);
-        setFuentes(f);
-        setRecentSyncs(s.slice(0, 5));
-        setMetricas(m);
-      } catch (err) {
-        console.error('Error cargando dashboard:', err);
-      } finally {
+  const fetchData = useCallback(async () => {
+    activeRequest.current?.abort();
+    const controller = new AbortController();
+    activeRequest.current = controller;
+    setLoading(true);
+    setError(null);
+    try {
+      const [c, m] = await Promise.all([
+        fuentesService.getComparativa(controller.signal),
+        calidadService.getMetricasCalidad(controller.signal),
+      ]);
+      if (controller.signal.aborted) return;
+      setComparativa(c);
+      setMetricas(m);
+    } catch (err: unknown) {
+      if (controller.signal.aborted) return;
+      setError(getErrorMessage(err, 'Error al cargar el dashboard'));
+    } finally {
+      if (activeRequest.current === controller) {
+        activeRequest.current = null;
         setLoading(false);
       }
-    };
-    fetchData();
+    }
   }, []);
 
-  const total = fuentes.length;
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      void fetchData();
+    }, 0);
+    return () => {
+      window.clearTimeout(timer);
+      activeRequest.current?.abort();
+      activeRequest.current = null;
+    };
+  }, [fetchData]);
+
+  const total: number | null = comparativa?.length ?? null;
   
   const statCards = [
     { label: 'Total de Fuentes', value: total, icon: Database, color: 'text-blue-400' },
-    { label: 'Contratos Procesados', value: metricas?.total_contratos ?? 0, icon: ShieldAlert, color: 'text-indigo-400' },
-    { label: 'Calidad de Datos', value: `${(metricas?.porcentaje_completos ?? 0).toFixed(1)}%`, icon: CheckCircle, color: 'text-emerald-400' },
-    { label: 'Registros Sospechosos', value: metricas?.sospechosos ?? 0, icon: FileWarning, color: 'text-red-400' },
+    { label: 'Contratos Procesados', value: metricas?.total_contratos ?? null, icon: ShieldAlert, color: 'text-indigo-400' },
+    { label: 'Calidad de Datos', value: metricas?.porcentaje_completos == null ? null : `${metricas.porcentaje_completos.toFixed(1)}%`, icon: CheckCircle, color: 'text-emerald-400' },
+    { label: 'Registros Sospechosos', value: metricas?.sospechosos ?? null, icon: FileWarning, color: 'text-red-400' },
   ];
 
   return (
@@ -78,6 +93,20 @@ const AdminDashboard: React.FC = () => {
         </div>
       </div>
 
+      {error && (
+        <Card role="alert" className="border-red-200 bg-red-50">
+          <CardContent className="flex items-center justify-between gap-4 py-4">
+            <div>
+              <p className="font-semibold text-red-800">No se pudo cargar el resumen.</p>
+              <p className="text-sm text-red-700">{error}</p>
+            </div>
+            <button onClick={() => void fetchData()} className="rounded-lg bg-red-600 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700">
+              Reintentar
+            </button>
+          </CardContent>
+        </Card>
+      )}
+
       {/* Stats grid */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         {statCards.map((card) => {
@@ -93,7 +122,7 @@ const AdminDashboard: React.FC = () => {
                   <div className="h-8 bg-slate-100 animate-pulse rounded w-16" />
                 ) : (
                   <div className="font-bold text-slate-900 text-3xl">
-                    {card.value}
+                    {card.value ?? '—'}
                   </div>
                 )}
               </CardContent>
@@ -110,8 +139,10 @@ const AdminDashboard: React.FC = () => {
             <Card className="h-64 flex items-center justify-center">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-500" />
             </Card>
+          ) : error ? (
+            <Card className="h-64 flex items-center justify-center text-sm text-slate-500">Resumen no disponible.</Card>
           ) : (
-            <ComparativaSincronizaciones fuentes={fuentes} sincronizaciones={recentSyncs} />
+            <ComparativaSincronizaciones comparativa={comparativa ?? []} />
           )}
         </div>
 
@@ -130,32 +161,34 @@ const AdminDashboard: React.FC = () => {
                 <div className="h-4 bg-slate-100 animate-pulse rounded w-3/4" />
                 <div className="h-10 bg-slate-100 animate-pulse rounded w-full" />
               </div>
-            ) : (
+            ) : error ? (
+              <p className="text-sm text-slate-500">Resumen no disponible.</p>
+            ) : metricas ? (
               <>
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm font-medium">
                     <span className="text-slate-500">Integridad de datos</span>
-                    <span className="text-indigo-600">{(metricas?.porcentaje_completos ?? 0).toFixed(1)}%</span>
+                    <span className="text-indigo-600">{metricas.porcentaje_completos == null ? '—' : `${metricas.porcentaje_completos.toFixed(1)}%`}</span>
                   </div>
                   <div className="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
                     <div 
                       className="h-full bg-indigo-500 rounded-full" 
-                      style={{ width: `${metricas?.porcentaje_completos ?? 0}%` }}
+                      style={{ width: `${metricas.porcentaje_completos ?? 0}%` }}
                     />
                   </div>
                   <p className="text-[10px] text-slate-400">
-                    Basado en {metricas?.total_contratos ?? 0} registros procesados.
+                    Basado en {metricas.total_contratos.toLocaleString('es-CO')} registros procesados.
                   </p>
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="p-3 bg-slate-50 rounded-lg border border-slate-100">
                     <p className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Incompletos</p>
-                    <p className="text-lg font-bold text-slate-700">{metricas?.incompletos ?? 0}</p>
+                    <p className="text-lg font-bold text-slate-700">{metricas.incompletos.toLocaleString('es-CO')}</p>
                   </div>
                   <div className="p-3 bg-slate-50 rounded-lg border border-slate-100">
                     <p className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Sospechosos</p>
-                    <p className="text-lg font-bold text-red-500">{metricas?.sospechosos ?? 0}</p>
+                    <p className="text-lg font-bold text-red-500">{metricas.sospechosos.toLocaleString('es-CO')}</p>
                   </div>
                 </div>
 
@@ -166,6 +199,8 @@ const AdminDashboard: React.FC = () => {
                   Ver Informe Detallado
                 </button>
               </>
+            ) : (
+              <p className="text-sm text-slate-500">No hay datos de calidad disponibles.</p>
             )}
           </CardContent>
         </Card>

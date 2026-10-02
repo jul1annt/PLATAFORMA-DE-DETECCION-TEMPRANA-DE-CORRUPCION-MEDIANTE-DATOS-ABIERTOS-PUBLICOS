@@ -1,0 +1,9 @@
+{
+  "checked_at_utc": "2026-10-02T08:45:27.0154562Z",
+  "source": "https://api.github.com/repos/jul1annt/PLATAFORMA-DE-DETECCION-TEMPRANA-DE-CORRUPCION-MEDIANTE-DATOS-ABIERTOS-PUBLICOS/branches/main",
+  "http_status": 200,
+  "branch": "main",
+  "protected": false,
+  "commit_sha": "e39f1030fee6e6f3f794a8655e43a190fa15e36d",
+  "protection_details_http_status": 401
+}
