@@ -19,6 +19,11 @@ class AnaliticaRepository:
     def __init__(self, db: Session):
         self.db = db
 
+    def _configure_large_query_memory(self) -> None:
+        """Give large PostgreSQL sorts/hashes more room for this transaction only."""
+        if self.db.get_bind().dialect.name == "postgresql":
+            self.db.execute(text("SELECT set_config('work_mem', '32MB', true)"))
+
     def obtener_firma_universo(self) -> dict:
         row = self.db.execute(text("""
             SELECT COUNT(*) AS total_contratos,
@@ -499,6 +504,7 @@ class AnaliticaRepository:
         fecha_hasta: Optional[date] = None,
     ) -> int:
         """Detecta e inserta pares en SQL para mantener acotado el uso de memoria del worker."""
+        self._configure_large_query_memory()
         where_extra = ""
         params = {"run_id": str(run_id), "fecha_calculo": fecha_calculo}
         if fecha_desde:
@@ -863,6 +869,7 @@ class AnaliticaRepository:
         Missing findings within a completed run contribute zero; a missing run
         is rejected by the service before this query is called.
         """
+        self._configure_large_query_memory()
         query = text("""
             WITH outliers AS (
                 SELECT 

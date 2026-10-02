@@ -12,6 +12,8 @@ from datetime import date, datetime, timezone
 from decimal import Decimal
 from types import SimpleNamespace
 
+from sqlalchemy import text
+
 from modules.analitica.model.contrato_duplicado_periodo import ContratoDuplicadoPeriodo
 from modules.analitica.model.contrato_outlier import ContratoOutlier
 from modules.analitica.repository.repository import AnaliticaRepository
@@ -23,6 +25,15 @@ from modules.transformacion.model.ContratoProcesado import ContratoProcesado
 from modules.ingesta.model.RawSecop import RawSecop
 from modules.transformacion.repository.transformacion import TransformacionRepository
 from shared.enums import TipoFormato
+
+
+def test_large_analytics_work_mem_is_transaction_local(postgres_test_session):
+    session = postgres_test_session
+    before = session.execute(text("SHOW work_mem")).scalar_one()
+    AnaliticaRepository(session)._configure_large_query_memory()
+    assert session.execute(text("SHOW work_mem")).scalar_one() == "32MB"
+    session.rollback()
+    assert session.execute(text("SHOW work_mem")).scalar_one() == before
 
 
 def test_analytics_queries_include_contracts_beyond_one_thousand(postgres_test_session):
