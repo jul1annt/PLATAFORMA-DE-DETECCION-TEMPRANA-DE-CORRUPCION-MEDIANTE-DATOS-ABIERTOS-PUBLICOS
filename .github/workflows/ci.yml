@@ -63,7 +63,7 @@ jobs:
       - name: Apply all migrations to empty PostgreSQL
         run: alembic upgrade head
       - name: Run tests
-        run: pytest -q tests
+        run: python -m pytest -q tests
 
   frontend:
     runs-on: ubuntu-latest
