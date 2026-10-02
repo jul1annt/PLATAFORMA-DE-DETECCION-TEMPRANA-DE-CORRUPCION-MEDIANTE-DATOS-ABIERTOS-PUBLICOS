@@ -1,10 +1,12 @@
 # Medición de la carga SECOP aislada
 
-Estado: medición parcial mientras se carga el corte oficial de 9 249 545 filas. No define todavía un SLA de despliegue ni cierra P16.
+Estado: ingesta completa del corte oficial de 9 249 545 filas; la medición de concurrencia y fallos a escala sigue parcial. No define todavía un SLA de despliegue ni cierra P16.
 
-Fuente: `Backend/.codex-e2e-postgres/secop_refresh_20261001_backfill.log`. El runner confirma 100 000 filas y un cursor en la misma transacción de cada trabajo parcial. Los índices secundarios de `raw_secop` están diferidos y se reconstruirán al finalizar. El destino es exclusivamente `plataforma_secop_refresh_20261001_test` en el clúster de prueba `:5433`.
+Fuente: `Backend/.codex-e2e-postgres/secop_refresh_20261001_backfill.log`. El runner confirma 100 000 filas y un cursor en la misma transacción de cada trabajo parcial. Los índices secundarios de `raw_secop` se restauraron al finalizar. El destino es exclusivamente `plataforma_secop_refresh_20261001_test` en el clúster de prueba `:5433`.
 
 ## Corte de medición
+
+La ingesta completa confirmó **9 249 545 filas en 21 094,9 segundos** (5 h 51 min 34,9 s): **438,5 filas/s** de promedio global. Fueron 92 lotes de 100 000 y uno final de 49 545; todos insertaron las filas recibidas y el último cerró `EXITOSO`. El mínimo de espacio libre registrado fue **113,3 GiB**. Después de los primeros 54 lotes, las 3 849 545 filas restantes se confirmaron en 8 397,8 s (458,4 filas/s en ese tramo). La comparación entre tramos está afectada por cambios de fuente, caché, índices y configuración, y no mide por sí sola la contribución del ajuste de checkpoints.
 
 En los primeros 54 lotes se confirmaron 5 400 000 filas en 12 697,1 segundos: promedio global **425,3 filas/s**. La mediana de duración de lote fue **202,6 s**; el percentil 95 empírico, **555,2 s**. Los primeros diez lotes promediaron **159,9 s** y los últimos diez del corte **243,8 s**. El peor lote fue el 27, con **767,4 s**; los lotes 26, 28, 39 y 40 también excedieron 475 s. El mínimo de espacio libre informado por el runner hasta ese corte fue **121,1 GiB**, por encima de su umbral de parada de 40 GiB.
 
