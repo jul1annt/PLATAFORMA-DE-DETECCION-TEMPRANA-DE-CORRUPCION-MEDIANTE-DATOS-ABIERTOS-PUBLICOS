@@ -6,13 +6,14 @@ Estado: inventario, medición y limpieza puntual de restauraciones redundantes. 
 
 En la copia aislada de 9 249 545 filas, `raw_secop` ocupaba 10 584 956 928 bytes de tabla (9,86 GiB) y 12 317 376 512 bytes con índices y almacenamiento asociado (11,47 GiB). Son unos 1 144 bytes de tabla por fila. `raw_secop_historial` estaba vacío y ocupaba 32 768 bytes con su estructura. Estos datos no miden todavía el crecimiento real del historial por actualizaciones; si un reemplazo archivara una versión de cada fila con contenido similar, solo las filas históricas podrían requerir del orden de 9,86 GiB adicionales antes de índices, metadatos y copias de seguridad. Es una proyección de capacidad, no un tamaño garantizado.
 
-Los siete dumps de ensayo y preservación en `Backend/.codex-e2e-postgres` sumaban **8,89 GiB** al corte. Este total no incluye bases restauradas, clústeres PostgreSQL, archivos WAL, el futuro dump de 9 249 545 filas ni copias fuera de esa carpeta.
+Los siete dumps de ensayo y preservación en `Backend/.codex-e2e-postgres` sumaban **8,89 GiB** al corte inicial. El 2026-10-03 se añadió el respaldo de la generación de 9 249 545 filas: **3 434 770 306 bytes**, SHA-256 `C0E885928126013D87C234320392D18E5D4D441C9E1D520B97557E447D8BE02F`. El inventario actual es de **ocho dumps, 12 979 002 521 bytes (12,09 GiB)**. Este total no incluye bases restauradas, clústeres PostgreSQL, archivos WAL ni copias fuera de esa carpeta. SECOP publicó otra generación antes de iniciar este respaldo, por lo que se conserva como evidencia histórica.
 
 | Respaldo | Tamaño aproximado |
 | --- | ---: |
 | `plataforma_cutover_final.dump` | 3,19 GiB |
 | `plataforma_raw_secop_cutover.dump` | 2,48 GiB |
 | `plataforma_secop_refresh_final.dump` | 3,19 GiB |
+| `secop_20261001_final.dump` | 3,20 GiB |
 | Cuatro dumps pequeños del corte previo, preparación y base operativa | 0,03 GiB en total |
 
 Durante la reconstrucción de índices del corte nuevo había aproximadamente 95,8 GiB libres en la unidad. El vigilante de respaldo comprueba espacio antes de crear el dump y una restauración independiente; esa reserva temporal es necesaria además de cualquier política de conservación.
