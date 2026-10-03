@@ -11,6 +11,7 @@ import { Select } from '../components/ui/Select';
 import { Card, CardContent } from '../components/ui/Card';
 import { fuentesService } from '../services/fuentesService';
 import type { FormatoFuente } from '../types/fuente';
+import { getErrorMessage } from '../utils/errors';
 
 const fuenteSchema = z.object({
   nombre: z.string().min(1, 'El nombre es requerido'),
@@ -55,7 +56,7 @@ export const FuenteForm: React.FC = () => {
             frecuencia_dias: data.frecuencia_dias,
             api_key: '', // La API key usualmente no se devuelve por seguridad, la dejamos vacía para no sobreescribir si no se toca
           });
-        } catch (error) {
+        } catch {
           toast.error('Error al cargar la fuente');
           navigate('/admin/fuentes');
         }
@@ -81,8 +82,8 @@ export const FuenteForm: React.FC = () => {
         toast.success('Fuente creada exitosamente');
       }
       navigate('/admin/fuentes');
-    } catch (error: any) {
-      toast.error(error?.response?.data?.detail || 'Ocurrió un error al guardar');
+    } catch (error: unknown) {
+      toast.error(getErrorMessage(error, 'Ocurrió un error al guardar'));
     } finally {
       setIsSubmitting(false);
     }

@@ -19,11 +19,6 @@ export const AlertIcons: React.FC<AlertIconsProps> = ({ procesado }) => {
           <span className="cursor-help text-lg" aria-label="Contrato de alto riesgo">🚨</span>
         </AlertTooltip>
       )}
-      {procesado?.datos_modificados === true && (
-        <AlertTooltip content="Datos modificados">
-          <span className="cursor-help text-lg" aria-label="Datos modificados">⚡</span>
-        </AlertTooltip>
-      )}
     </div>
   );
 };

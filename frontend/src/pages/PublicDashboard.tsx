@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   getDashboardMetrics,
@@ -17,6 +17,7 @@ import { RiskChart } from '../components/dashboard/RiskChart';
 import { TopProvidersChart } from '../components/dashboard/TopProvidersChart';
 import { AnomalyChart } from '../components/dashboard/AnomalyChart';
 import { PublicNavbar } from '../components/layout/PublicNavbar';
+import { getErrorMessage } from '../utils/errors';
 
 const POLL_INTERVAL_MS = 60_000;
 
@@ -65,32 +66,50 @@ export const PublicDashboard: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
+  const activeRequest = useRef<AbortController | null>(null);
 
   const loadData = useCallback(async () => {
+    activeRequest.current?.abort();
+    const controller = new AbortController();
+    activeRequest.current = controller;
     try {
       setError(null);
       const [m, risk, providers, anomaly] = await Promise.all([
-        getDashboardMetrics(),
-        getRiskDistribution(),
-        getTopProviders(10),
-        getAnomalyDistribution(),
+        getDashboardMetrics(controller.signal),
+        getRiskDistribution(controller.signal),
+        getTopProviders(10, controller.signal),
+        getAnomalyDistribution(controller.signal),
       ]);
+      if (controller.signal.aborted) return;
       setMetrics(m);
       setRiskData(risk);
       setTopProviders(providers);
       setAnomalyData(anomaly);
       setLastUpdated(new Date());
-    } catch (err: any) {
-      setError(err.message || 'Error al cargar el dashboard');
+    } catch (err: unknown) {
+      if (controller.signal.aborted) return;
+      setError(getErrorMessage(err, 'Error al cargar el dashboard'));
     } finally {
-      setLoading(false);
+      if (activeRequest.current === controller) {
+        activeRequest.current = null;
+        setLoading(false);
+      }
     }
   }, []);
 
   useEffect(() => {
-    loadData();
-    const interval = setInterval(loadData, POLL_INTERVAL_MS);
-    return () => clearInterval(interval);
+    const initial = window.setTimeout(() => {
+      void loadData();
+    }, 0);
+    const interval = window.setInterval(() => {
+      void loadData();
+    }, POLL_INTERVAL_MS);
+    return () => {
+      window.clearTimeout(initial);
+      window.clearInterval(interval);
+      activeRequest.current?.abort();
+      activeRequest.current = null;
+    };
   }, [loadData]);
 
   return (
@@ -173,7 +192,7 @@ export const PublicDashboard: React.FC = () => {
               {/* Incompletos → ?filter=INCOMPLETOS */}
               <KpiCard
                 title="% Incompletos"
-                value={`${metrics!.pct_incompletos.toFixed(1)}%`}
+                value={metrics!.pct_incompletos === null ? '—' : `${metrics!.pct_incompletos.toFixed(1)}%`}
                 subtitle={`${metrics!.total_incompletos.toLocaleString('es-ES')} registros con campos faltantes`}
                 icon={<WarningIcon />}
                 gradient="bg-gradient-to-br from-amber-50 to-amber-100/60"
@@ -186,7 +205,7 @@ export const PublicDashboard: React.FC = () => {
               {/* Sospechosos → ?filter=SOSPECHOSOS */}
               <KpiCard
                 title="% Sospechosos"
-                value={`${metrics!.pct_sospechosos.toFixed(1)}%`}
+                value={metrics!.pct_sospechosos === null ? '—' : `${metrics!.pct_sospechosos.toFixed(1)}%`}
                 subtitle={`${metrics!.total_sospechosos.toLocaleString('es-ES')} anomalías detectadas`}
                 icon={<AlertIcon />}
                 gradient="bg-gradient-to-br from-rose-50 to-rose-100/60"
@@ -199,7 +218,7 @@ export const PublicDashboard: React.FC = () => {
               {/* Alto Riesgo → ?filter=ALTO_RIESGO */}
               <KpiCard
                 title="% Alto Riesgo"
-                value={`${metrics!.pct_alto_riesgo.toFixed(1)}%`}
+                value={metrics!.pct_alto_riesgo === null ? '—' : `${metrics!.pct_alto_riesgo.toFixed(1)}%`}
                 subtitle={`${metrics!.total_alto_riesgo.toLocaleString('es-ES')} contratos clasificados ALTO`}
                 icon={<ShieldIcon />}
                 gradient="bg-gradient-to-br from-violet-50 to-violet-100/60"
@@ -218,7 +237,7 @@ export const PublicDashboard: React.FC = () => {
                   Índice de Confianza de Datos
                 </p>
                 <p className="text-5xl font-black tracking-tighter">
-                  {metrics!.promedio_confianza.toFixed(1)}
+                  {metrics!.promedio_confianza === null ? '—' : metrics!.promedio_confianza.toFixed(1)}
                   <span className="text-2xl opacity-60 ml-1">/ 100</span>
                 </p>
                 <p className="text-sm opacity-70 font-medium mt-2">
@@ -233,18 +252,23 @@ export const PublicDashboard: React.FC = () => {
                       cx="50" cy="50" r="40" fill="none" stroke="white" strokeWidth="10"
                       strokeLinecap="round"
                       strokeDasharray={`${2 * Math.PI * 40}`}
-                      strokeDashoffset={`${2 * Math.PI * 40 * (1 - metrics!.promedio_confianza / 100)}`}
+                      strokeDashoffset={`${2 * Math.PI * 40 * (1 - (metrics!.promedio_confianza ?? 0) / 100)}`}
                       className="transition-all duration-1000"
                     />
                   </svg>
                   <div className="absolute inset-0 flex items-center justify-center">
                     <span className="text-white text-xl font-black">
-                      {Math.round(metrics!.promedio_confianza)}%
+                      {metrics!.promedio_confianza === null ? '—' : `${Math.round(metrics!.promedio_confianza)}%`}
                     </span>
                   </div>
                 </div>
                 <span className="text-white/60 text-xs font-bold uppercase tracking-widest">
-                  {metrics!.promedio_confianza >= 80 ? '✅ Excelente' : metrics!.promedio_confianza >= 60 ? '⚠️ Aceptable' : '🚨 Bajo'}
+                  {{
+                    SIN_DATOS: 'Sin datos para evaluar',
+                    EXCELENTE: '✅ Excelente',
+                    ACEPTABLE: '⚠️ Aceptable',
+                    BAJA: '🚨 Bajo',
+                  }[metrics!.calificacion_confianza]}
                 </span>
               </div>
             </div>
@@ -273,7 +297,7 @@ export const PublicDashboard: React.FC = () => {
               {[
                 {
                   label: 'Contratos Completos',
-                  value: (metrics!.total_contratos - metrics!.total_incompletos).toLocaleString('es-ES'),
+                  value: metrics!.total_completos.toLocaleString('es-ES'),
                   color: 'text-emerald-600',
                   bg: 'bg-emerald-50 border-emerald-100',
                   filter: '',

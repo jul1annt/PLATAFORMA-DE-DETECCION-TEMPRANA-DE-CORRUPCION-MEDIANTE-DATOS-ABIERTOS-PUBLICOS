@@ -1,0 +1,32 @@
+"""Search filters shared by transformation use cases and persistence."""
+
+from datetime import date
+from decimal import Decimal
+from typing import Optional
+
+from pydantic import BaseModel, Field
+
+
+class ContratoProcesadoFilter(BaseModel):
+    entidad: Optional[str] = Field(None, description="Nombre o parte del nombre de la entidad pública")
+    proveedor: Optional[str] = Field(None, description="Nombre o NIT del proveedor")
+    modalidad: Optional[str] = Field(None, description="Modalidad de contratación")
+    estado: Optional[str] = Field(None, description="Estado del procedimiento")
+    fecha_inicio: Optional[date] = Field(None, description="Fecha mínima de publicación (YYYY-MM-DD)")
+    fecha_fin: Optional[date] = Field(None, description="Fecha máxima de publicación (YYYY-MM-DD)")
+    valor_min: Optional[Decimal] = Field(None, description="Valor mínimo del contrato", ge=0)
+    valor_max: Optional[Decimal] = Field(None, description="Valor máximo del contrato", ge=0)
+    solo_incompletos: Optional[bool] = Field(False, description="Filtrar solo contratos incompletos")
+    solo_sospechosos: Optional[bool] = Field(False, description="Filtrar solo contratos sospechosos")
+    nivel_confianza_min: Optional[int] = Field(None, description="Nivel de confianza mínimo", ge=0, le=100)
+    nivel_confianza_max: Optional[int] = Field(None, description="Nivel de confianza máximo", ge=0, le=100)
+    query: Optional[str] = Field(None, min_length=2, max_length=200)
+    solo_alto_riesgo: Optional[bool] = False
+
+
+class AnomaliaFilter(BaseModel):
+    raw_secop_id: Optional[int] = Field(None, description="Filtrar por ID de registro crudo")
+    id_contrato_procesado: Optional[int] = Field(None, description="Filtrar por ID de contrato procesado")
+    motivo: Optional[str] = Field(None, description="CAMPO_FALTANTE | FECHA_FUTURA | MONTO_NEGATIVO")
+    tipo_anomalia: Optional[str] = Field(None, description="Filtro actualizado por tipo de anomalia")
+    campo_afectado: Optional[str] = Field(None, description="Nombre del campo afectado")

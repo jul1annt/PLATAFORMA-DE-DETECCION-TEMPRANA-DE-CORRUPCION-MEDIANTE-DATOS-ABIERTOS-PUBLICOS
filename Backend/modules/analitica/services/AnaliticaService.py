@@ -1,7 +1,8 @@
 import logging
 import math
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone
+from functools import wraps
 from typing import Optional
 from uuid import UUID
 
@@ -29,14 +30,137 @@ from modules.analitica.dto.response import (
     RiesgoProveedorResponse,
     RiesgoProveedorListaResponse,
     RiesgoGlobalResumenResponse,
+    EjecucionAnaliticaEstadoResponse,
 )
-from modules.analitica.model.contrato_outlier import ContratoOutlier
-from modules.analitica.model.contrato_duplicado_periodo import ContratoDuplicadoPeriodo
 from modules.analitica.model.proveedor_adjudicacion_directa import ProveedorAdjudicacionDirecta
 from modules.analitica.model.riesgo_proveedor import RiesgoProveedor
 from modules.analitica.repository.repository import AnaliticaRepository
 
 logger = logging.getLogger(__name__)
+
+
+class FaltanEjecucionesAnaliticasError(ValueError):
+    """Raised when a combined risk score would treat a missing input as zero."""
+
+
+class EjecucionesAnaliticasIncompatiblesError(ValueError):
+    """Raised when component runs do not describe the same current universe."""
+
+
+class EjecucionAnaliticaNoEncontradaError(ValueError):
+    """Raised when a query has no prior run to use as its default."""
+
+
+class DatosInsuficientesAnaliticaError(ValueError):
+    """Raised when the selected universe cannot support an analysis."""
+
+
+class TipoAnomaliaNoEncontradoError(ValueError):
+    """Raised when a requested anomaly weight does not exist."""
+
+
+class FalloEjecucionAnaliticaError(RuntimeError):
+    """Unexpected analysis failure carrying its server-side correlation ID."""
+
+    def __init__(self, error_id: uuid.UUID):
+        self.error_id = str(error_id)
+        super().__init__("Fallo interno durante la ejecución analítica.")
+
+
+def _scope_analitica(tipo: str, request) -> dict:
+    if tipo == "RIESGO":
+        return {}
+    if tipo == "OUTLIERS":
+        return {
+            "fecha_campo": request.fecha_campo or "fecha_publicacion_normalizada",
+            "fecha_desde": request.fecha_desde.isoformat() if request.fecha_desde else None,
+            "fecha_hasta": request.fecha_hasta.isoformat() if request.fecha_hasta else None,
+            "modalidad": request.modalidad,
+        }
+    return {
+        "fecha_campo": "fecha_publicacion_normalizada",
+        "fecha_desde": request.fecha_desde.isoformat() if request.fecha_desde else None,
+        "fecha_hasta": request.fecha_hasta.isoformat() if request.fecha_hasta else None,
+        "modalidad": None,
+    }
+
+
+def registrar_ejecucion_analitica(tipo: str, *, recibe_request: bool = True):
+    """Persist run state even when analysis outputs no finding rows."""
+    total_fields = {
+        "OUTLIERS": "total_contratos_analizados",
+        "DUPLICADOS": "total_duplicados",
+        "ADJUDICACION_DIRECTA": "total_proveedores_detectados",
+        "RIESGO": "total_proveedores_evaluados",
+    }
+
+    def decorar(funcion):
+        @wraps(funcion)
+        def ejecutar(self, *args, **kwargs):
+            request = args[0] if recibe_request and args else None
+            run_id = uuid.uuid4()
+            parametros = request.model_dump(mode="json") if request is not None else {}
+            universo = _scope_analitica(tipo, request)
+            firma = self.repo.obtener_firma_universo()
+            self.repo.iniciar_ejecucion_analitica(
+                run_id=run_id,
+                tipo=tipo,
+                parametros=parametros,
+                universo=universo,
+                firma_universo=firma,
+            )
+
+            try:
+                if recibe_request:
+                    resultado = funcion(self, *args, _run_id=run_id, **kwargs)
+                else:
+                    resultado = funcion(self, _run_id=run_id, **kwargs)
+                firma_final = self.repo.obtener_firma_universo()
+                estado = "EXITOSO" if firma_final == firma else "DESACTUALIZADO"
+                self.repo.finalizar_ejecucion_analitica(
+                    run_id,
+                    estado=estado,
+                    total_resultados=int(getattr(resultado, total_fields[tipo], 0) or 0),
+                )
+                resultado.estado_ejecucion = estado
+                return resultado
+            except Exception as exc:
+                self.db.rollback()
+                error_id = uuid.uuid4()
+                try:
+                    self.repo.finalizar_ejecucion_analitica(
+                        run_id,
+                        estado="ERROR",
+                        error_id=error_id,
+                        mensaje_error=f"Error interno. Referencia: {error_id}",
+                    )
+                except Exception as registration_error:
+                    self.db.rollback()
+                    logger.error(
+                        "No se pudo registrar el fallo analítico; referencia=%s tipo=%s",
+                        error_id,
+                        type(registration_error).__name__,
+                    )
+                logger.error(
+                    "Falló la ejecución analítica; tipo=%s referencia=%s excepción=%s",
+                    tipo,
+                    error_id,
+                    type(exc).__name__,
+                )
+                if isinstance(
+                    exc,
+                    (
+                        FaltanEjecucionesAnaliticasError,
+                        EjecucionesAnaliticasIncompatiblesError,
+                        DatosInsuficientesAnaliticaError,
+                    ),
+                ):
+                    raise
+                raise FalloEjecucionAnaliticaError(error_id) from exc
+
+        return ejecutar
+
+    return decorar
 
 
 class AnaliticaService:
@@ -55,18 +179,36 @@ class AnaliticaService:
         self.db = db
         self.repo = AnaliticaRepository(db)
 
+    def obtener_estados_ultimas_ejecuciones(self) -> list[EjecucionAnaliticaEstadoResponse]:
+        estados = []
+        for tipo in ("OUTLIERS", "DUPLICADOS", "ADJUDICACION_DIRECTA", "RIESGO"):
+            ejecucion = self.repo.obtener_ultima_ejecucion_analitica(tipo)
+            if ejecucion is None:
+                continue
+            estados.append(EjecucionAnaliticaEstadoResponse(
+                tipo=tipo,
+                run_id=ejecucion.run_id,
+                estado=self.repo.obtener_estado_ejecucion_analitica(ejecucion.run_id),
+                fecha_inicio=ejecucion.fecha_inicio,
+                fecha_fin=ejecucion.fecha_fin,
+            ))
+        return estados
+
     # ------------------------------------------------------------------
     # CASO DE USO PRINCIPAL
     # ------------------------------------------------------------------
 
-    def calcular_outliers(self, request: OutlierCalculoRequest) -> RunResumenResponse:
+    @registrar_ejecucion_analitica("OUTLIERS")
+    def calcular_outliers(
+        self, request: OutlierCalculoRequest, *, _run_id: UUID | None = None
+    ) -> RunResumenResponse:
         """
         Ejecuta el análisis completo y persiste los resultados.
         Retorna el resumen de la ejecución.
         """
-        run_id = uuid.uuid4()
+        run_id = _run_id or uuid.uuid4()
         campo = request.campo
-        fecha_calculo = datetime.utcnow()
+        fecha_calculo = datetime.now(timezone.utc)
 
         # Validaciones de seguridad (allowlists)
         CAMPOS_NUMERICOS_VALIDOS = {"valor_total_normalizado", "precio_base_normalizado", "nivel_confianza", "cantidad_campos_faltantes"}
@@ -84,7 +226,7 @@ class AnaliticaService:
             f"Rango: {request.fecha_desde} - {request.fecha_hasta}. "
             f"Modalidad: '{request.modalidad}'"
         )
-        start_time = datetime.utcnow()
+        start_time = datetime.now(timezone.utc)
 
         # PASO 1: calcular Q1, Q3, IQR y límites por grupo en PostgreSQL
         estadisticas_por_grupo: dict[str, dict] = {
@@ -99,67 +241,25 @@ class AnaliticaService:
         }
 
         if not estadisticas_por_grupo:
-            raise ValueError(
+            raise DatosInsuficientesAnaliticaError(
                 "No se encontraron contratos válidos con los filtros indicados "
                 "o ningún grupo tiene varianza suficiente para calcular IQR."
             )
 
-        # PASO 2: traer los contratos válidos del mismo universo
-        contratos = self.repo.obtener_contratos_validos(
+        # Clasificar e insertar en la base, evitando materializar millones de filas.
+        total_analizados, total_outliers = self.repo.guardar_resultados_outliers_sql(
+            run_id=run_id,
             campo=campo,
+            estadisticas_por_grupo=estadisticas_por_grupo,
+            fecha_calculo=fecha_calculo,
             fecha_campo=request.fecha_campo,
             fecha_desde=request.fecha_desde,
             fecha_hasta=request.fecha_hasta,
             modalidad=request.modalidad,
         )
-
-        # PASO 3 y 4: clasificar y calcular score
-        registros: list[ContratoOutlier] = []
-
-        for contrato in contratos:
-            grupo = contrato["grupo"]
-
-            # Si el grupo del contrato no tiene estadísticas (IQR=0, grupo sin varianza),
-            # se omite del análisis — no se puede clasificar sin referencia estadística.
-            if not grupo or grupo not in estadisticas_por_grupo:
-                continue
-
-            stats = estadisticas_por_grupo[grupo]
-            valor = float(contrato["valor"])
-            limite_inf = float(stats["limite_inferior"])
-            limite_sup = float(stats["limite_superior"])
-            iqr = float(stats["iqr"])
-
-            es_outlier, direccion, score = self._clasificar(
-                valor, limite_inf, limite_sup, iqr
-            )
-
-            registros.append(
-                ContratoOutlier(
-                    contrato_id=contrato["id"],
-                    run_id=run_id,
-                    grupo=grupo,
-                    campo_analizado=campo,
-                    valor=valor,
-                    q1=float(stats["q1"]),
-                    q3=float(stats["q3"]),
-                    iqr=iqr,
-                    limite_inferior=limite_inf,
-                    limite_superior=limite_sup,
-                    es_outlier=es_outlier,
-                    direccion_outlier=direccion,
-                    score=round(score, 4),
-                    fecha_calculo=fecha_calculo,
-                )
-            )
-
-        # PASO 5: persistir
-        self.repo.guardar_resultados(registros)
         self.db.commit()
 
-        duration = (datetime.utcnow() - start_time).total_seconds()
-        total_analizados = len(registros)
-        total_outliers = sum(1 for r in registros if r.es_outlier)
+        duration = (datetime.now(timezone.utc) - start_time).total_seconds()
         logger.info(
             f"[Outliers Analysis] Finalizada ejecución {run_id} en {duration:.2f}s. "
             f"Contratos analizados: {total_analizados}. Outliers detectados: {total_outliers}."
@@ -223,7 +323,8 @@ class AnaliticaService:
             estadisticas_por_grupo=[
                 EstadisticasGrupoResponse(**grupo) for grupo in por_grupo
             ],
-            fecha_calculo=resumen.get("fecha_calculo", datetime.utcnow()),
+            fecha_calculo=resumen.get("fecha_calculo", datetime.now(timezone.utc)),
+            estado_ejecucion=self.repo.obtener_estado_ejecucion_analitica(run_id),
         )
 
     # ------------------------------------------------------------------
@@ -267,60 +368,29 @@ class AnaliticaService:
             return UUID(run_id_str)
         ultimo = self.repo.obtener_ultimo_run_id()
         if not ultimo:
-            raise ValueError("No existe ninguna ejecución de análisis. Ejecuta el cálculo primero.")
+            raise EjecucionAnaliticaNoEncontradaError(
+                "No existe ninguna ejecución de análisis. Ejecuta el cálculo primero."
+            )
         return ultimo
 
     # ------------------------------------------------------------------
     # ANÁLISIS DE DUPLICADOS EN PERÍODO CORTO
     # ------------------------------------------------------------------
 
-    def calcular_duplicados(self, request: DuplicadoCalculoRequest) -> DuplicadoResumenResponse:
-        run_id = uuid.uuid4()
-        fecha_calculo = datetime.utcnow()
+    @registrar_ejecucion_analitica("DUPLICADOS")
+    def calcular_duplicados(
+        self, request: DuplicadoCalculoRequest, *, _run_id: UUID | None = None
+    ) -> DuplicadoResumenResponse:
+        run_id = _run_id or uuid.uuid4()
+        fecha_calculo = datetime.now(timezone.utc)
 
-        pares_duplicados = self.repo.obtener_pares_duplicados(
+        self.repo.guardar_duplicados_sql(
+            run_id=run_id,
+            fecha_calculo=fecha_calculo,
             fecha_desde=request.fecha_desde,
             fecha_hasta=request.fecha_hasta,
         )
-
-        registros: list[ContratoDuplicadoPeriodo] = []
-
-        for par in pares_duplicados:
-            dias = int(par["diferencia_dias"])
-            
-            # Cálculo del score
-            # Máximo score (10.0) si diferencia es 0 días. Va bajando a 0.0 si es 30 días.
-            score = max(0.0, 10.0 - (dias * (10.0 / 30.0)))
-            
-            # Clasificación de riesgo
-            if dias <= 5:
-                riesgo = "ALTO"
-            elif dias <= 15:
-                riesgo = "MEDIO"
-            else:
-                riesgo = "BAJO"
-
-            registros.append(
-                ContratoDuplicadoPeriodo(
-                    run_id=run_id,
-                    contrato_id=par["contrato_id"],
-                    contrato_relacionado_id=par["contrato_relacionado_id"],
-                    proveedor=par["proveedor"],
-                    entidad=par["entidad"],
-                    tipo_contrato=par["tipo_contrato"],
-                    modalidad_contratacion=par["modalidad_contratacion"],
-                    fecha_contrato=par["fecha_contrato"],
-                    fecha_relacionada=par["fecha_relacionada"],
-                    diferencia_dias=dias,
-                    duplicado_score=round(score, 2),
-                    clasificacion_riesgo=riesgo,
-                    fecha_calculo=fecha_calculo,
-                )
-            )
-
-        if registros:
-            self.repo.guardar_duplicados(registros)
-            self.db.commit()
+        self.db.commit()
 
         return self.obtener_resumen_duplicados(run_id)
 
@@ -356,7 +426,8 @@ class AnaliticaService:
             promedio_dias_diferencia=round(float(resumen.get("promedio_dias_diferencia", 0.0) or 0), 2) if resumen else 0.0,
             promedio_score=round(float(resumen.get("promedio_score", 0.0) or 0), 2) if resumen else 0.0,
             resumen_por_riesgo=[RiesgoResumenResponse(**r) for r in por_riesgo],
-            fecha_calculo=resumen.get("fecha_calculo", datetime.utcnow()) if resumen else datetime.utcnow(),
+            fecha_calculo=(resumen.get("fecha_calculo") if resumen else None) or datetime.now(timezone.utc),
+            estado_ejecucion=self.repo.obtener_estado_ejecucion_analitica(run_id),
         )
 
     def _resolver_run_id_duplicados(self, run_id_str: Optional[str]) -> UUID:
@@ -364,15 +435,18 @@ class AnaliticaService:
             return UUID(run_id_str)
         ultimo = self.repo.obtener_ultimo_run_id_duplicados()
         if not ultimo:
-            raise ValueError("No existe ninguna ejecución de análisis de duplicados. Ejecuta el cálculo primero.")
+            raise EjecucionAnaliticaNoEncontradaError(
+                "No existe ninguna ejecución de análisis de duplicados. Ejecuta el cálculo primero."
+            )
         return ultimo
 
     # ------------------------------------------------------------------
     # ANÁLISIS DE ABUSO DE ADJUDICACIÓN DIRECTA
     # ------------------------------------------------------------------
 
+    @registrar_ejecucion_analitica("ADJUDICACION_DIRECTA")
     def calcular_abuso_adjudicacion_directa(
-        self, request: AdjudicacionDirectaCalculoRequest
+        self, request: AdjudicacionDirectaCalculoRequest, *, _run_id: UUID | None = None
     ) -> ProveedorDirectaResumenResponse:
         """
         Detecta proveedores con abuso de adjudicación directa.
@@ -382,8 +456,8 @@ class AnaliticaService:
             3. Persistir en proveedor_adjudicacion_directa
             4. Retornar resumen
         """
-        run_id = uuid.uuid4()
-        fecha_calculo = datetime.utcnow()
+        run_id = _run_id or uuid.uuid4()
+        fecha_calculo = datetime.now(timezone.utc)
 
         logger.info(f"Iniciando cálculo de abuso de adjudicación directa. Run ID: {run_id}")
         logger.info(f"Parámetros: minimo_directas={request.minimo_directas}, dias_ventana={request.dias_ventana}")
@@ -490,7 +564,8 @@ class AnaliticaService:
                 float(resumen.get("promedio_score", 0.0) or 0), 2
             ) if resumen else 0.0,
             resumen_por_riesgo=[RiesgoResumenResponse(**r) for r in por_riesgo],
-            fecha_calculo=resumen.get("fecha_calculo", datetime.utcnow()) if resumen else datetime.utcnow(),
+            fecha_calculo=resumen.get("fecha_calculo", datetime.now(timezone.utc)) if resumen else datetime.now(timezone.utc),
+            estado_ejecucion=self.repo.obtener_estado_ejecucion_analitica(run_id),
         )
 
     def _resolver_run_id_directas(self, run_id_str: Optional[str]) -> UUID:
@@ -498,7 +573,7 @@ class AnaliticaService:
             return UUID(run_id_str)
         ultimo = self.repo.obtener_ultimo_run_id_directas()
         if not ultimo:
-            raise ValueError(
+            raise EjecucionAnaliticaNoEncontradaError(
                 "No existe ninguna ejecución de análisis de directas. "
                 "Ejecuta el cálculo primero."
             )
@@ -515,12 +590,15 @@ class AnaliticaService:
     def actualizar_peso(self, tipo_anomalia: str, request: PesoActualizarRequest) -> PesoAnomaliaResponse:
         obj = self.repo.actualizar_peso(tipo_anomalia.upper(), request.peso)
         if not obj:
-            raise ValueError(f"Tipo de anomalía '{tipo_anomalia}' no encontrado.")
+            raise TipoAnomaliaNoEncontradoError(
+                f"Tipo de anomalía '{tipo_anomalia}' no encontrado."
+            )
         return PesoAnomaliaResponse.model_validate(obj)
 
-    def calcular_riesgo_global(self) -> RiesgoGlobalResumenResponse:
-        run_id = uuid.uuid4()
-        fecha_calculo = datetime.utcnow()
+    @registrar_ejecucion_analitica("RIESGO", recibe_request=False)
+    def calcular_riesgo_global(self, *, _run_id: UUID | None = None) -> RiesgoGlobalResumenResponse:
+        run_id = _run_id or uuid.uuid4()
+        fecha_calculo = datetime.now(timezone.utc)
 
         # 1. Obtener pesos actuales
         pesos_db = self.repo.obtener_pesos()
@@ -529,8 +607,50 @@ class AnaliticaService:
         peso_duplicado = pesos_dict.get("DUPLICADO_CORTO", 1.5)
         peso_directo = pesos_dict.get("ABUSO_DIRECTO", 2.0)
 
-        # 2. Obtener scores cruzados por proveedor usando la última ejecución de cada módulo
-        scores = self.repo.obtener_scores_combinados_por_proveedor()
+        # 2. Require all component runs. A missing analysis is not evidence of
+        # zero risk and must never be silently converted to a BAJO classification.
+        ejecuciones = self.repo.obtener_ejecuciones_componentes_riesgo()
+        faltantes = [nombre for nombre, ejecucion in ejecuciones.items() if ejecucion is None]
+        if faltantes:
+            nombres = ", ".join(faltantes)
+            raise FaltanEjecucionesAnaliticasError(
+                f"No se puede calcular el riesgo combinado: faltan ejecuciones de {nombres}."
+            )
+        ejecuciones = {nombre: ejecucion for nombre, ejecucion in ejecuciones.items() if ejecucion is not None}
+        no_exitosas = [nombre for nombre, ejecucion in ejecuciones.items() if ejecucion.estado != "EXITOSO"]
+        if no_exitosas:
+            raise FaltanEjecucionesAnaliticasError(
+                "La última ejecución no fue exitosa para: " + ", ".join(no_exitosas) + "."
+            )
+
+        alcances = [ejecucion.universo for ejecucion in ejecuciones.values()]
+        firmas = [ejecucion.firma_universo for ejecucion in ejecuciones.values()]
+        alcance_outliers = ejecuciones["outliers"].universo
+        if (
+            len({str(sorted(scope.items())) for scope in alcances}) != 1
+            or alcance_outliers.get("fecha_campo") != "fecha_publicacion_normalizada"
+            or alcance_outliers.get("modalidad") is not None
+            or len({str(sorted(firma.items())) for firma in firmas}) != 1
+            or self.repo.obtener_firma_universo() != firmas[0]
+        ):
+            raise EjecucionesAnaliticasIncompatiblesError(
+                "Las últimas ejecuciones analíticas no comparten el mismo universo vigente. Reejecuta los módulos con filtros de publicación compatibles."
+            )
+
+        run_ids = {nombre: ejecucion.run_id for nombre, ejecucion in ejecuciones.items()}
+        self.repo.actualizar_contexto_ejecucion(
+            run_id,
+            parametros={
+                "run_ids_componentes": {nombre: str(value) for nombre, value in run_ids.items()},
+                "pesos": pesos_dict,
+            },
+            universo=alcances[0],
+        )
+        scores = self.repo.obtener_scores_combinados_por_proveedor(run_ids)
+        pesos_con_ejecuciones = {
+            **pesos_dict,
+            "run_ids": {nombre: str(component_run_id) for nombre, component_run_id in run_ids.items()},
+        }
 
         registros = []
         for fila in scores:
@@ -558,14 +678,14 @@ class AnaliticaService:
                     score_directo=dir_val,
                     score_final=round(score_final, 2),
                     clasificacion_riesgo=riesgo,
-                    pesos_aplicados=pesos_dict,
+                    pesos_aplicados=pesos_con_ejecuciones,
                     fecha_calculo=fecha_calculo
                 )
             )
 
         if registros:
             self.repo.guardar_riesgo_proveedores(registros)
-            self.db.commit()
+        self.db.commit()
 
         return self.obtener_resumen_riesgo(run_id)
 
@@ -601,7 +721,8 @@ class AnaliticaService:
             total_proveedores_evaluados=resumen.get("total_proveedores_evaluados", 0) if resumen else 0,
             promedio_score_final=round(float(resumen.get("promedio_score_final", 0.0) or 0), 2) if resumen else 0.0,
             resumen_por_riesgo=[RiesgoResumenResponse(**r) for r in por_riesgo],
-            fecha_calculo=resumen.get("fecha_calculo", datetime.utcnow()) if resumen else datetime.utcnow(),
+            fecha_calculo=resumen.get("fecha_calculo", datetime.now(timezone.utc)) if resumen else datetime.now(timezone.utc),
+            estado_ejecucion=self.repo.obtener_estado_ejecucion_analitica(run_id),
         )
 
     def _resolver_run_id_riesgo(self, run_id_str: Optional[str]) -> UUID:
@@ -609,5 +730,7 @@ class AnaliticaService:
             return UUID(run_id_str)
         ultimo = self.repo.obtener_ultimo_run_id_riesgo()
         if not ultimo:
-            raise ValueError("No existe ninguna ejecución de riesgo consolidado. Ejecuta el cálculo primero.")
+            raise EjecucionAnaliticaNoEncontradaError(
+                "No existe ninguna ejecución de riesgo consolidado. Ejecuta el cálculo primero."
+            )
         return ultimo

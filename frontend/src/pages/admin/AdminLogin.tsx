@@ -5,7 +5,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ShieldCheck, Lock, User, AlertCircle } from 'lucide-react';
 import toast from 'react-hot-toast';
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../context/useAuth';
 import type { LoginRequest } from '../../types/auth';
 
 // ─── Validation schema ────────────────────────────────────────────────────────

@@ -1,43 +1,23 @@
 import logging
-from datetime import date, datetime, timezone
+import uuid
+from datetime import datetime, timezone
 from typing import Dict, List, Tuple, Any
 
 from sqlalchemy.orm import Session
+from sqlalchemy import and_, or_
 
 from modules.transformacion.services.normalization_service import (
-    normalize_date, normalize_amount, normalize_text, generate_hash, normalize_url
+    normalize_date, normalize_amount, normalize_text, normalize_provider_nit,
+    normalize_provider_nit_identity, detect_anomalies,
+    generate_hash, normalize_url
 )
 from modules.transformacion.model.ProcesamientoLog import ProcesamientoLog
 from modules.transformacion.model.ContratoProcesado import ContratoProcesado
-from modules.transformacion.model.ContratoAnomaloIncompleto import ContratoAnomaloIncompleto
 from modules.transformacion.repository.transformacion import TransformacionRepository
 from modules.ingesta.model.RawSecop import RawSecop
 
 logger = logging.getLogger(__name__)
-
-# Campos cuya ausencia se considera una anomalía y debe registrarse
-CAMPOS_OBLIGATORIOS = [
-    "entidad",
-    "nombre_del_proveedor",
-    "valor_total_adjudicacion",
-    "fecha_de_publicacion_del",
-    "tipo_de_contrato",
-]
-
-# Fechas que se validan como no futuras (=> SOSPECHOSO)
-CAMPOS_FECHA_FUTURA = [
-    "fecha_de_publicacion_del",
-    "fecha_adjudicacion",
-    "fecha_de_ultima_publicaci",
-    "fecha_de_apertura_efectiva",
-]
-
-# Montos que se validan como no negativos (=> INCOMPLETO)
-CAMPOS_MONTO = [
-    "precio_base",
-    "valor_total_adjudicacion",
-]
-
+VERSION_REGLAS_TRANSFORMACION = "v1.0"
 
 class TransformacionService:
     def __init__(self, session: Session):
@@ -53,17 +33,27 @@ class TransformacionService:
         en contratos_procesados. Nunca modifica raw_secop.
         """
         inicio = datetime.now(timezone.utc)
+        chunk_size = 1000
+        universo: Dict[str, Any] = {
+            "forzar_reproceso": bool(forzar_reproceso),
+            "tamano_lote": chunk_size,
+            "max_raw_secop_id": 0,
+            "total_candidatos": 0,
+            "total_evaluados": 0,
+            "ultimo_raw_secop_id": 0,
+        }
         
         # Create Log
         log_entry = ProcesamientoLog(
             fecha_hora_inicio=inicio,
             estado="EN_PROCESO",
-            forzar_reproceso=forzar_reproceso
+            forzar_reproceso=forzar_reproceso,
+            version_reglas=VERSION_REGLAS_TRANSFORMACION,
+            universo=dict(universo),
         )
         self.session.add(log_entry)
         self.session.commit()
         
-        chunk_size = 1000
         last_id = 0
         
         total_evaluados = 0
@@ -72,22 +62,46 @@ class TransformacionService:
         anomalias_totales = 0
         
         try:
+            universo.update(self.repo.obtener_universo_reprocesamiento(forzar_reproceso))
+            log_entry.universo = dict(universo)
+            self.session.add(log_entry)
+            self.session.commit()
+
             while True:
                 # Build chunk query
-                q = self.session.query(RawSecop).filter(RawSecop.id > last_id)
+                q = self.session.query(RawSecop).filter(
+                    RawSecop.id > last_id,
+                    RawSecop.id <= universo["max_raw_secop_id"],
+                )
                 
                 if not forzar_reproceso:
-                    q = q.outerjoin(ContratoProcesado, RawSecop.id == ContratoProcesado.raw_secop_id)\
-                         .filter(ContratoProcesado.id == None)
+                    q = q.outerjoin(
+                        ContratoProcesado,
+                        and_(
+                            RawSecop.id == ContratoProcesado.raw_secop_id,
+                            # Keep the processed side inside this keyset window.
+                            # Otherwise PostgreSQL may rescan its entire index for
+                            # every 1000-row batch.
+                            ContratoProcesado.raw_secop_id > last_id,
+                            ContratoProcesado.raw_secop_id <= universo["max_raw_secop_id"],
+                        ),
+                    ).filter(or_(
+                        ContratoProcesado.id.is_(None),
+                        RawSecop.sincronizado_en > ContratoProcesado.procesado_en,
+                    ))
                          
                 q = q.order_by(RawSecop.id.asc()).limit(chunk_size)
                 raw_records = q.all()
                 
                 if not raw_records:
                     break
-                    
-                nuevas_anomalias = []
-                
+
+                contratos_existentes = self.repo.obtener_contratos_por_raw_ids(
+                    [raw.id for raw in raw_records]
+                )
+                contratos_nuevos = []
+                reemplazos_anomalias = []
+
                 for raw in raw_records:
                     total_evaluados += 1
                     
@@ -132,38 +146,50 @@ class TransformacionService:
                     normalized["campos_faltantes"] = campos_faltantes
                     normalized["nivel_confianza"] = nivel_confianza
                     
-                    existente = self.repo.find_by_raw_secop_id(raw.id)
+                    existente = contratos_existentes.get(raw.id)
                     if existente:
-                        if not forzar_reproceso:
+                        sin_cambios = (
+                            existente.normalized_hash == data_hash
+                            and existente.nivel_confianza == nivel_confianza
+                            and existente.es_incompleto == es_incompleto
+                            and existente.es_sospechoso == es_sospechoso
+                        )
+                        if sin_cambios:
                             omitidos += 1
-                            continue
-                            
-                        if existente.normalized_hash == data_hash and existente.nivel_confianza == nivel_confianza and existente.es_incompleto == es_incompleto and existente.es_sospechoso == es_sospechoso:
-                            omitidos += 1
-                            continue
-                            
-                        # Actualizar el registro existente
-                        for key, value in normalized.items():
-                            setattr(existente, key, value)
-                            
-                        self.session.add(existente)
-                        procesados += 1
+                        else:
+                            for key, value in normalized.items():
+                                setattr(existente, key, value)
+                            existente.clasificacion_riesgo = "SIN_EVALUAR"
+                            existente.score_riesgo = None
+                            existente.riesgo_run_id = None
+                            self.session.add(existente)
+                            procesados += 1
+                        existente.procesado_en = datetime.now(timezone.utc)
+                        reemplazos_anomalias.append(
+                            (existente.id, raw.id, anomalias_registro)
+                        )
+                        anomalias_totales += len(anomalias_registro)
                     else:
                         contrato = ContratoProcesado(**normalized)
                         self.session.add(contrato)
-                        self.session.flush() # Flush to get ID
-                        procesados += 1
-                        
-                        for anomalia in anomalias_registro:
-                            anomalia.id_contrato_procesado = contrato.id
-                        
-                        nuevas_anomalias.extend(anomalias_registro)
+                        contratos_nuevos.append(
+                            (contrato, raw.id, anomalias_registro)
+                        )
+                        anomalias_totales += len(anomalias_registro)
 
-                # Batch insert anomalias for this chunk
-                if nuevas_anomalias:
-                    self.repo.save_all_anomalias(nuevas_anomalias)
-                    anomalias_totales += len(nuevas_anomalias)
-                    self._actualizar_estadisticas(nuevas_anomalias)
+                if contratos_nuevos:
+                    # One flush assigns all generated contract IDs before the
+                    # anomaly history is reconciled for the complete chunk.
+                    self.session.flush()
+                    procesados += len(contratos_nuevos)
+                    reemplazos_anomalias.extend(
+                        (contrato.id, raw_id, hallazgos)
+                        for contrato, raw_id, hallazgos in contratos_nuevos
+                    )
+                self.repo.replace_anomalias_batch(
+                    reemplazos_anomalias,
+                    nuevos_raw_ids={raw_id for _contrato, raw_id, _ in contratos_nuevos},
+                )
 
                 # Commit per chunk and update logs
                 log_entry.total_evaluados = total_evaluados
@@ -171,6 +197,11 @@ class TransformacionService:
                 log_entry.omitidos = omitidos
                 log_entry.anomalias_registradas = anomalias_totales
                 log_entry.duracion_segundos = int((datetime.now(timezone.utc) - inicio).total_seconds())
+                universo.update({
+                    "total_evaluados": total_evaluados,
+                    "ultimo_raw_secop_id": last_id,
+                })
+                log_entry.universo = dict(universo)
                 self.session.add(log_entry)
                 self.session.commit()
                 
@@ -193,13 +224,38 @@ class TransformacionService:
             log_entry.procesados = procesados
             log_entry.omitidos = omitidos
             log_entry.anomalias_registradas = anomalias_totales
+            universo.update({
+                "total_evaluados": total_evaluados,
+                "ultimo_raw_secop_id": last_id,
+            })
+            log_entry.universo = dict(universo)
             
             self.session.add(log_entry)
             self.session.commit()
 
-        except Exception as e:
+        except Exception as exc:
             self.session.rollback()
-            logger.error(f"Error en reprocesamiento: {e}", exc_info=True)
+            error_id = str(uuid.uuid4())
+            try:
+                # Earlier chunks are committed independently. Rebuild the
+                # aggregate from their persisted current anomalies before
+                # recording the failed run, so a partial failure does not
+                # leave field counts behind the contracts that were saved.
+                self.repo.recalculate_porcentajes_estadisticas_campos()
+                self.session.commit()
+            except Exception as stats_exc:
+                self.session.rollback()
+                logger.error(
+                    "No se pudieron reconciliar estadísticas tras reprocesamiento fallido; "
+                    "referencia=%s tipo=%s",
+                    error_id,
+                    type(stats_exc).__name__,
+                )
+            logger.error(
+                "Error en reprocesamiento; referencia=%s tipo=%s",
+                error_id,
+                type(exc).__name__,
+            )
             
             fin = datetime.now(timezone.utc)
             duracion = int((fin - inicio).total_seconds())
@@ -207,12 +263,17 @@ class TransformacionService:
             log_entry.estado = "ERROR"
             log_entry.fecha_hora_fin = fin
             log_entry.duracion_segundos = duracion
-            log_entry.mensaje_error = str(e)
+            log_entry.mensaje_error = f"Error interno {error_id}"
+            universo.update({
+                "total_evaluados": total_evaluados,
+                "ultimo_raw_secop_id": last_id,
+            })
+            log_entry.universo = dict(universo)
             
             self.session.add(log_entry)
             self.session.commit()
             
-            raise e
+            raise
 
         return {
             "total_evaluados": total_evaluados,
@@ -228,60 +289,14 @@ class TransformacionService:
     # ──────────────────────────────────────────────────────────────
     # Detección de anomalías
     # ──────────────────────────────────────────────────────────────
-    def _detectar_anomalias(self, raw: RawSecop) -> List[ContratoAnomaloIncompleto]:
-        anomalias: List[ContratoAnomaloIncompleto] = []
-        hoy = date.today()
-
-        # 1. Campos obligatorios faltantes
-        for campo in CAMPOS_OBLIGATORIOS:
-            valor = getattr(raw, campo, None)
-            if valor is None or (isinstance(valor, str) and valor.strip() == ""):
-                anomalias.append(ContratoAnomaloIncompleto(
-                    raw_secop_id=raw.id,
-                    motivo="CAMPO_FALTANTE",
-                    valor_detectado=None,
-                    tipo_anomalia="CAMPO_FALTANTE",
-                    valor_original=None,
-                    descripcion=f"El contrato no contiene {campo}",
-                    campo_afectado=campo,
-                ))
-                self.repo.increment_campo_faltante(campo)
-
-        # 2. Fechas futuras => SOSPECHOSO
-        for nombre_campo in CAMPOS_FECHA_FUTURA:
-            valor_fecha = getattr(raw, nombre_campo, None)
-            if valor_fecha is not None:
-                fecha_parsed = valor_fecha.date() if isinstance(valor_fecha, datetime) else valor_fecha
-                if isinstance(fecha_parsed, date) and fecha_parsed > hoy:
-                    anomalias.append(ContratoAnomaloIncompleto(
-                        raw_secop_id=raw.id,
-                        motivo="FECHA_FUTURA",
-                        valor_detectado=str(valor_fecha),
-                        tipo_anomalia="FECHA_FUTURA",
-                        valor_original=str(valor_fecha),
-                        descripcion="El contrato contiene una fecha futura inválida",
-                        campo_afectado=nombre_campo,
-                    ))
-
-        # 3. Montos negativos => INCOMPLETO
-        for nombre_campo in CAMPOS_MONTO:
-            monto = getattr(raw, nombre_campo, None)
-            if monto is not None:
-                try:
-                    if float(monto) < 0:
-                        anomalias.append(ContratoAnomaloIncompleto(
-                            raw_secop_id=raw.id,
-                            motivo="MONTO_NEGATIVO",
-                            valor_detectado=str(monto),
-                            tipo_anomalia="MONTO_NEGATIVO",
-                            valor_original=str(monto),
-                            descripcion="El contrato contiene un monto negativo",
-                            campo_afectado=nombre_campo,
-                        ))
-                except (TypeError, ValueError):
-                    pass
-
-        return anomalias
+    def _detectar_anomalias(self, raw: RawSecop):
+        # La regla de negocio produce hallazgos inmutables; el repositorio los
+        # materializa como filas solamente al guardar o reconciliar anomalías.
+        return detect_anomalies(
+            raw.__dict__,
+            raw_secop_id=raw.id,
+            current_date=datetime.now(timezone.utc).date(),
+        )
 
     # ──────────────────────────────────────────────────────────────
     # Normalización — nombres de columnas reales de raw_secop
@@ -293,7 +308,8 @@ class TransformacionService:
             "entidad_normalizada":            normalize_text(raw.entidad),
             "nit_entidad":                    normalize_text(raw.nit_entidad),
             "proveedor_normalizado":          normalize_text(raw.nombre_del_proveedor),
-            "nit_proveedor":                  normalize_text(raw.nit_del_proveedor_adjudicado),
+            "nit_proveedor":                  normalize_provider_nit(raw.nit_del_proveedor_adjudicado),
+            "nit_proveedor_clave":             normalize_provider_nit_identity(raw.nit_del_proveedor_adjudicado),
             "fecha_publicacion_normalizada":  normalize_date(raw.fecha_de_publicacion_del),
             "fecha_adjudicacion_normalizada": normalize_date(raw.fecha_adjudicacion),
             "valor_total_normalizado":        normalize_amount(raw.valor_total_adjudicacion),
@@ -309,17 +325,3 @@ class TransformacionService:
     # ──────────────────────────────────────────────────────────────
     # Estadísticas de campos faltantes
     # ──────────────────────────────────────────────────────────────
-    def _actualizar_estadisticas(self, anomalias: List[ContratoAnomaloIncompleto]) -> None:
-        """Incrementa los contadores de estadística_campos_faltantes."""
-        campos_a_incrementar: Dict[str, int] = {}
-        for anomalia in anomalias:
-            if anomalia.tipo_anomalia == "CAMPO_FALTANTE":
-                campos_a_incrementar[anomalia.campo_afectado] = \
-                    campos_a_incrementar.get(anomalia.campo_afectado, 0) + 1
-
-        for campo, cantidad in campos_a_incrementar.items():
-            for _ in range(cantidad):
-                self.repo.increment_campo_faltante(campo)
-
-        if campos_a_incrementar:
-            self.session.commit()

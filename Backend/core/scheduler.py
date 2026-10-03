@@ -1,14 +1,20 @@
-from apscheduler.schedulers.asyncio import AsyncIOScheduler
+from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.interval import IntervalTrigger
 from datetime import datetime, timezone
+import logging
+import uuid
 from core.database import SessionLocal
 from modules.ingesta.repository.IngestaRepository import IngestaRepository
-from modules.ingesta.adapters.adapter_factory import get_adapter
+from modules.jobs.service import enqueue_job
+from modules.jobs.worker import process_next_job, recover_abandoned_jobs
+from core.config import settings
+from shared.export_artifacts import cleanup_expired_artifacts
 
-scheduler = AsyncIOScheduler(timezone="America/Bogota")
+scheduler = BackgroundScheduler(timezone=settings.SCHEDULER_TIMEZONE)
+logger = logging.getLogger(__name__)
 
-async def sincronizar_fuentes_activas():
-    print(f"[SCHEDULER] Iniciando revisión de fuentes: {datetime.now()}")
+def sincronizar_fuentes_activas():
+    print(f"[SCHEDULER] Encolando fuentes vencidas: {datetime.now()}")
     db = SessionLocal()
     try:
         repo = IngestaRepository(db)
@@ -27,34 +33,25 @@ async def sincronizar_fuentes_activas():
                         )
                         continue
 
-                print(f"[SCHEDULER] Sincronizando '{fuente.nombre}'...")
-
-                adapter = get_adapter(fuente.tipo, fuente.endpoint, fuente.api_key)
-
-                fecha_desde = None
-                if fuente.ultima_sync:
-                    fecha_desde = fuente.ultima_sync.strftime("%Y-%m-%d")
-
-                total_traidos    = 0
-                total_insertados = 0
-
-                for batch in adapter.fetch_todos(fecha_desde=fecha_desde):
-                    insertados = repo.insertar_raw_secop_bulk(batch, fuente.id)
-                    total_traidos    += len(batch)
-                    total_insertados += insertados
-                    print(
-                        f"[SCHEDULER] '{fuente.nombre}' | "
-                        f"traidos={total_traidos} | insertados={total_insertados}"
-                    )
-
-                repo.actualizar_ultima_sync(fuente.id, ahora)
+                job, created = enqueue_job(
+                    db,
+                    kind="INGESTA",
+                    payload={"fuente_id": fuente.id},
+                    resource_key=f"ingesta:{fuente.id}",
+                )
                 print(
-                    f"[SCHEDULER] '{fuente.nombre}' completado. "
-                    f"Insertados: {total_insertados}/{total_traidos}"
+                    f"[SCHEDULER] '{fuente.nombre}' "
+                    f"{'encolada' if created else 'ya tenía un trabajo activo'} ({job.public_id})"
                 )
 
-            except Exception as e:
-                print(f"[SCHEDULER ERROR] '{fuente.nombre}': {e}")
+            except Exception as exc:
+                error_id = uuid.uuid4()
+                logger.error(
+                    "Fallo al encolar sincronización de fuente_id=%s; referencia=%s tipo=%s",
+                    fuente.id,
+                    error_id,
+                    type(exc).__name__,
+                )
                 continue  # Si falla una fuente, sigue con las demás
 
     finally:
@@ -62,14 +59,40 @@ async def sincronizar_fuentes_activas():
 
 
 def iniciar_scheduler():
-    # Revisa cada 12 horas si alguna fuente necesita sync
-    # La lógica de frecuencia_dias está dentro del job
+    if scheduler.running:
+        return
+    recover_abandoned_jobs()
+    cleanup_expired_artifacts()
+    scheduler.add_job(
+        process_next_job,
+        trigger=IntervalTrigger(seconds=2),
+        id="process_background_jobs",
+        replace_existing=True,
+        max_instances=1,
+        coalesce=True,
+    )
+    scheduler.add_job(
+        recover_abandoned_jobs,
+        trigger=IntervalTrigger(minutes=1),
+        id="recover_abandoned_jobs",
+        replace_existing=True,
+        max_instances=1,
+        coalesce=True,
+    )
     scheduler.add_job(
         sincronizar_fuentes_activas,
         trigger=IntervalTrigger(hours=24),
         id="sync_fuentes_activas",
         replace_existing=True,
-        max_instances=1         # Evita que se solapen ejecuciones
+        max_instances=1,  # Evita que se solapen ejecuciones
+    )
+    scheduler.add_job(
+        cleanup_expired_artifacts,
+        trigger=IntervalTrigger(hours=1),
+        id="cleanup_expired_export_artifacts",
+        replace_existing=True,
+        max_instances=1,
+        coalesce=True,
     )
     scheduler.start()
     print("[SCHEDULER] Iniciado. Revisión cada 24 horas.")

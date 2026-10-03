@@ -1,13 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { getAutocompleteSuggestions, type Suggestion } from '../services/procesadosService';
-import type { Procesado } from '../types/procesado';
-
-interface SearchAutocompleteProps {
-  data: Procesado[];
-}
-
-export const SearchAutocomplete: React.FC<SearchAutocompleteProps> = ({ data }) => {
+export const SearchAutocomplete: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const initialQuery = searchParams.get('q') || '';
 
@@ -17,27 +11,39 @@ export const SearchAutocomplete: React.FC<SearchAutocompleteProps> = ({ data }) 
   const [focusedIndex, setFocusedIndex] = useState(-1);
   const wrapperRef = useRef<HTMLDivElement>(null);
 
-  // Sync state with URL if URL changes externally
-  useEffect(() => {
-    setQuery(searchParams.get('q') || '');
-  }, [searchParams]);
-
   // Debounced search for suggestions
   useEffect(() => {
-    const delayDebounceFn = setTimeout(() => {
+    let cancelled = false;
+    const controller = new AbortController();
+    const delayDebounceFn = setTimeout(async () => {
       if (query.trim().length >= 2) {
-        const results = getAutocompleteSuggestions(query, data);
-        setSuggestions(results);
-        setIsOpen(results.length > 0);
+        try {
+          const results = await getAutocompleteSuggestions(query, controller.signal);
+          if (!cancelled) {
+            setSuggestions(results);
+            setIsOpen(results.length > 0);
+            setFocusedIndex(-1);
+          }
+        } catch {
+          if (!cancelled) {
+            setSuggestions([]);
+            setIsOpen(false);
+            setFocusedIndex(-1);
+          }
+        }
       } else {
         setSuggestions([]);
         setIsOpen(false);
+        setFocusedIndex(-1);
       }
-      setFocusedIndex(-1);
     }, 200);
 
-    return () => clearTimeout(delayDebounceFn);
-  }, [query, data]);
+    return () => {
+      cancelled = true;
+      controller.abort();
+      clearTimeout(delayDebounceFn);
+    };
+  }, [query]);
 
   // Close dropdown when clicking outside
   useEffect(() => {
