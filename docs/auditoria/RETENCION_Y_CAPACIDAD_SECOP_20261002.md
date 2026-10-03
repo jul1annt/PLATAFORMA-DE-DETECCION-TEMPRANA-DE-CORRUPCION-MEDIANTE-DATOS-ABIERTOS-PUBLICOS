@@ -36,4 +36,6 @@ Los tamaños de los manifiestos suman **41,73 GiB**. El espacio libre observado 
 3. Definir la ubicación y capacidad del almacenamiento de largo plazo, quién valida una restauración y quién autoriza la eliminación. El disco de trabajo no equivale a un archivo permanente.
 4. Definir el criterio de eliminación: generación identificada, respaldo con SHA-256 y restauración independiente verificada, plazo aprobado cumplido, dependencias de linaje resueltas y constancia de aprobación.
 
-Hasta recibir esas decisiones, el procedimiento conserva los respaldos y no ejecuta limpieza automática de generaciones únicas. El inventario se actualizará al terminar el dump y la restauración del corte nuevo.
+El 2026-10-03 terminó la restauración independiente del dump de 9 249 545 filas. Ocupa **22 440 082 791 bytes** según el manifiesto y coincide con la fuente en conteos, revisión, índices, trabajos y analíticas. Es una copia de comprobación de una generación ya histórica; su dump y base fuente también permanecen presentes. El espacio libre observado al control posterior fue aproximadamente **102,25 GiB**. La restauración no se elimina hasta registrar una decisión de conservación compatible con P14 y P15.
+
+Hasta recibir esas decisiones, el procedimiento conserva los respaldos y no ejecuta limpieza automática de generaciones únicas. El inventario de ocho dumps y la restauración nueva quedó actualizado.
