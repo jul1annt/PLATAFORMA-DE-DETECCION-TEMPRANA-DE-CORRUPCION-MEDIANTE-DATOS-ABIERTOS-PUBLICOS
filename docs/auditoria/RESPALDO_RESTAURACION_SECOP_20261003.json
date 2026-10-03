@@ -37,5 +37,14 @@
     "sample_missing_from_current": 12
   },
   "promotable_as_current": false,
-  "plan_item_p14_closed": false
+  "plan_item_p14_closed": false,
+  "redundant_restore_cleanup": {
+    "checked_at_utc": "2026-10-03T18:37:52Z",
+    "restore_database_removed_after_verification": true,
+    "source_database_preserved": true,
+    "verified_dump_preserved": true,
+    "active_restore_sessions_before": 0,
+    "free_gib_before_approx": 102.25,
+    "free_gib_after_approx": 123.16
+  }
 }
