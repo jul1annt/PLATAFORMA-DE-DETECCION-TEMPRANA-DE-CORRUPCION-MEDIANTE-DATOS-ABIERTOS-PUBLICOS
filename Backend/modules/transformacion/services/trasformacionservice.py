@@ -211,7 +211,12 @@ class TransformacionService:
                             existente.riesgo_run_id = None
                             self.session.add(existente)
                             procesados += 1
-                        existente.procesado_en = datetime.now(timezone.utc)
+                        # Advance the source watermark when new raw data was
+                        # consumed, even if its normalized projection is equal.
+                        # A forced check of already-consumed, unchanged data
+                        # needs no timestamp-only UPDATE of the contract/indexes.
+                        if not sin_cambios or raw.sincronizado_en > existente.procesado_en:
+                            existente.procesado_en = datetime.now(timezone.utc)
                         reemplazos_anomalias.append(
                             (existente.id, raw.id, anomalias_registro)
                         )

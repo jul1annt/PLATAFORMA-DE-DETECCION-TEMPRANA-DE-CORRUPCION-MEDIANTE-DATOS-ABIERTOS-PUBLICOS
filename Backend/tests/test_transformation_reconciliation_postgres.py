@@ -2,6 +2,7 @@ from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 from types import SimpleNamespace
 import uuid
+import json
 
 from modules.ingesta.model.FuenteDatos import FuenteDatos
 from modules.ingesta.model.RawSecop import RawSecop
@@ -12,6 +13,64 @@ from modules.transformacion.model.ContratoAnomaliaHistorial import ContratoAnoma
 from modules.transformacion.repository.transformacion import TransformacionRepository
 from modules.transformacion.services.trasformacionservice import TransformacionService
 from shared.enums import TipoFormato
+from sqlalchemy import event
+
+
+def test_unchanged_force_avoids_writes_but_consumes_new_source_watermarks(postgres_test_session):
+    session = postgres_test_session
+    source = FuenteDatos(nombre=f"pytest-watermark-{uuid.uuid4()}", tipo="TEST",
+                         formato=TipoFormato.JSON, endpoint="https://example.test/watermark")
+    session.add(source); session.flush()
+    raw = RawSecop(fuente_id=source.id, id_del_proceso=f"watermark-{uuid.uuid4()}",
+                  entidad="Entidad", nombre_del_proveedor="Proveedor",
+                  valor_total_adjudicacion=Decimal("100"), tipo_de_contrato="Servicios",
+                  fecha_de_publicacion_del=datetime(2025, 1, 1, tzinfo=timezone.utc),
+                  sincronizado_en=datetime.now(timezone.utc) - timedelta(days=1))
+    session.add(raw); session.flush(); raw_id = raw.id; session.commit()
+    service = TransformacionService(session)
+    assert service.process_raw_data()["procesados"] == 1
+    contract = session.query(ContratoProcesado).filter_by(raw_secop_id=raw_id).one()
+    original_timestamp = contract.procesado_en
+    updates = []
+    connection = session.get_bind()
+
+    def observe_updates(_conn, _cursor, statement, _params, _context, _many):
+        if statement.upper().startswith("UPDATE CONTRATOS_PROCESADOS "):
+            updates.append(statement)
+
+    event.listen(connection, "before_cursor_execute", observe_updates)
+    try:
+        unchanged = service.process_raw_data(forzar_reproceso=True)
+        session.refresh(contract)
+        assert unchanged["total_evaluados"] == unchanged["omitidos"] == 1
+        assert unchanged["procesados"] == 0 and updates == []
+        assert contract.procesado_en == original_timestamp
+
+        # The publisher can touch a row whose normalized content is identical.
+        # Its local synchronization timestamp must still become consumed.
+        raw = session.get(RawSecop, raw_id)
+        raw.sincronizado_en = datetime.now(timezone.utc)
+        session.commit()
+        refreshed_raw_at = raw.sincronizado_en
+        consumed = service.process_raw_data(forzar_reproceso=True)
+        session.refresh(contract)
+        assert consumed["omitidos"] == 1 and len(updates) == 1
+        assert contract.procesado_en >= refreshed_raw_at
+        assert contract.procesado_en > original_timestamp
+        assert service.process_raw_data()["total_evaluados"] == 0
+        assert len(updates) == 1
+        print("WATERMARK_OPTIMIZATION_EVIDENCE=" + json.dumps({
+            "unchanged_forced_contract_updates": 0,
+            "new_source_watermark_contract_updates": len(updates),
+            "unchanged_projection_timestamp_preserved": True,
+            "new_source_watermark_consumed": contract.procesado_en >= refreshed_raw_at,
+            "incremental_candidates_after_consumption": 0,
+            "original_projection_timestamp": original_timestamp.isoformat(),
+            "refreshed_source_timestamp": refreshed_raw_at.isoformat(),
+            "consumed_projection_timestamp": contract.procesado_en.isoformat(),
+        }))
+    finally:
+        event.remove(connection, "before_cursor_execute", observe_updates)
 
 
 def test_replacing_changed_anomaly_frees_unique_key_before_insert(postgres_test_session):
