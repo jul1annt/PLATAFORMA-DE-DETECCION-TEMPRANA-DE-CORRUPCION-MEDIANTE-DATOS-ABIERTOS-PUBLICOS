@@ -1,10 +1,21 @@
 import builtins
+from contextlib import contextmanager
 from types import SimpleNamespace
 
 import pytest
 from pydantic import BaseModel
 
 from modules.jobs import worker
+
+
+def mock_pinned_session(monkeypatch, database):
+    @contextmanager
+    def session():
+        try:
+            yield database, lambda: True
+        finally:
+            database.close()
+    monkeypatch.setattr(worker, "_pinned_session", session)
 
 
 def test_job_dispatch_does_not_import_unrelated_executor(monkeypatch):
@@ -103,7 +114,7 @@ def test_worker_hides_internal_exception_details_from_job_and_logs(monkeypatch, 
     def fail_job(*_args, **_kwargs):
         raise RuntimeError(secret)
 
-    monkeypatch.setattr(worker, "SessionLocal", lambda: database)
+    mock_pinned_session(monkeypatch, database)
     monkeypatch.setattr(worker, "_execute", fail_job)
     caplog.set_level("ERROR")
 
@@ -179,7 +190,7 @@ def test_worker_marks_capped_ingestion_as_partial(monkeypatch):
             self.closed = True
 
     database = Database()
-    monkeypatch.setattr(worker, "SessionLocal", lambda: database)
+    mock_pinned_session(monkeypatch, database)
     monkeypatch.setattr(
         worker,
         "_execute",

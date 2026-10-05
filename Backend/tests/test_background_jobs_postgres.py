@@ -212,7 +212,7 @@ def test_worker_persists_result_and_recovers_orphaned_claim(postgres_test_sessio
         def __init__(self, db):
             self.db = db
 
-        def process_raw_data(self, forzar_reproceso=False):
+        def process_raw_data(self, forzar_reproceso=False, job_id=None):
             return {"forzar_reproceso": forzar_reproceso, "procesados": 2}
 
     monkeypatch.setattr(job_worker, "IngestaService", FakeIngestaService)

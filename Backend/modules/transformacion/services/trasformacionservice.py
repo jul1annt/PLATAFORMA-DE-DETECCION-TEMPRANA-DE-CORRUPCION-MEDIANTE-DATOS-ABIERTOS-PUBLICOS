@@ -27,7 +27,9 @@ class TransformacionService:
     # ──────────────────────────────────────────────────────────────
     # Método principal
     # ──────────────────────────────────────────────────────────────
-    def process_raw_data(self, forzar_reproceso: bool = False) -> Dict[str, Any]:
+    def process_raw_data(
+        self, forzar_reproceso: bool = False, job_id: int | None = None,
+    ) -> Dict[str, Any]:
         """
         Lee registros de raw_secop, detecta anomalías, normaliza y guarda
         en contratos_procesados. Nunca modifica raw_secop.
@@ -42,6 +44,8 @@ class TransformacionService:
             "total_evaluados": 0,
             "ultimo_raw_secop_id": 0,
         }
+        if job_id is not None:
+            universo["background_job_id"] = job_id
         
         # Create Log
         log_entry = ProcesamientoLog(

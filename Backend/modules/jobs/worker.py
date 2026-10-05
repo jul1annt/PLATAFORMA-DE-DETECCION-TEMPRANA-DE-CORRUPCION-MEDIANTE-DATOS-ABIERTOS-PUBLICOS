@@ -1,12 +1,14 @@
 import json
 import logging
 import uuid
+from contextlib import contextmanager, nullcontext
 from datetime import datetime, timezone
 from decimal import Decimal
 from enum import Enum
 from typing import Any
 
-from sqlalchemy import text
+from sqlalchemy import event, text
+from sqlalchemy.engine import Connection
 
 from core.database import SessionLocal
 from modules.jobs.model import BackgroundJob
@@ -16,6 +18,53 @@ from shared.export_artifacts import artifact_path
 logger = logging.getLogger(__name__)
 LOCK_NAMESPACE = 74202
 MAX_JOB_ATTEMPTS = 3
+
+
+class JobConnectionLost(RuntimeError):
+    """The executor must stop after losing the PostgreSQL session owning its lock."""
+
+
+@contextmanager
+def _pinned_session():
+    """Keep session locks on one physical connection across service commits.
+
+    A Session bound to an Engine returns its connection after each commit.
+    An explicitly owned Connection stays checked out until this context ends.
+    Reconnecting cannot restore PostgreSQL session locks, so forbid subsequent
+    SQL on a replacement connection even if a service catches the disconnect.
+    """
+    db = SessionLocal()
+    connection = None
+    owns_connection = False
+    fence_reconnection = None
+    try:
+        bind = db.get_bind()
+        owns_connection = not isinstance(bind, Connection)
+        connection = bind.connect() if owns_connection else bind
+        db.bind = connection
+        original = connection.connection.dbapi_connection
+
+        def connection_alive():
+            return (
+                not connection.closed
+                and not connection.invalidated
+                and connection.connection.dbapi_connection is original
+            )
+
+        def fence_reconnection(conn, _clause, _multiparams, _params, _options):
+            if not connection_alive():
+                raise JobConnectionLost("Se perdió la conexión que posee el bloqueo del trabajo")
+
+        event.listen(connection, "before_execute", fence_reconnection)
+        yield db, connection_alive
+    finally:
+        try:
+            db.close()
+        finally:
+            if fence_reconnection is not None:
+                event.remove(connection, "before_execute", fence_reconnection)
+            if connection is not None and owns_connection:
+                connection.close()
 
 
 def IngestaService(db):
@@ -53,8 +102,11 @@ def _json_value(value: Any):
     )))
 
 
-def _execute(kind: str, payload: dict, job_public_id=None, job_id: int | None = None) -> dict:
-    with SessionLocal() as work_db:
+def _execute(
+    kind: str, payload: dict, job_public_id=None, job_id: int | None = None,
+    work_db=None,
+) -> dict:
+    with (nullcontext(work_db) if work_db is not None else SessionLocal()) as work_db:
         if kind == "INGESTA":
             result = IngestaService(work_db).sincronizar_fuente(
                 int(payload["fuente_id"]), job_id=job_id
@@ -86,7 +138,8 @@ def _execute(kind: str, payload: dict, job_public_id=None, job_id: int | None = 
                 raise ValueError(f"Tipo de análisis no soportado: {tipo}")
         elif kind == "REPROCESAMIENTO":
             result = TransformacionService(work_db).process_raw_data(
-                forzar_reproceso=bool(payload.get("forzar_reproceso", False))
+                forzar_reproceso=bool(payload.get("forzar_reproceso", False)),
+                job_id=job_id,
             )
         elif kind == "EXPORTACION_CONTRATOS":
             if job_public_id is None:
@@ -99,7 +152,11 @@ def _execute(kind: str, payload: dict, job_public_id=None, job_id: int | None = 
 
 def process_next_job() -> bool:
     """Claim and execute one durable job while holding its cross-process lock."""
-    lease_db = SessionLocal()
+    with _pinned_session() as (lease_db, connection_alive):
+        return _process_next_job(lease_db, connection_alive)
+
+
+def _process_next_job(lease_db, connection_alive) -> bool:
     job_id = None
     lock_acquired = False
     try:
@@ -137,8 +194,19 @@ def process_next_job() -> bool:
                 payload,
                 job_public_id=job_public_id,
                 job_id=internal_job_id,
+                work_db=lease_db,
             )
         except Exception as exc:
+            lease_db.rollback()
+            if not connection_alive():
+                # The lock disappeared with the failed connection. Another
+                # worker may already have recovered this attempt: do not
+                # reconnect and overwrite its status or perform more writes.
+                logger.error(
+                    "Trabajo %s interrumpido por pérdida de conexión; tipo=%s",
+                    job_id, type(exc).__name__,
+                )
+                return True
             if kind == "EXPORTACION_CONTRATOS" and job_public_id is not None:
                 for fmt in ("csv", "xlsx", "pdf"):
                     artifact_path(job_public_id, fmt).unlink(missing_ok=True)
@@ -158,6 +226,9 @@ def process_next_job() -> bool:
             lease_db.commit()
             return True
 
+        if not connection_alive():
+            logger.error("Trabajo %s perdió la conexión antes de guardar su resultado", job_id)
+            return True
         job = lease_db.query(BackgroundJob).filter(BackgroundJob.id == job_id).one()
         job.status = "PARCIAL" if result.get("parcial") is True else "EXITOSO"
         job.active = False
@@ -166,7 +237,7 @@ def process_next_job() -> bool:
         lease_db.commit()
         return True
     finally:
-        if lock_acquired and job_id is not None:
+        if lock_acquired and job_id is not None and connection_alive():
             try:
                 lease_db.execute(
                     text("SELECT pg_advisory_unlock(:lock_key)"),
@@ -180,12 +251,15 @@ def process_next_job() -> bool:
                     job_id,
                     type(exc).__name__,
                 )
-        lease_db.close()
 
 
 def recover_abandoned_jobs() -> int:
     """Requeue abandoned jobs with attempts remaining; terminally fail exhausted jobs."""
-    db = SessionLocal()
+    with _pinned_session() as (db, _connection_alive):
+        return _recover_abandoned_jobs(db)
+
+
+def _recover_abandoned_jobs(db) -> int:
     recovered = 0
     try:
         job_ids = [row[0] for row in db.query(BackgroundJob.id).filter(
@@ -207,6 +281,18 @@ def recover_abandoned_jobs() -> int:
                     BackgroundJob.active.is_(True),
                 ).with_for_update(skip_locked=True).first()
                 if job:
+                    if job.kind == "REPROCESAMIENTO":
+                        from modules.transformacion.model.ProcesamientoLog import ProcesamientoLog
+                        interrupted = db.query(ProcesamientoLog).filter(
+                            ProcesamientoLog.estado == "EN_PROCESO",
+                            ProcesamientoLog.universo["background_job_id"].as_integer() == job_id,
+                        ).all()
+                        for log in interrupted:
+                            finished = datetime.now(timezone.utc)
+                            log.estado = "ERROR"
+                            log.fecha_hora_fin = finished
+                            log.duracion_segundos = int((finished - log.fecha_hora_inicio).total_seconds())
+                            log.mensaje_error = "Intento interrumpido tras perder el bloqueo del worker"
                     if job.attempts >= MAX_JOB_ATTEMPTS:
                         error_id = uuid.uuid4()
                         job.status = "ERROR"
