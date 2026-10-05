@@ -2,6 +2,8 @@ from datetime import datetime, timezone
 import os
 from types import SimpleNamespace
 from uuid import UUID
+from concurrent.futures import ThreadPoolExecutor
+from threading import Event
 
 import pytest
 from fastapi.testclient import TestClient
@@ -17,12 +19,48 @@ from shared.export_artifacts import (
     cleanup_expired_artifacts,
     create_export_token,
     parse_export_token,
+    result_artifact_path,
     write_artifact,
 )
 
 
 client = TestClient(app)
 JOB_ID = UUID("6fb4f936-708f-4c28-bdc3-8f87d5086fa3")
+
+
+def test_late_export_attempt_cannot_overwrite_recovered_artifact(tmp_path, monkeypatch):
+    started, release = Event(), Event()
+
+    class Repository:
+        def __init__(self, _db):
+            pass
+
+        def search_contratos(self, _filters, **_kwargs):
+            return [], 0
+
+    def render(*_args):
+        if not started.is_set():
+            started.set()
+            assert release.wait(10)
+            return SimpleNamespace(body=b"stale attempt", media_type="text/csv")
+        return SimpleNamespace(body=b"recovered attempt", media_type="text/csv")
+
+    monkeypatch.setattr(export_service, "TransformacionRepository", Repository)
+    monkeypatch.setattr(export_service, "render_export", render)
+    monkeypatch.setattr("shared.export_artifacts.settings.EXPORT_ARTIFACT_DIR", str(tmp_path))
+    payload = {"format": "csv", "filters": {}, "expires_at": 2_000_000_000}
+    with ThreadPoolExecutor(max_workers=1) as executor:
+        old = executor.submit(export_service.generate_contract_export, object(), JOB_ID, payload)
+        try:
+            assert started.wait(10)
+            recovered = export_service.generate_contract_export(object(), JOB_ID, payload)
+        finally:
+            release.set()
+            stale = old.result(timeout=10)
+    # Results without artifact_id represent the former stable filename.
+    artifact = artifact_path(UUID(recovered.get("artifact_id", str(JOB_ID))), "csv")
+    assert artifact.read_bytes() == b"recovered attempt"
+    assert stale.get("artifact_id") != recovered.get("artifact_id")
 
 
 class _Query:
@@ -62,6 +100,13 @@ def test_artifact_write_is_atomic_and_uses_server_generated_name(tmp_path):
     assert not list(tmp_path.glob("*.tmp"))
     with pytest.raises(ValueError):
         artifact_path(JOB_ID, "../../secret", directory=tmp_path)
+
+
+@pytest.mark.parametrize("invalid_id", ["../secret", "C:/secret.csv", None, {}])
+def test_artifact_result_rejects_paths_instead_of_server_identifiers(tmp_path, invalid_id):
+    with pytest.raises(ValueError):
+        result_artifact_path(JOB_ID, {"format": "csv", "artifact_id": invalid_id},
+                             directory=tmp_path)
 
 
 def test_expired_artifact_cleanup_removes_only_old_export_files(tmp_path, monkeypatch):
@@ -147,7 +192,8 @@ def test_export_job_creation_enforces_configured_volume_limit(monkeypatch):
     assert response.status_code == 413
 
 
-def test_export_status_requires_capability_and_downloads_expiring_file(tmp_path, monkeypatch):
+@pytest.mark.parametrize("per_attempt", [False, True])
+def test_export_status_requires_capability_and_downloads_expiring_file(tmp_path, monkeypatch, per_attempt):
     expires_at = 2_000_000_000
     token = create_export_token(JOB_ID, expires_at)
     job = SimpleNamespace(
@@ -160,7 +206,11 @@ def test_export_status_requires_capability_and_downloads_expiring_file(tmp_path,
         error_message=None,
     )
     monkeypatch.setattr("shared.export_artifacts.settings.EXPORT_ARTIFACT_DIR", str(tmp_path))
-    write_artifact(JOB_ID, "csv", b"id;entidad\n1;Contrataci\xc3\xb3n\n")
+    artifact_id = UUID(int=JOB_ID.int + 1) if per_attempt else JOB_ID
+    if per_attempt:
+        job.result["artifact_id"] = str(artifact_id)
+        write_artifact(JOB_ID, "csv", b"wrong legacy content")
+    write_artifact(artifact_id, "csv", b"id;entidad\n1;Contrataci\xc3\xb3n\n")
     app.dependency_overrides[get_db] = lambda: _Database(job)
     try:
         invalid = client.get(f"/api/exports/{JOB_ID}", headers={"X-Export-Token": token + "x"})
@@ -180,11 +230,15 @@ def test_export_status_requires_capability_and_downloads_expiring_file(tmp_path,
     assert download.headers["cache-control"] == "no-store"
 
 
-def test_expired_export_capability_removes_artifact_and_returns_gone(tmp_path, monkeypatch):
+@pytest.mark.parametrize("per_attempt", [False, True])
+def test_expired_export_capability_removes_artifact_and_returns_gone(tmp_path, monkeypatch, per_attempt):
     monkeypatch.setattr("shared.export_artifacts.settings.EXPORT_ARTIFACT_DIR", str(tmp_path))
-    path, _ = write_artifact(JOB_ID, "csv", b"expired")
+    artifact_id = UUID(int=JOB_ID.int + 1) if per_attempt else JOB_ID
+    path, _ = write_artifact(artifact_id, "csv", b"expired")
+    job = SimpleNamespace(kind="EXPORTACION_CONTRATOS", payload={"expires_at": 1},
+                          result={"format": "csv", "artifact_id": str(artifact_id)})
     expired_token = create_export_token(JOB_ID, 1)
-    app.dependency_overrides[get_db] = lambda: _Database()
+    app.dependency_overrides[get_db] = lambda: _Database(job if per_attempt else None)
     try:
         response = client.get(
             f"/api/exports/{JOB_ID}/download",
@@ -242,7 +296,7 @@ def test_export_worker_generates_bounded_artifact_and_metadata(tmp_path, monkeyp
         job_public_id=JOB_ID,
     )
 
-    artifact = artifact_path(JOB_ID, "csv", directory=tmp_path)
+    artifact = result_artifact_path(JOB_ID, result, directory=tmp_path)
     assert result["row_count"] == 1
     assert result["sha256"]
     assert artifact.is_file()

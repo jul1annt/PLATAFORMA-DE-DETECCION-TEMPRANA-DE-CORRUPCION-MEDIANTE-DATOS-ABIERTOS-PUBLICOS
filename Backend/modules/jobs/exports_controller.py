@@ -10,7 +10,7 @@ from sqlalchemy.orm import Session
 from core.database import get_db
 from modules.jobs.dto import ExportJobStatus
 from modules.jobs.model import BackgroundJob
-from shared.export_artifacts import artifact_path, parse_export_token
+from shared.export_artifacts import artifact_path, parse_export_token, result_artifact_path
 from shared.request_validation import reject_unknown_query_params
 
 
@@ -32,12 +32,18 @@ def _authorized_export(
     expires_at = parse_export_token(job_id, token)
     if expires_at is None:
         raise HTTPException(status_code=404, detail="Exportación no encontrada")
+    job = db.query(BackgroundJob).filter(BackgroundJob.public_id == job_id).first()
     if int(time.time()) >= expires_at:
+        if (job is not None and job.kind == "EXPORTACION_CONTRATOS"
+                and int(job.payload.get("expires_at", 0)) == expires_at and job.result):
+            try:
+                result_artifact_path(job_id, job.result).unlink(missing_ok=True)
+            except ValueError:
+                pass
         for fmt in ("csv", "xlsx", "pdf"):
             artifact_path(job_id, fmt).unlink(missing_ok=True)
         raise HTTPException(status_code=410, detail="El enlace de descarga venció")
 
-    job = db.query(BackgroundJob).filter(BackgroundJob.public_id == job_id).first()
     if (
         job is None
         or job.kind != "EXPORTACION_CONTRATOS"
@@ -83,7 +89,7 @@ def download_export(
 
     fmt = job.result.get("format")
     try:
-        path = artifact_path(job.public_id, fmt)
+        path = result_artifact_path(job.public_id, job.result)
     except ValueError as exc:
         raise HTTPException(status_code=404, detail="Archivo de exportación no encontrado") from exc
     if not path.is_file():

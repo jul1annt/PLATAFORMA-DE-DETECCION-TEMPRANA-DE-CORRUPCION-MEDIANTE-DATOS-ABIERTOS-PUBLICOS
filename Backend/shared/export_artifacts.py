@@ -49,6 +49,18 @@ def write_artifact(
     return target, hashlib.sha256(content).hexdigest()
 
 
+def result_artifact_path(job_id: uuid.UUID, result: dict, *,
+                         directory: str | Path | None = None) -> Path:
+    """Resolve only a validated server identifier, with legacy filename support."""
+    artifact_id = job_id
+    if "artifact_id" in result:
+        try:
+            artifact_id = uuid.UUID(str(result["artifact_id"]))
+        except (ValueError, TypeError, AttributeError) as exc:
+            raise ValueError("Identificador de archivo de exportación inválido") from exc
+    return artifact_path(artifact_id, result.get("format"), directory=directory)
+
+
 def create_export_token(job_id: uuid.UUID, expires_at: int) -> str:
     message = f"{job_id}.{expires_at}".encode("ascii")
     signature = hmac.new(settings.SECRET_KEY.encode("utf-8"), message, hashlib.sha256).hexdigest()

@@ -2,7 +2,7 @@
 
 import time
 from datetime import datetime, timezone
-from uuid import UUID
+from uuid import UUID, uuid4
 
 from sqlalchemy.orm import Session
 
@@ -62,8 +62,12 @@ def generate_contract_export(db: Session, job_id: UUID, payload: dict) -> dict:
         for item in items
     )
     response = render_export(columns, rows, fmt, "contratos_calidad", "Contratos procesados")
-    path, checksum = write_artifact(job_id, fmt, response.body)
+    # A disconnected attempt may finish rendering after its recovery. Distinct
+    # filenames prevent it from overwriting the recovered attempt's artifact.
+    artifact_id = uuid4()
+    path, checksum = write_artifact(artifact_id, fmt, response.body)
     return {
+        "artifact_id": str(artifact_id),
         "format": fmt,
         "filename": f"contratos_calidad.{fmt}",
         "media_type": response.media_type,

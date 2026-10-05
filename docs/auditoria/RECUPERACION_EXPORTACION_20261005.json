@@ -1,0 +1,47 @@
+{
+  "verified_at_utc": "2026-10-05T04:43:07.252973+00:00",
+  "scope": "Real PostgreSQL 15 disconnect during a paused export renderer, recovered durable worker and HTTP download after the late renderer completes",
+  "database": "codex_plan_resume_test",
+  "port": 5433,
+  "migration": "d2804c8b39a1",
+  "suite": {
+    "passed": 247,
+    "failed": 0,
+    "skipped": 0,
+    "duration_seconds": "30.948"
+  },
+  "observations": [
+    {
+      "status": "EXITOSO",
+      "attempts": 2,
+      "download_http_status": 200,
+      "download_matches_recovered_attempt": true,
+      "checksum_matches_download": true,
+      "late_attempt_replaced_confirmed_artifact": false,
+      "expired_attempt_files_removed": 2
+    }
+  ],
+  "cleanup": {
+    "database_removed": true,
+    "database_size_before_removal_bytes": 21454183,
+    "temporary_row_counts_before_removal": {
+      "raw_secop": 0,
+      "contratos_procesados": 0,
+      "background_jobs": 0,
+      "procesamiento_logs": 0,
+      "fuentes_datos": 0
+    }
+  },
+  "operational_database_readonly_counts": {
+    "raw_secop": 18980,
+    "contratos_procesados": 18980
+  },
+  "limits": [
+    "Small local CSV export with a controlled renderer, not maximum export volume or full resource peaks",
+    "Actual PostgreSQL disconnection and real HTTP download; no deployed-network assertion",
+    "Expired artifacts of both attempts removed using the existing age-based cleanup",
+    "Legacy downloads and expiry retained; malformed artifact identifiers rejected by unit tests"
+  ],
+  "stage": "verified_and_cleaned",
+  "baseline_bug_reproduced": "Before the fix, test_late_export_attempt_cannot_overwrite_recovered_artifact read stale attempt bytes from the recovered result path"
+}

@@ -236,6 +236,17 @@ def _process_next_job(lease_db, connection_alive) -> bool:
         job.result = result
         lease_db.commit()
         return True
+    except Exception as exc:
+        lease_db.rollback()
+        if job_id is not None and not connection_alive():
+            # Rendering can finish without SQL after the backend disappeared.
+            # The disconnect may surface only when saving the final job result.
+            logger.error(
+                "Trabajo %s perdió la conexión al confirmar su estado; tipo=%s",
+                job_id, type(exc).__name__,
+            )
+            return True
+        raise
     finally:
         if lock_acquired and job_id is not None and connection_alive():
             try:
