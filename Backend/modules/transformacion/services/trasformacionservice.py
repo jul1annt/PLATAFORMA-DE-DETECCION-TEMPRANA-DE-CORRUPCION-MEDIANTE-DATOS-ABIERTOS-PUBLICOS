@@ -1,6 +1,6 @@
 import logging
 import uuid
-from datetime import datetime, timezone
+from datetime import date, datetime, timezone
 from typing import Dict, List, Tuple, Any
 
 from sqlalchemy.orm import Session
@@ -15,6 +15,7 @@ from modules.transformacion.model.ProcesamientoLog import ProcesamientoLog
 from modules.transformacion.model.ContratoProcesado import ContratoProcesado
 from modules.transformacion.repository.transformacion import TransformacionRepository
 from modules.ingesta.model.RawSecop import RawSecop
+from modules.transformacion.domain.reprocessing_checkpoint import validate_checkpoint
 
 logger = logging.getLogger(__name__)
 VERSION_REGLAS_TRANSFORMACION = "v1.0"
@@ -46,7 +47,39 @@ class TransformacionService:
         }
         if job_id is not None:
             universo["background_job_id"] = job_id
-        
+        counters = {"total_evaluados": 0, "procesados": 0, "omitidos": 0,
+                    "anomalias_registradas": 0}
+        resumed = False
+        if forzar_reproceso and job_id is not None:
+            previous = self.repo.obtener_ultimo_log_trabajo(job_id)
+            if previous is not None:
+                previous_universe = dict(previous.universo or {})
+                previous_counters = {key: getattr(previous, key) for key in counters}
+                if validate_checkpoint(
+                    previous_universe, job_id=job_id,
+                    rule_version=VERSION_REGLAS_TRANSFORMACION,
+                    stored_rule_version=previous.version_reglas,
+                    counters=previous_counters,
+                ):
+                    if previous.estado not in {"EN_PROCESO", "ERROR", "EXITOSO"}:
+                        raise ValueError("El avance guardado tiene un estado inválido")
+                    if previous.estado == "EXITOSO":
+                        if (previous.total_evaluados != previous_universe["total_candidatos"]
+                                or previous.fecha_hora_fin is None):
+                            raise ValueError("El reprocesamiento guardado no tiene un cierre completo")
+                        # The service finished, but the worker may have lost its
+                        # connection before committing the durable job result.
+                        return {**previous_counters, "estado": "EXITOSO",
+                                "fecha_hora_inicio": previous.fecha_hora_inicio,
+                                "fecha_hora_fin": previous.fecha_hora_fin,
+                                "duracion_segundos": previous.duracion_segundos}
+                    universo = previous_universe
+                    universo["reanudado_desde_log_id"] = previous.id
+                    counters = previous_counters
+                    resumed = True
+        universo.setdefault("fecha_referencia_anomalias", inicio.date().isoformat())
+        self._reference_date = date.fromisoformat(universo["fecha_referencia_anomalias"])
+
         # Create Log
         log_entry = ProcesamientoLog(
             fecha_hora_inicio=inicio,
@@ -54,23 +87,28 @@ class TransformacionService:
             forzar_reproceso=forzar_reproceso,
             version_reglas=VERSION_REGLAS_TRANSFORMACION,
             universo=dict(universo),
+            **counters,
         )
         self.session.add(log_entry)
         self.session.commit()
         
-        last_id = 0
-        
-        total_evaluados = 0
-        procesados = 0
-        omitidos = 0
-        anomalias_totales = 0
+        last_id = universo["ultimo_raw_secop_id"]
+        total_evaluados = counters["total_evaluados"]
+        procesados = counters["procesados"]
+        omitidos = counters["omitidos"]
+        anomalias_totales = counters["anomalias_registradas"]
+        committed_universe = dict(universo)
+        committed_counters = dict(counters)
         
         try:
-            universo.update(self.repo.obtener_universo_reprocesamiento(forzar_reproceso))
-            universo["candidatos_verificados_en"] = datetime.now(timezone.utc).isoformat()
-            log_entry.universo = dict(universo)
-            self.session.add(log_entry)
-            self.session.commit()
+            if not resumed:
+                universo.update(self.repo.obtener_universo_reprocesamiento(forzar_reproceso))
+                universo["candidatos_verificados_en"] = datetime.now(timezone.utc).isoformat()
+                universo["version_checkpoint"] = 1
+                log_entry.universo = dict(universo)
+                self.session.add(log_entry)
+                self.session.commit()
+                committed_universe = dict(universo)
 
             # An empty candidate universe needs no second full-table join.
             # Source changes arriving after this check remain eligible for
@@ -213,12 +251,18 @@ class TransformacionService:
                 log_entry.universo = dict(universo)
                 self.session.add(log_entry)
                 self.session.commit()
+                committed_universe = dict(universo)
+                committed_counters = {"total_evaluados": total_evaluados,
+                                      "procesados": procesados, "omitidos": omitidos,
+                                      "anomalias_registradas": anomalias_totales}
                 
                 # Cleanup identity map to prevent memory leak
                 for raw in raw_records:
                     self.session.expunge(raw)
                 
             # Done with all chunks
+            if forzar_reproceso and job_id is not None and total_evaluados != universo["total_candidatos"]:
+                raise ValueError("El universo del reprocesamiento cambió antes de completar el recorrido")
             self.repo.recalculate_porcentajes_estadisticas_campos()
             self.session.commit()
             
@@ -273,15 +317,13 @@ class TransformacionService:
             log_entry.fecha_hora_fin = fin
             log_entry.duracion_segundos = duracion
             log_entry.mensaje_error = f"Error interno {error_id}"
-            universo.update({
-                "total_evaluados": total_evaluados,
-                "ultimo_raw_secop_id": last_id,
-            })
-            log_entry.universo = dict(universo)
-            
+            # Never advance progress for a batch whose transaction rolled back.
+            log_entry.universo = dict(committed_universe)
+            for key, value in committed_counters.items():
+                setattr(log_entry, key, value)
             self.session.add(log_entry)
             self.session.commit()
-            
+
             raise
 
         return {
@@ -304,7 +346,8 @@ class TransformacionService:
         return detect_anomalies(
             raw.__dict__,
             raw_secop_id=raw.id,
-            current_date=datetime.now(timezone.utc).date(),
+            current_date=(getattr(self, "_reference_date", None)
+                          or datetime.now(timezone.utc).date()),
         )
 
     # ──────────────────────────────────────────────────────────────

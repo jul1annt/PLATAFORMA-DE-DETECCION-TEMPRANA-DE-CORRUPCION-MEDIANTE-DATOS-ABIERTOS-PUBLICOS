@@ -35,4 +35,23 @@ Las regresiones usan datos pequeños. El ensayo con el corte de **9 249 545** co
 
 Este ensayo comprobó un recorrido real de detección de pendientes sobre todo el corte, que resultó vacío: **no hubo lotes de cambios escritos**. Los procesos ya estaban cargados antes de añadir el vínculo de logs y las optimizaciones posteriores; esas adiciones se cubren en las pruebas pequeñas, sin atribuirles el tiempo de esta corrida. La memoria muestreada corresponde al proceso de API/coordinador y no a todos los procesos PostgreSQL ni al segundo worker.
 
-Este cambio conserva las confirmaciones por lote y el checkpoint de ingesta. No añade reanudación desde un checkpoint al reprocesamiento forzado: ese recorrido todavía puede repetir la lectura del universo después de una caída. Las escrituras a escala, los picos de todos los procesos y los umbrales de aceptación de despliegue siguen pendientes en P16.
+Las escrituras a escala, los picos de todos los procesos y los umbrales de aceptación de despliegue siguen pendientes en P16. La reanudación del reprocesamiento forzado se añadió después del ensayo grande, con la evidencia separada descrita a continuación.
+
+## Reanudación del reprocesamiento forzado
+
+Los trabajos forzados nuevos guardan un checkpoint versionado en el universo del log, junto con sus contratos y anomalías, en la misma transacción de cada lote. El siguiente intento del mismo trabajo conserva el máximo de ID crudo, el número inicial de candidatos, los contadores acumulados y la fecha UTC de referencia para detectar anomalías. Retoma después del último ID confirmado sin repetir el conteo del universo. Cada intento conserva su propio log y enlaza el anterior mediante `reanudado_desde_log_id`.
+
+Si un lote revierte, el registro de error conserva exclusivamente los contadores e ID del último lote confirmado. Si el servicio terminó pero se perdió la conexión antes del resultado del trabajo, el siguiente intento reutiliza el cierre completo del log, sin volver a transformar los contratos. Un checkpoint versionado con reglas, alcance, fecha o contadores incompatibles produce error; no se usa para omitir filas.
+
+La consulta del log pertenece al repositorio, la validación de su contenido al dominio y la decisión de reanudar al servicio. El worker sigue siendo responsable de exclusión, propiedad de la conexión y recuperación del trabajo. No se añade dependencia de la transformación hacia el worker ni se cambia el esquema de PostgreSQL.
+
+En `codex_plan_resume_test`, PostgreSQL 15 aislado y migrado a `d2804c8b39a1`, se ensayaron dos desconexiones reales:
+
+| Momento de desconexión | Filas ya confirmadas | Filas normalizadas por el intento 2 | Filas confirmadas repetidas |
+| --- | ---: | ---: | ---: |
+| Durante el segundo lote | 1 000 | 1 005 | 0 |
+| Tras completar el servicio, antes del resultado durable | 2 005 | 0 | 0 |
+
+Ambos trabajos terminaron `EXITOSO` en el intento 2, con 2 005 contratos, 10 025 anomalías activas y cero anomalías históricas duplicadas. Solo se contó el universo una vez por trabajo. Las pruebas también comprueban que el recuperador no reclama el intento vivo y que este no sobrescribe el resultado del recuperado. Pasaron **239 pruebas backend**, sin fallos ni omisiones. `REANUDACION_REPROCESAMIENTO_20261005.json` conserva los resultados de las aserciones, contadores, cursores, tiempos y límites. La base desechable se retiró tras verificar filas de prueba ausentes y cero sesiones; la consulta de solo lectura a `:5432` confirmó 18 980 crudos y procesados.
+
+Este ensayo usa 2 005 filas sintéticas y dos hilos de worker con conexiones PostgreSQL independientes; no mide HTTP concurrente ni escrituras sobre los nueve millones de registros. La reanudación se aplica a checkpoints nuevos de trabajos **forzados**; los logs legados sin versión no permiten inferir un avance confiable y el recorrido incremental mantiene su selección de pendientes. Los límites de ID y candidatos no congelan el contenido de `raw_secop`: cambios posteriores en filas ya evaluadas siguen correspondiendo al próximo procesamiento incremental. No se reinició ningún corte completo ni se promovió un respaldo histórico.

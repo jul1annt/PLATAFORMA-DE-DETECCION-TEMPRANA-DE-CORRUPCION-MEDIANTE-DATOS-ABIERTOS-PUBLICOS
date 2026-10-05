@@ -32,6 +32,11 @@ class TransformacionRepository:
         if self.session.get_bind().dialect.name == "postgresql":
             self.session.execute(text("SELECT set_config('work_mem', '32MB', true)"))
 
+    def obtener_ultimo_log_trabajo(self, job_id: int) -> Optional[ProcesamientoLog]:
+        return self.session.query(ProcesamientoLog).filter(
+            ProcesamientoLog.universo["background_job_id"].as_integer() == job_id,
+        ).order_by(ProcesamientoLog.id.desc()).first()
+
     @staticmethod
     def _criterio_campo_faltante():
         return func.coalesce(

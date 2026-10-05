@@ -42,8 +42,10 @@ def test_empty_candidate_universe_does_not_repeat_the_full_row_query():
     assert statistics == [True]
 
 
-def test_failed_reprocessing_rebuilds_field_statistics_from_committed_chunks():
+@pytest.mark.parametrize("failure_point", ["query", "normalization", "commit"])
+def test_failed_reprocessing_rebuilds_field_statistics_from_committed_chunks(failure_point):
     raw = SimpleNamespace(id=1)
+    next_raw = SimpleNamespace(id=2)
 
     class Query:
         calls = 0
@@ -61,7 +63,9 @@ def test_failed_reprocessing_rebuilds_field_statistics_from_committed_chunks():
             self.calls += 1
             if self.calls == 1:
                 return [raw]
-            raise RuntimeError("simulated failure after first committed chunk")
+            if failure_point == "query":
+                raise RuntimeError("simulated failure after first committed chunk")
+            return [next_raw] if self.calls == 2 else []
 
     class Session:
         def __init__(self):
@@ -83,6 +87,8 @@ def test_failed_reprocessing_rebuilds_field_statistics_from_committed_chunks():
 
         def commit(self):
             self.commits += 1
+            if failure_point == "commit" and self.commits == 4:
+                raise RuntimeError("simulated failure committing second chunk")
 
         def rollback(self):
             self.rollbacks += 1
@@ -93,11 +99,16 @@ def test_failed_reprocessing_rebuilds_field_statistics_from_committed_chunks():
     session = Session()
     service = TransformacionService(session)
     service.repo.obtener_universo_reprocesamiento = lambda _force: {
-        "max_raw_secop_id": 1,
-        "total_candidatos": 1,
+        "max_raw_secop_id": 2,
+        "total_candidatos": 2,
         "forzar_reproceso": True,
     }
-    service._normalizar = lambda record: {"raw_secop_id": record.id}
+    def normalize(record):
+        if failure_point == "normalization" and record.id == 2:
+            raise RuntimeError("simulated failure during second chunk")
+        return {"raw_secop_id": record.id}
+
+    service._normalizar = normalize
     service._detectar_anomalias = lambda _record: []
     reconciliations = []
     service.repo.obtener_contratos_por_raw_ids = lambda _raw_ids: {}
@@ -109,13 +120,14 @@ def test_failed_reprocessing_rebuilds_field_statistics_from_committed_chunks():
 
     assert reconciliations == [True]
     assert session.rollbacks == 1
-    assert session.commits == 5  # start log, universe snapshot, chunk, reconciled stats, error log
+    assert session.commits == (6 if failure_point == "commit" else 5)
     failed_log = next(item for item in session.added if isinstance(item, ProcesamientoLog))
     assert failed_log.estado == "ERROR"
     assert failed_log.version_reglas == "v1.0"
-    assert failed_log.universo["total_candidatos"] == 1
+    assert failed_log.universo["total_candidatos"] == 2
     assert failed_log.universo["total_evaluados"] == 1
     assert failed_log.universo["ultimo_raw_secop_id"] == 1
+    assert failed_log.total_evaluados == failed_log.procesados == 1
 
 
 def test_successful_reprocessing_records_rule_version_and_fixed_universe():
