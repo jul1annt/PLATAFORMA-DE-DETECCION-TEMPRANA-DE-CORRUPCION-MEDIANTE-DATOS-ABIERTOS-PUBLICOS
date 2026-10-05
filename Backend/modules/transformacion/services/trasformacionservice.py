@@ -67,11 +67,15 @@ class TransformacionService:
         
         try:
             universo.update(self.repo.obtener_universo_reprocesamiento(forzar_reproceso))
+            universo["candidatos_verificados_en"] = datetime.now(timezone.utc).isoformat()
             log_entry.universo = dict(universo)
             self.session.add(log_entry)
             self.session.commit()
 
-            while True:
+            # An empty candidate universe needs no second full-table join.
+            # Source changes arriving after this check remain eligible for
+            # the next run; their processing timestamps are not advanced.
+            while universo["total_candidatos"] > 0:
                 # Build chunk query
                 q = self.session.query(RawSecop).filter(
                     RawSecop.id > last_id,
@@ -79,6 +83,7 @@ class TransformacionService:
                 )
                 
                 if not forzar_reproceso:
+                    self.repo.configure_incremental_query_memory()
                     q = q.outerjoin(
                         ContratoProcesado,
                         and_(

@@ -27,6 +27,11 @@ class TransformacionRepository:
     def __init__(self, session: Session):
         self.session = session
 
+    def configure_incremental_query_memory(self) -> None:
+        """Limit extra memory to the transaction comparing raw/processed rows."""
+        if self.session.get_bind().dialect.name == "postgresql":
+            self.session.execute(text("SELECT set_config('work_mem', '32MB', true)"))
+
     @staticmethod
     def _criterio_campo_faltante():
         return func.coalesce(
@@ -38,6 +43,7 @@ class TransformacionRepository:
         max_raw_id = self.session.query(func.max(RawSecop.id)).scalar() or 0
         q = self.session.query(RawSecop.id).filter(RawSecop.id <= max_raw_id)
         if not forzar_reproceso:
+            self.configure_incremental_query_memory()
             q = q.outerjoin(
                 ContratoProcesado,
                 RawSecop.id == ContratoProcesado.raw_secop_id,

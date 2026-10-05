@@ -8,6 +8,40 @@ from modules.transformacion.services.normalization_service import AnomalyFinding
 from modules.transformacion.services.trasformacionservice import TransformacionService
 
 
+def test_empty_candidate_universe_does_not_repeat_the_full_row_query():
+    class Session:
+        def __init__(self):
+            self.logs = []
+
+        def add(self, item):
+            self.logs.append(item)
+
+        def commit(self):
+            pass
+
+        def rollback(self):
+            pass
+
+        def query(self, *_args, **_kwargs):
+            raise AssertionError("an empty universe must not scan raw rows again")
+
+    session = Session()
+    service = TransformacionService(session)
+    service.repo.obtener_universo_reprocesamiento = lambda _force: {
+        "max_raw_secop_id": 9249545, "total_candidatos": 0, "forzar_reproceso": False,
+    }
+    statistics = []
+    service.repo.recalculate_porcentajes_estadisticas_campos = lambda: statistics.append(True)
+    result = service.process_raw_data(job_id=73)
+    assert result["estado"] == "EXITOSO"
+    assert result["total_evaluados"] == result["procesados"] == 0
+    log = session.logs[-1]
+    assert log.estado == "EXITOSO" and log.universo["total_candidatos"] == 0
+    assert log.universo["background_job_id"] == 73
+    assert log.universo["candidatos_verificados_en"]
+    assert statistics == [True]
+
+
 def test_failed_reprocessing_rebuilds_field_statistics_from_committed_chunks():
     raw = SimpleNamespace(id=1)
 
