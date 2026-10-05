@@ -9,7 +9,7 @@ Registrar en la orden de cambio:
 - Entorno y ventana de mantenimiento:
 - Responsable de aplicación y responsable de base de datos:
 - Host, puerto, base, revisión Alembic actual y destino de respaldo:
-- Revisión Alembic objetivo: `c7e3a91b5d24` (confirmar nuevamente con `alembic heads` al preparar el despliegue):
+- Revisión Alembic objetivo: obtenerla de `alembic heads` en el artefacto que se desplegará (la revisión comprobada el 2026-10-05 UTC es `d2804c8b39a1`; confirmar nuevamente al preparar el cambio):
 - Versión/identificador de los artefactos backend, worker y frontend:
 - `VITE_API_URL` que se incorporará al bundle:
 - Resultado y ubicación restringida del ensayo de restauración:

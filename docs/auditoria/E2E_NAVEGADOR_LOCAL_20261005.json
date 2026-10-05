@@ -1,0 +1,201 @@
+{
+  "checked_at_utc": "2026-10-05T03:34:27.834994+00:00",
+  "scope": "Browser frontend validation with a real local API and disposable PostgreSQL data; not deployed integration",
+  "database": {
+    "host": "127.0.0.1",
+    "port": 5433,
+    "name": "codex_plan_browser_e2e_test",
+    "contracts": 5
+  },
+  "prior_browser_checks": [
+    {
+      "check": "Public listing",
+      "result": "passed",
+      "observed": "Total 5 contracts; risk Sin evaluar"
+    },
+    {
+      "check": "Incomplete quality filter",
+      "result": "passed",
+      "observed": "Total 0, empty state and disabled exports"
+    },
+    {
+      "check": "Minimum value filter",
+      "result": "passed",
+      "observed": "montoMin=12000 in URL; Total 3"
+    },
+    {
+      "check": "Unauthenticated admin navigation",
+      "result": "passed",
+      "observed": "/admin redirected to /admin/login"
+    },
+    {
+      "check": "Local test account login",
+      "result": "passed",
+      "observed": "Admin dashboard with one test source and 5 processed contracts"
+    },
+    {
+      "check": "Admin sync logs navigation",
+      "result": "passed",
+      "observed": "Empty history with totals 0"
+    },
+    {
+      "check": "Logout and route protection",
+      "result": "passed",
+      "observed": "Session closed toast; /admin/sync-logs redirected to login"
+    }
+  ],
+  "bug_found": {
+    "date_from_API": "2024-06-01",
+    "date_before_fix": "31/5/2024",
+    "cause": "Date-only ISO text interpreted as UTC then displayed in local timezone"
+  },
+  "calendar_date_fix": "Explicit UTC display and strict validation for date-only fields in public listing and detail; timestamps unchanged",
+  "automated_frontend_tests": {
+    "passed": 6,
+    "failed": 0,
+    "calendar_timezones": [
+      "UTC",
+      "America/Bogota",
+      "Pacific/Auckland"
+    ]
+  },
+  "current_browser_checks": [
+    {
+      "check": "Local network failure state",
+      "result": "passed",
+      "observed": "Network Error visible and exports disabled while the test API was stopped"
+    },
+    {
+      "check": "Date-only listing display",
+      "result": "passed",
+      "observed": "Five API dates 2024-06-01..05 displayed as 1/6/2024..5/6/2024"
+    },
+    {
+      "check": "Search cancellation with an actual HTTP connection",
+      "result": "passed",
+      "method": "Apply minimum 12000; wrapper delays 45s. Use same-document browser Back while loading, then apply minimum 50000000",
+      "observed": "Server received http.disconnect after 15.90s; baseline total 5 returned, then new search total 1; UI URL montoMin=50000000&offset=0 and Total 1",
+      "limitations": "Filters are hidden while loading, so cancellation used browser Back; the cancelled endpoint returned no late payload. Suppression of a late payload is covered separately by the Node abortable-request test"
+    },
+    {
+      "check": "Date-only contract detail display",
+      "result": "passed",
+      "observed": "Contract 5 has API publication and award 2024-06-05; both display 5/6/2024 in browser",
+      "screenshot": "E2E_FECHAS_CORREGIDAS_20261005.png"
+    },
+    {
+      "check": "Authenticated session recovery on page reload",
+      "result": "passed",
+      "observed": "After login and reload, /admin rendered Dashboard Administrativo with active browser-e2e session"
+    },
+    {
+      "check": "Logout after recovered session",
+      "result": "passed",
+      "observed": "Returned to login form"
+    }
+  ],
+  "limitations": [
+    "Five synthetic local contracts do not establish production-scale performance",
+    "No deployed API, network egress or deployment account was exercised",
+    "P10 remains pending for deployed integration; local session reload and cancellation do not cover every authentication race in-browser"
+  ],
+  "cleanup": {
+    "status": "test_database_removed",
+    "at_utc": "2026-10-05T03:33:52.257421+00:00",
+    "database": "codex_plan_browser_e2e_test",
+    "size_before_removal_bytes": 9559399,
+    "raw_and_processed_before_removal": 5,
+    "no_active_test_sessions": true,
+    "only_removed_database": "codex_plan_browser_e2e_test",
+    "api_and_frontend_processes_stopped": true,
+    "browser_tab_closed": true,
+    "all_other_databases_preserved": true,
+    "retained_project_generations": [
+      "plataforma_secop_refresh_test",
+      "plataforma_secop_refresh_20261001_test"
+    ],
+    "isolated_cluster_stopped_gracefully": true
+  },
+  "frontend_lint": "passed",
+  "frontend_production_build": "passed",
+  "operational_database_readonly_check": {
+    "port": 5432,
+    "database": "plataformaanticorrupcion",
+    "raw": 18980,
+    "processed": 18980
+  },
+  "controlled_search_events": [
+    {
+      "at_utc": "2026-10-05T03:29:50.424895+00:00",
+      "event": "search_started",
+      "minimum": null
+    },
+    {
+      "at_utc": "2026-10-05T03:29:50.812351+00:00",
+      "event": "search_completed",
+      "minimum": null,
+      "total": 5
+    },
+    {
+      "at_utc": "2026-10-05T03:30:04.755204+00:00",
+      "event": "search_started",
+      "minimum": null
+    },
+    {
+      "at_utc": "2026-10-05T03:30:04.770895+00:00",
+      "event": "search_completed",
+      "minimum": null,
+      "total": 5
+    },
+    {
+      "at_utc": "2026-10-05T03:30:20.262730+00:00",
+      "event": "search_started",
+      "minimum": "12000"
+    },
+    {
+      "at_utc": "2026-10-05T03:30:20.263193+00:00",
+      "event": "controlled_delay_started",
+      "seconds": 45,
+      "minimum": "12000"
+    },
+    {
+      "at_utc": "2026-10-05T03:30:36.164057+00:00",
+      "event": "browser_disconnected",
+      "minimum": "12000"
+    },
+    {
+      "at_utc": "2026-10-05T03:30:36.179762+00:00",
+      "event": "search_started",
+      "minimum": null
+    },
+    {
+      "at_utc": "2026-10-05T03:30:36.188113+00:00",
+      "event": "search_completed",
+      "minimum": null,
+      "total": 5
+    },
+    {
+      "at_utc": "2026-10-05T03:30:46.500008+00:00",
+      "event": "search_started",
+      "minimum": "50000000"
+    },
+    {
+      "at_utc": "2026-10-05T03:30:46.539425+00:00",
+      "event": "search_completed",
+      "minimum": "50000000",
+      "total": 1
+    }
+  ],
+  "ci_code_revision": {
+    "commit": "09438aa3dcb80cadfd8bdf097e006fb3d49af584",
+    "push": {
+      "id": 37259899222,
+      "conclusion": "success"
+    },
+    "pull_request": {
+      "id": 37259901863,
+      "conclusion": "success"
+    }
+  },
+  "deployment_guide_revision_checked": "d2804c8b39a1"
+}
