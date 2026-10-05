@@ -7,7 +7,7 @@ import { QualitySummaryBanner } from '../components/QualitySummaryBanner';
 import { SearchAutocomplete } from '../components/SearchAutocomplete';
 import { PublicNavbar } from '../components/layout/PublicNavbar';
 import { getErrorMessage } from '../utils/errors';
-import { formatDecimalAmount } from '../utils/format';
+import { formatCalendarDate, formatDecimalAmount } from '../utils/format';
 import { runAbortableRequest } from '../utils/abortableRequest';
 
 const SortIcon = ({ field, sort, order }: { field: string; sort: string; order: string }) => {
@@ -610,7 +610,7 @@ export const PublicProcesados: React.FC = () => {
                               </div>
                             </td>
                             <td className="px-6 py-4 text-xs font-bold text-slate-500 whitespace-nowrap">
-                              {p.fecha_publicacion_normalizada ? new Date(p.fecha_publicacion_normalizada).toLocaleDateString('es-ES') : 'N/A'}
+                              {formatCalendarDate(p.fecha_publicacion_normalizada)}
                             </td>
                             <td className="px-6 py-4">
                               <span className={`inline-flex items-center px-2 py-1 rounded text-[9px] font-black tracking-wider uppercase ${

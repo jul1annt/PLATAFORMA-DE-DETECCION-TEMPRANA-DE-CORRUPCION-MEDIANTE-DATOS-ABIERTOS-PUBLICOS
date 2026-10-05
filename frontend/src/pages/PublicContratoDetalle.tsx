@@ -4,7 +4,7 @@ import { getProcesadoById, getAnomaliasByRawSecopId } from '../services/procesad
 import type { Procesado, AnomaliaContrato } from '../types/procesado';
 import { PublicNavbar } from '../components/layout/PublicNavbar';
 import { getErrorMessage } from '../utils/errors';
-import { formatDecimalAmount } from '../utils/format';
+import { formatCalendarDate, formatDecimalAmount } from '../utils/format';
 
 
 export const PublicContratoDetalle: React.FC = () => {
@@ -189,13 +189,13 @@ export const PublicContratoDetalle: React.FC = () => {
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                   </svg>
-                  Publicación: <strong className="text-slate-800">{contrato.fecha_publicacion_normalizada ? new Date(contrato.fecha_publicacion_normalizada).toLocaleDateString('es-ES') : 'N/A'}</strong>
+                  Publicación: <strong className="text-slate-800">{formatCalendarDate(contrato.fecha_publicacion_normalizada)}</strong>
                 </div>
                 <div className="flex items-center gap-2 text-sm text-slate-600 font-medium">
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
-                  Adjudicación: <strong className="text-slate-800">{contrato.fecha_adjudicacion_normalizada ? new Date(contrato.fecha_adjudicacion_normalizada).toLocaleDateString('es-ES') : 'N/A'}</strong>
+                  Adjudicación: <strong className="text-slate-800">{formatCalendarDate(contrato.fecha_adjudicacion_normalizada)}</strong>
                 </div>
               </div>
             </div>

@@ -1,3 +1,16 @@
+/** Preserve a date-only calendar day regardless of the browser's time zone. */
+export function formatCalendarDate(
+  value: string | null | undefined,
+  locale = 'es-ES',
+): string {
+  if (!value || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return 'N/A';
+
+  const date = new Date(`${value}T00:00:00.000Z`);
+  if (!Number.isFinite(date.getTime()) || date.toISOString().slice(0, 10) !== value) return 'N/A';
+
+  return new Intl.DateTimeFormat(locale, { timeZone: 'UTC' }).format(date);
+}
+
 /** Format a decimal string without converting its integer part through JS Number. */
 export function formatDecimalAmount(
   value: string | number | null | undefined,
