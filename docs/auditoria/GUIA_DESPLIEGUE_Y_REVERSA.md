@@ -1,6 +1,6 @@
 # Despliegue coordinado y reversa
 
-Guía de ejecución para preparar el despliegue backend/frontend. No se ha ejecutado contra un entorno. Completa los campos de la ficha con valores aprobados y ensaya el flujo en una copia PostgreSQL aislada antes de programar producción.
+Guía de ejecución para preparar el despliegue backend/frontend. El 2026-10-06 se ejecutó en la integración persistente de este equipo, autorizado por el usuario: despliegue, reversa de aplicación, recuperación del estado local y cliente real. [La evidencia](INTEGRACION_LOCAL_20261006.md) delimita el corte histórico y los checkpoints comprobados. La promoción de la base operativa anterior y el egreso de infraestructura siguen pendientes. Completa la ficha y ensaya cualquier otro destino antes de programar su cambio.
 
 ## Ficha del cambio
 
@@ -9,7 +9,7 @@ Registrar en la orden de cambio:
 - Entorno y ventana de mantenimiento:
 - Responsable de aplicación y responsable de base de datos:
 - Host, puerto, base, revisión Alembic actual y destino de respaldo:
-- Revisión Alembic objetivo: obtenerla de `alembic heads` en el artefacto que se desplegará (la revisión comprobada el 2026-10-05 UTC es `d2804c8b39a1`; confirmar nuevamente al preparar el cambio):
+- Revisión Alembic objetivo: obtenerla de `alembic heads` en el artefacto que se desplegará (la revisión aplicada a integración el 2026-10-06 UTC es `f4826b9d1c30`; el origen histórico conserva `d2804c8b39a1`; confirmar nuevamente al preparar el cambio):
 - Versión/identificador de los artefactos backend, worker y frontend:
 - `VITE_API_URL` que se incorporará al bundle:
 - Resultado y ubicación restringida del ensayo de restauración:
@@ -49,6 +49,8 @@ Para cambios incompatibles, separar en despliegues de **expansión → migració
 - No ejecutar `alembic downgrade` por rutina. Revisar el cuerpo de cada migración: borrados, proyecciones limpiadas, backfills o pérdida de historia pueden ser irreversibles aunque exista una función `downgrade()`.
 - Si el esquema o los datos ya cambiaron y no existe reversa ensayada, mantener el servicio en pausa. Recuperar la copia aislada aprobada o restaurar el respaldo mediante un plan de recuperación con reconciliación de escrituras posteriores. Nunca restaurar sobre una base cuyo destino no haya sido verificado.
 - Después de restaurar, revalidar autenticación, conteos, integridad, trabajos/cursor y exportaciones antes de reabrir escrituras.
+
+En la integración local, el respaldo completo histórico se complementa con el checkpoint posterior de cuentas, sesiones, fuentes, trabajos, configuración y archivos exportados. Reponer el estado por claves con los servicios pausados, conservar las referencias a fuente y administrador y alinear las secuencias. No truncar padres con `CASCADE` ni descartar filas posteriores al checkpoint sin reconciliarlas. Una restauración del dump histórico por sí sola omite el estado local nuevo. La reposición ensayada restauró las huellas de las cuatro tablas de control y un acceso desactivado, conservando los contratos; la restauración completa de la capa histórica se acredita con el ensayo independiente del 03/10.
 
 ## Cierre de cambio
 

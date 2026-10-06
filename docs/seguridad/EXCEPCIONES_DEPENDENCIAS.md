@@ -1,6 +1,6 @@
 # Registro de excepciones de dependencias
 
-Revisión: 2026-09-26.
+Revisión: 2026-10-06.
 
 ## `ecdsa` — PYSEC-2026-1325 — resuelto por reemplazo
 
@@ -13,8 +13,8 @@ La captura inicial se conserva en `docs/auditoria/python-audit.json` como eviden
 
 ## `source-map-js` — GHSA-68fv-2mgg-jv7q — actualización
 
-El 2026-10-06, la instalación limpia para integración detectó `source-map-js 1.2.1` en el lock frontend. Se actualiza exclusivamente esa dependencia transitiva a `1.2.2`, versión corregida indicada en el [aviso revisado](https://github.com/advisories/GHSA-68fv-2mgg-jv7q) y publicada por el [mantenedor](https://github.com/7rulnik/source-map-js/releases/tag/v1.2.2). La auditoría del lock actualizado devolvió cero vulnerabilidades; la instalación, pruebas y build del nuevo artefacto se deben verificar antes de usarlo en integración. No se añade una excepción al auditor de CI.
+El 2026-10-06, la instalación limpia para integración detectó `source-map-js 1.2.1` en el lock frontend. Se actualizó exclusivamente esa dependencia transitiva a `1.2.2`, versión corregida indicada en el [aviso revisado](https://github.com/advisories/GHSA-68fv-2mgg-jv7q) y publicada por el [mantenedor](https://github.com/7rulnik/source-map-js/releases/tag/v1.2.2). La auditoría devolvió cero vulnerabilidades; instalación limpia, seis pruebas, lint y build pasaron tanto en el artefacto local como en CI de `9362d94`. El bundle desplegado utiliza ese lock. No se añadió una excepción al auditor.
 
 ## `Mako` — GHSA-5639-2j2p-m4mx — actualización
 
-Los CI de `a039e2f` detectaron `Mako 1.3.12`, dependencia de Alembic, y detuvieron el backend en la auditoría. El [aviso del mantenedor](https://github.com/sqlalchemy/mako/security/advisories/GHSA-5639-2j2p-m4mx) identifica una evasión de confinamiento de rutas en Windows y señala `1.4.2` como versión corregida. Se fija `Mako==1.4.2` en la entrada y se regeneran ambos locks con hashes. La corrección exige actualizar también el entorno instalado, repetir auditorías y comprobar el CI de la revisión nueva; no se ignora el aviso.
+Los CI de `a039e2f` detectaron `Mako 1.3.12`, dependencia de Alembic, y detuvieron el backend en la auditoría. El [aviso del mantenedor](https://github.com/sqlalchemy/mako/security/advisories/GHSA-5639-2j2p-m4mx) identifica una evasión de confinamiento de rutas en Windows y señala `1.4.2` como versión corregida. Se fijó `Mako==1.4.2` y se regeneraron ambos locks con hashes. Entorno de desarrollo y runtime independiente fueron actualizados; `pip check` y las auditorías de ambos locks pasaron. Los CI de `0c065c4`, `c393935`, `66c7607` y del artefacto final `9362d94` pasaron; este último completó 263 pruebas backend y la auditoría sin vulnerabilidades conocidas. La reversa usa `0c065c4` con el mismo Mako corregido; no se ignora el aviso ni se ejecuta el backend vulnerable anterior.

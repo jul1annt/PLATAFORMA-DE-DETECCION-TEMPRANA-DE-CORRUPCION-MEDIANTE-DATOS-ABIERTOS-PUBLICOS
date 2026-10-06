@@ -1,0 +1,1683 @@
+{
+  "at_utc": "2026-10-06T08:14:20.026580+00:00",
+  "authorization": "User selected this computer on 2026-10-06",
+  "scope": "Persistent local integration and recovery rehearsal using retained historical SECOP cut; no main merge, operational promotion or new full data reload",
+  "release": {
+    "ref": "9362d94f9dbfbdf352ae11585a2bfd44318b11e6",
+    "api_url": "http://127.0.0.1:8000",
+    "frontend_url": "http://127.0.0.1:4173",
+    "data_context": "Integración local · Corte histórico SECOP del 01/10/2026 · Actualización automática pausada.",
+    "source_archive_sha256": "2c1c701ad913037ca37e560e7c7764b4f1f92bdaef33f7b02da05f32d0847cca"
+  },
+  "services": {
+    "phase": "running",
+    "supervisor_alive": true,
+    "components": {
+      "api": true,
+      "frontend": true,
+      "worker": true
+    },
+    "release": "9362d94f9dbfbdf352ae11585a2bfd44318b11e6"
+  },
+  "database": {
+    "target_database": "plataforma_integracion_local",
+    "port": 5433,
+    "target_database_oid": 74053,
+    "app_role": "plataforma_integracion",
+    "app_role_flags": {
+      "rolsuper": false,
+      "rolcreatedb": false,
+      "rolcreaterole": false,
+      "rolreplication": false
+    },
+    "integration_counts": {
+      "raw_secop": 9249545,
+      "contratos_procesados": 9249545,
+      "contrato_anomalo_incompleto": 129062,
+      "analitica_ejecuciones": 4
+    },
+    "sources_enabled": 0,
+    "deployed_revision": "f4826b9d1c30",
+    "valid_contract_indexes": 20
+  },
+  "artifacts": {
+    "backend_worker_same_ref": true,
+    "runtime_executable_sha256": "62ebc90a2884bb63a0cd67e789cafdd51e771eee043587e2354327b4ccc9bb05",
+    "requirements_lock_sha256": "c44702f3b7557a7ac3af07a8b6c878c5d8cacf6bb7e992c5050e03ef57a5a182",
+    "frontend_manifest_sha256": "b554e26f5c333cf9f61d0af1c7ae243e7c43406c5df8335d9d9bbbc123c8f06e",
+    "frontend_build": {
+      "ref": "9362d94f9dbfbdf352ae11585a2bfd44318b11e6",
+      "api_url": "http://127.0.0.1:8000",
+      "files": [
+        {
+          "path": "assets\\AdminAnalitica-DBa1gcGs.js",
+          "bytes": 27121,
+          "sha256": "a66eba52db49dbf3d1df647e064bf61142cfecee1784a5837d7b732c2be73ba8"
+        },
+        {
+          "path": "assets\\AdminDashboard-DDkRIDpy.js",
+          "bytes": 6857,
+          "sha256": "e0136254da60eda804b95bacb45216b392e61cb188ba77a356d153c7a1abe84c"
+        },
+        {
+          "path": "assets\\AdminLogin-DUiio2ws.js",
+          "bytes": 4407,
+          "sha256": "e5f0dfc112d8ad47d6a3aa8dd4c127f2ea0011a7181abd27e32fd52b6d11a3ec"
+        },
+        {
+          "path": "assets\\AdminReprocesamiento-IebeY1Tb.js",
+          "bytes": 10813,
+          "sha256": "d0bf885fc2bb59e44d17618fcd403854714e32adb5562f4c4c9b1681d6ca23b4"
+        },
+        {
+          "path": "assets\\AdminSyncLogs-Bq9qcxny.js",
+          "bytes": 7685,
+          "sha256": "324c683c225ff397397d2511dbca14caa2372839f26b99f5de2f77e31ea35aa8"
+        },
+        {
+          "path": "assets\\Badge-BlYKiuXG.js",
+          "bytes": 613,
+          "sha256": "222d48fe5844145e425ad45884a42cf9abfd4fd7c93d214fa668b11dad32147a"
+        },
+        {
+          "path": "assets\\Button-DuJkVkPL.js",
+          "bytes": 1143,
+          "sha256": "3ee23950a1b62b7c3ebfe5dcf04b2ea1a154912afc8615c09ae3675cd485788b"
+        },
+        {
+          "path": "assets\\Card-7c-vBF94.js",
+          "bytes": 763,
+          "sha256": "0d9f5d757209e8f136d28d9deb4da65e8ec54293c16a6ca08031bdc494c55fe7"
+        },
+        {
+          "path": "assets\\circle-alert-CcMiNyr5.js",
+          "bytes": 239,
+          "sha256": "1df396f9df9dfe786be87005c2aaf3b4bbeeda656e2f3791eb728c9be54ce93f"
+        },
+        {
+          "path": "assets\\circle-check-big-CU_kw5aa.js",
+          "bytes": 183,
+          "sha256": "1ebbb964a7bdaa95a6db96d67d90c9abc2eb0c70e9a6b1a3a67e5faf4161c958"
+        },
+        {
+          "path": "assets\\clock-Ev9hnWeK.js",
+          "bytes": 302,
+          "sha256": "26845e3c6d74c42bf833b87805f3033b1cd62335464a205e8fd914ec70a1a637"
+        },
+        {
+          "path": "assets\\ComparativaSincronizaciones-D36Ib1Jn.js",
+          "bytes": 4021,
+          "sha256": "e99b51bc811ecdb36d0bbcb29bd980cfdb3e30f56b44e47bad375e051a01df26"
+        },
+        {
+          "path": "assets\\DataQualityDashboard-CpbE4BF7.js",
+          "bytes": 8864,
+          "sha256": "ef2d64c99fdcb33e01deae21260a891de740cb7113c4f616f0bfce9ad4c1bf45"
+        },
+        {
+          "path": "assets\\download-CraDyqEs.js",
+          "bytes": 457,
+          "sha256": "a1449e1a1dc7e405266ee44be564e04ec58b757b3d7abef6d0420b82c81e84b8"
+        },
+        {
+          "path": "assets\\file-text-DeVQgHDh.js",
+          "bytes": 749,
+          "sha256": "337a7cb1eb47f2da2b40562cb3efee296d5760d4eeaa05741d585192b65db627"
+        },
+        {
+          "path": "assets\\format-DaY-yqb1.js",
+          "bytes": 790,
+          "sha256": "6458f7cab0b8685cae12cf6a360141057d00f51d52620d5493235da3c7fcb82e"
+        },
+        {
+          "path": "assets\\FuenteForm-ymkta-ei.js",
+          "bytes": 5418,
+          "sha256": "d18fe1dd7d0f098b64db76d8b09e074fe0842b5fd919eed8a6588866687f8d05"
+        },
+        {
+          "path": "assets\\FuentesList-DM63R3Yg.js",
+          "bytes": 15593,
+          "sha256": "7a504b503a8e199640751a37a804222cce6ae9ab8bc055e97b8eaf3e4f7bfd9e"
+        },
+        {
+          "path": "assets\\fuentesService-6ypOcATf.js",
+          "bytes": 1299,
+          "sha256": "0d9215ce0751b5280d2d69c403aab29847c8539b16bd00e14908ddc8e7dd55c4"
+        },
+        {
+          "path": "assets\\HomePage-bBxliR4M.js",
+          "bytes": 8562,
+          "sha256": "eb5432e0cb6112f514167a1ee81797bf6caecd35cba10109e21cdd2d3e12523a"
+        },
+        {
+          "path": "assets\\index-b-CwDmSD.css",
+          "bytes": 71932,
+          "sha256": "0253c0de5af56aca399be85d3388553bca141a56a6288008515da00c5b79bd87"
+        },
+        {
+          "path": "assets\\index-Bq6PTEjs.js",
+          "bytes": 381189,
+          "sha256": "2de188627ab25b8c57fe7892b398c4e16cdf24f667e9a86d22295220b43393e6"
+        },
+        {
+          "path": "assets\\jobsService-BPxOYUBx.js",
+          "bytes": 705,
+          "sha256": "aa9e94cc92d870ee93a2a260d756a4e64dc5132122e0ffae8d06dd87116980e3"
+        },
+        {
+          "path": "assets\\jsx-runtime-C7oxC63R.js",
+          "bytes": 8557,
+          "sha256": "f2199cde9cc1f71e0ef542b66165ff81df529adb5ca716d16eceaad712eacd26"
+        },
+        {
+          "path": "assets\\loader-circle-DKaKFlZH.js",
+          "bytes": 133,
+          "sha256": "2dbf6a3d169c012f9ec77b1d27cc72bc518b4422abc9db22f1543540d77c114c"
+        },
+        {
+          "path": "assets\\play-DSjMToxe.js",
+          "bytes": 179,
+          "sha256": "bed22f34a1e532053e2e2b82d35237e9245fde78f3de24c2296104100c0d7119"
+        },
+        {
+          "path": "assets\\procesamientoService-CeqXuVQm.js",
+          "bytes": 287,
+          "sha256": "0ca670081d4afb8a17c93571bf802e80feb541f7d3aeb91ff9689e66adfc7136"
+        },
+        {
+          "path": "assets\\PublicContratoDetalle-CQ00B0Ar.js",
+          "bytes": 17512,
+          "sha256": "c7891f98a49c2f5dfbc25a36bc1f25ffb4abdd765d09e5795e46a6701df294cf"
+        },
+        {
+          "path": "assets\\PublicDashboard-BIum-rrw.js",
+          "bytes": 393118,
+          "sha256": "a644b705d7d430dfa2607995ac981f47a77312625120628b5e5cca2960d434ca"
+        },
+        {
+          "path": "assets\\PublicNavbar-BAhEH_1a.js",
+          "bytes": 6844,
+          "sha256": "fa1269e0947094073e4c5f552b1f427e699df76f5bbf5c1da5539d11c5347f30"
+        },
+        {
+          "path": "assets\\PublicProcesados-Cgxpg9on.js",
+          "bytes": 35411,
+          "sha256": "a03bda746d6fdce0c6e4cbf81556514a77e51082859927a3f075bbc139f5dc45"
+        },
+        {
+          "path": "assets\\schemas-CyPNFne3.js",
+          "bytes": 91622,
+          "sha256": "4d6fa3b0fe86c8cfa80a14b40f28b4cada528fb9aae2f6b81da60a377596b25b"
+        },
+        {
+          "path": "assets\\Skeleton-CCzDZ1u7.js",
+          "bytes": 354,
+          "sha256": "efd9eb2083a254a2a7a27adfbec1f1874d3666826b2452411536cfe94a6dfd94"
+        },
+        {
+          "path": "assets\\user-Bc3Qdq1V.js",
+          "bytes": 185,
+          "sha256": "332ec30a093db711503e34a4b46e4315aa51386c45ab243a9a87bf0ae5b2e2b3"
+        },
+        {
+          "path": "favicon.svg",
+          "bytes": 9522,
+          "sha256": "61bc9a161de58248288e6905425d7180f0624c2865007b97d763fdac12043a66"
+        },
+        {
+          "path": "icons.svg",
+          "bytes": 5055,
+          "sha256": "7ca2d67c9c3aebf50cdc8709ee8aacf8cdb8cc7ea6325ea94939caef5da1c53d"
+        },
+        {
+          "path": "index.html",
+          "bytes": 553,
+          "sha256": "e7b5aca0c5f0f004d56a3853ba3a019c70c8827d142b163b9ff375edd0b06906"
+        }
+      ]
+    }
+  },
+  "log_access": {
+    "at_utc": "2026-10-06T07:56:24.1988727+00:00",
+    "checked_paths": 8,
+    "permitted_principals": [
+      "deployment_user",
+      "SYSTEM",
+      "Administrators"
+    ],
+    "unexpected_allow_entries": 0,
+    "deployment_user_effective_read_write_open": "verified",
+    "secret_scan": {
+      "scanned_files": 6,
+      "plaintext_secret_matches": 0,
+      "jwt_shaped_matches": 0
+    }
+  },
+  "migrations": [
+    {
+      "release": "c393935cf322d4e868ad3e74cc33362c1afcb011",
+      "before": "d2804c8b39a1",
+      "after": "e3915a6c7d82",
+      "seconds": 269.26722249999875,
+      "ordinary_role": true,
+      "result": "success",
+      "scope": "Additive concurrent metrics index applied only to derived integration; source databases untouched"
+    },
+    {
+      "release": "9362d94f9dbfbdf352ae11585a2bfd44318b11e6",
+      "before": "e3915a6c7d82",
+      "after": "f4826b9d1c30",
+      "seconds": 364.5433557999786,
+      "index_bytes": 5349376,
+      "ordinary_role": true,
+      "result": "success",
+      "scope": "Additive concurrent index only in persistent derived integration; no table rewrite"
+    }
+  ],
+  "quality_metrics": {
+    "before_http_request": "ReadTimeout after 120 seconds; previous plan parallel sequential scan of 4,289,216,512-byte heap",
+    "after_sql_seconds": [
+      0.999560800002655,
+      0.8257985999807715,
+      0.8440034000086598
+    ],
+    "index_bytes": 460054528,
+    "explain_analyze": [
+      {
+        "Plan": {
+          "Node Type": "Aggregate",
+          "Strategy": "Plain",
+          "Partial Mode": "Finalize",
+          "Parallel Aware": false,
+          "Async Capable": false,
+          "Startup Cost": 368355.79,
+          "Total Cost": 368355.8,
+          "Plan Rows": 1,
+          "Plan Width": 64,
+          "Actual Startup Time": 26862.157,
+          "Actual Total Time": 26876.603,
+          "Actual Rows": 1,
+          "Actual Loops": 1,
+          "Shared Hit Blocks": 124,
+          "Shared Read Blocks": 55775,
+          "Shared Dirtied Blocks": 0,
+          "Shared Written Blocks": 0,
+          "Local Hit Blocks": 0,
+          "Local Read Blocks": 0,
+          "Local Dirtied Blocks": 0,
+          "Local Written Blocks": 0,
+          "Temp Read Blocks": 0,
+          "Temp Written Blocks": 0,
+          "Plans": [
+            {
+              "Node Type": "Gather",
+              "Parent Relationship": "Outer",
+              "Parallel Aware": false,
+              "Async Capable": false,
+              "Startup Cost": 368355.55,
+              "Total Cost": 368355.76,
+              "Plan Rows": 2,
+              "Plan Width": 64,
+              "Actual Startup Time": 26851.204,
+              "Actual Total Time": 26865.661,
+              "Actual Rows": 3,
+              "Actual Loops": 1,
+              "Workers Planned": 2,
+              "Workers Launched": 2,
+              "Single Copy": false,
+              "Shared Hit Blocks": 124,
+              "Shared Read Blocks": 55775,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0,
+              "Plans": [
+                {
+                  "Node Type": "Aggregate",
+                  "Strategy": "Plain",
+                  "Partial Mode": "Partial",
+                  "Parent Relationship": "Outer",
+                  "Parallel Aware": false,
+                  "Async Capable": false,
+                  "Startup Cost": 367355.55,
+                  "Total Cost": 367355.56,
+                  "Plan Rows": 1,
+                  "Plan Width": 64,
+                  "Actual Startup Time": 26694.424,
+                  "Actual Total Time": 26694.424,
+                  "Actual Rows": 1,
+                  "Actual Loops": 3,
+                  "Shared Hit Blocks": 124,
+                  "Shared Read Blocks": 55775,
+                  "Shared Dirtied Blocks": 0,
+                  "Shared Written Blocks": 0,
+                  "Local Hit Blocks": 0,
+                  "Local Read Blocks": 0,
+                  "Local Dirtied Blocks": 0,
+                  "Local Written Blocks": 0,
+                  "Temp Read Blocks": 0,
+                  "Temp Written Blocks": 0,
+                  "Workers": [],
+                  "Plans": [
+                    {
+                      "Node Type": "Index Only Scan",
+                      "Parent Relationship": "Outer",
+                      "Parallel Aware": true,
+                      "Async Capable": false,
+                      "Scan Direction": "Forward",
+                      "Index Name": "ix_cp_metricas_cover",
+                      "Relation Name": "contratos_procesados",
+                      "Alias": "contratos_procesados",
+                      "Startup Cost": 0.56,
+                      "Total Cost": 309545.89,
+                      "Plan Rows": 3853977,
+                      "Plan Width": 26,
+                      "Actual Startup Time": 92.837,
+                      "Actual Total Time": 26265.233,
+                      "Actual Rows": 3083182,
+                      "Actual Loops": 3,
+                      "Heap Fetches": 404,
+                      "Shared Hit Blocks": 124,
+                      "Shared Read Blocks": 55775,
+                      "Shared Dirtied Blocks": 0,
+                      "Shared Written Blocks": 0,
+                      "Local Hit Blocks": 0,
+                      "Local Read Blocks": 0,
+                      "Local Dirtied Blocks": 0,
+                      "Local Written Blocks": 0,
+                      "Temp Read Blocks": 0,
+                      "Temp Written Blocks": 0,
+                      "Workers": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "Planning": {
+          "Shared Hit Blocks": 294,
+          "Shared Read Blocks": 25,
+          "Shared Dirtied Blocks": 0,
+          "Shared Written Blocks": 0,
+          "Local Hit Blocks": 0,
+          "Local Read Blocks": 0,
+          "Local Dirtied Blocks": 0,
+          "Local Written Blocks": 0,
+          "Temp Read Blocks": 0,
+          "Temp Written Blocks": 0
+        },
+        "Planning Time": 490.018,
+        "Triggers": [],
+        "Execution Time": 26888.224
+      }
+    ],
+    "limit": "SQL samples and successful HTTP checks; not an accepted deployment SLA"
+  },
+  "provider_ranking": {
+    "before": "Real deployed reads still pending after 176 seconds; periodic requests overlapped; limiting groups alone exceeded a 45-second statement timeout before the new index",
+    "after_sql_seconds": [
+      0.5820940000121482,
+      0.12670799999614246,
+      0.10938720000558533
+    ],
+    "new_index_bytes": 5349376,
+    "result_rows": [
+      {
+        "nit": "860524654",
+        "name": "UT SOLIDARIA-AXA- GOB NORTE DE SANTANDER2024",
+        "contracts": 4438
+      },
+      {
+        "nit": "860002400",
+        "name": "UT PREVISORA-SOLIDARIA DEQUIN LP 003 2025",
+        "contracts": 4308
+      },
+      {
+        "nit": "830051965",
+        "name": "QUIMITRONICA SAS",
+        "contracts": 3211
+      },
+      {
+        "nit": "805014913",
+        "name": "SCIENTIFIC PRODUCTS SAS",
+        "contracts": 2894
+      },
+      {
+        "nit": "830025281",
+        "name": "ANNAR DIAGNOSTICA IMPORT S.A.S.",
+        "contracts": 2406
+      },
+      {
+        "nit": "800077635",
+        "name": "LM INSTRUMENTS S.A.",
+        "contracts": 2342
+      },
+      {
+        "nit": "890101977",
+        "name": "AVÁNTIKA COLOMBIA S.A.S",
+        "contracts": 2106
+      },
+      {
+        "nit": "900240177",
+        "name": "LIFESUMIMED SAS",
+        "contracts": 2038
+      },
+      {
+        "nit": "830095213",
+        "name": "TERPEL",
+        "contracts": 2004
+      },
+      {
+        "nit": "828002423",
+        "name": "DISTRIBUIDORA COLOMBIANA DE MEDICAMENTOS Y TECNOLOGIAS EN SALUD S.A.S. BIC - DISCOLMETS S.A.S. BIC",
+        "contracts": 1900
+      }
+    ],
+    "explain_analyze": [
+      {
+        "Plan": {
+          "Node Type": "Subquery Scan",
+          "Parallel Aware": false,
+          "Async Capable": false,
+          "Alias": "anon_1",
+          "Startup Cost": 9456.1,
+          "Total Cost": 9461.23,
+          "Plan Rows": 10,
+          "Plan Width": 50,
+          "Actual Startup Time": 99.554,
+          "Actual Total Time": 101.514,
+          "Actual Rows": 10,
+          "Actual Loops": 1,
+          "Shared Hit Blocks": 137006,
+          "Shared Read Blocks": 0,
+          "Shared Dirtied Blocks": 0,
+          "Shared Written Blocks": 0,
+          "Local Hit Blocks": 0,
+          "Local Read Blocks": 0,
+          "Local Dirtied Blocks": 0,
+          "Local Written Blocks": 0,
+          "Temp Read Blocks": 0,
+          "Temp Written Blocks": 0,
+          "Plans": [
+            {
+              "Node Type": "Limit",
+              "Parent Relationship": "Subquery",
+              "Parallel Aware": false,
+              "Async Capable": false,
+              "Startup Cost": 9456.1,
+              "Total Cost": 9456.13,
+              "Plan Rows": 10,
+              "Plan Width": 18,
+              "Actual Startup Time": 99.515,
+              "Actual Total Time": 101.327,
+              "Actual Rows": 10,
+              "Actual Loops": 1,
+              "Shared Hit Blocks": 136973,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0,
+              "Plans": [
+                {
+                  "Node Type": "Sort",
+                  "Parent Relationship": "Outer",
+                  "Parallel Aware": false,
+                  "Async Capable": false,
+                  "Startup Cost": 9456.1,
+                  "Total Cost": 9462.83,
+                  "Plan Rows": 2690,
+                  "Plan Width": 18,
+                  "Actual Startup Time": 99.514,
+                  "Actual Total Time": 101.326,
+                  "Actual Rows": 10,
+                  "Actual Loops": 1,
+                  "Sort Key": [
+                    "(count(*)) DESC",
+                    "contratos_procesados.nit_proveedor_clave"
+                  ],
+                  "Sort Method": "top-N heapsort",
+                  "Sort Space Used": 25,
+                  "Sort Space Type": "Memory",
+                  "Shared Hit Blocks": 136973,
+                  "Shared Read Blocks": 0,
+                  "Shared Dirtied Blocks": 0,
+                  "Shared Written Blocks": 0,
+                  "Local Hit Blocks": 0,
+                  "Local Read Blocks": 0,
+                  "Local Dirtied Blocks": 0,
+                  "Local Written Blocks": 0,
+                  "Temp Read Blocks": 0,
+                  "Temp Written Blocks": 0,
+                  "Plans": [
+                    {
+                      "Node Type": "Aggregate",
+                      "Strategy": "Sorted",
+                      "Partial Mode": "Finalize",
+                      "Parent Relationship": "Outer",
+                      "Parallel Aware": false,
+                      "Async Capable": false,
+                      "Startup Cost": 1000.45,
+                      "Total Cost": 9397.97,
+                      "Plan Rows": 2690,
+                      "Plan Width": 18,
+                      "Actual Startup Time": 49.485,
+                      "Actual Total Time": 97.759,
+                      "Actual Rows": 36627,
+                      "Actual Loops": 1,
+                      "Group Key": [
+                        "contratos_procesados.nit_proveedor_clave"
+                      ],
+                      "Shared Hit Blocks": 136973,
+                      "Shared Read Blocks": 0,
+                      "Shared Dirtied Blocks": 0,
+                      "Shared Written Blocks": 0,
+                      "Local Hit Blocks": 0,
+                      "Local Read Blocks": 0,
+                      "Local Dirtied Blocks": 0,
+                      "Local Written Blocks": 0,
+                      "Temp Read Blocks": 0,
+                      "Temp Written Blocks": 0,
+                      "Plans": [
+                        {
+                          "Node Type": "Gather Merge",
+                          "Parent Relationship": "Outer",
+                          "Parallel Aware": false,
+                          "Async Capable": false,
+                          "Startup Cost": 1000.45,
+                          "Total Cost": 9344.17,
+                          "Plan Rows": 5380,
+                          "Plan Width": 18,
+                          "Actual Startup Time": 49.472,
+                          "Actual Total Time": 89.701,
+                          "Actual Rows": 36727,
+                          "Actual Loops": 1,
+                          "Workers Planned": 2,
+                          "Workers Launched": 2,
+                          "Shared Hit Blocks": 136973,
+                          "Shared Read Blocks": 0,
+                          "Shared Dirtied Blocks": 0,
+                          "Shared Written Blocks": 0,
+                          "Local Hit Blocks": 0,
+                          "Local Read Blocks": 0,
+                          "Local Dirtied Blocks": 0,
+                          "Local Written Blocks": 0,
+                          "Temp Read Blocks": 0,
+                          "Temp Written Blocks": 0,
+                          "Plans": [
+                            {
+                              "Node Type": "Aggregate",
+                              "Strategy": "Sorted",
+                              "Partial Mode": "Partial",
+                              "Parent Relationship": "Outer",
+                              "Parallel Aware": false,
+                              "Async Capable": false,
+                              "Startup Cost": 0.42,
+                              "Total Cost": 7723.17,
+                              "Plan Rows": 2690,
+                              "Plan Width": 18,
+                              "Actual Startup Time": 0.133,
+                              "Actual Total Time": 30.043,
+                              "Actual Rows": 12242,
+                              "Actual Loops": 3,
+                              "Group Key": [
+                                "contratos_procesados.nit_proveedor_clave"
+                              ],
+                              "Shared Hit Blocks": 136973,
+                              "Shared Read Blocks": 0,
+                              "Shared Dirtied Blocks": 0,
+                              "Shared Written Blocks": 0,
+                              "Local Hit Blocks": 0,
+                              "Local Read Blocks": 0,
+                              "Local Dirtied Blocks": 0,
+                              "Local Written Blocks": 0,
+                              "Temp Read Blocks": 0,
+                              "Temp Written Blocks": 0,
+                              "Workers": [],
+                              "Plans": [
+                                {
+                                  "Node Type": "Index Only Scan",
+                                  "Parent Relationship": "Outer",
+                                  "Parallel Aware": true,
+                                  "Async Capable": false,
+                                  "Scan Direction": "Forward",
+                                  "Index Name": "ix_cp_nit_nombre",
+                                  "Relation Name": "contratos_procesados",
+                                  "Alias": "contratos_procesados",
+                                  "Startup Cost": 0.42,
+                                  "Total Cost": 6762.96,
+                                  "Plan Rows": 186661,
+                                  "Plan Width": 10,
+                                  "Actual Startup Time": 0.076,
+                                  "Actual Total Time": 16.638,
+                                  "Actual Rows": 150019,
+                                  "Actual Loops": 3,
+                                  "Heap Fetches": 26,
+                                  "Shared Hit Blocks": 136973,
+                                  "Shared Read Blocks": 0,
+                                  "Shared Dirtied Blocks": 0,
+                                  "Shared Written Blocks": 0,
+                                  "Local Hit Blocks": 0,
+                                  "Local Read Blocks": 0,
+                                  "Local Dirtied Blocks": 0,
+                                  "Local Written Blocks": 0,
+                                  "Temp Read Blocks": 0,
+                                  "Temp Written Blocks": 0,
+                                  "Workers": []
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "Node Type": "Result",
+              "Parent Relationship": "SubPlan",
+              "Subplan Name": "SubPlan 2",
+              "Parallel Aware": false,
+              "Async Capable": false,
+              "Startup Cost": 0.49,
+              "Total Cost": 0.5,
+              "Plan Rows": 1,
+              "Plan Width": 32,
+              "Actual Startup Time": 0.018,
+              "Actual Total Time": 0.018,
+              "Actual Rows": 1,
+              "Actual Loops": 10,
+              "Shared Hit Blocks": 33,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0,
+              "Plans": [
+                {
+                  "Node Type": "Limit",
+                  "Parent Relationship": "InitPlan",
+                  "Subplan Name": "InitPlan 1 (returns $1)",
+                  "Parallel Aware": false,
+                  "Async Capable": false,
+                  "Startup Cost": 0.42,
+                  "Total Cost": 0.49,
+                  "Plan Rows": 1,
+                  "Plan Width": 13,
+                  "Actual Startup Time": 0.017,
+                  "Actual Total Time": 0.017,
+                  "Actual Rows": 1,
+                  "Actual Loops": 10,
+                  "Shared Hit Blocks": 33,
+                  "Shared Read Blocks": 0,
+                  "Shared Dirtied Blocks": 0,
+                  "Shared Written Blocks": 0,
+                  "Local Hit Blocks": 0,
+                  "Local Read Blocks": 0,
+                  "Local Dirtied Blocks": 0,
+                  "Local Written Blocks": 0,
+                  "Temp Read Blocks": 0,
+                  "Temp Written Blocks": 0,
+                  "Plans": [
+                    {
+                      "Node Type": "Index Only Scan",
+                      "Parent Relationship": "Outer",
+                      "Parallel Aware": false,
+                      "Async Capable": false,
+                      "Scan Direction": "Backward",
+                      "Index Name": "ix_cp_nit_nombre",
+                      "Relation Name": "contratos_procesados",
+                      "Alias": "contratos_procesados_1",
+                      "Startup Cost": 0.42,
+                      "Total Cost": 11.76,
+                      "Plan Rows": 167,
+                      "Plan Width": 13,
+                      "Actual Startup Time": 0.016,
+                      "Actual Total Time": 0.016,
+                      "Actual Rows": 1,
+                      "Actual Loops": 10,
+                      "Index Cond": "((nit_proveedor_clave = (anon_1.nit)::text) AND (proveedor_normalizado IS NOT NULL))",
+                      "Rows Removed by Index Recheck": 0,
+                      "Heap Fetches": 0,
+                      "Shared Hit Blocks": 33,
+                      "Shared Read Blocks": 0,
+                      "Shared Dirtied Blocks": 0,
+                      "Shared Written Blocks": 0,
+                      "Local Hit Blocks": 0,
+                      "Local Read Blocks": 0,
+                      "Local Dirtied Blocks": 0,
+                      "Local Written Blocks": 0,
+                      "Temp Read Blocks": 0,
+                      "Temp Written Blocks": 0
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "Planning": {
+          "Shared Hit Blocks": 0,
+          "Shared Read Blocks": 0,
+          "Shared Dirtied Blocks": 0,
+          "Shared Written Blocks": 0,
+          "Local Hit Blocks": 0,
+          "Local Read Blocks": 0,
+          "Local Dirtied Blocks": 0,
+          "Local Written Blocks": 0,
+          "Temp Read Blocks": 0,
+          "Temp Written Blocks": 0
+        },
+        "Planning Time": 0.468,
+        "Triggers": [],
+        "Execution Time": 101.591
+      }
+    ],
+    "semantics": "One SQL snapshot; valid NIT identity, full counts, same MAX(name), deterministic NIT tie order; no browser aggregation"
+  },
+  "deployed_http": {
+    "initial": {
+      "at_utc": "2026-10-06T06:59:09.363250+00:00",
+      "release": "c393935cf322d4e868ad3e74cc33362c1afcb011",
+      "search_total_2024": 1670370,
+      "search_page_items": 20,
+      "enabled_sources": 0,
+      "export": {
+        "status": "EXITOSO",
+        "bytes": 262,
+        "sha256": "bf43e24ec805c43e98dfbbdbc9039f6f96a06a4cc1a01b0ff3f49e5d01160905"
+      },
+      "result": "success",
+      "checks": [
+        {
+          "method": "GET",
+          "path": "/openapi.json",
+          "status": 200,
+          "seconds": 0.03658789998735301
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/me",
+          "status": 401,
+          "seconds": 0.001888300001155585
+        },
+        {
+          "method": "GET",
+          "path": "/api/ingesta/fuentes/",
+          "status": 401,
+          "seconds": 0.015807699994184077
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/login",
+          "status": 200,
+          "seconds": 2.145160699990811
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/me",
+          "status": 200,
+          "seconds": 0.04282919998513535
+        },
+        {
+          "method": "GET",
+          "path": "/api/ingesta/fuentes/",
+          "status": 200,
+          "seconds": 0.28446520000579767
+        },
+        {
+          "method": "GET",
+          "path": "/api/ingesta/fuentes/sincronizaciones/pagina",
+          "status": 200,
+          "seconds": 0.24821720001637004
+        },
+        {
+          "method": "GET",
+          "path": "/api/procesados/search",
+          "status": 200,
+          "seconds": 1.822959599987371
+        },
+        {
+          "method": "GET",
+          "path": "/api/procesados/9238198",
+          "status": 200,
+          "seconds": 0.03109589999075979
+        },
+        {
+          "method": "GET",
+          "path": "/api/procesados/metricas/calidad",
+          "status": 200,
+          "seconds": 1.1100173000013456
+        },
+        {
+          "method": "GET",
+          "path": "/api/procesados/search",
+          "status": 200,
+          "seconds": 0.024699500005226582
+        },
+        {
+          "method": "GET",
+          "path": "/api/procesados/search",
+          "status": 422,
+          "seconds": 0.014419500017538667
+        },
+        {
+          "method": "POST",
+          "path": "/api/procesados/export/csv/jobs",
+          "status": 202,
+          "seconds": 9.289269100001547
+        },
+        {
+          "method": "GET",
+          "path": "/api/exports/e612b99d-b13e-41fb-8944-025b406e4592",
+          "status": 200,
+          "seconds": 0.03531799998017959
+        },
+        {
+          "method": "GET",
+          "path": "/api/exports/e612b99d-b13e-41fb-8944-025b406e4592",
+          "status": 200,
+          "seconds": 0.003215199976693839
+        },
+        {
+          "method": "GET",
+          "path": "/api/exports/e612b99d-b13e-41fb-8944-025b406e4592",
+          "status": 200,
+          "seconds": 0.0034010999952442944
+        },
+        {
+          "method": "GET",
+          "path": "/api/exports/e612b99d-b13e-41fb-8944-025b406e4592",
+          "status": 200,
+          "seconds": 0.003139400010695681
+        },
+        {
+          "method": "GET",
+          "path": "/api/exports/e612b99d-b13e-41fb-8944-025b406e4592/download",
+          "status": 200,
+          "seconds": 0.02367729999241419
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/logout",
+          "status": 200,
+          "seconds": 0.007058999995933846
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/me",
+          "status": 401,
+          "seconds": 0.0034593000018503517
+        }
+      ]
+    },
+    "forward": {
+      "at_utc": "2026-10-06T07:42:10.028090+00:00",
+      "release": "9362d94f9dbfbdf352ae11585a2bfd44318b11e6",
+      "search_total_2024": 1670370,
+      "search_page_items": 20,
+      "enabled_sources": 0,
+      "export": null,
+      "result": "success",
+      "checks": [
+        {
+          "method": "GET",
+          "path": "/openapi.json",
+          "status": 200,
+          "seconds": 0.14693640000768937
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/me",
+          "status": 401,
+          "seconds": 0.01626370000303723
+        },
+        {
+          "method": "GET",
+          "path": "/api/ingesta/fuentes/",
+          "status": 401,
+          "seconds": 0.0017083999991882592
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/login",
+          "status": 200,
+          "seconds": 1.1311950999952387
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/me",
+          "status": 200,
+          "seconds": 0.008339399995747954
+        },
+        {
+          "method": "GET",
+          "path": "/api/ingesta/fuentes/",
+          "status": 200,
+          "seconds": 0.17604280001251027
+        },
+        {
+          "method": "GET",
+          "path": "/api/ingesta/fuentes/sincronizaciones/pagina",
+          "status": 200,
+          "seconds": 0.09555339999496937
+        },
+        {
+          "method": "GET",
+          "path": "/api/procesados/search",
+          "status": 200,
+          "seconds": 2.9076783999917097
+        },
+        {
+          "method": "GET",
+          "path": "/api/procesados/9238198",
+          "status": 200,
+          "seconds": 0.07268260000273585
+        },
+        {
+          "method": "GET",
+          "path": "/api/procesados/metricas/calidad",
+          "status": 200,
+          "seconds": 15.300117399980081
+        },
+        {
+          "method": "GET",
+          "path": "/api/procesados/search",
+          "status": 200,
+          "seconds": 0.2408100999891758
+        },
+        {
+          "method": "GET",
+          "path": "/api/procesados/search",
+          "status": 422,
+          "seconds": 0.02983789998688735
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/logout",
+          "status": 200,
+          "seconds": 0.009374399989610538
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/me",
+          "status": 401,
+          "seconds": 0.43466940001235344
+        }
+      ]
+    },
+    "rollback": {
+      "at_utc": "2026-10-06T07:45:51.124934+00:00",
+      "release": "0c065c4e034c2f4661fcf3a57892195bbaec6fcc",
+      "search_total_2024": 1670370,
+      "search_page_items": 20,
+      "enabled_sources": 0,
+      "export": null,
+      "result": "success",
+      "checks": [
+        {
+          "method": "GET",
+          "path": "/openapi.json",
+          "status": 200,
+          "seconds": 0.10103680001338944
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/me",
+          "status": 401,
+          "seconds": 0.026779599982546642
+        },
+        {
+          "method": "GET",
+          "path": "/api/ingesta/fuentes/",
+          "status": 401,
+          "seconds": 0.012488900014432147
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/login",
+          "status": 200,
+          "seconds": 0.3910584999830462
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/me",
+          "status": 200,
+          "seconds": 0.005818100005853921
+        },
+        {
+          "method": "GET",
+          "path": "/api/ingesta/fuentes/",
+          "status": 200,
+          "seconds": 0.008123899984639138
+        },
+        {
+          "method": "GET",
+          "path": "/api/ingesta/fuentes/sincronizaciones/pagina",
+          "status": 200,
+          "seconds": 0.012582800001837313
+        },
+        {
+          "method": "GET",
+          "path": "/api/procesados/search",
+          "status": 200,
+          "seconds": 5.681050499988487
+        },
+        {
+          "method": "GET",
+          "path": "/api/procesados/9238198",
+          "status": 200,
+          "seconds": 0.004365300002973527
+        },
+        {
+          "method": "GET",
+          "path": "/api/procesados/metricas/calidad",
+          "status": 200,
+          "seconds": 0.9258790999883786
+        },
+        {
+          "method": "GET",
+          "path": "/api/procesados/search",
+          "status": 200,
+          "seconds": 0.02671619999455288
+        },
+        {
+          "method": "GET",
+          "path": "/api/procesados/search",
+          "status": 422,
+          "seconds": 0.0019755999965127558
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/logout",
+          "status": 200,
+          "seconds": 0.007478000014089048
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/me",
+          "status": 401,
+          "seconds": 0.003575199982151389
+        }
+      ]
+    },
+    "recovered": {
+      "at_utc": "2026-10-06T07:21:39.414902+00:00",
+      "release": "66c760704d4413286f388c92cc54043f6e4b5f06",
+      "search_total_2024": 1670370,
+      "search_page_items": 20,
+      "enabled_sources": 0,
+      "export": {
+        "status": "EXITOSO",
+        "bytes": 262,
+        "sha256": "bf43e24ec805c43e98dfbbdbc9039f6f96a06a4cc1a01b0ff3f49e5d01160905"
+      },
+      "result": "success",
+      "checks": [
+        {
+          "method": "GET",
+          "path": "/openapi.json",
+          "status": 200,
+          "seconds": 0.004157699993811548
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/me",
+          "status": 401,
+          "seconds": 0.0018016999820247293
+        },
+        {
+          "method": "GET",
+          "path": "/api/ingesta/fuentes/",
+          "status": 401,
+          "seconds": 0.0015949999797157943
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/login",
+          "status": 200,
+          "seconds": 0.37124429998220876
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/me",
+          "status": 200,
+          "seconds": 0.005356399982701987
+        },
+        {
+          "method": "GET",
+          "path": "/api/ingesta/fuentes/",
+          "status": 200,
+          "seconds": 0.009011700021801516
+        },
+        {
+          "method": "GET",
+          "path": "/api/ingesta/fuentes/sincronizaciones/pagina",
+          "status": 200,
+          "seconds": 0.01208240000414662
+        },
+        {
+          "method": "GET",
+          "path": "/api/procesados/search",
+          "status": 200,
+          "seconds": 0.12462300001061521
+        },
+        {
+          "method": "GET",
+          "path": "/api/procesados/9238198",
+          "status": 200,
+          "seconds": 0.004234299995005131
+        },
+        {
+          "method": "GET",
+          "path": "/api/procesados/metricas/calidad",
+          "status": 200,
+          "seconds": 0.9174831999989692
+        },
+        {
+          "method": "GET",
+          "path": "/api/procesados/search",
+          "status": 200,
+          "seconds": 0.0038765999779570848
+        },
+        {
+          "method": "GET",
+          "path": "/api/procesados/search",
+          "status": 422,
+          "seconds": 0.001963600021554157
+        },
+        {
+          "method": "POST",
+          "path": "/api/procesados/export/csv/jobs",
+          "status": 202,
+          "seconds": 0.11123080001561902
+        },
+        {
+          "method": "GET",
+          "path": "/api/exports/bd1d7285-55fa-4090-9d40-179f2e043546",
+          "status": 200,
+          "seconds": 0.005444600014016032
+        },
+        {
+          "method": "GET",
+          "path": "/api/exports/bd1d7285-55fa-4090-9d40-179f2e043546",
+          "status": 200,
+          "seconds": 0.0033460000122431666
+        },
+        {
+          "method": "GET",
+          "path": "/api/exports/bd1d7285-55fa-4090-9d40-179f2e043546",
+          "status": 200,
+          "seconds": 0.0033610000100452453
+        },
+        {
+          "method": "GET",
+          "path": "/api/exports/bd1d7285-55fa-4090-9d40-179f2e043546",
+          "status": 200,
+          "seconds": 0.0033768000139389187
+        },
+        {
+          "method": "GET",
+          "path": "/api/exports/bd1d7285-55fa-4090-9d40-179f2e043546/download",
+          "status": 200,
+          "seconds": 0.0049647000269033015
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/logout",
+          "status": 200,
+          "seconds": 0.007056500006001443
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/me",
+          "status": 401,
+          "seconds": 0.0038665000174660236
+        }
+      ]
+    },
+    "final": {
+      "at_utc": "2026-10-06T07:52:03.054554+00:00",
+      "release": "9362d94f9dbfbdf352ae11585a2bfd44318b11e6",
+      "search_total_2024": 1670370,
+      "search_page_items": 20,
+      "enabled_sources": 0,
+      "export": {
+        "status": "EXITOSO",
+        "bytes": 262,
+        "sha256": "bf43e24ec805c43e98dfbbdbc9039f6f96a06a4cc1a01b0ff3f49e5d01160905"
+      },
+      "result": "success",
+      "checks": [
+        {
+          "method": "GET",
+          "path": "/openapi.json",
+          "status": 200,
+          "seconds": 0.004083999985596165
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/me",
+          "status": 401,
+          "seconds": 0.010379000013926998
+        },
+        {
+          "method": "GET",
+          "path": "/api/ingesta/fuentes/",
+          "status": 401,
+          "seconds": 0.005505199980689213
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/login",
+          "status": 200,
+          "seconds": 0.38611069999751635
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/me",
+          "status": 200,
+          "seconds": 0.005818899982841685
+        },
+        {
+          "method": "GET",
+          "path": "/api/ingesta/fuentes/",
+          "status": 200,
+          "seconds": 0.008880000008502975
+        },
+        {
+          "method": "GET",
+          "path": "/api/ingesta/fuentes/sincronizaciones/pagina",
+          "status": 200,
+          "seconds": 0.012031000020215288
+        },
+        {
+          "method": "GET",
+          "path": "/api/procesados/search",
+          "status": 200,
+          "seconds": 0.17341180000221357
+        },
+        {
+          "method": "GET",
+          "path": "/api/procesados/9238198",
+          "status": 200,
+          "seconds": 0.004062199994223192
+        },
+        {
+          "method": "GET",
+          "path": "/api/procesados/metricas/calidad",
+          "status": 200,
+          "seconds": 0.9094669000187423
+        },
+        {
+          "method": "GET",
+          "path": "/api/procesados/search",
+          "status": 200,
+          "seconds": 0.003788000001804903
+        },
+        {
+          "method": "GET",
+          "path": "/api/procesados/search",
+          "status": 422,
+          "seconds": 0.0019589999865274876
+        },
+        {
+          "method": "POST",
+          "path": "/api/procesados/export/csv/jobs",
+          "status": 202,
+          "seconds": 19.890759500005515
+        },
+        {
+          "method": "GET",
+          "path": "/api/exports/bc4badf0-1c09-4d35-bc24-7bc01f6b7fdc",
+          "status": 200,
+          "seconds": 0.05098339999676682
+        },
+        {
+          "method": "GET",
+          "path": "/api/exports/bc4badf0-1c09-4d35-bc24-7bc01f6b7fdc",
+          "status": 200,
+          "seconds": 0.0031658000079914927
+        },
+        {
+          "method": "GET",
+          "path": "/api/exports/bc4badf0-1c09-4d35-bc24-7bc01f6b7fdc",
+          "status": 200,
+          "seconds": 0.003320399991935119
+        },
+        {
+          "method": "GET",
+          "path": "/api/exports/bc4badf0-1c09-4d35-bc24-7bc01f6b7fdc",
+          "status": 200,
+          "seconds": 0.0032016000186558813
+        },
+        {
+          "method": "GET",
+          "path": "/api/exports/bc4badf0-1c09-4d35-bc24-7bc01f6b7fdc",
+          "status": 200,
+          "seconds": 0.003242800012230873
+        },
+        {
+          "method": "GET",
+          "path": "/api/exports/bc4badf0-1c09-4d35-bc24-7bc01f6b7fdc/download",
+          "status": 200,
+          "seconds": 0.06057220001821406
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/logout",
+          "status": 200,
+          "seconds": 0.02229090000037104
+        },
+        {
+          "method": "GET",
+          "path": "/api/auth/me",
+          "status": 401,
+          "seconds": 0.003720000007888302
+        }
+      ]
+    }
+  },
+  "browser": {
+    "client": "Real in-app browser with compiled frontend and separate actual API/worker processes",
+    "search_2024": {
+      "total": 1670370,
+      "page": 1,
+      "page_items": 20
+    },
+    "cancel": {
+      "method": "Short ACCESS EXCLUSIVE lock only on integration; next-page request pending, browser back cancels it, lock released, current page 1 remains visible",
+      "observed_disconnect": {
+        "at_utc": "2026-10-06T07:19:23.625103+00:00",
+        "event": "http.disconnect",
+        "method": "GET",
+        "path": "/api/procesados/search"
+      },
+      "limit": "Abort observed during a pending query; delayed-response suppression also has a separate frontend unit test; this does not claim PostgreSQL query cancellation on every browser abort"
+    },
+    "empty_filter": "ALTO_RIESGO: Total 0, explanatory state, three download controls disabled",
+    "network_failure_recovery": "Stopped integration produced Network Error; restarting and reloading restored actual results",
+    "session": "Actual login, admin source inactive, reload, logout, back remains at login; HTTP bearer rejected after logout",
+    "final_dashboard": "9,249,545 contracts, historical cut banner and top suppliers rendered",
+    "limits": "Date range validated through visible URL and actual API; provider date fill did not reliably emit React input events, so manual native date typing is not claimed"
+  },
+  "reversal": {
+    "scope": "Actual application rollback and forward recovery; additive database index retained; no downgrade or reload",
+    "steps": {
+      "rollback": {
+        "at_utc": "2026-10-06T07:45:51.210538+00:00",
+        "release": "0c065c4e034c2f4661fcf3a57892195bbaec6fcc",
+        "revision": "f4826b9d1c30",
+        "valid_contract_indexes": 20,
+        "result": "success",
+        "enabled_sources": 0
+      },
+      "recovered": {
+        "at_utc": "2026-10-06T07:52:03.138619+00:00",
+        "release": "9362d94f9dbfbdf352ae11585a2bfd44318b11e6",
+        "revision": "f4826b9d1c30",
+        "valid_contract_indexes": 20,
+        "result": "success",
+        "enabled_sources": 0
+      }
+    },
+    "method": "Graceful quiescence, all three processes confirmed stopped before each pointer/bundle-manifest switch; old and new applications use same ordinary role and compatible additive schema; no downgrade"
+  },
+  "recovery": {
+    "scope": "Independent restore of mutable integration control state and verification of preserved export files; base 9,249,545-row cut relies on previously verified full backup/restore, not a repeated full restore",
+    "started_at_utc": "2026-10-06T07:52:27.243057+00:00",
+    "completed_at_utc": "2026-10-06T07:52:51.008896+00:00",
+    "revision": "f4826b9d1c30",
+    "release": "9362d94f9dbfbdf352ae11585a2bfd44318b11e6",
+    "dump_bytes": 14274,
+    "dump_sha256": "a4417cdafbc4f5cc0d5fa9636f022ef1c5a67712f4410f06c033598e11149119",
+    "source_state": {
+      "admins": {
+        "count": 1,
+        "fingerprint": "3098604544521fa5fe29cb75be299e89"
+      },
+      "admin_sessions": {
+        "count": 10,
+        "fingerprint": "6162f145f64e1f157e7f819a4c80b770"
+      },
+      "fuentes_datos": {
+        "count": 1,
+        "fingerprint": "0db93ff79295d4516f17423832ca0670"
+      },
+      "background_jobs": {
+        "count": 101,
+        "fingerprint": "a6a76c43d127335224a09b49c17ac51f"
+      }
+    },
+    "restored_state": {
+      "admins": {
+        "count": 1,
+        "fingerprint": "3098604544521fa5fe29cb75be299e89"
+      },
+      "admin_sessions": {
+        "count": 10,
+        "fingerprint": "6162f145f64e1f157e7f819a4c80b770"
+      },
+      "fuentes_datos": {
+        "count": 1,
+        "fingerprint": "0db93ff79295d4516f17423832ca0670"
+      },
+      "background_jobs": {
+        "count": 101,
+        "fingerprint": "a6a76c43d127335224a09b49c17ac51f"
+      }
+    },
+    "preserved_artifacts": [
+      {
+        "name": "75f62f5f-f8ba-41e7-8853-046941c41a8f.csv",
+        "bytes": 262,
+        "sha256": "bf43e24ec805c43e98dfbbdbc9039f6f96a06a4cc1a01b0ff3f49e5d01160905"
+      },
+      {
+        "name": "8098c84f-011c-4166-817d-b6ae90cf5c88.csv",
+        "bytes": 262,
+        "sha256": "bf43e24ec805c43e98dfbbdbc9039f6f96a06a4cc1a01b0ff3f49e5d01160905"
+      },
+      {
+        "name": "8f05e322-453a-42a1-ad6c-4431b2854804.csv",
+        "bytes": 262,
+        "sha256": "bf43e24ec805c43e98dfbbdbc9039f6f96a06a4cc1a01b0ff3f49e5d01160905"
+      }
+    ],
+    "private_configuration_backup": {
+      "runtime.env": {
+        "bytes": 709,
+        "sha256": "3e8c3c2df474c04eb9f64f0901da7095bd46779a4e04be30f2965444485acb6b"
+      },
+      "acceso-local.txt": {
+        "bytes": 117,
+        "sha256": "4f2035bf002baf46e98ce0a5c5ffd735a177bdfff09b1c8879ea62bf92647cff"
+      },
+      "provision.json": {
+        "bytes": 2183,
+        "sha256": "c5746d41d636b48c109d4ce407aa53fff0157f94c341683bb2a5f96c94cbf346"
+      },
+      "runtime.json": {
+        "bytes": 1659,
+        "sha256": "539e3a4d01c1743ca0a357ca7ecf347645636c0249f929f49570e92aea619461"
+      },
+      "release.json": {
+        "bytes": 902,
+        "sha256": "12cc6f057c9500cf2bec0081ae2badf42368e94dfd62d632fb3fafa6b72958de"
+      },
+      "frontend-build.json": {
+        "bytes": 6388,
+        "sha256": "b554e26f5c333cf9f61d0af1c7ae243e7c43406c5df8335d9d9bbbc123c8f06e"
+      }
+    },
+    "restored_sequences": {
+      "admins": {
+        "restored_maximum": 2,
+        "next_id_verified": 3
+      },
+      "fuentes_datos": {
+        "restored_maximum": 1,
+        "next_id_verified": 2
+      },
+      "background_jobs": {
+        "restored_maximum": 102,
+        "next_id_verified": 103
+      }
+    },
+    "restored_account_login_and_logout": "passed",
+    "primary_state_unchanged": true,
+    "temporary_restore_removed": true,
+    "temporary_restore_database_bytes": 9387367,
+    "persisted_local_account_failure_restored_from_independent_copy": true,
+    "replayed_tables": [
+      "admins",
+      "admin_sessions",
+      "fuentes_datos",
+      "background_jobs"
+    ],
+    "base_contract_tables_rewritten": false
+  },
+  "historical_full_backup": {
+    "evidence": "RESPALDO_RESTAURACION_SECOP_20261003.json",
+    "bytes": 3434770306,
+    "sha256": "c0e885928126013d87c234320392d18e5d4d441c9e1d520b97557e447d8be02f",
+    "scope": "Full 9,249,545-row independent restore verified on Oct 3; hash verified again before local copy on Oct 6. Reused proof, not another full restore today"
+  },
+  "postflight": {
+    "at_utc": "2026-10-06T07:42:38.207059+00:00",
+    "scope": "Read-only independent postflight; no operational promotion or repeated transformation",
+    "plataformaanticorrupcion": {
+      "port": 5432,
+      "revision": "c7e3a91b5d24",
+      "counts": {
+        "raw_secop": 18980,
+        "contratos_procesados": 18980
+      }
+    },
+    "plataforma_secop_refresh_20261001_test": {
+      "port": 5433,
+      "revision": "d2804c8b39a1",
+      "counts": {
+        "raw_secop": 9249545,
+        "contratos_procesados": 9249545
+      },
+      "first_5000_raw_fingerprint": "c41852d1b34d622b428f259ade24d7c2",
+      "anomaly_rows": 129062,
+      "analytics": 4,
+      "valid_contract_indexes": 18
+    },
+    "plataforma_integracion_local": {
+      "port": 5433,
+      "revision": "f4826b9d1c30",
+      "counts": {
+        "raw_secop": 9249545,
+        "contratos_procesados": 9249545
+      },
+      "first_5000_raw_fingerprint": "c41852d1b34d622b428f259ade24d7c2",
+      "anomaly_rows": 129062,
+      "analytics": 4,
+      "valid_contract_indexes": 20,
+      "role_flags": {
+        "rolsuper": false,
+        "rolcreatedb": false,
+        "rolcreaterole": false,
+        "rolreplication": false
+      },
+      "active_jobs": 0,
+      "sources_enabled_or_with_keys": 0
+    },
+    "logs_secret_scan": {
+      "scanned_files": 6,
+      "plaintext_secret_matches": 0,
+      "jwt_shaped_matches": 0
+    },
+    "free_disk_bytes": 124877639680,
+    "logs_scan_at_utc": "2026-10-06T08:14:19.495264+00:00"
+  },
+  "ci": {
+    "head": "9362d94f9dbfbdf352ae11585a2bfd44318b11e6",
+    "runs": [
+      {
+        "id": 37430776175,
+        "event": "pull_request",
+        "conclusion": "success"
+      },
+      {
+        "id": 37430770866,
+        "event": "push",
+        "conclusion": "success"
+      }
+    ],
+    "backend": "263 passed in 31.79s, dependency audit no known vulnerabilities",
+    "frontend": "6 passed, clean npm ci, lint, build and audit zero vulnerabilities; local historical-label build independently completed"
+  },
+  "egress": {
+    "result": "pending",
+    "reason": "Windows administrator elevation failed with InvalidOperationException; no rules confirmed applied",
+    "prepared_rules": 6,
+    "baseline": {
+      "stage": "baseline",
+      "at_utc": "2026-10-06T06:20:07.356800+00:00",
+      "nonapproved_public_tcp_443_reachable": true,
+      "local_postgresql_tcp_reachable": true,
+      "approved_ip_tcp_443_reachable": true,
+      "official_https_status": 200,
+      "official_https_valid_json": true
+    },
+    "limit": "Resolved-IP snapshot expires after 30 minutes; approved host URL and DNS validation also remain in application"
+  },
+  "unused_release_cleanup": {
+    "release": "6c63b309a278",
+    "logical_bytes": 190010452,
+    "metadata_references": 0,
+    "git_source_preserved": true,
+    "operational_data_deleted": false,
+    "stage": "blocked_by_automatic_approval_review",
+    "reason_returned": "blocked by policy",
+    "deleted": false
+  },
+  "closed_plan_items": [
+    "P02",
+    "P10",
+    "P18"
+  ],
+  "remaining_plan_items": [
+    "P01",
+    "P05",
+    "P06",
+    "P12",
+    "P14",
+    "P15",
+    "P16",
+    "P19"
+  ],
+  "screenshots": {
+    "INTEGRACION_LOCAL_20261006.jpg": {
+      "bytes": 65356,
+      "sha256": "399388d3d771b62017baaa237efc268d6efd3102f17dfd755243a1d9d1d1a42e"
+    },
+    "INTEGRACION_LOCAL_VACIO_20261006.jpg": {
+      "bytes": 70654,
+      "sha256": "aafcc56008ee1e80e6f77401aa515ac46e88641c156c4558507295c0f240d59c"
+    },
+    "INTEGRACION_LOCAL_ERROR_20261006.jpg": {
+      "bytes": 47796,
+      "sha256": "73549e44af64d80d130fbb5e6d2322bd5f251c59d37b3f013495a710f234b6f8"
+    }
+  }
+}
