@@ -82,6 +82,11 @@ export const PublicNavbar: React.FC = () => {
           </button>
         </nav>
       </div>
+      {import.meta.env.VITE_DATA_CONTEXT && (
+        <p className="border-t border-amber-200 bg-amber-50 px-6 py-2 text-center text-sm text-amber-900">
+          {import.meta.env.VITE_DATA_CONTEXT}
+        </p>
+      )}
     </header>
   );
 };

@@ -444,15 +444,22 @@ class TransformacionRepository:
 
     def get_top_providers(self, limit: int) -> list[dict]:
         nit_identidad = ContratoProcesado.nit_proveedor_clave
-        rows = self.session.query(
-            nit_identidad,
-            func.max(ContratoProcesado.proveedor_normalizado),
-            func.count(ContratoProcesado.id),
+        ranking = self.session.query(
+            nit_identidad.label("nit"),
+            func.count().label("contracts"),
         ).filter(
             nit_identidad.is_not(None),
         ).group_by(nit_identidad).order_by(
-            func.count(ContratoProcesado.id).desc()
-        ).limit(limit).all()
+            func.count().desc(), nit_identidad,
+        ).limit(limit).subquery()
+        # Count through the existing NIT index; read names only for selected groups.
+        # A correlated aggregate preserves MAX(name) and one statement/snapshot.
+        name = self.session.query(func.max(ContratoProcesado.proveedor_normalizado)).filter(
+            nit_identidad == ranking.c.nit,
+        ).correlate(ranking).scalar_subquery()
+        rows = self.session.query(ranking.c.nit, name, ranking.c.contracts).order_by(
+            ranking.c.contracts.desc(), ranking.c.nit,
+        ).all()
         return [{"nit": nit, "name": name or nit, "contracts": count} for nit, name, count in rows]
 
     def autocomplete(self, query: str, limit: int) -> list[dict]:

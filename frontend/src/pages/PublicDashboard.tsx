@@ -69,7 +69,7 @@ export const PublicDashboard: React.FC = () => {
   const activeRequest = useRef<AbortController | null>(null);
 
   const loadData = useCallback(async () => {
-    activeRequest.current?.abort();
+    if (activeRequest.current) return;
     const controller = new AbortController();
     activeRequest.current = controller;
     try {
@@ -131,7 +131,7 @@ export const PublicDashboard: React.FC = () => {
         <div className="mb-16 text-center max-w-3xl mx-auto">
           <div className="inline-flex items-center gap-2 bg-indigo-50 border border-indigo-100 px-4 py-2 rounded-full text-indigo-600 text-[10px] font-black uppercase tracking-widest mb-6 shadow-sm">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            Sistema Activo · Datos en Tiempo Real
+            Sistema Activo · Datos Públicos
           </div>
           <h1 className="text-6xl font-black text-indigo-950 tracking-tighter mb-5 leading-[1.05]">
             Dashboard de{' '}
@@ -140,12 +140,12 @@ export const PublicDashboard: React.FC = () => {
             </span>
           </h1>
           <p className="text-lg text-slate-500 font-medium leading-relaxed max-w-2xl mx-auto">
-            Monitoreo en tiempo real del sistema de contratación pública. Detectamos anomalías,
-            evaluamos riesgos y garantizamos la integridad de los datos.
+            Consulta del sistema de contratación pública. Detectamos anomalías,
+            evaluamos riesgos y analizamos la calidad de los datos.
           </p>
           {lastUpdated && (
             <p className="mt-4 text-[11px] font-bold text-slate-400 uppercase tracking-widest">
-              Última actualización: {lastUpdated.toLocaleTimeString('es-ES')} · Actualiza cada 60s
+              Consulta actualizada: {lastUpdated.toLocaleTimeString('es-ES')} · Revisa cada 60s
             </p>
           )}
         </div>
