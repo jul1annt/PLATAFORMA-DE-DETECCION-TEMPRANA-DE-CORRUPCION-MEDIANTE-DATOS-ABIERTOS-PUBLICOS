@@ -28,3 +28,9 @@ Los percentiles son de rango más próximo. Los umbrales de tiempos y memoria so
 ## Condición de cierre
 
 Mantener P16 abierto hasta acordar el perfil y los límites, obtener la evidencia que cubra ese perfil y cotejar resultados, latencias, recursos, fallos y exclusión de workers. Una aprobación de esta propuesta no cierra P01, P10 ni P18, que requieren sus pruebas de integración y despliegue.
+
+## Evidencia adicional de integración — 2026-10-06
+
+El [ensayo HTTP local](CARGA_HTTP_INTEGRACION_LOCAL_20261006.md) mantuvo ocho clientes consultando continuamente cuatro rutas sobre la integración elegida en este equipo. Hubo 842/842 respuestas correctas en 122,32 s, pero la búsqueda de 2024 alcanzó p95 **1,100 s**, superior a la propuesta de 1 s para búsqueda. Calidad global tuvo p95 **6,195 s** y proveedores **1,087 s**; sus umbrales aún no están definidos. El ensayo anterior por rondas y este circuito cerrado son perfiles distintos.
+
+El resultado no aprueba ni ajusta automáticamente los umbrales. Antes del cierre debe fijarse el perfil exigido y, si se acepta el límite de búsqueda propuesto para este tráfico continuo, optimizar y comprobar su cumplimiento. El observador inicial omitió los hijos Python reales; la repetición breve descrita en el mismo informe corrigió ese alcance y registró 856/856 respuestas correctas. Las 27 muestras incluyeron al menos diez procesos de aplicación, con máximo privado muestreado de 207,34 MiB; junto con los backends PostgreSQL visibles, 307,32 MiB. PostgreSQL sigue sin abarcar todo el clúster y no se acredita un máximo continuo. Búsqueda p95 fue 1,044 s, todavía superior a la propuesta. También faltan los escenarios conjuntos que exija el responsable para carga inicial, reproceso con cambios y fallos. La evidencia HTTP y las huellas preservadas se reutilizarán; no se debe repetir una carga completa por defecto.
