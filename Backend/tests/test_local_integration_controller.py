@@ -6,7 +6,7 @@ from http.server import ThreadingHTTPServer
 
 import pytest
 
-from scripts.local_integration import alive, frontend_handler, inside, process_stamp, verify_files
+from scripts.local_integration import alive, frontend_handler, inside, process_stamp, verify_files, validate_database_identity
 
 
 def test_owned_process_requires_the_original_creation_stamp():
@@ -37,6 +37,22 @@ def test_artifact_integrity_rejects_modified_and_external_files(tmp_path):
         verify_files(directory, [dict(item, path='../outside.js')])
     with pytest.raises(RuntimeError):
         verify_files(directory, [])
+
+
+def test_database_identity_checks_role_oid_schema_and_privileges():
+    provision = {'target_database_oid': 123, 'source_revision':'source', 'deployed_revision':'deployed'}
+    expected = ('plataforma_integracion_local',5433,'plataforma_integracion',123,'deployed')
+    flags = dict.fromkeys(('rolsuper','rolcreatedb','rolcreaterole','rolreplication'),False)
+    validate_database_identity(expected, flags, provision)
+    for position, replacement in ((0,'plataformaanticorrupcion'),(1,5432),(2,'postgres'),(3,124),(4,'source')):
+        changed = list(expected); changed[position] = replacement
+        with pytest.raises(RuntimeError):
+            validate_database_identity(tuple(changed), flags, provision)
+    for flag in flags:
+        with pytest.raises(RuntimeError):
+            validate_database_identity(expected, dict(flags, **{flag:True}), provision)
+    with pytest.raises(RuntimeError):
+        validate_database_identity(expected, {}, provision)
 
 
 def test_spa_routes_and_assets_never_expose_parent_credentials(tmp_path):

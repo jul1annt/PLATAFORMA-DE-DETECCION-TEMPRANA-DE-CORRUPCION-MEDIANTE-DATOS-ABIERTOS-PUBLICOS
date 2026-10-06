@@ -115,11 +115,22 @@ def active_jobs(root):
     try:
         with engine.connect() as db:
             db.execute(text('SET TRANSACTION READ ONLY'))
-            if tuple(db.execute(text('SELECT current_database(),inet_server_port()')).one()) != ('plataforma_integracion_local', 5433):
-                raise RuntimeError('El destino de control no coincide')
+            identity = tuple(db.execute(text('SELECT current_database(),inet_server_port(),current_user,'
+                                            '(SELECT oid FROM pg_database WHERE datname=current_database()),'
+                                            '(SELECT version_num FROM alembic_version)')).one())
+            flags = dict(db.execute(text('SELECT rolsuper,rolcreatedb,rolcreaterole,rolreplication '
+                                         'FROM pg_roles WHERE rolname=current_user')).mappings().one())
+            validate_database_identity(identity, flags, read_json(root / 'provision.json'))
             return db.execute(text('SELECT count(*) FROM background_jobs WHERE active')).scalar_one()
     finally:
         engine.dispose()
+
+
+def validate_database_identity(identity, flags, provision):
+    expected = ('plataforma_integracion_local', 5433, 'plataforma_integracion',
+                provision['target_database_oid'], provision.get('deployed_revision', provision['source_revision']))
+    if identity != expected or set(flags) != {'rolsuper', 'rolcreatedb', 'rolcreaterole', 'rolreplication'} or any(value is not False for value in flags.values()):
+        raise RuntimeError('La identidad, revisión o permisos del destino no coinciden')
 
 
 def frontend_handler(directory):
@@ -210,9 +221,12 @@ def supervise(root):
                                      creationflags=subprocess.CREATE_NO_WINDOW if os.name == 'nt' else 0)
             children[name] = child
             state['components'][name] = {'pid': child.pid, 'stamp': process_stamp(child.pid)}
+            atomic_json(state_path, state)
         ready = False
         deadline = time.monotonic() + 90
         while time.monotonic() < deadline:
+            if (root / 'stop-all').exists():
+                raise RuntimeError('Se solicitó cierre durante el inicio')
             if any(child.poll() is not None for child in children.values()):
                 raise RuntimeError('Un componente terminó antes de estar disponible')
             try:
@@ -281,6 +295,7 @@ def main():
     for port in (8000, 4173):
         with socket.socket() as probe:
             probe.bind(('127.0.0.1', port))
+    active_jobs(root)  # Validate live DB identity/role; queued jobs may be recovered on start.
     python = inside(root / 'runtime', read_json(root / 'runtime.json')['python'])
     with (root / 'logs-supervisor.log').open('a', encoding='utf-8') as output:
         subprocess.Popen([str(python), str(Path(__file__).resolve()), '--root', str(root), 'supervise'],

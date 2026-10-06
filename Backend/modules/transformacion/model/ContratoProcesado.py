@@ -57,4 +57,9 @@ class ContratoProcesado(Base):
     __table_args__ = (
         Index("ix_cp_entidad_fecha", "entidad_normalizada", "fecha_publicacion_normalizada"),
         Index("ix_cp_tipo_valor",    "tipo_contrato_normalizado", "valor_total_normalizado"),
+        Index(
+            "ix_cp_metricas_cover",
+            "es_incompleto", "es_sospechoso", "clasificacion_riesgo", "nivel_confianza",
+            postgresql_include=["id"],
+        ),
     )
