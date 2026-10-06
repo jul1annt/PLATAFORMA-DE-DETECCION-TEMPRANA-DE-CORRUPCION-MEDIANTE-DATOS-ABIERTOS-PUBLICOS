@@ -1,4 +1,5 @@
 import http.client
+import asyncio
 import hashlib
 import os
 import threading
@@ -6,7 +7,7 @@ from http.server import ThreadingHTTPServer
 
 import pytest
 
-from scripts.local_integration import alive, frontend_handler, inside, process_stamp, verify_files, validate_database_identity
+from scripts.local_integration import alive, frontend_handler, inside, process_stamp, verify_files, validate_database_identity, observe_disconnects
 
 
 def test_owned_process_requires_the_original_creation_stamp():
@@ -53,6 +54,44 @@ def test_database_identity_checks_role_oid_schema_and_privileges():
             validate_database_identity(expected, dict(flags, **{flag:True}), provision)
     with pytest.raises(RuntimeError):
         validate_database_identity(expected, {}, provision)
+
+
+def test_optional_http_trace_forwards_body_and_never_records_secrets(tmp_path):
+    async def exercise():
+        incoming = asyncio.Queue(); release = asyncio.Event(); body_received = asyncio.Event()
+        body = {'type':'http.request','body':b'private-body','more_body':False}
+        await incoming.put(body)
+        async def application(scope, receive, send):
+            assert await receive() == body
+            body_received.set()
+            await release.wait()
+            await send({'type':'http.response.start','status':200,'headers':[]})
+        sent = []
+        async def send(message): sent.append(message)
+        audit = tmp_path/'disconnect.jsonl'
+        wrapped = observe_disconnects(application,audit)
+        task = asyncio.create_task(wrapped({'type':'http','method':'GET','path':'/api/procesados/search',
+                                           'query_string':b'password=private-query',
+                                           'headers':[(b'authorization',b'private-token')]},incoming.get,send))
+        await body_received.wait()
+        await incoming.put({'type':'http.disconnect'})
+        for _ in range(100):
+            if audit.exists(): break
+            await asyncio.sleep(.001)
+        text = audit.read_text()
+        assert 'http.disconnect' in text and '/api/procesados/search' in text
+        assert 'private-' not in text and 'authorization' not in text
+        release.set(); await task
+        assert sent[0]['status'] == 200
+    asyncio.run(exercise())
+
+
+def test_optional_http_trace_preserves_lifespan_scope(tmp_path):
+    async def application(scope, receive, send):
+        return scope['type']
+    assert asyncio.run(observe_disconnects(application,tmp_path/'unused.jsonl')(
+        {'type':'lifespan'},None,None)) == 'lifespan'
+    assert not (tmp_path/'unused.jsonl').exists()
 
 
 def test_spa_routes_and_assets_never_expose_parent_credentials(tmp_path):

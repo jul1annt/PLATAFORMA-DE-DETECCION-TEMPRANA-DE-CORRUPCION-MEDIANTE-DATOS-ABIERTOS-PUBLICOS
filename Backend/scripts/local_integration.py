@@ -1,5 +1,7 @@
 """Run the separately provisioned local integration release, with guarded stop."""
 import argparse
+import asyncio
+from contextlib import suppress
 import ctypes
 import hashlib
 import json
@@ -160,6 +162,44 @@ def frontend_handler(directory):
     return FrontendHandler
 
 
+def observe_disconnects(application, audit_path):
+    """Optional local acceptance trace; never record headers, queries or bodies."""
+    async def observed(scope, receive, send):
+        if scope['type'] != 'http':
+            return await application(scope, receive, send)
+        messages = asyncio.Queue()
+        async def pump():
+            while True:
+                try:
+                    message = await receive()
+                except Exception as exc:
+                    await messages.put(exc); return
+                await messages.put(message)
+                if message['type'] == 'http.disconnect':
+                    event = {'at_utc':datetime.now(timezone.utc).isoformat(),
+                             'event':'http.disconnect','method':scope.get('method'),
+                             'path':scope.get('path')}
+                    try:
+                        with audit_path.open('a',encoding='utf-8') as output:
+                            output.write(json.dumps(event)+'\n')
+                    except OSError:
+                        logging.warning('No se pudo registrar la desconexión local')
+                    return
+        async def forwarded_receive():
+            message = await messages.get()
+            if isinstance(message, Exception):
+                raise message
+            return message
+        monitor = asyncio.create_task(pump())
+        try:
+            return await application(scope, forwarded_receive, send)
+        finally:
+            monitor.cancel()
+            with suppress(asyncio.CancelledError):
+                await monitor
+    return observed
+
+
 def component(root, name):
     _release, backend, frontend, _python, _env = configuration(root)
     sys.path.insert(0, str(backend))
@@ -167,7 +207,11 @@ def component(root, name):
     stop = root / f'stop-{name}'
     if name == 'api':
         import uvicorn
-        server = uvicorn.Server(uvicorn.Config('main:app', host='127.0.0.1', port=8000,
+        from importlib import import_module
+        application = import_module('main').app
+        if (root / 'audit-http-disconnect').exists():
+            application = observe_disconnects(application, root / 'http-disconnect.jsonl')
+        server = uvicorn.Server(uvicorn.Config(application, host='127.0.0.1', port=8000,
                                                access_log=False, log_level='info'))
         def stop_api():
             while not stop.exists():
