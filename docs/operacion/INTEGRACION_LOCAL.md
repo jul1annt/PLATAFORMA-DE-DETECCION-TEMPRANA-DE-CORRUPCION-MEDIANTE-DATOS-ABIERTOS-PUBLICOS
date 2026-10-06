@@ -48,3 +48,13 @@ Después de reiniciar Windows, PostgreSQL debe iniciarse con el directorio del c
 La reversa cambia artefactos después de cerrar los servicios y verificar compatibilidad con la revisión Alembic de la base. No ejecutar un downgrade de esquema rutinario. Conservar las credenciales y cola de esta integración durante el cambio. El ensayo debe registrar versiones, hashes, estado de cola, revisión, consultas y exportaciones antes y después.
 
 El dump histórico verificado permite recuperar el corte de origen; no contiene las sesiones ni los trabajos creados posteriormente en la integración. La recuperación debe respaldar o reconciliar también ese estado local antes de declarar restauración completa. Véase `docs/auditoria/GUIA_DESPLIEGUE_Y_REVERSA.md`.
+
+## Egreso del proceso
+
+`Backend/scripts/prepare_local_egress.py` prepara seis reglas para los dos ejecutables de Python propios de esta integración. `apply_local_egress.ps1` requiere una sesión administradora y comprueba rutas, hashes, antigüedad de la resolución y ausencia de reglas con los mismos nombres antes de aplicarlas. No modifica perfiles globales ni reglas de otros programas.
+
+Las reglas bloquean TCP externo salvo HTTPS hacia las IP públicas resueltas de `www.datos.gov.co` y `datos.gov.co`, y bloquean UDP externo del proceso. Las conexiones TCP locales de API/base permanecen disponibles. La resolución normal de nombres usa el servicio de Windows. El bloqueo de HTTPS es el complemento de las direcciones aprobadas: no depende de una regla de permitir que pueda ser anulada por otra de bloqueo. La política de URLs de la aplicación sigue verificando HTTPS, puerto, nombre, DNS público, redirecciones y credenciales.
+
+La lista es una instantánea de DNS, no una autorización permanente por nombre: revisar y sustituir únicamente estas reglas cuando cambien las IP de las fuentes. La preparación expira para aplicación a los 30 minutos. La [documentación de Microsoft](https://learn.microsoft.com/en-us/powershell/module/netsecurity/new-netfirewallrule?view=windowsserver2025-ps) describe el alcance por programa, protocolo y destino; las [reglas de precedencia](https://learn.microsoft.com/en-us/windows/security/operating-system-security/network-security/windows-firewall/rules) explican la prioridad de bloqueos.
+
+En el intento del 2026-10-06, la elevación terminó con `InvalidOperationException`; no se confirmó aplicación de reglas. La comprobación previa accedió por HTTPS a SECOP y también al destino público no aprobado del ensayo. P01 requiere aplicación y prueba posterior de bloqueo; no queda cerrado por preparar estos archivos.
