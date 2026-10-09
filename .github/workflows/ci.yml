@@ -9,7 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     services:
       postgres:
-        image: postgres:15
+        # Docker Official Image mirror avoids shared-runner Docker Hub pull limits.
+        image: public.ecr.aws/docker/library/postgres:15
         env:
           POSTGRES_DB: plataforma_test
           POSTGRES_USER: plataforma
