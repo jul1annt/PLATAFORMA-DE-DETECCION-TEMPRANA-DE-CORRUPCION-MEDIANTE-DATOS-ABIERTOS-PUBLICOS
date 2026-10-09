@@ -75,6 +75,31 @@ def test_dashboard_confidence_category_is_computed_by_backend():
             engine.dispose()
 
 
+def test_conditional_counts_ignore_null_flags_and_average_keeps_zero():
+    engine = _repository_for([
+        (1, None, None, None, None),
+        (2, False, False, 0, None),
+        (3, True, True, 90, "ALTO"),
+    ])
+    try:
+        with Session(engine) as session:
+            repository = TransformacionRepository(session)
+            quality = repository.get_metricas_calidad()
+            dashboard = repository.get_dashboard_metricas()
+            distribution = repository.get_anomaly_distribution()
+
+        assert quality["total_contratos"] == 3
+        assert quality["completos"] == 2
+        assert quality["incompletos"] == quality["sospechosos"] == 1
+        assert quality["promedio_confianza"] == 45.0
+        assert dashboard["total_contratos"] == 3
+        assert dashboard["total_alto_riesgo"] == 1
+        assert dashboard["promedio_confianza"] == 45.0
+        assert [item["value"] for item in distribution] == [1, 1, 1]
+    finally:
+        engine.dispose()
+
+
 def test_dashboard_aggregates_the_entire_universe_in_one_sql_statement():
     rows = [
         (index, index == 1001, index == 1001, 80, "ALTO" if index == 1001 else "SIN_EVALUAR")

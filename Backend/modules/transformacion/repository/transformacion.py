@@ -393,10 +393,10 @@ class TransformacionRepository:
 
     def _agregar_metricas_contratos(self) -> tuple[int, int, int, int, float | None]:
         row = self.session.query(
-            func.count(ContratoProcesado.id),
-            func.count(case((ContratoProcesado.es_incompleto.is_(True), 1))),
-            func.count(case((ContratoProcesado.es_sospechoso.is_(True), 1))),
-            func.count(case((ContratoProcesado.clasificacion_riesgo == "ALTO", 1))),
+            func.count(),
+            func.count().filter(ContratoProcesado.es_incompleto.is_(True)),
+            func.count().filter(ContratoProcesado.es_sospechoso.is_(True)),
+            func.count().filter(ContratoProcesado.clasificacion_riesgo == "ALTO"),
             func.avg(ContratoProcesado.nivel_confianza),
         ).one()
         total, incompletos, sospechosos, alto, promedio = row
@@ -430,9 +430,9 @@ class TransformacionRepository:
 
     def get_anomaly_distribution(self) -> list[dict]:
         incompletos, sospechosos, alto = self.session.query(
-            func.count(case((ContratoProcesado.es_incompleto.is_(True), 1))),
-            func.count(case((ContratoProcesado.es_sospechoso.is_(True), 1))),
-            func.count(case((ContratoProcesado.clasificacion_riesgo == "ALTO", 1))),
+            func.count().filter(ContratoProcesado.es_incompleto.is_(True)),
+            func.count().filter(ContratoProcesado.es_sospechoso.is_(True)),
+            func.count().filter(ContratoProcesado.clasificacion_riesgo == "ALTO"),
         ).one()
         counts = {
             "Incompletos": incompletos or 0,
