@@ -1,6 +1,6 @@
 # Despliegue coordinado y reversa
 
-Guía de ejecución para preparar el despliegue backend/frontend. El 2026-10-06 se ejecutó en la integración persistente de este equipo, autorizado por el usuario: despliegue, reversa de aplicación, recuperación del estado local y cliente real. [La evidencia](INTEGRACION_LOCAL_20261006.md) delimita el corte histórico y los checkpoints comprobados. La promoción de la base operativa anterior y el egreso de infraestructura siguen pendientes. Completa la ficha y ensaya cualquier otro destino antes de programar su cambio.
+Guía de ejecución para preparar el despliegue backend/frontend. El 2026-10-06 se ejecutó en la integración persistente de este equipo, autorizado por el usuario: despliegue, reversa de aplicación, recuperación del estado local y cliente real. [La evidencia](INTEGRACION_LOCAL_20261006.md) delimita el corte histórico y los checkpoints comprobados. La publicación histórica en la base operativa se comprobó el 2026-10-10 UTC; el egreso de infraestructura sigue pendiente. [La publicación](PUBLICACION_CORTE_HISTORICO_20261010.md) fija corte, rol, OID y checkpoints. Completa la ficha y ensaya cualquier otro destino antes de programar su cambio.
 
 ## Ficha del cambio
 
@@ -55,3 +55,11 @@ En la integración local, el respaldo completo histórico se complementa con el 
 ## Cierre de cambio
 
 Guardar en el registro del cambio los hashes de los artefactos y respaldo, revisiones Alembic, resultados CI, conteos antes/después, smoke tests, incidentes, decisiones de reversa y aprobaciones. Mantener logs, dumps y claves dentro de controles de acceso/retención del entorno.
+
+## Publicación histórica en este equipo — 2026-10-10 UTC
+
+Destino canónico: `plataformaanticorrupcion:5432`, OID 24577; original conservado: `plataformaanticorrupcion_pre_20261010`, OID 17930. Backend/worker `915e863`, revisión `f4826b9d1c30`, frontend `9362d94`. La integración anterior :5433 conserva su propio estado. El corte del 01/10/2026 tiene fecha visible y fuentes pausadas.
+
+El directorio privado `publication-20261010/control-checkpoint/` conserva configuración anterior, exportaciones y dump de las cuatro tablas de control inmediatamente antes de promoción. Una reversa exige servicios detenidos, cero trabajos activos y conexiones, identidades/OID cotejados y reconciliación de cualquier escritura nueva antes de volver a apuntar a la integración anterior. El original de 18 980 filas se conserva para linaje; no sustituye el corte publicado.
+
+Para recuperar el histórico desde su dump, crear una nueva base UTF8 con locale `Spanish_Argentina.1252` desde el comienzo, aplicar las dos migraciones aditivas y preparar estadísticas. Si el locale por defecto difiere, [el SQL de recuperación](../operacion/PRESERVAR_LOCALE_SECOP_20261001.sql) conserva explícitamente las comparaciones de sus 102 columnas: exige rol ordinario, base/OID, puerto y revisión, y rechaza reescribir los heaps. Combinar el respaldo histórico con el checkpoint posterior por claves y verificar huellas, secuencias y archivos. No iniciar otra carga o normalización completa para este corte.

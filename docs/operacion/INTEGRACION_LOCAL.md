@@ -7,10 +7,10 @@ Entorno autorizado por el usuario el 2026-10-06. API, interfaz compilada y worke
 - Interfaz compilada: `http://127.0.0.1:4173`.
 - API: `http://127.0.0.1:8000`.
 - Worker dedicado con la misma versión del backend.
-- PostgreSQL aislado en `127.0.0.1:5433`, base `plataforma_integracion_local`, rol ordinario `plataforma_integracion`.
+- PostgreSQL operativo en `127.0.0.1:5432`, base `plataformaanticorrupcion`, OID 24577, rol ordinario `plataforma_operacion`. La integración anterior de :5433 se conserva para recuperación.
 - Copia del corte histórico conservado de 9 249 545 registros. Las fuentes quedan deshabilitadas, sus claves eliminadas de la copia y los administradores heredados desactivados. El corte no se presenta como actualización de la fuente oficial.
 
-La base operativa en `:5432`, las generaciones fuente y sus respaldos se conservan. Esta integración persistente utiliza una copia propia para sus sesiones, trabajos y exportaciones.
+El 2026-10-10 UTC se publicó el histórico aceptado en la base operativa. El original conserva 18 980 filas bajo `plataformaanticorrupcion_pre_20261010`, OID 17930; las generaciones fuente y sus respaldos únicos permanecen. [Publicación y controles](../auditoria/PUBLICACION_CORTE_HISTORICO_20261010.md).
 
 ## Archivos privados
 
@@ -18,18 +18,18 @@ El directorio `Backend/.codex-integration-postgres/`, excluido de Git, guarda ve
 
 El controlador comprueba destino, versión de dependencias, ejecutable Python, versión de interfaz y hashes de sus archivos. Sirve únicamente el bundle, con protección de rutas; las credenciales no pertenecen al directorio publicado. Los procesos se registran con PID y fecha de creación para evitar confundir un PID reutilizado con un servicio propio.
 
-Versión backend/worker aplicada el 2026-10-09: `83382f9a5d2a95da2ff5201429cc59074488f8fe`; interfaz conservada de `9362d94f9dbfbdf352ae11585a2bfd44318b11e6` tras cotejar su árbol completo y hashes. Revisión PostgreSQL `f4826b9d1c30`, 20 índices válidos. La interfaz muestra el corte del 01/10/2026 mediante `VITE_DATA_CONTEXT`; ese texto acompaña los conteos de la API y no certifica una actualización oficial. El backend concentra conteos, clasificación y ranking; React muestra sus resultados y evita superponer el refresco del tablero. [La actualización de métricas](../auditoria/OPTIMIZACION_METRICAS_20261009.md) conserva los resultados y declara sus límites de rendimiento. El manifiesto anterior queda en el archivo privado `metrics-release-previous-20261009.json`; no requiere downgrade para volver a ese backend compatible.
+Versión backend/worker aplicada con la publicación del 2026-10-10 UTC: `915e863cc7492e619888506f59a04c6dbbfa5552`; interfaz conservada de `9362d94f9dbfbdf352ae11585a2bfd44318b11e6` tras cotejar su árbol completo y hashes. Revisión PostgreSQL `f4826b9d1c30`, 20 índices válidos. La interfaz muestra el corte del 01/10/2026 mediante `VITE_DATA_CONTEXT`; ese texto acompaña los conteos de la API y no certifica una actualización oficial. El backend concentra conteos, clasificación y ranking; React muestra sus resultados y evita superponer el refresco del tablero. [La actualización de métricas](../auditoria/OPTIMIZACION_METRICAS_20261009.md) conserva los resultados y declara sus límites de rendimiento. El manifiesto de `83382f9` anterior a esta publicación queda en `publication-20261010/control-checkpoint/release.json`. `metrics-release-previous-20261009.json` conserva la reversa del despliegue de métricas anterior. Volver a un backend compatible no exige downgrade rutinario de esquema.
 
 ## Inicio, consulta y cierre
 
-Desde la raíz del proyecto, con el PostgreSQL aislado disponible:
+Desde la raíz del proyecto, con el PostgreSQL operativo :5432 disponible:
 
 ```powershell
 $integracion = Join-Path (Get-Location) 'Backend/.codex-integration-postgres'
 $pythonIntegracion = Join-Path $integracion 'runtime/venv/Scripts/python.exe'
-& $pythonIntegracion Backend/scripts/local_integration.py status
-& $pythonIntegracion Backend/scripts/local_integration.py start
-& $pythonIntegracion Backend/scripts/local_integration.py status
+& $pythonIntegracion Backend/scripts/local_integration.py --root $integracion status
+& $pythonIntegracion Backend/scripts/local_integration.py --root $integracion start
+& $pythonIntegracion Backend/scripts/local_integration.py --root $integracion status
 ```
 
 Abrir la interfaz cuando el estado sea `running` y los tres componentes estén activos. Los servicios solo escuchan en este equipo. El supervisor cierra los demás componentes si alguno termina inesperadamente y no introduce un ciclo de reinicios.
@@ -37,15 +37,17 @@ Abrir la interfaz cuando el estado sea `running` y los tres componentes estén a
 Para detener:
 
 ```powershell
-& $pythonIntegracion Backend/scripts/local_integration.py stop
-& $pythonIntegracion Backend/scripts/local_integration.py status
+& $pythonIntegracion Backend/scripts/local_integration.py --root $integracion stop
+& $pythonIntegracion Backend/scripts/local_integration.py --root $integracion status
 ```
 
 El cierre se rechaza si hay trabajos activos. Los componentes cierran sus conexiones y el worker espera sus tareas antes de terminar. Esperar estado `stopped` y procesos inactivos antes de cambiar la versión. Un bloqueo de una ejecución anterior exige comprobar la identidad y ausencia de sus procesos; no borrar el bloqueo mientras haya componentes vivos.
 
-Después de reiniciar Windows, PostgreSQL debe iniciarse con el directorio del clúster aislado y opciones explícitas `-p 5433 -h 127.0.0.1`; su configuración heredada no determina el puerto de esta integración. No detener otro clúster para liberar un puerto ocupado.
+Después de reiniciar Windows, comprobar el clúster operativo :5432 y su directorio `C:/Users/Julianxxo/AppData/Local/PostgreSQL/15/data` antes de iniciar los servicios. El clúster anterior :5433 conserva `recovery-clone-20260929` y exige opciones explícitas `-p 5433 -h 127.0.0.1` si se necesita para recuperación. No detener otro clúster para liberar un puerto ocupado.
 
 ## Reversa y recuperación
+
+La publicación actual añade `publication-20261010/control-checkpoint/`: estado de las cuatro tablas de control, configuración y exportaciones justo antes del cambio. La recuperación completa debe combinar el histórico con ese estado posterior y reconciliar escrituras nuevas. Si el destino no usa `Spanish_Argentina.1252`, aplicar [el SQL de locale](PRESERVAR_LOCALE_SECOP_20261001.sql) solo con las identidades declaradas; preferir crear una restauración nueva con UTF8 y el locale de origen desde el principio.
 
 La reversa cambia artefactos después de cerrar los servicios y verificar compatibilidad con la revisión Alembic de la base. No ejecutar un downgrade de esquema rutinario. Conservar las credenciales y cola de esta integración durante el cambio. El ensayo debe registrar versiones, hashes, estado de cola, revisión, consultas y exportaciones antes y después.
 
