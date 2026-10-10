@@ -14,6 +14,7 @@ from modules.ingesta.model.RawSecop import RawSecop
 from modules.ingesta.model.RawSecopHistorial import RawSecopHistorial
 from modules.ingesta.model.SincronizacionHistorial import SincronizacionHistorial
 from modules.transformacion.model.ContratoProcesado import ContratoProcesado
+from modules.transformacion.model.ContratoMetricasCalidad import ContratoMetricasCalidad
 from modules.transformacion.model.ContratoAnomaloIncompleto import ContratoAnomaloIncompleto
 from modules.transformacion.model.ContratoAnomaliaHistorial import ContratoAnomaliaHistorial
 from modules.transformacion.model.EstadisticaCamposFaltantes import EstadisticaCamposFaltantes

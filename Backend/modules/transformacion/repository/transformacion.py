@@ -4,6 +4,7 @@ from datetime import datetime, timezone
 from sqlalchemy import case, func, or_, text
 from typing import List, Tuple, Optional, Dict
 from modules.transformacion.model.ContratoProcesado import ContratoProcesado
+from modules.transformacion.model.ContratoMetricasCalidad import ContratoMetricasCalidad
 from modules.transformacion.model.ContratoAnomaloIncompleto import ContratoAnomaloIncompleto
 from modules.transformacion.model.ContratoAnomaliaHistorial import ContratoAnomaliaHistorial
 from modules.transformacion.model.EstadisticaCamposFaltantes import EstadisticaCamposFaltantes
@@ -392,6 +393,9 @@ class TransformacionRepository:
         }
 
     def _agregar_metricas_contratos(self) -> tuple[int, int, int, int, float | None]:
+        summary = self._leer_resumen_metricas()
+        if summary is not None:
+            return summary
         row = self.session.query(
             func.count(),
             func.count().filter(ContratoProcesado.es_incompleto.is_(True)),
@@ -408,6 +412,28 @@ class TransformacionRepository:
             int(alto or 0),
             round(float(promedio), 2) if total and promedio is not None else None,
         )
+
+    def _leer_resumen_metricas(self) -> tuple[int, int, int, int, float | None] | None:
+        if self.session.get_bind().dialect.name != 'postgresql':
+            return None
+        key = 'contract_quality_summary_available'
+        if key not in self.session.info:
+            self.session.info[key] = self.session.execute(
+                text("SELECT to_regclass('public.contratos_metricas_calidad') IS NOT NULL")
+            ).scalar_one()
+        if not self.session.info[key]:
+            return None
+        # ORM query preserves autoflush semantics. A missing row is corruption,
+        # not a reason to silently hide it with an expensive fallback scan.
+        total, incomplete, suspicious, high, average = self.session.query(
+            ContratoMetricasCalidad.total,
+            ContratoMetricasCalidad.incompletos,
+            ContratoMetricasCalidad.sospechosos,
+            ContratoMetricasCalidad.alto_riesgo,
+            ContratoMetricasCalidad.suma_confianza / func.nullif(ContratoMetricasCalidad.con_confianza, 0),
+        ).filter(ContratoMetricasCalidad.id == 1).one()
+        return (int(total),int(incomplete),int(suspicious),int(high),
+                round(float(average),2) if total and average is not None else None)
 
     def get_risk_distribution(self) -> list[dict]:
         colors = {
@@ -429,11 +455,15 @@ class TransformacionRepository:
         ]
 
     def get_anomaly_distribution(self) -> list[dict]:
-        incompletos, sospechosos, alto = self.session.query(
-            func.count().filter(ContratoProcesado.es_incompleto.is_(True)),
-            func.count().filter(ContratoProcesado.es_sospechoso.is_(True)),
-            func.count().filter(ContratoProcesado.clasificacion_riesgo == "ALTO"),
-        ).one()
+        summary = self._leer_resumen_metricas()
+        if summary is None:
+            incompletos, sospechosos, alto = self.session.query(
+                func.count().filter(ContratoProcesado.es_incompleto.is_(True)),
+                func.count().filter(ContratoProcesado.es_sospechoso.is_(True)),
+                func.count().filter(ContratoProcesado.clasificacion_riesgo == "ALTO"),
+            ).one()
+        else:
+            _, incompletos, sospechosos, alto, _ = summary
         counts = {
             "Incompletos": incompletos or 0,
             "Sospechosos": sospechosos or 0,
