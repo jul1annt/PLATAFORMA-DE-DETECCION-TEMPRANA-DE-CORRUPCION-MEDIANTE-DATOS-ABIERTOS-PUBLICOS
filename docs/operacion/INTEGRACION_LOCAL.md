@@ -18,7 +18,7 @@ El directorio `Backend/.codex-integration-postgres/`, excluido de Git, guarda ve
 
 El controlador comprueba destino, versión de dependencias, ejecutable Python, versión de interfaz y hashes de sus archivos. Sirve únicamente el bundle, con protección de rutas; las credenciales no pertenecen al directorio publicado. Los procesos se registran con PID y fecha de creación para evitar confundir un PID reutilizado con un servicio propio.
 
-Versión aplicada: `9362d94f9dbfbdf352ae11585a2bfd44318b11e6`; revisión PostgreSQL `f4826b9d1c30`, 20 índices válidos. La interfaz muestra el corte del 01/10/2026 mediante `VITE_DATA_CONTEXT`; ese texto acompaña los conteos de la API y no certifica una actualización oficial. El backend concentra conteos, clasificación y ranking; React muestra sus resultados y evita superponer el refresco del tablero.
+Versión backend/worker aplicada el 2026-10-09: `83382f9a5d2a95da2ff5201429cc59074488f8fe`; interfaz conservada de `9362d94f9dbfbdf352ae11585a2bfd44318b11e6` tras cotejar su árbol completo y hashes. Revisión PostgreSQL `f4826b9d1c30`, 20 índices válidos. La interfaz muestra el corte del 01/10/2026 mediante `VITE_DATA_CONTEXT`; ese texto acompaña los conteos de la API y no certifica una actualización oficial. El backend concentra conteos, clasificación y ranking; React muestra sus resultados y evita superponer el refresco del tablero. [La actualización de métricas](../auditoria/OPTIMIZACION_METRICAS_20261009.md) conserva los resultados y declara sus límites de rendimiento. El manifiesto anterior queda en el archivo privado `metrics-release-previous-20261009.json`; no requiere downgrade para volver a ese backend compatible.
 
 ## Inicio, consulta y cierre
 
