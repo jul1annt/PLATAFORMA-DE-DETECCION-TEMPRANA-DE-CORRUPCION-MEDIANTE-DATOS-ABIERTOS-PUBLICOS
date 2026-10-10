@@ -38,3 +38,7 @@ El resultado no aprueba ni ajusta automáticamente los umbrales. Antes del cierr
 ## Actualización de métricas — 2026-10-09
 
 La [implementación de agregados filtrados](OPTIMIZACION_METRICAS_20261009.md) redujo aproximadamente 8 % la mediana SQL en una comparación de cuatro conexiones sobre el mismo corte. La versión desplegada `83382f9` completó 875/875 respuestas correctas en otro perfil de ocho clientes continuos: búsqueda p95 1,021 s, calidad 7,449 s y proveedores 1,260 s. La búsqueda sigue fuera de la propuesta de 1 s y los valores más lentos de calidad no mejoraron frente a las muestras del 06/10. No se considera superada la aceptación de rendimiento ni se atribuye toda la diferencia entre días al cambio SQL. Los umbrales y la cobertura conjunta siguen pendientes.
+
+## Instrumentación del destino publicado — 2026-10-10
+
+El [piloto canónico](RECURSOS_CARGA_CANONICA_20261010.md) amplía la medición al postmaster y descendientes completos presentes de `:5432`, aplicación y generador. Sus 27 muestras válidas conservan identidades, reintentos y límites; no acreditan máximos continuos. Las 372/372 lecturas coincidieron: búsqueda p95 0,675 s; calidad 14,988 s, que necesita optimización. Se propone para revisión ocho clientes continuos, búsqueda p95 ≤1 s y calidad ≤3 s, junto con reproceso/fallos DB/red en copia aislada del corte. **La consulta al responsable sigue pendiente; no se registra aceptación por defecto.** P16 conserva escenarios conjuntos y criterios pendientes.

@@ -7,11 +7,11 @@ from sqlalchemy.schema import CreateIndex
 from modules.transformacion.model.ContratoProcesado import ContratoProcesado
 
 
-def test_metrics_index_covers_all_aggregate_columns_including_nonnull_id():
+def test_metrics_index_covers_aggregate_columns_without_disabling_deduplication():
     index = next(index for index in ContratoProcesado.__table__.indexes if index.name == 'ix_cp_metricas_cover')
     sql = str(CreateIndex(index).compile(dialect=postgresql.dialect()))
     assert '(es_incompleto, es_sospechoso, clasificacion_riesgo, nivel_confianza)' in sql
-    assert 'INCLUDE (id)' in sql
+    assert 'INCLUDE' not in sql
     assert not index.unique
 
 

@@ -60,7 +60,6 @@ class ContratoProcesado(Base):
         Index(
             "ix_cp_metricas_cover",
             "es_incompleto", "es_sospechoso", "clasificacion_riesgo", "nivel_confianza",
-            postgresql_include=["id"],
         ),
         Index(
             "ix_cp_nit_nombre", "nit_proveedor_clave", "proveedor_normalizado",
