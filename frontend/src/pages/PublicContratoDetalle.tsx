@@ -3,6 +3,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { getProcesadoById, getAnomaliasByRawSecopId } from '../services/procesadosService';
 import type { Procesado, AnomaliaContrato } from '../types/procesado';
 import { PublicNavbar } from '../components/layout/PublicNavbar';
+import { getErrorMessage } from '../utils/errors';
+import { formatCalendarDate, formatDecimalAmount } from '../utils/format';
 
 
 export const PublicContratoDetalle: React.FC = () => {
@@ -28,8 +30,8 @@ export const PublicContratoDetalle: React.FC = () => {
           const anomaliasData = await getAnomaliasByRawSecopId(contratoData.raw_secop_id);
           setAnomalias(anomaliasData);
         }
-      } catch (err: any) {
-        setError(err.message || "Error al cargar los detalles del contrato");
+      } catch (err: unknown) {
+        setError(getErrorMessage(err, 'Error al cargar los detalles del contrato'));
       } finally {
         setLoading(false);
       }
@@ -70,8 +72,16 @@ export const PublicContratoDetalle: React.FC = () => {
 
   const isIncompleto = contrato.es_incompleto === true;
   const isAltoRiesgo = contrato.clasificacion_riesgo === 'ALTO';
-  const isModificado = contrato.datos_modificados === true;
-  const hasAlerts = isIncompleto || isAltoRiesgo || isModificado;
+  const hasAlerts = isIncompleto || contrato.es_sospechoso === true || isAltoRiesgo;
+  const riesgoContrato: 'ALTO' | 'MEDIO' | 'BAJO' | 'SIN_EVALUAR' = ['ALTO', 'MEDIO', 'BAJO'].includes(contrato.clasificacion_riesgo ?? '')
+    ? contrato.clasificacion_riesgo as 'ALTO' | 'MEDIO' | 'BAJO'
+    : 'SIN_EVALUAR';
+  const riesgoContratoLabel = {
+    ALTO: 'Alto',
+    MEDIO: 'Medio',
+    BAJO: 'Bajo',
+    SIN_EVALUAR: 'Sin evaluar',
+  }[riesgoContrato];
 
   return (
     <div className="min-h-screen font-sans text-slate-900 relative overflow-hidden bg-slate-50 pb-20">
@@ -103,18 +113,6 @@ export const PublicContratoDetalle: React.FC = () => {
         {/* Banner Alertas Superiores */}
         {hasAlerts && (
           <div className="mb-10 flex flex-col gap-3">
-            {isModificado && (
-              <div className="bg-red-50 border border-red-200 rounded-2xl p-4 flex items-center gap-4 shadow-sm relative overflow-hidden">
-                <div className="absolute left-0 top-0 bottom-0 w-1 bg-red-500"></div>
-                <div className="w-10 h-10 bg-red-500 rounded-full flex items-center justify-center text-white shadow-lg shrink-0">
-                  <span className="text-xl italic font-black">⚡</span>
-                </div>
-                <div>
-                  <h4 className="text-red-700 font-bold uppercase tracking-wider text-sm">Datos Modificados</h4>
-                  <p className="text-red-600/80 text-xs font-medium">Este registro ha sufrido modificaciones importantes desde su publicación original.</p>
-                </div>
-              </div>
-            )}
             {isAltoRiesgo && (
               <div className="bg-rose-50 border border-rose-200 rounded-2xl p-4 flex items-center gap-4 shadow-sm relative overflow-hidden">
                 <div className="absolute left-0 top-0 bottom-0 w-1 bg-rose-500"></div>
@@ -181,7 +179,7 @@ export const PublicContratoDetalle: React.FC = () => {
             <div className="flex flex-col gap-1">
               <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Valor Total Normalizado</span>
               <span className="text-2xl font-black text-emerald-600 bg-emerald-50 self-start px-4 py-1 rounded-xl border border-emerald-100">
-                $ {contrato.valor_total_normalizado?.toLocaleString('es-ES') || '0'}
+                {contrato.valor_total_normalizado == null ? '—' : `$ ${formatDecimalAmount(contrato.valor_total_normalizado, 'es-ES')}`}
               </span>
             </div>
             <div className="flex flex-col gap-1">
@@ -191,13 +189,13 @@ export const PublicContratoDetalle: React.FC = () => {
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                   </svg>
-                  Publicación: <strong className="text-slate-800">{contrato.fecha_publicacion_normalizada ? new Date(contrato.fecha_publicacion_normalizada).toLocaleDateString('es-ES') : 'N/A'}</strong>
+                  Publicación: <strong className="text-slate-800">{formatCalendarDate(contrato.fecha_publicacion_normalizada)}</strong>
                 </div>
                 <div className="flex items-center gap-2 text-sm text-slate-600 font-medium">
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
-                  Adjudicación: <strong className="text-slate-800">{contrato.fecha_adjudicacion_normalizada ? new Date(contrato.fecha_adjudicacion_normalizada).toLocaleDateString('es-ES') : 'N/A'}</strong>
+                  Adjudicación: <strong className="text-slate-800">{formatCalendarDate(contrato.fecha_adjudicacion_normalizada)}</strong>
                 </div>
               </div>
             </div>
@@ -213,6 +211,22 @@ export const PublicContratoDetalle: React.FC = () => {
                   {contrato.estado_normalizado || 'N/A'}
                 </span>
               </div>
+            </div>
+            <div className="flex flex-col gap-1">
+              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Riesgo contractual</span>
+              <div>
+                <span className={`inline-flex px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-widest ${
+                  riesgoContrato === 'ALTO' ? 'bg-rose-100 text-rose-700' :
+                  riesgoContrato === 'MEDIO' ? 'bg-amber-100 text-amber-700' :
+                  riesgoContrato === 'BAJO' ? 'bg-emerald-100 text-emerald-700' :
+                  'bg-slate-100 text-slate-600'
+                }`}>
+                  {riesgoContratoLabel}
+                </span>
+              </div>
+              {riesgoContrato === 'SIN_EVALUAR' && (
+                <p className="text-xs text-slate-500">No hay una clasificación calculada específicamente para este contrato.</p>
+              )}
             </div>
           </div>
         </div>
@@ -236,19 +250,10 @@ export const PublicContratoDetalle: React.FC = () => {
           ) : (
             <div className="grid grid-cols-1 gap-4">
               {anomalias.map((a) => {
-                let colorClass = "bg-blue-50 border-blue-200 text-blue-800";
-                let icon = "ℹ️";
-                let label = "INFO";
-                
-                if (a.clasificacion_riesgo === 'ALTO') {
-                  colorClass = "bg-rose-50 border-rose-200 text-rose-800";
-                  icon = "🚨";
-                  label = "RIESGO ALTO";
-                } else if (a.clasificacion_riesgo === 'MEDIO' || a.motivo === 'CAMPO_FALTANTE') {
-                  colorClass = "bg-amber-50 border-amber-200 text-amber-800";
-                  icon = "⚠️";
-                  label = "ADVERTENCIA";
-                }
+                const motivo = a.tipo_anomalia ?? a.motivo ?? 'ANOMALIA';
+                const colorClass = "bg-amber-50 border-amber-200 text-amber-800";
+                const icon = "⚠️";
+                const label = "ANOMALÍA DE DATOS";
 
                 return (
                   <div key={a.id} className={`rounded-[32px] border p-6 flex flex-col md:flex-row gap-6 items-start md:items-center ${colorClass}`}>
@@ -258,7 +263,7 @@ export const PublicContratoDetalle: React.FC = () => {
                       </div>
                       <div>
                         <span className="text-[10px] font-black tracking-widest uppercase opacity-70 block mb-1">{label}</span>
-                        <strong className="text-lg font-black leading-tight block">{a.motivo.replace(/_/g, ' ')}</strong>
+                        <strong className="text-lg font-black leading-tight block">{motivo.replace(/_/g, ' ')}</strong>
                       </div>
                     </div>
                     
@@ -334,7 +339,7 @@ export const PublicContratoDetalle: React.FC = () => {
             
             <div className="mt-8 pt-8 border-t border-slate-100 flex justify-center">
               {(() => {
-                const getCleanUrl = (url?: string): string => {
+                const getCleanUrl = (url?: string | null): string => {
                   if (!url) return '';
                   const trimmed = url.trim();
                   if (!trimmed) return '';

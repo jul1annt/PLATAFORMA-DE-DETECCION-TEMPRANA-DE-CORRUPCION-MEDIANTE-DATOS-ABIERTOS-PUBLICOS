@@ -10,6 +10,8 @@ class RawSecop(Base):
 
     id                              = Column(BigInteger, primary_key=True, autoincrement=True)
     fuente_id                       = Column(Integer, ForeignKey("fuentes_datos.id"), nullable=False)
+    # Stable identity of each Socrata row; one process may have many award rows.
+    socrata_row_id                  = Column(String(255), nullable=True)
 
     # Entidad
     entidad                         = Column(Text)
@@ -47,7 +49,7 @@ class RawSecop(Base):
     fecha_adjudicacion              = Column(DateTime(timezone=True))
 
     # Contratación
-    precio_base                     = Column(Numeric(20, 2))
+    precio_base                     = Column(Numeric(38, 2))
     modalidad_de_contratacion       = Column(String(200))
     justificaci_n_modalidad_de      = Column(Text)
     duracion                        = Column(Numeric)
@@ -78,7 +80,7 @@ class RawSecop(Base):
     codigoproveedor                 = Column(String(100))
     departamento_proveedor          = Column(String(100))
     ciudad_proveedor                = Column(String(100))
-    valor_total_adjudicacion        = Column(Numeric(20, 2))
+    valor_total_adjudicacion        = Column(Numeric(38, 2))
     nombre_del_adjudicador          = Column(Text)
     nombre_del_proveedor            = Column(Text)
     nit_del_proveedor_adjudicado    = Column(String(50))
@@ -91,8 +93,9 @@ class RawSecop(Base):
 
     # ── Índices optimizados para 8M de registros ──────────
     __table_args__ = (
-        # Deduplicación: no insertar el mismo proceso dos veces
-        Index("ix_raw_secop_id_proceso",       "id_del_proceso", unique=True),
+        # A process can contain many suppliers/awards; only the source row id is unique.
+        Index("ix_raw_secop_fuente_socrata_row_id", "fuente_id", "socrata_row_id", unique=True),
+        Index("ix_raw_secop_id_proceso",       "id_del_proceso"),
 
         # Filtros más frecuentes en análisis
         Index("ix_raw_secop_fecha_pub",         "fecha_de_publicacion_del"),

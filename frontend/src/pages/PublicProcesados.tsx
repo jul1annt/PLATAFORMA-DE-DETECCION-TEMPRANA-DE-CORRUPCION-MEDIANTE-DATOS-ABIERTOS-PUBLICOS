@@ -1,13 +1,19 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { FileText, FileSpreadsheet } from 'lucide-react';
+import { FileDown, FileSpreadsheet, FileText } from 'lucide-react';
 import type { Procesado, MetricasCalidad, CampoFaltante, QualityFilterType } from '../types/procesado';
-import { getProcesados, getMetricasCalidad, getCamposFaltantes } from '../services/procesadosService';
-import { AlertIcons } from '../components/AlertIcons';
+import { getProcesados, getMetricasCalidad, getCamposFaltantes, toProcesadosApiParams, downloadProcesadosExport } from '../services/procesadosService';
 import { QualitySummaryBanner } from '../components/QualitySummaryBanner';
 import { SearchAutocomplete } from '../components/SearchAutocomplete';
 import { PublicNavbar } from '../components/layout/PublicNavbar';
-import { exportToCSV, exportToPDF } from '../utils/exportUtils';
+import { getErrorMessage } from '../utils/errors';
+import { formatCalendarDate, formatDecimalAmount } from '../utils/format';
+import { runAbortableRequest } from '../utils/abortableRequest';
+
+const SortIcon = ({ field, sort, order }: { field: string; sort: string; order: string }) => {
+  if (sort !== field) return <span className="opacity-0 group-hover:opacity-30">↕</span>;
+  return <span>{order === 'asc' ? '↑' : '↓'}</span>;
+};
 
 export const PublicProcesados: React.FC = () => {
   const [procesados, setProcesados] = useState<Procesado[]>([]);
@@ -45,6 +51,8 @@ export const PublicProcesados: React.FC = () => {
   };
 
   const [totalItems, setTotalItems] = useState(0);
+  const [exportingFormat, setExportingFormat] = useState<'csv' | 'xlsx' | 'pdf' | null>(null);
+  const [exportError, setExportError] = useState<string | null>(null);
   
 
 
@@ -120,86 +128,36 @@ export const PublicProcesados: React.FC = () => {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        const params: Record<string, string> = {};
-        const pMontoMin = searchParams.get('montoMin');
-        const pMontoMax = searchParams.get('montoMax');
-        const pFechaDesde = searchParams.get('fechaDesde');
-        const pFechaHasta = searchParams.get('fechaHasta');
-        const pModalidad = searchParams.get('modalidad');
-        const pEntidad = searchParams.get('entidad');
-        const pProveedor = searchParams.get('proveedor');
-        const pEstado = searchParams.get('estado');
-        const pNivelConfianzaMin = searchParams.get('nivelConfianzaMin');
-        const pNivelConfianzaMax = searchParams.get('nivelConfianzaMax');
+    const params = toProcesadosApiParams(searchParams);
+    params.limit = limitStr;
+    params.offset = offsetStr;
+    params.order = order;
 
-        if (pMontoMin) params.valor_min = pMontoMin;
-        if (pMontoMax) params.valor_max = pMontoMax;
-        if (pFechaDesde) params.fecha_inicio = pFechaDesde;
-        if (pFechaHasta) params.fecha_fin = pFechaHasta;
-        if (pModalidad) params.modalidad = pModalidad;
-        if (pEntidad) params.entidad = pEntidad;
-        if (pProveedor) params.proveedor = pProveedor;
-        if (pEstado) params.estado = pEstado;
-        if (pNivelConfianzaMin) params.nivel_confianza_min = pNivelConfianzaMin;
-        if (pNivelConfianzaMax) params.nivel_confianza_max = pNivelConfianzaMax;
-        
-        params.limit = limitStr;
-        params.offset = offsetStr;
-        if (sort) params.sort = sort;
-        if (order) params.order = order;
-        
-        if (activeFilter === 'INCOMPLETOS') params.solo_incompletos = 'true';
-        if (activeFilter === 'SOSPECHOSOS') params.solo_sospechosos = 'true';
-        if (activeFilter === 'ALTO_RIESGO') params.solo_alto_riesgo = 'true';
+    const request = runAbortableRequest(
+      (signal) => Promise.all([
+        getProcesados(params, signal),
+        getMetricasCalidad(signal),
+        getCamposFaltantes(signal),
+      ]),
+      {
+        onStart: () => {
+          setLoading(true);
+          setError(null);
+        },
+        onSuccess: ([procesadosData, metricasData, camposData]) => {
+          setProcesados(procesadosData.items);
+          setTotalItems(procesadosData.total);
+          setMetricas(metricasData);
+          setCamposFaltantes(camposData);
+        },
+        onError: (err) => setError(getErrorMessage(err, 'Error al cargar los datos')),
+        onFinally: () => setLoading(false),
+      },
+    );
+    return request.abort;
+  }, [searchParams, limitStr, offsetStr, order]);
 
-
-        const [procesadosData, metricasData, camposData] = await Promise.all([
-          getProcesados(params),
-          getMetricasCalidad(),
-          getCamposFaltantes()
-        ]);
-        setProcesados(procesadosData.items);
-        setTotalItems(procesadosData.total);
-        setMetricas(metricasData);
-        setCamposFaltantes(camposData);
-      } catch (err: any) {
-        setError(err.message || 'Error al cargar los datos');
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchData();
-  }, [searchParams]);
-
-  const hayCambiosRecientes = useMemo(() => {
-    return procesados.some(p => p.datos_modificados === true);
-  }, [procesados]);
-
-  const searchQuery = searchParams.get('q') || '';
-
-  const displayedProcesados = useMemo(() => {
-    let filtered = procesados;
-
-    // 1. Aplicar filtro de búsqueda de texto (Autocomplete)
-    if (searchQuery) {
-      const q = searchQuery.toLowerCase();
-      filtered = filtered.filter(p => {
-        if (!p) return false;
-        const e = String(p.entidad_normalizada || p.entidad || '').toLowerCase();
-        const pr = String(p.proveedor_normalizado || p.proveedor || '').toLowerCase();
-        return e.includes(q) || pr.includes(q);
-      });
-    }
-
-    if (activeFilter === 'MODIFICADOS') {
-      filtered = filtered.filter(p => p.datos_modificados === true);
-    }
-    
-    return filtered;
-  }, [procesados, activeFilter, searchQuery]);
+  const displayedProcesados = procesados;
 
   const totalPages = Math.ceil(totalItems / limit);
   const currentPage = Math.floor(offset / limit) + 1;
@@ -229,61 +187,16 @@ export const PublicProcesados: React.FC = () => {
     setSearchParams(newParams);
   };
 
-  const SortIcon = ({ field }: { field: string }) => {
-    if (sort !== field) return <span className="opacity-0 group-hover:opacity-30">↕</span>;
-    return <span>{order === 'asc' ? '↑' : '↓'}</span>;
-  };
-
-  // ── Export helpers ────────────────────────────────────────────────────────
-  const PDF_COLUMNS = [
-    { header: 'ID', dataKey: 'id' },
-    { header: 'Entidad', dataKey: 'entidad' },
-    { header: 'Proveedor', dataKey: 'proveedor' },
-    { header: 'Modalidad', dataKey: 'modalidad' },
-    { header: 'Valor Total', dataKey: 'valor_total' },
-    { header: 'Fecha Publicación', dataKey: 'fecha' },
-    { header: 'Estado', dataKey: 'estado' },
-    { header: 'Confianza', dataKey: 'confianza' },
-    { header: 'Incompleto', dataKey: 'incompleto' },
-    { header: 'Sospechoso', dataKey: 'sospechoso' },
-  ];
-
-  const buildExportRows = () =>
-    displayedProcesados.map((p) => ({
-      id: p.id,
-      entidad: p.entidad_normalizada || p.entidad || '',
-      proveedor: p.proveedor_normalizado || p.proveedor || '',
-      modalidad: p.modalidad_contratacion || p.modalidad || '',
-      valor_total: p.valor_total_normalizado != null
-        ? Number(p.valor_total_normalizado).toLocaleString('es-CO')
-        : '',
-      fecha: p.fecha_publicacion_normalizada || p.fecha || '',
-      estado: p.estado_normalizado || '',
-      confianza: p.nivel_confianza != null ? `${p.nivel_confianza}%` : '',
-      incompleto: p.es_incompleto ? 'SÍ' : 'NO',
-      sospechoso: p.es_sospechoso ? 'SÍ' : 'NO',
-    }));
-
-  const activeFilterLabel: Record<QualityFilterType, string> = {
-    ALL: 'Todos los contratos',
-    INCOMPLETOS: 'Filtro: Contratos Incompletos',
-    SOSPECHOSOS: 'Filtro: Contratos Sospechosos',
-    MODIFICADOS: 'Filtro: Datos Modificados',
-    ALTO_RIESGO: 'Filtro: Alto Riesgo',
-  };
-
-  const handleExportCSV = () => {
-    exportToCSV(buildExportRows() as Record<string, unknown>[], 'contratos_calidad');
-  };
-
-  const handleExportPDF = async () => {
-    await exportToPDF({
-      title: 'Monitoreo de Calidad de Datos',
-      subtitle: activeFilterLabel[activeFilter] + (searchQuery ? ` | Búsqueda: "${searchQuery}"` : ''),
-      filename: 'contratos_calidad',
-      columns: PDF_COLUMNS,
-      data: buildExportRows() as Record<string, unknown>[],
-    });
+  const handleExport = async (format: 'csv' | 'xlsx' | 'pdf') => {
+    setExportingFormat(format);
+    setExportError(null);
+    try {
+      await downloadProcesadosExport(format, toProcesadosApiParams(searchParams));
+    } catch (err: unknown) {
+      setExportError(getErrorMessage(err, 'No se pudo generar la exportación.'));
+    } finally {
+      setExportingFormat(null);
+    }
   };
 
   return (
@@ -313,23 +226,36 @@ export const PublicProcesados: React.FC = () => {
           </div>
           <div className="flex items-center gap-2 flex-shrink-0">
             <button
-              onClick={handleExportCSV}
-              disabled={!displayedProcesados.length}
+              onClick={() => void handleExport('csv')}
+              disabled={totalItems === 0 || exportingFormat !== null}
               className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold border border-indigo-200 bg-white text-indigo-700 hover:bg-indigo-50 disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-sm"
             >
               <FileText size={15} />
-              Descargar CSV
+              {exportingFormat === 'csv' ? 'Generando CSV…' : 'Descargar CSV'}
             </button>
             <button
-              onClick={handleExportPDF}
-              disabled={!displayedProcesados.length}
-              className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold bg-indigo-600 text-white hover:bg-indigo-700 disabled:opacity-40 disabled:cursor-not-allowed active:scale-95 shadow-sm hover:shadow-md transition-all"
+              onClick={() => void handleExport('xlsx')}
+              disabled={totalItems === 0 || exportingFormat !== null}
+              className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold border border-indigo-200 bg-white text-indigo-700 hover:bg-indigo-50 disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-sm"
             >
               <FileSpreadsheet size={15} />
-              Descargar PDF
+              {exportingFormat === 'xlsx' ? 'Generando XLSX…' : 'Descargar XLSX'}
+            </button>
+            <button
+              onClick={() => void handleExport('pdf')}
+              disabled={totalItems === 0 || exportingFormat !== null}
+              className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold bg-indigo-600 text-white hover:bg-indigo-700 disabled:opacity-40 disabled:cursor-not-allowed active:scale-95 shadow-sm hover:shadow-md transition-all"
+            >
+              <FileDown size={15} />
+              {exportingFormat === 'pdf' ? 'Generando PDF…' : 'Descargar PDF'}
             </button>
           </div>
         </div>
+        {exportError && (
+          <div role="alert" className="mb-6 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-semibold text-red-700">
+            {exportError}
+          </div>
+        )}
 
         {loading ? (
           <div className="flex flex-col items-center justify-center py-32">
@@ -346,7 +272,6 @@ export const PublicProcesados: React.FC = () => {
             <QualitySummaryBanner 
               metricas={metricas}
               camposFaltantes={camposFaltantes}
-              hayCambiosRecientes={hayCambiosRecientes}
               activeFilter={activeFilter}
               onFilterChange={setActiveFilter}
             />
@@ -374,7 +299,7 @@ export const PublicProcesados: React.FC = () => {
                     <option value="ALL">Mostrar Todos</option>
                     <option value="INCOMPLETOS">Solo Incompletos ⚠️</option>
                     <option value="SOSPECHOSOS">Solo Sospechosos 🚨</option>
-                    <option value="MODIFICADOS">Solo Modificados ⚡</option>
+                    <option value="ALTO_RIESGO">Solo Alto Riesgo 🚨</option>
                   </select>
                 </div>
               </div>
@@ -392,7 +317,7 @@ export const PublicProcesados: React.FC = () => {
                       </div>
                       <h4 className="text-sm font-black text-indigo-950 uppercase tracking-widest">Búsqueda Inteligente (Autocomplete)</h4>
                     </div>
-                    <SearchAutocomplete data={procesados} />
+          <SearchAutocomplete />
                     <p className="mt-3 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
                       Escribe el nombre de una entidad o proveedor para filtrar instantáneamente.
                     </p>
@@ -588,19 +513,19 @@ export const PublicProcesados: React.FC = () => {
                   <thead>
                     <tr className="bg-slate-50/30 border-b border-slate-50">
                       <th onClick={() => handleSort('entidad')} className="cursor-pointer group px-6 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-[0.15em] hover:bg-slate-100 transition-colors">
-                        Entidad <SortIcon field="entidad" />
+                        Entidad <SortIcon field="entidad" sort={sort} order={order} />
                       </th>
                       <th onClick={() => handleSort('proveedor')} className="cursor-pointer group px-6 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-[0.15em] hover:bg-slate-100 transition-colors">
-                        Proveedor <SortIcon field="proveedor" />
+                        Proveedor <SortIcon field="proveedor" sort={sort} order={order} />
                       </th>
                       <th onClick={() => handleSort('valor_total_normalizado')} className="cursor-pointer group px-6 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-[0.15em] hover:bg-slate-100 transition-colors">
-                        Valor Total <SortIcon field="valor_total_normalizado" />
+                        Valor Total <SortIcon field="valor_total_normalizado" sort={sort} order={order} />
                       </th>
                       <th onClick={() => handleSort('precio_base_normalizado')} className="cursor-pointer group px-6 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-[0.15em] hover:bg-slate-100 transition-colors">
-                        Precio Base <SortIcon field="precio_base_normalizado" />
+                        Precio Base <SortIcon field="precio_base_normalizado" sort={sort} order={order} />
                       </th>
                       <th onClick={() => handleSort('fecha')} className="cursor-pointer group px-6 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-[0.15em] hover:bg-slate-100 transition-colors">
-                        Fecha <SortIcon field="fecha" />
+                        Fecha <SortIcon field="fecha" sort={sort} order={order} />
                       </th>
                       <th className="px-6 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-[0.15em]">
                         Modalidad
@@ -612,7 +537,7 @@ export const PublicProcesados: React.FC = () => {
                         Estado Calidad
                       </th>
                       <th onClick={() => handleSort('riesgo')} className="cursor-pointer group px-6 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-[0.15em] hover:bg-slate-100 transition-colors">
-                        Nivel de Confianza <SortIcon field="riesgo" />
+                        Nivel de Confianza <SortIcon field="riesgo" sort={sort} order={order} />
                       </th>
                     </tr>
                   </thead>
@@ -634,6 +559,15 @@ export const PublicProcesados: React.FC = () => {
                         const isIncompleto = p.es_incompleto === true;
                         const isSospechoso = p.es_sospechoso === true;
                         const confianza = p.nivel_confianza ?? 100;
+                        const riesgoContrato: 'ALTO' | 'MEDIO' | 'BAJO' | 'SIN_EVALUAR' = ['ALTO', 'MEDIO', 'BAJO'].includes(p.clasificacion_riesgo ?? '')
+                          ? p.clasificacion_riesgo as 'ALTO' | 'MEDIO' | 'BAJO'
+                          : 'SIN_EVALUAR';
+                        const riesgoContratoLabel = {
+                          ALTO: 'Riesgo alto',
+                          MEDIO: 'Riesgo medio',
+                          BAJO: 'Riesgo bajo',
+                          SIN_EVALUAR: 'Sin evaluar',
+                        }[riesgoContrato];
 
                         let rowClass = "hover:bg-slate-50/50 transition-colors group border-l-4";
                         if (isSospechoso) {
@@ -656,27 +590,27 @@ export const PublicProcesados: React.FC = () => {
                             className={`${rowClass} cursor-pointer`}
                           >
                             <td className="px-6 py-4">
-                              <div className="text-xs font-bold text-slate-700 line-clamp-2" title={p.entidad_normalizada}>
+                              <div className="text-xs font-bold text-slate-700 line-clamp-2" title={p.entidad_normalizada ?? undefined}>
                                 {p.entidad_normalizada || 'N/A'}
                               </div>
                             </td>
                             <td className="px-6 py-4">
-                              <div className="text-xs font-bold text-slate-600 line-clamp-2" title={p.proveedor_normalizado}>
+                              <div className="text-xs font-bold text-slate-600 line-clamp-2" title={p.proveedor_normalizado ?? undefined}>
                                 {p.proveedor_normalizado || 'N/A'}
                               </div>
                             </td>
                             <td className="px-6 py-4">
                               <div className="text-xs font-black text-slate-900 whitespace-nowrap">
-                                $ {p.valor_total_normalizado?.toLocaleString('es-ES') || '0'}
+                                {p.valor_total_normalizado == null ? '—' : `$ ${formatDecimalAmount(p.valor_total_normalizado, 'es-ES')}`}
                               </div>
                             </td>
                             <td className="px-6 py-4">
                               <div className="text-xs font-black text-slate-900 whitespace-nowrap">
-                                $ {p.precio_base_normalizado?.toLocaleString('es-ES') || '0'}
+                                {p.precio_base_normalizado == null ? '—' : `$ ${formatDecimalAmount(p.precio_base_normalizado, 'es-ES')}`}
                               </div>
                             </td>
                             <td className="px-6 py-4 text-xs font-bold text-slate-500 whitespace-nowrap">
-                              {p.fecha_publicacion_normalizada ? new Date(p.fecha_publicacion_normalizada).toLocaleDateString('es-ES') : 'N/A'}
+                              {formatCalendarDate(p.fecha_publicacion_normalizada)}
                             </td>
                             <td className="px-6 py-4">
                               <span className={`inline-flex items-center px-2 py-1 rounded text-[9px] font-black tracking-wider uppercase ${
@@ -689,6 +623,17 @@ export const PublicProcesados: React.FC = () => {
                             </td>
                             <td className="px-6 py-4">
                               <div className="flex gap-2 items-center">
+                                <span
+                                  className={`inline-flex rounded-full px-2 py-1 text-[9px] font-black uppercase tracking-wide ${
+                                    riesgoContrato === 'ALTO' ? 'bg-rose-100 text-rose-700' :
+                                    riesgoContrato === 'MEDIO' ? 'bg-amber-100 text-amber-700' :
+                                    riesgoContrato === 'BAJO' ? 'bg-emerald-100 text-emerald-700' :
+                                    'bg-slate-100 text-slate-500'
+                                  }`}
+                                  title={riesgoContrato === 'SIN_EVALUAR' ? 'Este contrato no tiene una evaluación de riesgo contractual.' : undefined}
+                                >
+                                  {riesgoContratoLabel}
+                                </span>
                                 {isSospechoso && (
                                   <span className="cursor-help text-base" title="Contrato sospechoso">🚨</span>
                                 )}
@@ -713,11 +658,7 @@ export const PublicProcesados: React.FC = () => {
                               <div className="flex items-center gap-2">
                                 <div className="w-full bg-slate-100 rounded-full h-2 max-w-[60px]">
                                   <div 
-                                    className={`h-2 rounded-full ${
-                                      confianza >= 80 ? 'bg-emerald-500' : 
-                                      confianza >= 50 ? 'bg-amber-500' : 
-                                      'bg-red-500'
-                                    }`}
+                                    className="h-2 rounded-full bg-indigo-500"
                                     style={{ width: `${confianza}%` }}
                                   ></div>
                                 </div>

@@ -1,0 +1,12 @@
+{
+  "name": "plataforma-openapi-types",
+  "private": true,
+  "scripts": {
+    "generate": "openapi-typescript ../../Backend/openapi.json -o ../../frontend/src/types/api.generated.ts --root-types --root-types-no-schema-prefix --export-type",
+    "check": "openapi-typescript ../../Backend/openapi.json -o ../../frontend/src/types/api.generated.ts --root-types --root-types-no-schema-prefix --export-type --check"
+  },
+  "devDependencies": {
+    "openapi-typescript": "7.13.0",
+    "typescript": "5.9.3"
+  }
+}

@@ -1,29 +1,14 @@
 import React from 'react';
-import type { FuenteDatosResponseDTO, SincronizacionHistorialResponseDTO } from '../../types/fuente';
+import type { ComparativaFuenteDTO } from '../../services/fuentesService';
 import { Card } from '../ui/Card';
 import { Badge } from '../ui/Badge';
 import { RefreshCw, Database, Copy } from 'lucide-react';
 
 interface ComparativaSincronizacionesProps {
-  fuentes: FuenteDatosResponseDTO[];
-  sincronizaciones: SincronizacionHistorialResponseDTO[];
+  comparativa: ComparativaFuenteDTO[];
 }
 
-export const ComparativaSincronizaciones: React.FC<ComparativaSincronizacionesProps> = ({ fuentes, sincronizaciones }) => {
-  // Aggregate stats per source based on their last sync or total syncs
-  const statsPorFuente = fuentes.map(fuente => {
-    const syncsFuente = sincronizaciones.filter(s => s.fuente_id === fuente.id);
-    const ultimaSync = syncsFuente.sort((a, b) => new Date(b.fecha_inicio).getTime() - new Date(a.fecha_inicio).getTime())[0];
-    
-    return {
-      fuente,
-      ultimaSync,
-      totalTraidos: syncsFuente.reduce((acc, curr) => acc + curr.registros_traidos, 0),
-      totalInsertados: syncsFuente.reduce((acc, curr) => acc + curr.registros_insertados, 0),
-      totalDuplicados: syncsFuente.reduce((acc, curr) => acc + curr.registros_duplicados, 0),
-    };
-  });
-
+export const ComparativaSincronizaciones: React.FC<ComparativaSincronizacionesProps> = ({ comparativa }) => {
   return (
     <Card className="overflow-hidden">
       <div className="p-5 border-b border-slate-200 bg-white">
@@ -45,22 +30,16 @@ export const ComparativaSincronizaciones: React.FC<ComparativaSincronizacionesPr
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100">
-            {statsPorFuente.map((stat) => {
-              const totalProcesados = stat.totalInsertados + stat.totalDuplicados;
-              const tasaDuplicidad = totalProcesados > 0 
-                ? (stat.totalDuplicados / totalProcesados) * 100 
-                : 0;
-
-              return (
-                <tr key={stat.fuente.id} className="hover:bg-slate-50">
+            {comparativa.map((stat) => (
+                <tr key={stat.fuente_id} className="hover:bg-slate-50">
                   <td className="px-5 py-4">
-                    <div className="font-medium text-slate-800">{stat.fuente.nombre}</div>
-                    <div className="text-xs text-slate-500">{stat.fuente.endpoint}</div>
+                    <div className="font-medium text-slate-800">{stat.nombre}</div>
+                    <div className="text-xs text-slate-500">{stat.endpoint}</div>
                   </td>
                   <td className="px-5 py-4">
-                    {stat.ultimaSync ? (
-                      <Badge variant={stat.ultimaSync.estado === 'EXITOSO' ? 'success' : stat.ultimaSync.estado === 'ERROR' ? 'error' : 'warning'}>
-                        {stat.ultimaSync.estado}
+                    {stat.ultima_sync_estado ? (
+                      <Badge variant={stat.ultima_sync_estado === 'EXITOSO' ? 'success' : stat.ultima_sync_estado === 'ERROR' ? 'error' : 'warning'}>
+                        {stat.ultima_sync_estado}
                       </Badge>
                     ) : (
                       <span className="text-slate-400 italic text-xs">Sin sincronizaciones</span>
@@ -69,38 +48,37 @@ export const ComparativaSincronizaciones: React.FC<ComparativaSincronizacionesPr
                   <td className="px-5 py-4 text-right">
                     <div className="flex items-center justify-end gap-1 text-slate-700">
                       <RefreshCw size={14} className="text-slate-400" />
-                      {stat.totalTraidos.toLocaleString()}
+                      {stat.total_traidos.toLocaleString()}
                     </div>
                   </td>
                   <td className="px-5 py-4 text-right">
                     <div className="flex items-center justify-end gap-1 text-emerald-600 font-medium">
                       <Database size={14} />
-                      {stat.totalInsertados.toLocaleString()}
+                      {stat.total_insertados.toLocaleString()}
                     </div>
                   </td>
                   <td className="px-5 py-4 text-right">
                     <div className="flex items-center justify-end gap-1 text-amber-500 font-medium">
                       <Copy size={14} />
-                      {stat.totalDuplicados.toLocaleString()}
+                      {stat.total_duplicados.toLocaleString()}
                     </div>
                   </td>
                   <td className="px-5 py-4">
                     <div className="flex items-center gap-2">
-                      <span className={`w-10 text-right font-medium ${tasaDuplicidad > 50 ? 'text-red-600' : 'text-slate-600'}`}>
-                        {tasaDuplicidad.toFixed(1)}%
+                      <span className="w-10 text-right font-medium text-slate-600">
+                        {stat.tasa_duplicidad.toFixed(1)}%
                       </span>
                       <div className="flex-1 h-1.5 bg-slate-100 rounded-full overflow-hidden w-24">
                         <div 
-                          className={`h-full rounded-full ${tasaDuplicidad > 50 ? 'bg-red-500' : 'bg-amber-400'}`}
-                          style={{ width: `${Math.min(tasaDuplicidad, 100)}%` }}
+                          className="h-full rounded-full bg-amber-400"
+                          style={{ width: `${Math.min(stat.tasa_duplicidad, 100)}%` }}
                         />
                       </div>
                     </div>
                   </td>
                 </tr>
-              );
-            })}
-            {statsPorFuente.length === 0 && (
+            ))}
+            {comparativa.length === 0 && (
               <tr>
                 <td colSpan={6} className="px-5 py-8 text-center text-slate-500">
                   No hay fuentes registradas para comparar.

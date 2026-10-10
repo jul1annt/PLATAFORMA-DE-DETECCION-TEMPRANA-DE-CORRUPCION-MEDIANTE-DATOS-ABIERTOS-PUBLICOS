@@ -7,6 +7,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from 'recharts';
+import type { PieLabelRenderProps } from 'recharts';
 import type { RiskDistribution } from '../../types/procesado';
 
 interface RiskChartProps {
@@ -22,8 +23,13 @@ const renderCustomLabel = ({
   innerRadius,
   outerRadius,
   percent,
-}: any) => {
-  if (percent < 0.04) return null;
+}: PieLabelRenderProps) => {
+  if (
+    typeof cx !== 'number' || typeof cy !== 'number' ||
+    typeof midAngle !== 'number' || typeof innerRadius !== 'number' ||
+    typeof outerRadius !== 'number' || typeof percent !== 'number' ||
+    percent < 0.04
+  ) return null;
   const radius = innerRadius + (outerRadius - innerRadius) * 0.55;
   const x = cx + radius * Math.cos(-midAngle * RADIAN);
   const y = cy + radius * Math.sin(-midAngle * RADIAN);
@@ -70,9 +76,9 @@ export const RiskChart: React.FC<RiskChartProps> = ({ data }) => {
           ))}
         </Pie>
         <Tooltip
-          formatter={(value: number, name: string) => [
-            value.toLocaleString('es-ES'),
-            name,
+          formatter={(value, name) => [
+            Number(value ?? 0).toLocaleString('es-ES'),
+            String(name),
           ]}
           contentStyle={{
             background: 'rgba(15,23,42,0.9)',

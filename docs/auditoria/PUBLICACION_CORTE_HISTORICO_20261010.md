@@ -1,0 +1,43 @@
+# Publicación del corte histórico elegido
+
+Estado: **publicación operativa verificada**, 2026-10-10 UTC (10/10 en Bogotá). P14/P19 cerrados para el corte histórico aceptado. [Prueba estructurada](PUBLICACION_CORTE_HISTORICO_20261010.json).
+
+## Decisión y alcance
+
+El usuario eligió «Publicar el corte histórico verificado, mostrando su fecha». El universo aceptado es el corte SECOP del **01/10/2026**, con **9 249 545** registros crudos y procesados. La fecha ya figura en el bundle local. Las fuentes permanecen pausadas; esta publicación no afirma actualidad respecto de la fuente oficial ni inicia otra carga o normalización.
+
+El destino publicado es **`plataformaanticorrupcion:5432`**, OID **24577**, con rol ordinario `plataforma_operacion`. Se verificaron **9 249 545 crudos y procesados**, 129 062 anomalías y cuatro analíticas; revisión `f4826b9d1c30` y **20 índices válidos**. API, frontend y worker sirven este destino. La integración anterior `plataforma_integracion_local:5433` permanece conservada. El original de 18 980 registros mantiene su OID **17930** bajo **`plataformaanticorrupcion_pre_20261010`**, con respaldo y configuración de reversa.
+
+## Comprobaciones realizadas
+
+- Archivo histórico: 3 434 770 306 bytes, SHA-256 `c0e885928126013d87c234320392d18e5d4d441c9e1d520b97557e447d8be02f`, 196 entradas. Se reutiliza [la restauración independiente completa verificada del 03/10](RESPALDO_RESTAURACION_SECOP_20261003.json) y se volvió a comprobar el archivo antes de esta copia necesaria entre clústeres.
+- Respaldo nuevo de la base anterior: 6 374 617 bytes, SHA-256 `2d775be9bdb6f768dbd96d0a99d3368dee166d566095ab6c6d9e8894931981f8`. Se guarda dentro del directorio privado de publicación; no se adjuntan datos ni credenciales al repositorio.
+- Destino temporal creado una sola vez con rol ordinario `plataforma_operacion`, sin superusuario, creación de bases, creación de roles ni replicación. La identidad del clúster operativo y los OID se fijaron antes de copiar.
+- Controlador `915e863cc7492e619888506f59a04c6dbbfa5552`: permite únicamente los pares declarados de integración/publicación; exige puerto, rol, OID positivo y revisión. Rechaza destinos cruzados y valores no enteros. Pasaron 14 pruebas locales.
+- CI de esa misma revisión: [PR 38015014967](https://github.com/jul1annt/PLATAFORMA-DE-DETECCION-TEMPRANA-DE-CORRUPCION-MEDIANTE-DATOS-ABIERTOS-PUBLICOS/actions/runs/38015014967) y [push 38015011865](https://github.com/jul1annt/PLATAFORMA-DE-DETECCION-TEMPRANA-DE-CORRUPCION-MEDIANTE-DATOS-ABIERTOS-PUBLICOS/actions/runs/38015011865), ambos correctos. Backend: **267 pruebas**, 30,42 s en el registro consultado; frontend: seis pruebas, lint/build y auditorías sin vulnerabilidades conocidas.
+
+## Configuración de texto conservada
+
+La integración de origen tiene locale `Spanish_Argentina.1252`; el clúster operativo usa `C`. Se conservó el locale de origen de forma explícita en **102 columnas de texto de 20 tablas**, manteniendo sus tipos y los `relfilenode` de sus datos. Solo se reconstruyen los índices afectados; no se repite la copia de filas ni la normalización. El ensayo pequeño de cambio de colación mantuvo el heap y coincidió con el origen. Después coincidieron **40 consultas sintéticas** de texto entre origen y copia, con lecturas secuenciales e indexadas; el inventario comprobó índices B-tree y únicamente la extensión `plpgsql` en ambos destinos. Este ensayo no afirma cubrir todo carácter Unicode posible.
+
+La base conserva su default `C`; las columnas restauradas declaran la comparación española. [El SQL de recuperación](../operacion/PRESERVAR_LOCALE_SECOP_20261001.sql) exige nombre, puerto, rol ordinario, OID y revisión conocidos, rechaza una revisión ausente y omite las columnas ya reconciliadas; su ejecución final contra la revisión publicada terminó sin alterar ninguna tabla. Para una restauración nueva en este equipo, crear la base con UTF8 y el locale de origen desde el comienzo evita ese ajuste. El cambio de colación puede reconstruir índices dependientes, según [PostgreSQL 15](https://www.postgresql.org/docs/15/sql-altertable.html); la ausencia de reescritura de datos se comprueba por tabla.
+
+Durante la restauración se ajustaron temporalmente memoria de mantenimiento, trabajadores de índices y memoria de autovacuum. La memoria por operación se elevó de 64 a 512 MB. Se mantuvieron los dos trabajadores de `pg_restore`; mientras el ajuste estuvo activo, los índices posteriores de esa restauración no añadieron trabajadores paralelos. La configuración global anterior quedó repuesta y verificada. Los dos índices aditivos se ejecutaron después con 128 MB de mantenimiento en su sesión. Se pausó solo el autovacuum automático de crudos y contratos de esta copia para evitar scans redundantes; el VACUUM/ANALYZE final terminó correctamente y las dos opciones se restablecieron después. La motivación fue el disco mecánico y las esperas de lectura observadas; no se presenta una mejora comparativa de velocidad. [PostgreSQL 15 documenta el presupuesto de mantenimiento y autovacuum](https://www.postgresql.org/docs/15/runtime-config-resource.html).
+
+## Publicación y controles finales
+
+La copia terminó una sola vez. Se comprobaron conteos, revisión y huella UTC de las primeras 5 000 filas (`d77c0e7b7fc67a9b2a473ebc663c1404`); se aplicaron únicamente los dos índices aditivos y las estadísticas de restauración. No hubo otra extracción o normalización de nueve millones de contratos. El primer control comparó por error una huella anterior serializada en hora de Bogotá con una nueva en UTC y detuvo la publicación. La comparación de los mismos 5 000 IDs y todos sus campos entre copia, integración y origen histórico encontró cero diferencias. La referencia anterior sigue siendo c41852d1b34d622b428f259ade24d7c2 en America/Bogota; en UTC las tres dan d77c0e7b7fc67a9b2a473ebc663c1404. Se retomó solo la validación, sin repetir la restauración.
+
+Con los servicios pausados se creó un checkpoint nuevo de configuración, exportaciones y las cuatro tablas de control: cuentas, sesiones, fuentes y trabajos. Su estado posterior al dump histórico se reconcilió por claves, se alinearon secuencias y se cotejaron sus huellas antes del cambio de nombres. Solo se retiraron sesiones del respaldo que ya no existían en el estado actual; los contratos y sus referencias se conservaron. El cambio emparejado de nombres se ensayó previamente con dos bases vacías y rollback de transacción.
+
+Backend/worker publicados: `915e863cc7492e619888506f59a04c6dbbfa5552`; frontend `9362d94f9dbfbdf352ae11585a2bfd44318b11e6`, reutilizado tras comprobar el árbol completo y los hashes. El controlador fija nombre, puerto, rol, OID y revisión; las cuatro capacidades privilegiadas del rol de aplicación son falsas.
+
+Contra la API publicada pasaron autenticación, revocación de sesión, protección administrativa, búsqueda de 2024 (**1 670 370** resultados, página de 20), detalle, calidad del universo completo, vacío de 2099 y rechazo del límite inválido. El worker dedicado completó una nueva exportación CSV; bytes y SHA-256 figuran en la prueba estructurada. La interfaz respondió HTTP 200 y su bundle servido contiene **01/10/2026**. Los cotejos posteriores conservaron el original y el estado de la integración anterior, con cero trabajos activos. Un primer intento de promoción se detuvo antes de pausar los servicios porque el controlador de la versión buscaba su carpeta por defecto. Se verificaron intactos configuración, OID y procesos, se conservó ese intento y se fijó explícitamente --root; la publicación retomó la misma copia validada.
+
+La revisión de siete logs de servicios y publicación encontró cero coincidencias con las credenciales conocidas, capacidades de exportación y cadenas con formato JWT. La prueba estructurada exporta solo conteos y metadatos de esa revisión.
+
+## Reversa y límites
+
+El directorio privado `publication-20261010/control-checkpoint/` conserva configuración, estado administrativo y archivos; también se mantiene el respaldo nuevo del original y la base anterior por su OID. Antes de una reversa, detener servicios sin trabajos activos, verificar nombres/OID y reconciliar cualquier escritura posterior al checkpoint. [La guía de despliegue](GUIA_DESPLIEGUE_Y_REVERSA.md) explica el alcance.
+
+El corte publicado es histórico: no acredita actualidad de SECOP. Las fuentes permanecen pausadas. P01, P05, P06, P12, P15 y P16 siguen abiertos por las dependencias del [plan](PLAN_DE_ACCION.md); esta publicación no aprueba retención ni SLA de carga. La comprobación HTTP no repite el ensayo previo de navegación del cliente real. El PR continúa en borrador y `main` no se integró.

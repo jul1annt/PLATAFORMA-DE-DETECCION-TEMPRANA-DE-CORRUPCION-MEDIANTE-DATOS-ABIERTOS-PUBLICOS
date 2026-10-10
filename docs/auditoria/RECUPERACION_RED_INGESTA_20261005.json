@@ -1,0 +1,71 @@
+{
+  "verified_at_utc": "2026-10-05T06:39:51.414694+00:00",
+  "scope": "Real local HTTPS/TLS body truncation, production adapter pagination/retries, durable PostgreSQL worker and authenticated API status on 10,001 synthetic rows",
+  "database": "codex_plan_resume_test",
+  "port": 5433,
+  "migration": "d2804c8b39a1",
+  "suite": {
+    "passed": 249,
+    "failed": 0,
+    "skipped": 0,
+    "duration_seconds": "32.589"
+  },
+  "focused": {
+    "passed": 1,
+    "duration_seconds": "19.477"
+  },
+  "observations": [
+    {
+      "api_during_cut": {
+        "http": 200,
+        "status": "EN_PROCESO"
+      },
+      "total_rows": 10001,
+      "committed_before_cut": 5000,
+      "resumed_rows": 5001,
+      "failed_https_attempts": 6,
+      "total_https_requests": 9,
+      "resumed_cursor": "wire-04999",
+      "window_preserved": true,
+      "duplicate_active_job": false,
+      "abandoned_recovery_while_live": 0,
+      "terminal_states": [
+        "ERROR",
+        "EXITOSO"
+      ],
+      "history_duplicates": 0,
+      "certificate_and_hostname_verified": true
+    }
+  ],
+  "test_file": {
+    "path": "Backend/tests/test_ingesta_network_postgres.py",
+    "sha256": "c3f135affe46e18ae68b691efc4229bab2515461dbc85ab5f1e832c0d902d853"
+  },
+  "cleanup": {
+    "database_removed": true,
+    "size_before_removal_bytes": 20061543,
+    "temporary_row_counts_after_tests": {
+      "raw_secop": 0,
+      "raw_secop_historial": 0,
+      "contratos_procesados": 0,
+      "background_jobs": 0,
+      "procesamiento_logs": 0,
+      "fuentes_datos": 0,
+      "sincronizacion_historial": 0
+    },
+    "sessions_before_removal": 0,
+    "isolated_cluster_stopped_cleanly": true,
+    "isolated_cluster_stop_verified_at_utc": "2026-10-05T06:43:21.592514+00:00"
+  },
+  "operational_database_readonly_counts": {
+    "raw_secop": 18980,
+    "contratos_procesados": 18980
+  },
+  "limits": [
+    "Synthetic 10,001-row ingestion, not a full-universe upstream network fault under concurrent search load",
+    "The test injects a loopback TLS transport and trusts an ephemeral certificate; production endpoint/DNS policy is unchanged",
+    "Hostname, SNI and certificate verification remain enabled in the test transport",
+    "The API status request uses TestClient; upstream adapter traffic uses real sockets",
+    "No new download from public SECOP, no deployed-network or production SLA assertion"
+  ]
+}

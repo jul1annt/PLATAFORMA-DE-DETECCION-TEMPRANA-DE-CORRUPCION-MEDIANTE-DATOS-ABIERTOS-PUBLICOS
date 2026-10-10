@@ -1,0 +1,21 @@
+{
+  "checked_at_utc": "2026-10-02T18:15:21Z",
+  "database": "plataforma_secop_refresh_20261001_test",
+  "cluster_data_directory_suffix": "recovery-clone-20260929",
+  "active_job": {
+    "id": 98,
+    "kind": "ANALITICA",
+    "status": "EN_PROCESO",
+    "resource_key": "analitica:refresh_20261001:RIESGO"
+  },
+  "probe": {
+    "method": "Second process, shared row lock, enqueue_job with the existing payload and resource key, pg_try_advisory_lock on job 98, rollback",
+    "returned_existing_job": true,
+    "created_another_job": false,
+    "resource_job_count_before": 1,
+    "resource_job_count_after": 1,
+    "second_session_acquired_worker_lock": false,
+    "writes_committed": 0
+  },
+  "scope": "Live full-universe risk analysis; verifies duplicate scheduling and cross-session lease while it runs. Does not simulate worker death or recovery."
+}

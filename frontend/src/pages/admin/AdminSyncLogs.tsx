@@ -1,57 +1,72 @@
-import React, { useEffect, useState } from 'react';
-import { RefreshCw, AlertCircle, CheckCircle, XCircle, Clock, FileSpreadsheet, FileText } from 'lucide-react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { RefreshCw, AlertCircle, CheckCircle, XCircle, Clock, FileSpreadsheet, FileText, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/Card';
 import { fuentesService } from '../../services/fuentesService';
 import type { SincronizacionHistorialResponseDTO, EstadoSync } from '../../types/fuente';
-import { exportToCSV, exportToExcel } from '../../utils/exportUtils';
+import type { SincronizacionHistorialResumenDTO } from '../../services/fuentesService';
+import { downloadExport } from '../../utils/download';
 
 const STATUS_STYLES: Record<EstadoSync, string> = {
   EXITOSO: 'bg-emerald-100 text-emerald-700',
   EN_PROCESO: 'bg-amber-100 text-amber-700',
   ERROR: 'bg-red-100 text-red-700',
+  PARCIAL: 'bg-blue-100 text-blue-700',
 };
 
 const STATUS_ICONS: Record<EstadoSync, React.ReactNode> = {
   EXITOSO: <CheckCircle size={12} />,
   EN_PROCESO: <Clock size={12} />,
   ERROR: <XCircle size={12} />,
+  PARCIAL: <AlertCircle size={12} />,
 };
 
 const AdminSyncLogs: React.FC = () => {
+  const PAGE_SIZE = 50;
   const [logs, setLogs] = useState<SincronizacionHistorialResponseDTO[]>([]);
+  const [resumen, setResumen] = useState<SincronizacionHistorialResumenDTO | null>(null);
+  const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const activeRequest = useRef<AbortController | null>(null);
 
-  const fetchLogs = async () => {
+  const fetchLogs = useCallback(async () => {
+    activeRequest.current?.abort();
+    const controller = new AbortController();
+    activeRequest.current = controller;
     setLoading(true);
     setError(null);
     try {
-      const data = await fuentesService.getSincronizacionesGlobales();
-      setLogs(data);
+      const [paginaData, resumenData] = await Promise.all([
+        fuentesService.getPaginaSincronizaciones(page, PAGE_SIZE, controller.signal),
+        fuentesService.getResumenSincronizaciones(controller.signal),
+      ]);
+      if (controller.signal.aborted) return;
+      setLogs(paginaData.items);
+      setResumen(resumenData);
     } catch {
+      if (controller.signal.aborted) return;
       setError('No se pudieron cargar los logs de sincronización.');
     } finally {
-      setLoading(false);
+      if (activeRequest.current === controller) {
+        activeRequest.current = null;
+        setLoading(false);
+      }
     }
-  };
+  }, [page]);
 
-  useEffect(() => { fetchLogs(); }, []);
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      void fetchLogs();
+    }, 0);
+    return () => {
+      window.clearTimeout(timer);
+      activeRequest.current?.abort();
+      activeRequest.current = null;
+    };
+  }, [fetchLogs]);
 
-  const buildExportRows = () =>
-    logs.map((log: SincronizacionHistorialResponseDTO) => ({
-      ID: log.id,
-      Fuente: log.fuente_nombre ?? `Fuente #${log.fuente_id}`,
-      'Fecha Inicio': new Date(log.fecha_inicio).toLocaleString('es-CO'),
-      'Fecha Fin': log.fecha_fin ? new Date(log.fecha_fin).toLocaleString('es-CO') : '',
-      'Registros Traídos': log.registros_traidos,
-      'Registros Insertados': log.registros_insertados,
-      'Registros Duplicados': log.registros_duplicados,
-      Estado: log.estado,
-      'Mensaje Error': log.mensaje_error ?? '',
-    }));
-
-  const handleExportCSV = () => exportToCSV(buildExportRows(), 'logs_sincronizacion');
-  const handleExportExcel = () => exportToExcel(buildExportRows(), 'logs_sincronizacion');
+  const handleExportCSV = () => downloadExport('/api/ingesta/fuentes/sincronizaciones/export/csv', 'logs_sincronizacion.csv');
+  const handleExportExcel = () => downloadExport('/api/ingesta/fuentes/sincronizaciones/export/xlsx', 'logs_sincronizacion.xlsx');
 
   return (
     <div className="space-y-6 animate-in fade-in duration-500">
@@ -100,8 +115,14 @@ const AdminSyncLogs: React.FC = () => {
       {/* Summary badges */}
       {!loading && !error && (
         <div className="flex gap-3 flex-wrap">
-          {(['EXITOSO', 'EN_PROCESO', 'ERROR'] as EstadoSync[]).map((s) => {
-            const count = logs.filter((l) => l.estado === s).length;
+          {(['EXITOSO', 'EN_PROCESO', 'PARCIAL', 'ERROR'] as EstadoSync[]).map((s) => {
+            const count = s === 'EXITOSO'
+              ? resumen?.exitoso ?? 0
+              : s === 'EN_PROCESO'
+                ? resumen?.en_proceso ?? 0
+                : s === 'PARCIAL'
+                  ? resumen?.parcial ?? 0
+                  : resumen?.error ?? 0;
             return (
               <span
                 key={s}
@@ -113,7 +134,7 @@ const AdminSyncLogs: React.FC = () => {
             );
           })}
           <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-600">
-            Total: {logs.length}
+            Total: {resumen?.total ?? 0}
           </span>
         </div>
       )}
@@ -194,6 +215,29 @@ const AdminSyncLogs: React.FC = () => {
                   ))}
                 </tbody>
               </table>
+            </div>
+          )}
+          {!loading && !error && resumen && resumen.total > 0 && (
+            <div className="flex items-center justify-between gap-3 border-t border-slate-100 pt-4 mt-4">
+              <span className="text-xs text-slate-500">
+                Página {page} de {Math.max(1, Math.ceil(resumen.total / PAGE_SIZE))} · {resumen.total.toLocaleString('es-CO')} sincronizaciones
+              </span>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => setPage((current) => Math.max(1, current - 1))}
+                  disabled={loading || page <= 1}
+                  className="inline-flex items-center gap-1 rounded-lg border border-slate-200 px-3 py-1.5 text-xs text-slate-600 disabled:opacity-40"
+                >
+                  <ChevronLeft size={14} /> Anterior
+                </button>
+                <button
+                  onClick={() => setPage((current) => current + 1)}
+                  disabled={loading || page >= Math.ceil(resumen.total / PAGE_SIZE)}
+                  className="inline-flex items-center gap-1 rounded-lg border border-slate-200 px-3 py-1.5 text-xs text-slate-600 disabled:opacity-40"
+                >
+                  Siguiente <ChevronRight size={14} />
+                </button>
+              </div>
             </div>
           )}
         </CardContent>

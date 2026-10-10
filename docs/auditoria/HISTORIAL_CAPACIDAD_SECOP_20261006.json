@@ -1,0 +1,108 @@
+{
+  "started_at_utc": "2026-10-06T08:23:34.216069+00:00",
+  "source": "plataforma_integracion_local",
+  "test_database": "plataforma_historial_capacidad_20261006_test",
+  "release": "9362d94f9dbfbdf352ae11585a2bfd44318b11e6",
+  "scope": "Actual PostgreSQL history trigger; deterministic bounded sample across primary-key range; three confirmed versions in an isolated database, not observed production change frequency",
+  "anchor_count": 100,
+  "rows_per_anchor": 20,
+  "schema_revision": "f4826b9d1c30",
+  "source_rows_written": 0,
+  "stages": [
+    {
+      "versions": 0,
+      "mean_stored_json_datum_bytes": 0.0,
+      "min_stored_json_datum_bytes": 0,
+      "max_stored_json_datum_bytes": 0,
+      "heap_main_bytes": 0,
+      "index_bytes": 24576,
+      "total_relation_bytes": 32768,
+      "label": "baseline",
+      "update_and_commit_seconds": 0
+    },
+    {
+      "versions": 0,
+      "mean_stored_json_datum_bytes": 0.0,
+      "min_stored_json_datum_bytes": 0,
+      "max_stored_json_datum_bytes": 0,
+      "heap_main_bytes": 0,
+      "index_bytes": 24576,
+      "total_relation_bytes": 32768,
+      "label": "timestamp_only",
+      "update_and_commit_seconds": 0.36810809999587946
+    },
+    {
+      "versions": 2000,
+      "mean_stored_json_datum_bytes": 1675.2495,
+      "min_stored_json_datum_bytes": 1412,
+      "max_stored_json_datum_bytes": 2282,
+      "heap_main_bytes": 4046848,
+      "index_bytes": 221184,
+      "total_relation_bytes": 4358144,
+      "label": "version_1",
+      "update_and_commit_seconds": 0.629213800013531
+    },
+    {
+      "versions": 4000,
+      "mean_stored_json_datum_bytes": 1677.2615,
+      "min_stored_json_datum_bytes": 1412,
+      "max_stored_json_datum_bytes": 2282,
+      "heap_main_bytes": 8101888,
+      "index_bytes": 368640,
+      "total_relation_bytes": 8585216,
+      "label": "version_2",
+      "update_and_commit_seconds": 0.60107259999495
+    },
+    {
+      "versions": 6000,
+      "mean_stored_json_datum_bytes": 1678.3178333333333,
+      "min_stored_json_datum_bytes": 1412,
+      "max_stored_json_datum_bytes": 2282,
+      "heap_main_bytes": 12156928,
+      "index_bytes": 466944,
+      "total_relation_bytes": 12763136,
+      "label": "version_3",
+      "update_and_commit_seconds": 0.6758427000022493
+    }
+  ],
+  "resumed_after_read_only_failure": true,
+  "stage": "verified",
+  "sample_size": 2000,
+  "sample_ids_sha256": "c34838efb27448e2e1b24eed71916cec67d2b7aa16f318b6456dac03dadf0219",
+  "sample_fingerprint": "ef5bf0dfc2b97eeb5f599399104015b0",
+  "primary_key_range": [
+    1,
+    9249545
+  ],
+  "sample_min_id": 1,
+  "sample_max_id": 9157068,
+  "trigger_definition_sha256": "3157c7b1c5604fb970301765674fd5732e3cf2d5ebde6afbdd045fd01c0e714f",
+  "test_oid": 74688,
+  "sample_source_unchanged": true,
+  "temporary_database_removed": true,
+  "temporary_database_bytes": 34856295,
+  "measured_total_growth_bytes": 12730368,
+  "measured_bytes_per_archived_version": 2121.728,
+  "illustrative_full_generation_history_bytes": 19625018613.760002,
+  "projection_limit": "Sample from PK spans, not random/stratified; three deliberate metric changes, not measured production rate. Full-generation value is an extrapolation, excludes WAL, backups and future index depth/storage changes.",
+  "completed_at_utc": "2026-10-06T08:26:47.308279+00:00",
+  "sample_method": "100 equally spaced anchors over min/max raw_secop.id, 20 subsequent rows per anchor, de-duplicated by ID; bounded indexed reads, not random or date-stratified",
+  "integrated_raw_rows": 9249545,
+  "synthetic_mutation": "Only in isolated sample: visualizaciones_del = COALESCE(visualizaciones_del, 0) + 1, repeated in three separate commits",
+  "control_mutation": "Only in isolated sample: synchronization timestamp + one second; zero history rows",
+  "verified_old_snapshot": "For each committed mutation, MD5 of ordered complete OLD row JSON matched MD5 of archived datos_anteriores; identical trigger definition SHA-256 in source and experiment",
+  "projections": [
+    {
+      "fraction_changed_once": 0.01,
+      "illustrative_history_bytes": 196250186.13760003
+    },
+    {
+      "fraction_changed_once": 0.1,
+      "illustrative_history_bytes": 1962501861.3760004
+    },
+    {
+      "fraction_changed_once": 1,
+      "illustrative_history_bytes": 19625018613.760002
+    }
+  ]
+}
