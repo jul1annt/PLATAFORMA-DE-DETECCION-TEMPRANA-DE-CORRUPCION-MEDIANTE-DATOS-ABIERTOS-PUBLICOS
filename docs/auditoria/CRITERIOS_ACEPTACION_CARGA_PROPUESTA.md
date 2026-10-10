@@ -46,3 +46,7 @@ El [piloto canónico](RECURSOS_CARGA_CANONICA_20261010.md) amplía la medición 
 ## Candidato compacto — 2026-10-10
 
 El [ensayo posterior](OPTIMIZACION_INDICE_METRICAS_20261010.md) completó 1 017/1 017 lecturas correctas. Calidad p95 3,850 s y búsqueda p95 1,226 s quedan fuera de los límites de 3 s/1 s propuestos para revisión. El nuevo observador completa únicamente procesos nuevos/reutilizados y exige un inventario final consistente; 26 muestras válidas, 24 adquisiciones descartadas, intervalo máximo 5,343 s. No se afirman máximo continuo ni lecturas atómicas. Aumentó el tráfico del circuito cerrado y se conservan perfiles separados. La autorización de publicación/CI y la aceptación del perfil siguen pendientes; no se registra aprobación por defecto ni se cierra P16.
+
+## Comparaciones SQL por ruta — 2026-10-10
+
+[El diagnóstico de paralelismo](PARALELISMO_LECTURAS_20261010.md) añadió 1 630 lecturas correctas desde ocho clientes en pasadas de 20 s. Son consultas del repositorio, no solicitudes HTTP ni un sustituto del perfil exigido. La variante selectiva mejoró búsqueda/proveedores y empeoró calidad; no se activó. Las opciones quedaron locales y omitidas por defecto, con 316 pruebas nativas y restauración de ajustes al reutilizar conexiones. El agregado agrupado se descartó después de medirlo. Faltan HTTP del candidato, optimización de calidad y los escenarios conjuntos; la aceptación y la publicación siguen pendientes. No se cambia ningún límite para declarar cierre.

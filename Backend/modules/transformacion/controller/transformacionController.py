@@ -11,6 +11,7 @@ import uuid
 
 from core.config import settings
 from core.database import get_db
+from core.read_database import get_search_db, get_provider_db
 from modules.transformacion.dto.request import (
     ContratoProcesadoFilterDTO, AnomaliaFilterDTO, ReprocesarRequestDTO
 )
@@ -153,7 +154,7 @@ def search_procesados(
     offset: int = Query(0, ge=0),
     sort: Optional[str] = Query(None, pattern="^(valor|valor_total_normalizado|precio_base_normalizado|fecha|id|entidad|proveedor|riesgo)$", description="Campo por el cual ordenar"),
     order: str = Query("desc", pattern="^(asc|desc)$"),
-    db: Session = Depends(get_db),
+    db: Session = Depends(get_search_db),
 ):
     allowed_query_params = {
         "entidad", "proveedor", "modalidad", "estado", "fecha_inicio", "fecha_fin",
@@ -339,7 +340,7 @@ def distribucion_anomalias(request: Request, db: Session = Depends(get_db)):
 def top_proveedores(
     request: Request,
     limit: int = Query(10, ge=1, le=50),
-    db: Session = Depends(get_db),
+    db: Session = Depends(get_provider_db),
 ):
     _validar_query_params(request, {"limit"})
     return TransformacionRepository(db).get_top_providers(limit)

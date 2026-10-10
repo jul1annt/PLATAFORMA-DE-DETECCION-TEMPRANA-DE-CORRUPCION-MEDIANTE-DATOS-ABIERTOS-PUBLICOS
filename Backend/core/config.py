@@ -1,4 +1,4 @@
-from pydantic import field_validator
+from pydantic import Field, field_validator
 from pydantic_settings import BaseSettings, NoDecode, SettingsConfigDict
 from typing import Annotated
 from cryptography.fernet import Fernet
@@ -45,6 +45,8 @@ class Settings(BaseSettings):
     DB_USER: str
     DB_PASSWORD: str
     DB_NAME: str
+    SEARCH_QUERY_PARALLEL_WORKERS: int | None = Field(default=None, ge=0, le=1024)
+    PROVIDER_QUERY_PARALLEL_WORKERS: int | None = Field(default=None, ge=0, le=1024)
     ENCRYPTION_KEY: str
     ENCRYPTION_KEY_PREVIOUS: str | None = None
     SECRET_KEY: str
