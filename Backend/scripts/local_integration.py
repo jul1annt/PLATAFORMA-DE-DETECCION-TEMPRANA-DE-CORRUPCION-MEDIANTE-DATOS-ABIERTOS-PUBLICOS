@@ -92,7 +92,8 @@ def configuration(root):
     python = inside(root / 'runtime', runtime['python'])
     env = os.environ.copy()
     env.update({key: value for key, value in dotenv_values(root / 'runtime.env').items() if value is not None})
-    if (env.get('DB_HOST'), env.get('DB_PORT'), env.get('DB_NAME')) != ('127.0.0.1', '5433', 'plataforma_integracion_local'):
+    database, port, role = database_binding(provision)
+    if (env.get('DB_HOST'), env.get('DB_PORT'), env.get('DB_NAME'), env.get('DB_USER')) != ('127.0.0.1', str(port), database, role):
         raise RuntimeError('La identidad de la integración no coincide')
     if hashlib.sha256((backend / 'requirements.lock').read_bytes()).hexdigest() != runtime['requirements_lock_sha256']:
         raise RuntimeError('El entorno no corresponde al archivo de dependencias')
@@ -128,9 +129,28 @@ def active_jobs(root):
         engine.dispose()
 
 
+def database_binding(provision):
+    database = provision.get('target_database', 'plataforma_integracion_local')
+    port = provision.get('port', 5433)
+    allowed = {
+        ('plataforma_integracion_local', 5433): 'plataforma_integracion',
+        ('plataformaanticorrupcion', 5432): 'plataforma_operacion',
+    }
+    if not isinstance(database, str) or type(port) is not int or (database, port) not in allowed:
+        raise RuntimeError('El destino declarado no está autorizado')
+    role = provision.get('app_role', allowed[(database, port)])
+    if role != allowed[(database, port)]:
+        raise RuntimeError('El rol declarado no corresponde al destino')
+    return database, port, role
+
+
 def validate_database_identity(identity, flags, provision):
-    expected = ('plataforma_integracion_local', 5433, 'plataforma_integracion',
-                provision['target_database_oid'], provision.get('deployed_revision', provision['source_revision']))
+    database, port, role = database_binding(provision)
+    oid = provision['target_database_oid']
+    if type(oid) is not int or oid <= 0:
+        raise RuntimeError('El OID declarado no es válido')
+    expected = (database, port, role, oid,
+                provision.get('deployed_revision', provision['source_revision']))
     if identity != expected or set(flags) != {'rolsuper', 'rolcreatedb', 'rolcreaterole', 'rolreplication'} or any(value is not False for value in flags.values()):
         raise RuntimeError('La identidad, revisión o permisos del destino no coinciden')
 

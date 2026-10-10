@@ -7,7 +7,7 @@ from http.server import ThreadingHTTPServer
 
 import pytest
 
-from scripts.local_integration import alive, frontend_handler, inside, process_stamp, verify_files, validate_database_identity, observe_disconnects
+from scripts.local_integration import alive, frontend_handler, inside, process_stamp, verify_files, validate_database_identity, observe_disconnects, database_binding
 
 
 def test_owned_process_requires_the_original_creation_stamp():
@@ -54,6 +54,44 @@ def test_database_identity_checks_role_oid_schema_and_privileges():
             validate_database_identity(expected, dict(flags, **{flag:True}), provision)
     with pytest.raises(RuntimeError):
         validate_database_identity(expected, {}, provision)
+
+
+def test_declared_operational_target_pins_port_role_oid_and_revision():
+    provision = {'target_database': 'plataformaanticorrupcion', 'port': 5432,
+                 'app_role': 'plataforma_operacion', 'target_database_oid': 456,
+                 'source_revision': 'source', 'deployed_revision': 'deployed'}
+    expected = ('plataformaanticorrupcion', 5432, 'plataforma_operacion', 456, 'deployed')
+    flags = dict.fromkeys(('rolsuper', 'rolcreatedb', 'rolcreaterole', 'rolreplication'), False)
+    validate_database_identity(expected, flags, provision)
+    for position, replacement in ((0, 'plataforma_integracion_local'), (1, 5433),
+                                  (2, 'postgres'), (3, 123), (4, 'source')):
+        changed = list(expected); changed[position] = replacement
+        with pytest.raises(RuntimeError):
+            validate_database_identity(tuple(changed), flags, provision)
+    with pytest.raises(RuntimeError):
+        validate_database_identity(expected, dict(flags, rolsuper=True), provision)
+
+
+def test_database_binding_rejects_unknown_crossed_and_untyped_targets():
+    for database, port, role in (
+        ('plataformaanticorrupcion', 5433, 'plataforma_operacion'),
+        ('plataforma_integracion_local', 5432, 'plataforma_integracion'),
+        ('unrelated', 5432, 'plataforma_operacion'),
+        ('plataformaanticorrupcion', '5432', 'plataforma_operacion'),
+        ('plataformaanticorrupcion', 5432.0, 'plataforma_operacion'),
+        ('plataformaanticorrupcion', 5432, 'postgres'),
+    ):
+        with pytest.raises(RuntimeError):
+            database_binding({'target_database': database, 'port': port, 'app_role': role})
+
+
+def test_database_identity_rejects_boolean_and_nonpositive_oids():
+    flags = dict.fromkeys(('rolsuper', 'rolcreatedb', 'rolcreaterole', 'rolreplication'), False)
+    for oid in (True, 0, -1, '123'):
+        provision = {'target_database_oid': oid, 'source_revision': 'source'}
+        with pytest.raises(RuntimeError):
+            validate_database_identity(('plataforma_integracion_local', 5433,
+                                        'plataforma_integracion', oid, 'source'), flags, provision)
 
 
 def test_optional_http_trace_forwards_body_and_never_records_secrets(tmp_path):
