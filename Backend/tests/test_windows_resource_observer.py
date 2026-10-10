@@ -61,23 +61,40 @@ def test_missing_unavailable_and_extra_processes_cannot_count_as_complete():
 
 
 @pytest.mark.parametrize('change', ['new_child', 'reused_child'])
-def test_inventory_churn_during_sampling_is_rejected(monkeypatch, change):
+def test_inventory_churn_is_reconciled_by_reading_only_new_or_reused_pids(monkeypatch, change):
     observer = WindowsObserver.__new__(WindowsObserver)
     first = records(); second = records()
     if change == 'new_child':
         second[13] = {'parent_pid': 10, 'name': 'new'}
-    inventories = iter([first, second])
-    calls = {}
-    monkeypatch.setattr(observer, 'inventory', lambda: next(inventories))
+    passes, calls = [], {}
+
+    def inventory():
+        passes.append(1)
+        return first if len(passes) == 1 else second
+
+    monkeypatch.setattr(observer, 'inventory', inventory)
+
+    def identity(pid):
+        stamp = pid + (100 if change == 'reused_child' and pid == 12 and len(passes) > 1 else 0)
+        return {'pid': pid, 'available': True, 'stamp': str(stamp)}
 
     def process(pid):
         calls[pid] = calls.get(pid, 0) + 1
-        stamp = pid + (100 if change == 'reused_child' and pid == 12 and calls[pid] == 2 else 0)
-        return {'pid': pid, 'available': True, 'stamp': str(stamp)}
+        return identity(pid)
 
     monkeypatch.setattr(observer, 'process', process)
-    with pytest.raises(RuntimeError, match='árbol cambió'):
-        observer.sample({'application': {'pid': 10, 'stamp': '10'}}, Path.cwd())
+    monkeypatch.setattr(observer, 'identity', identity)
+    class Kernel:
+        def GlobalMemoryStatusEx(self, pointer):
+            pointer._obj.available_phys = 4 * 1024**3
+            return True
+    observer.kernel = Kernel()
+    result = observer.sample({'application': {'pid': 10, 'stamp': '10'}}, Path.cwd())
+    assert result['inventory_passes'] == 2 and len(result['reconciled_inventory_changes']) == 1
+    assert calls[10] == calls[11] == 1
+    assert calls[12] == (2 if change == 'reused_child' else 1)
+    if change == 'new_child':
+        assert calls[13] == 1
 
 
 def test_native_observer_reads_current_process_or_rejects_other_platform():
@@ -92,6 +109,28 @@ def test_native_observer_reads_current_process_or_rejects_other_platform():
     assert any(r['pid'] == os.getpid() for r in result['groups']['generator'])
     assert result['available_physical_bytes'] > 0
     assert not observer.process(True)['available']
+    assert observer.identity(os.getpid())['stamp'] == measured['stamp']
+    assert not observer.identity(True)['available']
+
+
+def test_continuous_inventory_churn_has_a_bounded_failure(monkeypatch):
+    observer = WindowsObserver.__new__(WindowsObserver)
+    inventories = []
+
+    def inventory():
+        inventories.append(1)
+        return records()
+
+    def identity(pid):
+        stamp = pid + (100 * len(inventories) if pid == 12 else 0)
+        return {'pid': pid, 'available': True, 'stamp': str(stamp)}
+
+    monkeypatch.setattr(observer, 'inventory', inventory)
+    monkeypatch.setattr(observer, 'identity', identity)
+    monkeypatch.setattr(observer, 'process', identity)
+    with pytest.raises(RuntimeError, match='árbol cambió'):
+        observer.sample({'application': {'pid': 10, 'stamp': '10'}}, Path.cwd())
+    assert len(inventories) == 9
 
 
 def test_retries_record_discarded_churn_and_only_return_a_stable_sample(monkeypatch):

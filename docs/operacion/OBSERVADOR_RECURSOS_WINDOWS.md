@@ -26,13 +26,15 @@ roots = {
 sample = observer.sample_with_retries(roots, Path.cwd(), max_attempts=8)
 ```
 
-`sample()` rechaza una lectura faltante, una raíz reemplazada o un árbol atribuido que cambió durante la captura. `sample_with_retries()` permite entre uno y ocho intentos y espera 50 ms entre ellos. Solo reintenta lecturas incompletas o cambios del inventario; una identidad de raíz cambiada falla inmediatamente. Las adquisiciones descartadas quedan en `discarded_attempts`; no se contabilizan como muestras completas. Si se agotan los intentos, el observador debe registrar el fallo y detener el ensayo, sin declarar cumplimiento.
+`sample()` lee los recursos de cada PID/fecha una vez durante la adquisición y comprueba después identidad con derechos limitados. Si aparecen procesos nuevos o se reutiliza un PID, completa solo sus lecturas hasta obtener un inventario final consistente: máximo ocho pasadas internas, registradas en `inventory_passes` y `reconciled_inventory_changes`. Una lectura faltante, una raíz reemplazada o cambios que no convergen no acreditan una captura.
+
+`sample_with_retries()` permite entre uno y ocho intentos de adquisición y espera 50 ms entre ellos; cada adquisición conserva su límite de ocho pasadas internas. Solo reintenta lecturas incompletas o cambios del inventario; una identidad de raíz cambiada falla inmediatamente. Las adquisiciones descartadas quedan en `discarded_attempts`, con grupo y diagnósticos disponibles; no se contabilizan como muestras completas. Si se agotan los intentos, registrar el fallo y detener el ensayo, sin declarar cumplimiento.
 
 El informe debe incluir también el generador de carga, duración de adquisición, separación máxima entre muestras, adquisiciones descartadas, errores y resguardos de memoria/disco. Los grupos deben ser disjuntos antes de sumar sus recursos.
 
 ## Interpretación
 
-- La cobertura comprende los árboles presentes en cada muestra aceptada. No acredita todos los procesos transitorios que nacieron y terminaron entre muestras, ni máximos continuos.
+- La cobertura comprende los árboles del inventario final de cada muestra aceptada. Los contadores se leen durante la adquisición y registran `measured_monotonic_seconds`; no existe un instante atómico común de todas sus lecturas. No acredita todos los procesos transitorios que nacieron y terminaron entre muestras, ni máximos continuos.
 - Los bytes privados son memoria privada comprometida por proceso. Su suma no equivale a memoria física exclusiva. Los working sets pueden compartir páginas y tampoco deben presentarse como memoria exclusiva.
 - La memoria física disponible corresponde al sistema completo; incluye efectos de otros programas del equipo.
 - CPU e I/O son contadores acumulados por proceso. I/O puede incluir actividad ajena al disco físico; no representa por sí solo utilización de disco o CPU por intervalo.
@@ -46,4 +48,4 @@ Desde `Backend`, con el entorno de desarrollo:
 ./venv/Scripts/python.exe -m pytest -q tests/test_windows_resource_observer.py -p no:cacheprovider
 ```
 
-Las pruebas cubren selección de árboles, exclusión de otro clúster, PIDs inválidos/reutilizados, ramas excluidas con constancia, lecturas faltantes, cambios entre inventarios, reintentos acotados y rechazo inmediato de una raíz reemplazada. En Windows se verifica además la lectura nativa del proceso de pruebas; en otros sistemas se comprueba el rechazo explícito de la API Windows.
+Las pruebas cubren selección de árboles, exclusión de otro clúster, PIDs inválidos/reutilizados, ramas excluidas con constancia, lecturas faltantes, reconciliación de procesos nuevos/reutilizados sin releer los demás, cambios continuos con fallo acotado, reintentos y rechazo inmediato de una raíz reemplazada. En Windows se verifica además la lectura nativa del proceso de pruebas; en otros sistemas se comprueba el rechazo explícito de la API Windows.

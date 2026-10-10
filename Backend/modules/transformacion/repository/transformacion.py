@@ -420,7 +420,7 @@ class TransformacionRepository:
         }
         rows = self.session.query(
             ContratoProcesado.clasificacion_riesgo,
-            func.count(ContratoProcesado.id),
+            func.count(),
         ).group_by(ContratoProcesado.clasificacion_riesgo).all()
         return [
             {"name": labels.get(level or "SIN_EVALUAR", "Sin evaluar"),

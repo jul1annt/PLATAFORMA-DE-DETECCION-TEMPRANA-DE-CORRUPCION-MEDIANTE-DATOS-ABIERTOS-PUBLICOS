@@ -38,7 +38,13 @@ def qualified_tree(records, measured, root):
     """Remove stale parent-PID links and their branches before attributing resources."""
     selected = descendants(records, root['pid'])
     if set(measured) != selected or any(not r.get('available') for r in measured.values()):
-        raise RuntimeError('Faltan lecturas del árbol de procesos')
+        error = RuntimeError('Faltan lecturas del árbol de procesos')
+        error.diagnostics = [dict(pid=pid, name=records[pid]['name'],
+                                  parent_pid=records[pid]['parent_pid'],
+                                  reason=measured.get(pid, {}).get('reason', 'unavailable'),
+                                  win32_error=measured.get(pid, {}).get('win32_error'))
+                             for pid in sorted(selected) if not measured.get(pid, {}).get('available')]
+        raise error
     if measured[root['pid']]['stamp'] != root['stamp']:
         raise RuntimeError('La identidad de la raíz cambió')
     filtered = dict(records)
@@ -98,7 +104,9 @@ class WindowsObserver:
                 if str(exc) not in ('Faltan lecturas del árbol de procesos',
                                     'El árbol cambió durante la muestra; no se acredita cobertura'):
                     raise
-                discarded.append({'reason': str(exc), 'at_utc': datetime.now(timezone.utc).isoformat()})
+                discarded.append({'reason': str(exc), 'at_utc': datetime.now(timezone.utc).isoformat(),
+                                  'group': getattr(exc, 'root_group', None),
+                                  'diagnostics': getattr(exc, 'diagnostics', [])})
                 if attempt + 1 == max_attempts:
                     raise
                 time.sleep(0.05)
@@ -146,7 +154,8 @@ class WindowsObserver:
             return {'pid': pid, 'available': False}
         handle = self.kernel.OpenProcess(0x1010, False, pid)
         if not handle:
-            return {'pid': pid, 'available': False}
+            return {'pid': pid, 'available': False, 'reason': 'open_failed',
+                    'win32_error': ctypes.get_last_error()}
         try:
             times = [(ctypes.c_ulong * 2)() for _ in range(4)]
             counters = MemoryCounters(); counters.size = ctypes.sizeof(counters)
@@ -158,35 +167,91 @@ class WindowsObserver:
                     and self.kernel.QueryFullProcessImageNameW(handle, 0, image, ctypes.byref(size))
                     and self.kernel.GetExitCodeProcess(handle, ctypes.byref(exit_code))
                     and exit_code.value == 259):
-                return {'pid': pid, 'available': False}
+                return {'pid': pid, 'available': False, 'reason': 'reading_failed_or_process_exited',
+                        'win32_error': ctypes.get_last_error()}
             integer = lambda value: int(value[0]) | (int(value[1]) << 32)
             return {'pid': pid, 'available': True, 'stamp': str(integer(times[0])),
                     'image': image.value, 'private_bytes': int(counters.private),
                     'working_set_bytes': int(counters.ws),
+                    'measured_monotonic_seconds': time.monotonic(),
                     'cpu_seconds': (integer(times[2]) + integer(times[3])) / 10_000_000,
                     'io_read_bytes': int(io.read_bytes), 'io_write_bytes': int(io.write_bytes)}
+        finally:
+            self.kernel.CloseHandle(handle)
+
+    def identity(self, pid):
+        """Use limited-query rights for the second inventory, avoiding duplicate resource reads."""
+        if type(pid) is not int or pid < 1:
+            return {'pid': pid, 'available': False}
+        handle = self.kernel.OpenProcess(0x1000, False, pid)
+        if not handle:
+            return {'pid': pid, 'available': False, 'reason': 'open_identity_failed',
+                    'win32_error': ctypes.get_last_error()}
+        try:
+            times = [(ctypes.c_ulong * 2)() for _ in range(4)]
+            exit_code = ctypes.c_ulong()
+            if not (self.kernel.GetProcessTimes(handle, *(ctypes.byref(v) for v in times))
+                    and self.kernel.GetExitCodeProcess(handle, ctypes.byref(exit_code))
+                    and exit_code.value == 259):
+                return {'pid': pid, 'available': False, 'reason': 'identity_failed_or_process_exited',
+                        'win32_error': ctypes.get_last_error()}
+            return {'pid': pid, 'available': True, 'stamp': str(int(times[0][0]) | int(times[0][1]) << 32)}
         finally:
             self.kernel.CloseHandle(handle)
 
     def sample(self, roots, directory):
         started = time.monotonic()
         records = self.inventory()
-        groups = {}
-        exclusions = {}
-        for name, root in roots.items():
-            selected = descendants(records, root['pid'])
-            measured = {pid: self.process(pid) for pid in selected}
-            groups[name], exclusions[name] = qualified_tree(records, measured, root)
-        # Detect churn/reused IDs during collection instead of silently undercounting.
-        after = self.inventory()
-        for name, root in roots.items():
-            selected = descendants(after, root['pid'])
-            actual = {pid: self.process(pid) for pid in selected}
-            verified, excluded_after = qualified_tree(after, actual, root)
-            if {(r['pid'], r['stamp'], r['parent_pid']) for r in verified} != {
-                    (r['pid'], r['stamp'], r['parent_pid']) for r in groups[name]}:
-                raise RuntimeError('El árbol cambió durante la muestra; no se acredita cobertura')
-            exclusions[name]['second_inventory'] = excluded_after
+        cache, reconciled = {}, []
+
+        def identify(inventory):
+            identified, excluded = {}, {}
+            for name, root in roots.items():
+                selected = descendants(inventory, root['pid'])
+                readings = {pid: self.identity(pid) for pid in selected}
+                if not readings[root['pid']].get('available') or readings[root['pid']].get('stamp') != root['stamp']:
+                    raise RuntimeError('La identidad de la raíz cambió')
+                try:
+                    identified[name], excluded[name] = qualified_tree(inventory, readings, root)
+                except RuntimeError as exc:
+                    exc.root_group = name
+                    raise
+            return identified, excluded
+
+        # Refresh only new/reused PIDs instead of repeating every resource read.
+        # A returned sample still covers every member of its final validated inventory.
+        for inventory_pass in range(8):
+            identified, exclusions = identify(records)
+            groups = {}
+            for name, root in roots.items():
+                for item in identified[name]:
+                    pid = item['pid']
+                    if (pid not in cache or not cache[pid].get('available')
+                            or cache[pid].get('stamp') != item['stamp']):
+                        cache[pid] = self.process(pid)
+                relevant = {item['pid']: cache[item['pid']] for item in identified[name]}
+                filtered = dict(records)
+                for link in exclusions[name]['parent_links']:
+                    filtered[link['pid']] = dict(filtered[link['pid']], parent_pid=0)
+                try:
+                    groups[name] = validate_tree(filtered, relevant, root)
+                except RuntimeError as exc:
+                    exc.root_group = name
+                    raise
+                if any(item['stamp'] != relevant[item['pid']].get('stamp') for item in identified[name]):
+                    raise RuntimeError('El árbol cambió durante la muestra; no se acredita cobertura')
+            after = self.inventory()
+            final, excluded_after = identify(after)
+            keys = lambda items: {(r['pid'], r['stamp'], r['parent_pid']) for r in items}
+            changed = [name for name in roots if keys(final[name]) != keys(groups[name])]
+            if not changed:
+                for name in roots:
+                    exclusions[name]['second_inventory'] = excluded_after[name]
+                break
+            reconciled.append({'groups': changed, 'at_utc': datetime.now(timezone.utc).isoformat()})
+            records = after
+        else:
+            raise RuntimeError('El árbol cambió durante la muestra; no se acredita cobertura')
         memory = SystemMemory(); memory.length = ctypes.sizeof(memory)
         if not self.kernel.GlobalMemoryStatusEx(ctypes.byref(memory)):
             raise RuntimeError('No se pudo medir la memoria física')
@@ -194,5 +259,6 @@ class WindowsObserver:
                 'monotonic_seconds': started, 'collection_seconds': time.monotonic() - started,
                 'groups': groups, 'available_physical_bytes': int(memory.available_phys),
                 'excluded_stale_parent_links': exclusions,
+                'inventory_passes': inventory_pass + 1, 'reconciled_inventory_changes': reconciled,
                 'free_disk_bytes': shutil.disk_usage(directory).free,
                 'process_inventory_stable': True}

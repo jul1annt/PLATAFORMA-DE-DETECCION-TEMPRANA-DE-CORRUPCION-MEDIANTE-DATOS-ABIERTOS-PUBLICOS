@@ -42,3 +42,7 @@ La [implementación de agregados filtrados](OPTIMIZACION_METRICAS_20261009.md) r
 ## Instrumentación del destino publicado — 2026-10-10
 
 El [piloto canónico](RECURSOS_CARGA_CANONICA_20261010.md) amplía la medición al postmaster y descendientes completos presentes de `:5432`, aplicación y generador. Sus 27 muestras válidas conservan identidades, reintentos y límites; no acreditan máximos continuos. Las 372/372 lecturas coincidieron: búsqueda p95 0,675 s; calidad 14,988 s, que necesita optimización. Se propone para revisión ocho clientes continuos, búsqueda p95 ≤1 s y calidad ≤3 s, junto con reproceso/fallos DB/red en copia aislada del corte. **La consulta al responsable sigue pendiente; no se registra aceptación por defecto.** P16 conserva escenarios conjuntos y criterios pendientes.
+
+## Candidato compacto — 2026-10-10
+
+El [ensayo posterior](OPTIMIZACION_INDICE_METRICAS_20261010.md) completó 1 017/1 017 lecturas correctas. Calidad p95 3,850 s y búsqueda p95 1,226 s quedan fuera de los límites de 3 s/1 s propuestos para revisión. El nuevo observador completa únicamente procesos nuevos/reutilizados y exige un inventario final consistente; 26 muestras válidas, 24 adquisiciones descartadas, intervalo máximo 5,343 s. No se afirman máximo continuo ni lecturas atómicas. Aumentó el tráfico del circuito cerrado y se conservan perfiles separados. La autorización de publicación/CI y la aceptación del perfil siguen pendientes; no se registra aprobación por defecto ni se cierra P16.

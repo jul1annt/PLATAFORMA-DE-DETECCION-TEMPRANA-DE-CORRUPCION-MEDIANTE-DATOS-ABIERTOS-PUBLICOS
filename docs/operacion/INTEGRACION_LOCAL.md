@@ -22,6 +22,8 @@ Versión backend/worker aplicada con la publicación del 2026-10-10 UTC: `915e86
 
 ## Inicio, consulta y cierre
 
+**Actualización local del 10/10, posterior a la publicación:** se construyó y verificó el candidato `ix_cp_metricas_replacement`; la base conserva `f4826b9d1c30` con **21 índices válidos y cero inválidos**. Backend/worker e interfaz permanecen en las versiones anteriores. El índice original se conserva porque el backend desplegado todavía lo necesita para contar IDs en la distribución de riesgo. La migración formal `08c6d9a2e4b1` y el artefacto preparado requieren CI antes de la retirada. La revisión automática bloqueó el push por falta de autorización para el repositorio exacto; el permiso está pendiente. [Mediciones, estado y límites](../auditoria/OPTIMIZACION_INDICE_METRICAS_20261010.md).
+
 Desde la raíz del proyecto, con el PostgreSQL operativo :5432 disponible:
 
 ```powershell

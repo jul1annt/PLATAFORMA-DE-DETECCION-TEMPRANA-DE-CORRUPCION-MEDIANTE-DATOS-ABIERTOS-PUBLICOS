@@ -154,6 +154,7 @@ def test_dashboard_aggregates_the_entire_universe_in_one_sql_statement():
         assert len(anomaly_selects) == 1
         assert sum(item["value"] for item in risk_distribution) == 1001
         assert len(risk_selects) == 1
+        assert "count(*)" in risk_selects[0].lower()
         assert [item["contracts"] for item in top_providers] == [1000, 1]
         assert len(ranking_selects) == 1
     finally:
