@@ -2,6 +2,8 @@
 
 Estado: **preparado e inactivo**. El plan permanece en **95/101 (94,1 %), seis pendientes**.
 
+**Decisión posterior, 2026-10-11:** el usuario indicó «Mantener cambio en este equipo». La autorización GitHub dejó de estar pendiente: los cambios se conservan localmente. Las referencias de este informe y de su JSON a esa autorización describen la preparación del 10/10; se preservan como evidencia histórica. La decisión no acredita CI ni autoriza activar el candidato; los demás requisitos de despliegue y cierre siguen pendientes.
+
 ## Artefacto identificado
 
 | Elemento | Resultado comprobado |

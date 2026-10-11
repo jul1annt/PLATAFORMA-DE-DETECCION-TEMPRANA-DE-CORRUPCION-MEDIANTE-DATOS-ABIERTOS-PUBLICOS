@@ -1,10 +1,12 @@
 # Plan de acción para cerrar las brechas técnicas
 
-Estado: en ejecución (estado vigente revisado el 2026-10-10 UTC).
+Estado: pendiente de cierre (decisión de alcance actualizada el 2026-10-11, Bogotá).
 
 Base: auditoría documentada en `REVISION.md`, sus 15 hallazgos y observaciones complementarias. Los responsables indicados son roles, no personas asignadas. Las fases definen un orden de implementación; no representan fechas comprometidas.
 
 ## Estado vigente: qué existe y qué falta
+
+**Decisión vigente del usuario, 2026-10-11:** «Mantener cambio en este equipo». Las mejoras y sus evidencias se conservarán localmente; la solicitud de autorización GitHub quedó resuelta con esa elección. No publicar estos cambios ni solicitar de nuevo el mismo permiso salvo que el usuario cambie el destino autorizado. Las menciones anteriores de autorización pendiente son históricas y quedan supersedidas por esta decisión. La elección no acredita CI remoto, no activa el candidato ni cierra las seis casillas pendientes. El paquete identificado sigue disponible y las verificaciones de despliegue/carga conservan su alcance.
 
 Este resumen es el índice operativo del checklist y no reemplaza la cronología de **Seguimiento de ejecución**. `[x]` significa implementado y verificado **para el alcance que describe ese punto**; no significa integrado en `main`. P14/P19 acreditan además la publicación histórica en la base operativa de este equipo. P02, P10 y P18 se verificaron además en la integración persistente de este equipo, elegida por el usuario el 2026-10-06. Una nueva generación de datos requiere una comprobación nueva, no repetir la implementación ya terminada. Si una prueba o acceso externo falta, se registra como pendiente de verificación y se conserva el trabajo local hecho. **Publicación Git comprobada el 2026-10-10 a las 17:42 UTC:** la rama `plan/accion-20261002` y el PR de borrador #1 siguen en `1cdb719`. Las mejoras `6a1d8af`, `52b3d10`, `aebd2b2` y `6a5cb46` permanecen locales, pendientes de autorización para ese destino y CI remoto. La protección de `main` y el despliegue se comprueban por separado. [Evidencia de consulta y paquete local](PAQUETE_CANDIDATO_METRICAS_20261010.md).
 
