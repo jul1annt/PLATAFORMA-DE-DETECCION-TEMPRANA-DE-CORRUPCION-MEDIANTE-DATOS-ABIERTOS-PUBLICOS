@@ -55,6 +55,7 @@ class ContratoProcesado(Base):
     procesado_en = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
 
     __table_args__ = (
+        Index("ix_cp_fecha_publicacion_id", "fecha_publicacion_normalizada", "id"),
         Index("ix_cp_entidad_fecha", "entidad_normalizada", "fecha_publicacion_normalizada"),
         Index("ix_cp_tipo_valor",    "tipo_contrato_normalizado", "valor_total_normalizado"),
         Index(
