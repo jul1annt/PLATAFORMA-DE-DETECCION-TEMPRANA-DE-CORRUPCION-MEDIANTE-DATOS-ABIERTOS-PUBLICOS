@@ -1,3 +1,4 @@
+import pytest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 
@@ -91,5 +92,31 @@ def test_autocomplete_returns_matching_entities_and_providers_within_limit():
             "Acme Servicios",
         }
         assert len(results) <= 3
+    finally:
+        engine.dispose()
+
+
+@pytest.mark.parametrize("sort", [None, "fecha", "valor", "valor_total_normalizado", "precio_base_normalizado", "entidad", "proveedor", "riesgo", "id"])
+@pytest.mark.parametrize("order", ["asc", "desc"])
+def test_contract_search_breaks_sort_ties_by_id_across_pages(sort, order):
+    engine = _engine_with_contracts()
+    try:
+        with engine.begin() as connection:
+            connection.exec_driver_sql(
+                "UPDATE contratos_procesados SET fecha_publicacion_normalizada='2024-12-31', "
+                "valor_total_normalizado=100, precio_base_normalizado=100, "
+                "entidad_normalizada='Entidad', proveedor_normalizado='Proveedor', nivel_confianza=80"
+            )
+        expected = [1, 2, 3] if order == "asc" else [3, 2, 1]
+        with Session(engine) as session:
+            repo = TransformacionRepository(session)
+            pages = [repo.search_contratos(ContratoProcesadoFilterDTO(), skip=i, limit=1, sort=sort, order=order) for i in range(3)]
+            assert [page[0][0].id for page in pages] == expected
+            assert all(total == 3 for _, total in pages)
+        with engine.begin() as connection:
+            connection.exec_driver_sql("UPDATE contratos_procesados SET procesado_en='2026-10-11 12:00:00' WHERE id=2")
+        with Session(engine) as session:
+            repo = TransformacionRepository(session)
+            assert [repo.search_contratos(ContratoProcesadoFilterDTO(), skip=i, limit=1, sort=sort, order=order)[0][0].id for i in range(3)] == expected
     finally:
         engine.dispose()

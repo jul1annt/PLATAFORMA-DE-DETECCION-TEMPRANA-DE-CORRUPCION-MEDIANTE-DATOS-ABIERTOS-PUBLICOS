@@ -159,8 +159,12 @@ class TransformacionRepository:
 
         if order == "asc":
             q = q.order_by(sort_field.asc())
+            if sort != "id":
+                q = q.order_by(ContratoProcesado.id.asc())
         else:
             q = q.order_by(sort_field.desc())
+            if sort != "id":
+                q = q.order_by(ContratoProcesado.id.desc())
 
         items = q.offset(skip).limit(limit).all()
         return items, total
