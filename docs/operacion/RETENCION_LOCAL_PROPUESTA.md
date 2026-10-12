@@ -1,6 +1,6 @@
-# Política propuesta de conservación local
+# Política aprobada de conservación local
 
-Estado: **pendiente de aprobación del usuario**. Fecha: 2026-10-11, Bogotá. La solicitud de aprobación ya identifica este alcance; no se registra aceptación por silencio.
+Estado: **aprobada y aplicada el 12/10/2026**. El usuario confirmó «Aprobar la política conservadora». Se preservaron originales, historial, generaciones, ocho respaldos y paquetes actuales/anteriores; se añadió checkpoint administrativo actual y se registró revisión manual el 19/10. P15 cerrado; P05 conserva pendiente la identidad anterior. [Constancia de aplicación](CONSERVACION_APROBADA_Y_EGRESO_20261012.md). El inventario fechado del 11/10 se conserva como antecedente.
 
 ## Alcance y reglas
 
@@ -30,8 +30,8 @@ Además, `Backend/.codex-integration-postgres/publication-20261010/operational-b
 
 ## Aprobación y aplicación
 
-La [revisión posterior a la activación del 12/10](PENDIENTES_LOCALES_20261012.md) comprobó ocho dumps y los checkpoints actuales. La copia completa derivada se conserva para el alcance aislado pendiente de P06; cero sesiones no demuestra falta de uso. No se hicieron retiros ni se repitieron restauraciones. El usuario recibió la solicitud de aprobación de esta política; todavía no se registra aceptación.
+La [revisión previa a la aprobación del 12/10](PENDIENTES_LOCALES_20261012.md) comprobó ocho dumps y los checkpoints existentes. La copia completa se conserva para el alcance aislado pendiente de P06; cero sesiones no demuestra falta de uso. La aplicación posterior registró la aceptación explícita y verificó los elementos preservados sin retiros ni nuevas restauraciones.
 
 La política propuesta no descarta ninguna generación única por antigüedad. Por tanto, elegirla no requiere borrar respaldos para demostrar su aplicación. Al aprobarla, registrar la instrucción del usuario, comprobar nuevamente los elementos preservados y documentar los retiros derivados que correspondan. Mientras P05/P12 permanezcan abiertos, registrar una revisión periódica del inventario sin habilitar vencimientos automáticos.
 
-P15 requiere esa aprobación y constancia de aplicación. P05 conserva además la reconciliación anterior al versionado; aprobar conservación no resuelve identidades ausentes. Los [datos de crecimiento](../auditoria/HISTORIAL_CAPACIDAD_SECOP_20261006.md) y el [inventario histórico](../auditoria/RETENCION_Y_CAPACIDAD_SECOP_20261002.md) se reutilizan para dimensionar almacenamiento.
+P15 queda cerrado con la aprobación y constancia de aplicación. P05 conserva la reconciliación anterior al versionado; aprobar conservación no resuelve identidades ausentes. Los [datos de crecimiento](../auditoria/HISTORIAL_CAPACIDAD_SECOP_20261006.md) y el [inventario histórico](../auditoria/RETENCION_Y_CAPACIDAD_SECOP_20261002.md) se reutilizan para dimensionar almacenamiento.

@@ -2,6 +2,8 @@
 
 Estado: **96/101 completados; cinco abiertos**. Backend/worker `794d185` ya se activaron y P16 quedó cerrado para el perfil aceptado. [Despliegue verificado](ACTIVACION_LOCAL_VERIFICADA_20261012.md). Esta continuación revisa conservación y condiciones del firewall; no vuelve a probar el recorrido completo ni declara resueltas identidades ausentes.
 
+**Actualización posterior:** el usuario aprobó conservación y autorizó las seis reglas. P15 quedó cerrado con aplicación comprobada; Windows canceló la elevación antes de iniciar el helper de firewall. Estado vigente **97/101, cuatro pendientes**. [Constancia y comando administrativo](CONSERVACION_APROBADA_Y_EGRESO_20261012.md). El contenido restante y su JSON conservan esta revisión anterior a las decisiones.
+
 ## Conservación: revisión sin borrados
 
 Se comprobó la presencia de **ocho respaldos históricos**, 12.979.002.521 bytes en total, y los checkpoints de esquema/control actuales y anteriores. Se cotejaron hashes de los checkpoints pequeños; no se recalcularon los dumps grandes ni se repitieron sus restauraciones. Los artefactos activos `794d185` y anteriores `915e863` siguen presentes; los bindings activos conservaron sus hashes.
