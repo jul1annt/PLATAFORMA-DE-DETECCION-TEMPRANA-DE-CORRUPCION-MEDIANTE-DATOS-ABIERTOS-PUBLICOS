@@ -1,4 +1,4 @@
-from pydantic import Field, field_validator
+from pydantic import Field, field_validator, model_validator
 from pydantic_settings import BaseSettings, NoDecode, SettingsConfigDict
 from typing import Annotated
 from cryptography.fernet import Fernet
@@ -45,6 +45,9 @@ class Settings(BaseSettings):
     DB_USER: str
     DB_PASSWORD: str
     DB_NAME: str
+    DB_POOL_MAX_OVERFLOW: int = Field(default=20, ge=0, le=100)
+    DB_POOL_PREWARM: int = Field(default=0, ge=0, le=10)
+    DB_CONNECT_TIMEOUT_SECONDS: int = Field(default=60, ge=1, le=300)
     SEARCH_QUERY_PARALLEL_WORKERS: int | None = Field(default=None, ge=0, le=1024)
     PROVIDER_QUERY_PARALLEL_WORKERS: int | None = Field(default=None, ge=0, le=1024)
     ENCRYPTION_KEY: str
@@ -69,6 +72,17 @@ class Settings(BaseSettings):
             f"postgresql://{self.DB_USER}:{self.DB_PASSWORD}"
             f"@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"
         )
+
+    @model_validator(mode="after")
+    def validate_local_pool_readiness(self):
+        if self.DB_POOL_PREWARM:
+            if self.DB_HOST not in {"127.0.0.1", "localhost", "::1"}:
+                raise ValueError("La preparación del pool solo se permite para PostgreSQL local")
+            if self.DB_POOL_MAX_OVERFLOW != 0:
+                raise ValueError("La preparación del pool requiere DB_POOL_MAX_OVERFLOW=0")
+            if self.DB_CONNECT_TIMEOUT_SECONDS > 60:
+                raise ValueError("La preparación del pool requiere una espera de conexión de hasta 60 s")
+        return self
 
     @field_validator("CORS_ORIGINS", "INGESTA_ALLOWED_HOSTS", mode="before")
     @classmethod

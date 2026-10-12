@@ -287,7 +287,8 @@ def supervise(root):
             state['components'][name] = {'pid': child.pid, 'stamp': process_stamp(child.pid)}
             atomic_json(state_path, state)
         ready = False
-        deadline = time.monotonic() + 90
+        startup_seconds = 180 if int(env.get('DB_POOL_PREWARM') or '0') else 90
+        deadline = time.monotonic() + startup_seconds
         while time.monotonic() < deadline:
             if (root / 'stop-all').exists():
                 raise RuntimeError('Se solicitó cierre durante el inicio')
