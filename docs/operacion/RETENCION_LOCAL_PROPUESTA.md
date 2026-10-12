@@ -30,6 +30,8 @@ Además, `Backend/.codex-integration-postgres/publication-20261010/operational-b
 
 ## Aprobación y aplicación
 
+La [revisión posterior a la activación del 12/10](PENDIENTES_LOCALES_20261012.md) comprobó ocho dumps y los checkpoints actuales. La copia completa derivada se conserva para el alcance aislado pendiente de P06; cero sesiones no demuestra falta de uso. No se hicieron retiros ni se repitieron restauraciones. El usuario recibió la solicitud de aprobación de esta política; todavía no se registra aceptación.
+
 La política propuesta no descarta ninguna generación única por antigüedad. Por tanto, elegirla no requiere borrar respaldos para demostrar su aplicación. Al aprobarla, registrar la instrucción del usuario, comprobar nuevamente los elementos preservados y documentar los retiros derivados que correspondan. Mientras P05/P12 permanezcan abiertos, registrar una revisión periódica del inventario sin habilitar vencimientos automáticos.
 
 P15 requiere esa aprobación y constancia de aplicación. P05 conserva además la reconciliación anterior al versionado; aprobar conservación no resuelve identidades ausentes. Los [datos de crecimiento](../auditoria/HISTORIAL_CAPACIDAD_SECOP_20261006.md) y el [inventario histórico](../auditoria/RETENCION_Y_CAPACIDAD_SECOP_20261002.md) se reutilizan para dimensionar almacenamiento.

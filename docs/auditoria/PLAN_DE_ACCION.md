@@ -49,6 +49,8 @@ La muestra de `IDENTIDAD_ENTRE_GENERACIONES_SECOP_20261003.json` descartó las c
 
 ### Registro único de pendientes
 
+[La revisión local posterior a la activación](../operacion/PENDIENTES_LOCALES_20261012.md) comprobó respaldos/checkpoints y condiciones de Windows Firewall, sin cambios destructivos ni reglas aplicadas. La copia completa se conserva para P06; se solicitaron decisiones de conservación/firewall y rutas de los dos insumos de identidad. El checklist permanece en 96/101, cinco pendientes.
+
 Cada fila corresponde a una casilla abierta del checklist. Su última columna es la evidencia mínima de cierre; una ejecución antigua o una prueba en otro universo no la sustituye. `Local` indica que puede trabajarse en una copia aislada; `Externo` requiere acceso o decisión fuera de este espacio; `Mixto` exige ambos. No iniciar otra ejecución del mismo trabajo durable mientras figure activa.
 
 | ID | Entrega y fase | Dependencia / estado | Evidencia para cerrar |
