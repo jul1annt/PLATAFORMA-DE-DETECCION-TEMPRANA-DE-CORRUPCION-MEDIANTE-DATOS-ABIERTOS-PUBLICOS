@@ -1,0 +1,179 @@
+{
+  "stage": "verified_local_activation_and_accepted_profile",
+  "completed_at_utc": "2026-10-12T10:58:38.967088+00:00",
+  "authorization": {
+    "human_message": "Acepto el perfil y activa localmente",
+    "scope": "Local candidate activation and profile acceptance; no Git publication or firewall changes",
+    "profile": {
+      "continuous_readers": 8,
+      "search_p95_max_seconds": 1,
+      "quality_p95_max_seconds": 3
+    },
+    "preserved_incidents": "Two timeouts in previous full-cut runs retained; separate readiness pilot accepted with stated scope"
+  },
+  "active_backend_worker_ref": "794d185832c7c56ffa4d91ef08ca1f3d15128be5",
+  "frontend_ref": "9362d94f9dbfbdf352ae11585a2bfd44318b11e6",
+  "canonical_identity": [
+    "plataformaanticorrupcion",
+    5432,
+    "plataforma_operacion",
+    24577,
+    "3c19a8f7e2d0"
+  ],
+  "historical_cut_date": "2026-10-01",
+  "historic_raw_rows_verified_after_migration": 9249545,
+  "historic_processed_rows_verified_after_migration": 9249545,
+  "independent_aggregate_equal": true,
+  "quality_triggers": [
+    {
+      "tgname": "trg_contract_quality_delete",
+      "tgenabled": "O"
+    },
+    {
+      "tgname": "trg_contract_quality_insert",
+      "tgenabled": "O"
+    },
+    {
+      "tgname": "trg_contract_quality_truncate",
+      "tgenabled": "O"
+    },
+    {
+      "tgname": "trg_contract_quality_update",
+      "tgenabled": "O"
+    }
+  ],
+  "valid_contract_indices": 21,
+  "index_sizes": [
+    {
+      "relname": "ix_cp_fecha_publicacion_id",
+      "bytes": 291766272
+    },
+    {
+      "relname": "ix_cp_metricas_cover",
+      "bytes": 65798144
+    }
+  ],
+  "migration_steps": [
+    {
+      "revision": "08c6d9a2e4b1",
+      "exit_code": 0,
+      "seconds": 3.5440647000214085,
+      "log_sha256": "d12efc71c0fe5913463c2402563bb648867bdc71f13a07b460dd26c8be7d220c"
+    },
+    {
+      "revision": "2ab7c4e8d910",
+      "exit_code": 0,
+      "seconds": 4.043947899946943,
+      "log_sha256": "1dae42df6154c1c9e04be468477ee5a1c261bc5da22bad8dd7e8f052c8853bef"
+    },
+    {
+      "revision": "3c19a8f7e2d0",
+      "exit_code": 0,
+      "seconds": 391.0238482999848,
+      "log_sha256": "9ef0cad149af11b0930ff811e150c02f55d653649161e34dbf1aabec7a7784fe"
+    }
+  ],
+  "contract_normalization_runs": 0,
+  "historical_reload_performed": false,
+  "bounded_fingerprints_unchanged": true,
+  "active_sources": 0,
+  "active_jobs": 0,
+  "original_oid_preserved": 17930,
+  "frozen_checkpoint_backups": [
+    {
+      "name": "control-state.dump",
+      "bytes": 25816,
+      "sha256": "32c881f868f72128ef727b095e839adbf9c2e1337bda41192bdffad5b444e791"
+    },
+    {
+      "name": "schema-before.dump",
+      "bytes": 72502,
+      "sha256": "1d40d760a86b25ef6cf62bbc8b350ed63e964dbffda45c3d7b1cf208852f2ffe"
+    }
+  ],
+  "smoke": {
+    "checks": 19,
+    "result": "success",
+    "export": {
+      "status": "EXITOSO",
+      "active": false,
+      "kind": "EXPORTACION_CONTRATOS",
+      "rows": 1,
+      "bytes": 275,
+      "sha256": "07b218aee60d82d4d8ac379078e7c8e0e7824b27dee81e312cc0dafd85b5b673"
+    },
+    "session_logout_rejection_verified": true,
+    "cut_date_visible": "01/10/2026"
+  },
+  "administrative_counts_after_smoke": {
+    "admins": 1,
+    "fuentes_datos": 1,
+    "admin_sessions": 12,
+    "background_jobs": 103
+  },
+  "accepted_profile": {
+    "clients": 8,
+    "seconds": 120.11318049998954,
+    "correct_responses": 9083,
+    "error_count": 0,
+    "route_summary": {
+      "search_2024": {
+        "count": 2270,
+        "p95_seconds": 0.282842900021933,
+        "max_seconds": 0.5384038999909535
+      },
+      "empty_2099": {
+        "count": 2269,
+        "p95_seconds": 0.006542700110003352,
+        "max_seconds": 0.4924221000401303
+      },
+      "quality": {
+        "count": 2271,
+        "p95_seconds": 0.004778199945576489,
+        "max_seconds": 0.09454850002657622
+      },
+      "providers": {
+        "count": 2273,
+        "p95_seconds": 0.30784180003684014,
+        "max_seconds": 0.4655512999743223
+      }
+    },
+    "accepted_limits_met": true,
+    "resource_summary": {
+      "valid_samples": 25,
+      "max_same_capture_private_bytes": 373616640,
+      "min_physical_available_bytes": 5335818240,
+      "min_free_disk_bytes": 82959581184,
+      "max_interval_seconds": 5.039536500000395
+    },
+    "sampler_errors": 0,
+    "api_backend_connections_before_after": 10,
+    "api_pool_inventory_unchanged": true,
+    "limits": [
+      "Resource samples cover this harness, full deployed supervisor tree, and entire :5432 PostgreSQL cluster; exclude :5433 and unrelated host applications",
+      "Counters are sampled, not continuous peaks",
+      "API backend PID/port inventory is checked before and after; identical endpoints do not prove absence of an unsampled transient connection"
+    ]
+  },
+  "services_running": true,
+  "private_evidence_sha256": {
+    "activation.json": "85d2ca4715d8e57104437c93533d56ee2df9e56a317199b7f829bf8d0d81e463",
+    "smoke.json": "684e5f272625876fdcffadb63ed321f901f43a637713dc82c4a4b274b7edb66f",
+    "accepted-profile.json": "9b5ff1a9eb27f3cc43fec5b280d9ab5673f50eb0648e5c657847abc52ac47a92",
+    "smoke-prelogin-failed.json": "0cdc7c2f9ce1ccf9ee1b020348d30dff495ac0f6f61851b8362e69f6ba990386"
+  },
+  "rollback_on_published_destination_performed": false,
+  "git_publication_performed": false,
+  "firewall_changes_performed": false,
+  "checklist": {
+    "complete": 96,
+    "open": 5,
+    "P16": "closed_for_accepted_local_scope"
+  },
+  "limits": [
+    "Complete-cut processing, TLS interruption and lease/backend recovery reuse the ec9b5d2 evidence; the 794d185 modules/database Git trees are identical and startup/pool were tested separately",
+    "The new deployed profile is two minutes of HTTP reads, with the worker export verified separately; no new joint nine-million-row rewrite/fault run",
+    "Preparation manifests and earlier 95/101 reports remain unchanged as historical snapshots; this verified rollout supersedes their inactive status",
+    "The helper pre-login encoding failure occurred before any HTTP request and remains recorded; credentials and application did not change"
+  ]
+}

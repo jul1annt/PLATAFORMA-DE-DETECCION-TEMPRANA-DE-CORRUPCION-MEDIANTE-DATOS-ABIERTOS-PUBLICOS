@@ -1,6 +1,6 @@
 # Preparar conexiones PostgreSQL antes de atender tráfico local
 
-Estado: **implementado y probado en el candidato local `794d185`; activación en la base publicada pendiente**. [Evidencia y límites](../auditoria/VALIDACION_LOCAL_PENDIENTES_20261011.md).
+Estado: **activado y verificado localmente en `794d185`**. El usuario aceptó el perfil; el destino publicado pasó 9.083/9.083 respuestas correctas con ocho lectores y límites p95 cumplidos. [Despliegue y alcance](ACTIVACION_LOCAL_VERIFICADA_20261012.md). Las pruebas de preparación siguientes conservan su alcance previo.
 
 ## Configuración comprobada
 

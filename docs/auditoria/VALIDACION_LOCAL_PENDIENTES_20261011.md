@@ -88,6 +88,8 @@ La base sintética de la preparación, OID 26620, se retiró después de cerrar 
 
 ## Base publicada
 
+**Actualización posterior del 12/10:** el usuario aceptó el perfil y autorizó la activación. Backend/worker `794d185` y esquema `3c19a8f7e2d0` están activos; conteos y agregado independiente pasaron, el smoke real completó 19 comprobaciones/exportación y el perfil publicado obtuvo 9.083/9.083 correctas. **P16 cerrado para el alcance local; checklist 96/101, cinco pendientes.** [Despliegue y límites](../operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.md). Los párrafos y el JSON anteriores son registros de la fase previa, sin modificar sus timeouts o límites.
+
 La [preparación de activación del 12/10](../operacion/ACTIVACION_LOCAL_PREPARADA_20261012.md) respaldó el esquema y las cuatro tablas administrativas con un snapshot consistente. La restauración aislada pasó después de incorporar colación/enum desde el esquema; se conservaron los intentos detenidos y se retiró solo la base temporal propia. Se prepararon seis archivos privados de activación/reversa sin reemplazar bindings. No se repitió copia, dump, restauración o procesamiento del corte histórico; aceptación y despliegue siguen pendientes.
 
 La base publicada continúa con el histórico **01/10/2026**, backend/worker `915e863`, interfaz `9362d94` y esquema `f4826b9d1c30`. Las configuraciones activas se cotejaron mediante hashes; el resumen y el índice nuevo solo están aplicados en la copia de ensayo. El original de 18.980 filas, generaciones únicas y respaldos siguen preservados.

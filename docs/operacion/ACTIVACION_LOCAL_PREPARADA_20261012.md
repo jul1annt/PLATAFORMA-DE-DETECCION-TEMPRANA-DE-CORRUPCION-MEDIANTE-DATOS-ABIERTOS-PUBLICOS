@@ -1,6 +1,6 @@
 # Activación local preparada — 12/10/2026
 
-**Estado: preparación terminada; candidato inactivo.** Destino `plataformaanticorrupcion:5432`, OID 24577, rol ordinario `plataforma_operacion`. Backend/worker actuales `915e863`; candidato `794d185`; frontend `9362d94`. El corte publicado sigue siendo el **01/10/2026**.
+**Estado de esta ficha: preparación anterior a la activación.** El usuario aceptó el perfil y autorizó el cambio; backend/worker `794d185` ya están activos, con esquema `3c19a8f7e2d0`. [Activación y postflight verificados](ACTIVACION_LOCAL_VERIFICADA_20261012.md). El contenido siguiente conserva la preparación y sus límites tal como se ensayaron. Destino `plataformaanticorrupcion:5432`, OID 24577, rol ordinario `plataforma_operacion`; frontend `9362d94`; corte **01/10/2026**.
 
 ## Respaldo actual y restauración comprobada
 

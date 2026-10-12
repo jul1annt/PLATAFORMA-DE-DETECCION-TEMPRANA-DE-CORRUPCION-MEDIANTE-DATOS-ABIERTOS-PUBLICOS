@@ -1,6 +1,6 @@
 # Operar el resumen transaccional de calidad
 
-Estado: **candidato local `794d185` con 395 pruebas nativas; aceptación del perfil y despliegue pendientes**. Conserva repositorios, worker y migraciones de `ec9b5d2`, que verificó el corte completo con incidentes preservados. La preparación del pool se probó por separado: 9.884/9.884 lecturas correctas, búsqueda p95 0,269 s y calidad 0,0048 s. La base canónica todavía no tiene este resumen. Consultar la [validación actual](../auditoria/VALIDACION_LOCAL_PENDIENTES_20261011.md), la [preparación del pool](PREPARACION_POOL_LOCAL.md) y los [ensayos anteriores](../auditoria/RESUMEN_METRICAS_TRANSACCIONAL_20261010.md).
+Estado: **`794d185` activado y verificado en la base canónica, esquema `3c19a8f7e2d0`**, con perfil aceptado por el usuario. El resumen coincide con el agregado independiente de 9.249.545 contratos y sus cuatro triggers están habilitados. Pasaron 19 comprobaciones HTTP/worker y 9.083/9.083 lecturas correctas con ocho clientes, búsqueda p95 0,283 s y calidad 0,0048 s. [Despliegue, evidencia reutilizada e incidentes conservados](ACTIVACION_LOCAL_VERIFICADA_20261012.md). Las instrucciones siguientes describen preparación, verificación y reversa para cambios posteriores; este corte no necesita otra carga o inicialización del resumen.
 
 ## Preparación
 

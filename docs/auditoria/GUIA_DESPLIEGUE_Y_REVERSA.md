@@ -4,6 +4,8 @@ Guía de ejecución para preparar el despliegue backend/frontend. El 2026-10-06 
 
 ## Ficha del cambio
 
+**Cambio local verificado del 12/10/2026:** el usuario aceptó el perfil y autorizó activar. Backend/worker `794d185`, frontend `9362d94`, base publicada OID 24577 y esquema `3c19a8f7e2d0`. Conteos/agregado, flujo real y perfil de ocho lectores pasaron; P16 cerrado para ese alcance. [Informe del cambio y límites](../operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.md). La ficha de preparación conserva la secuencia de reversa; no hubo reversa en la base publicada.
+
 Registrar en la orden de cambio:
 
 - Entorno y ventana de mantenimiento:
