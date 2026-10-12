@@ -1,15 +1,17 @@
 # Operar el resumen transaccional de calidad
 
-Estado: **código candidato local, pendiente de CI/despliegue; la base canónica todavía no tiene este resumen**. Consultar [evidencia y límites](../auditoria/RESUMEN_METRICAS_TRANSACCIONAL_20261010.md).
+Estado: **candidato local `794d185` con 395 pruebas nativas; aceptación del perfil y despliegue pendientes**. Conserva repositorios, worker y migraciones de `ec9b5d2`, que verificó el corte completo con incidentes preservados. La preparación del pool se probó por separado: 9.884/9.884 lecturas correctas, búsqueda p95 0,269 s y calidad 0,0048 s. La base canónica todavía no tiene este resumen. Consultar la [validación actual](../auditoria/VALIDACION_LOCAL_PENDIENTES_20261011.md), la [preparación del pool](PREPARACION_POOL_LOCAL.md) y los [ensayos anteriores](../auditoria/RESUMEN_METRICAS_TRANSACCIONAL_20261010.md).
 
 ## Preparación
 
-1. Respetar la decisión del usuario del 2026-10-11: mantener los cambios en este equipo. La solicitud GitHub está resuelta; una publicación requiere una nueva instrucción explícita que cambie esa decisión. El candidato sigue inactivo y su CI remoto no está acreditado; mantener pendientes los requisitos de validación del artefacto exacto antes del despliegue. Conservar respaldo/control checkpoint, credenciales, revisión y artefactos anteriores según [la guía de integración](INTEGRACION_LOCAL.md).
+1. Usar el alcance local elegido por el usuario el 2026-10-11 y adjuntar los gates nativos del artefacto exacto, con las comprobaciones reutilizadas identificadas. Completar perfil conjunto, aceptación y comprobaciones de recuperación antes del despliegue. Conservar respaldo/control checkpoint, credenciales, revisión y artefactos anteriores según [la guía de integración](INTEGRACION_LOCAL.md).
 2. Cerrar servicios, comprobar fuentes pausadas, ausencia de trabajos/escritores activos y OID/puerto/rol del destino. La revisión previa al resumen es `08c6d9a2e4b1`; el nuevo backend debe incorporar el `COUNT(*)` compatible con el índice compacto antes de retirar el anterior. No aplicar ciegamente a la base publicada desde un script de pruebas.
 3. Aplicar la migración `2ab7c4e8d910` con aislamiento `read committed`. Inicializa una fila por un único agregado sobre contratos existentes; no requiere extracción, transformación o restauración del universo. La espera por bloqueo y el conteo son acotados a 5 s/120 s solo en la transacción. Si falla, inspeccionar la revisión realmente confirmada: el predecesor compacto puede haber cerrado antes. Reanudar desde esa revisión; no borrar contratos ni iniciar un bucle de recarga.
 4. Verificar fila id=1, los cuatro triggers habilitados y contadores iguales al agregado de referencia. Reiniciar con sesiones nuevas y registrar el estado real en los manifiestos del despliegue. Mantener las opciones de paralelismo de lectura omitidas durante la primera comparación.
 
 El índice compacto y el resumen son cambios distintos: el primero modifica un índice; el segundo añade contadores/triggers. El resumen no requiere borrar ese índice y no altera identidades, valores de contratos o collation.
+
+El candidato actual añade además `3c19a8f7e2d0`: un índice concurrente de fecha e ID para el desempate estable de páginas. Puede reanudar su aplicación si el índice existente coincide y está válido/listo; un objeto distinto o inválido se conserva para inspección. Su downgrade retira únicamente ese índice verificado. El índice ocupa unos 278,25 MiB en la copia completa y añade coste a las escrituras; incluirlo en el perfil real, junto con los deltas del resumen. No necesita recargar ni normalizar contratos.
 
 ## Cotejo independiente
 

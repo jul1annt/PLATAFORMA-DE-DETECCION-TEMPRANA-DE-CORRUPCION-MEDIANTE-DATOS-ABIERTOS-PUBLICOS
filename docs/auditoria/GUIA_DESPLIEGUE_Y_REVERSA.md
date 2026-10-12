@@ -19,8 +19,10 @@ No rellenar credenciales en la ficha. Obtener los secretos en cada proceso desde
 
 ## Preparación obligatoria
 
+**Alcance local elegido el 11/10/2026:** el usuario pidió conservar los cambios y terminar los pendientes en este equipo. Para ese destino, adjuntar los gates nativos del artefacto exacto y los hashes de locks/runtime en lugar de exigir una publicación o CI remoto. Identificar cualquier comprobación reutilizada y su equivalencia de código/dependencias. Un runtime existente verificado no se describe como una instalación limpia nueva. Mantener respaldo y recuperación, migraciones compatibles, perfil conjunto, validación del destino y comprobaciones posteriores. [Evidencia local y pendientes](VALIDACION_LOCAL_PENDIENTES_20261011.md).
+
 1. Revisar el diff completo y confirmar que el artefacto backend y worker corresponde a la misma revisión.
-2. Ejecutar instalación limpia, auditoría de dependencias, suite local, lint, pruebas frontend, build externo, OpenAPI y matriz de acceso. Adjuntar los resultados del CI de esa misma revisión; la configuración de un workflow por sí sola no demuestra que corrió.
+2. Ejecutar las comprobaciones del alcance elegido: auditoría de dependencias, suite local, lint, pruebas frontend, build externo, OpenAPI y matriz de acceso. En este equipo, adjuntar los gates nativos y la equivalencia comprobada del runtime/locks, declarando las evidencias reutilizadas. Para otro destino, ejecutar instalación limpia y adjuntar el CI de esa misma revisión; la configuración de un workflow por sí sola no demuestra que corrió.
 3. Crear respaldo PostgreSQL y completar restauración de ensayo siguiendo `RESPALDO_Y_RESTAURACION_POSTGRESQL.md`. Registrar conteos por fuente/estado de esa copia.
 4. Ejecutar sobre la copia restaurada las migraciones, las pruebas PostgreSQL, las reparaciones/reconciliación previstas y los smoke tests. Medir duración, bloqueos, espacio adicional y resultados antes/después.
 5. Confirmar plan de pausa/reanudación de scheduler, worker e ingestas y verificar dónde persistirán trabajos en cola.
@@ -54,7 +56,7 @@ En la integración local, el respaldo completo histórico se complementa con el 
 
 ## Cierre de cambio
 
-Guardar en el registro del cambio los hashes de los artefactos y respaldo, revisiones Alembic, resultados CI, conteos antes/después, smoke tests, incidentes, decisiones de reversa y aprobaciones. Mantener logs, dumps y claves dentro de controles de acceso/retención del entorno.
+Guardar en el registro del cambio los hashes de los artefactos y respaldo, revisiones Alembic, gates nativos locales o resultados CI según el destino, conteos antes/después, smoke tests, incidentes, decisiones de reversa y aprobaciones. Mantener logs, dumps y claves dentro de controles de acceso/retención del entorno.
 
 ## Publicación histórica en este equipo — 2026-10-10 UTC
 

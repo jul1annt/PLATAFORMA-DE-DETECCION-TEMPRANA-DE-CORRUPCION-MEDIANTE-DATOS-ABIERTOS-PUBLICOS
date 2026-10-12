@@ -17,3 +17,13 @@ La comparación de solo lectura entre `plataforma_cutover_restore_check` y `plat
 La tupla diagnóstica usa fuente, proceso, adjudicación, código y NIT de proveedor, y valor adjudicado. Las categorías de coincidencia exacta y de tupla son clasificaciones alternativas del mismo universo y **no se suman entre sí**. Los recuentos por campo incluyen empates de candidatas y tampoco son recuentos de contratos distintos. Las diferencias más frecuentes en candidatos cercanos son `codigo_pci` (1 290), `ciudad_de_la_unidad_de` (934) y `codigo_principal_de_categoria` (441).
 
 No se copiarán IDs Socrata de una generación posterior a las filas heredadas basándose solo en proceso o tupla. Para resolver una fila hace falta un registro anterior con ID Socrata, una bitácora verificable de extracción con identidad de fila, o una clave de negocio demostrada como única para esa adjudicación y versión. Hasta disponer de esa evidencia, el respaldo original y el informe agregado preservan el estado anterior; la conciliación histórica total permanece abierta en P12 del plan.
+
+## Detalle individual local del 11/10/2026
+
+Se cotejó directamente el original conservado `plataformaanticorrupcion_pre_20261010:5432`, OID 17930, contra el corte aceptado del **01/10/2026** en `plataforma_integracion_local:5433`, OID 74053. El original mantiene `c7e3a91b5d24`; su columna Socrata todavía no existe. Se usaron transacciones de solo lectura, sin migrar ni escribir filas en esas bases.
+
+El universo de 18.980 originales produjo 105.640 candidatas. En 60 campos fuente, hubo **15.392 coincidencias exactas únicas, 118 ambiguas y 3.470 sin coincidencia**. La tupla diagnóstica tuvo **18.115 únicas, 157 ambiguas y 708 sin coincidencia**. Estos resultados corresponden a otro corte y no sustituyen los recuentos del 30/09 expuestos arriba. Las dos clasificaciones son alternativas y no se suman.
+
+El archivo privado `Backend/.codex-integration-postgres/full-acceptance-20261011/legacy-cases.jsonl` ofrece un caso por fila, cardinalidades y campos diferentes de las candidatas más próximas. Sus listas se limitan a veinte candidatas; los conteos abarcan todas. Tiene 10.145.604 bytes y SHA-256 `4cb38055eecad6453659c4e1d9cc193202236dcd139538f025107fbfa7c8f0d3`. El [informe público de validación](VALIDACION_LOCAL_PENDIENTES_20261011.json) contiene la procedencia y los totales, sin los valores de los registros.
+
+Todas las identidades anteriores continúan marcadas como no demostradas. Se asignaron **cero IDs oficiales** a las filas originales y las huellas UTC acotadas antes/después coincidieron. El detalle permite investigar casos concretos; no recupera una identidad anterior ausente ni acredita conciliación histórica total.
