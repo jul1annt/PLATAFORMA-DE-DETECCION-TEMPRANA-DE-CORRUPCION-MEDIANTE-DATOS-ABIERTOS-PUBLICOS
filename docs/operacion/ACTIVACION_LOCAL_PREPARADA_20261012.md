@@ -29,7 +29,19 @@ La activación selecciona backend/worker `794d185` y la secuencia ensayada `f482
 
 La reversa preparada vuelve a la aplicación y los ajustes anteriores, **conservando el esquema expandido y declarando su revisión real**. No incluye downgrade automático ni restauración del histórico. Esa reversa todavía necesita ejecutarse y comprobarse durante el cambio; preparar archivos no demuestra un despliegue o una reversa ejecutados.
 
-## Secuencia pendiente de ejecución
+## Comprobaciones adicionales del destino y la reversa
+
+El **12/10 a las 09:21 UTC (04:21 Bogotá)** se verificó el candidato contra el destino publicado, sin activarlo: identidad/OID/rol/revisión correctos, cero trabajos pendientes o en proceso, fuentes pausadas, 21 índices válidos/listos y definiciones exactas del índice anterior y del reemplazo compacto conservado. El rol ordinario tiene permiso para crear en el esquema; resumen e índice de fecha/ID siguen ausentes en este destino. Se cotejaron los 200 archivos del paquete, seis bindings preparados y dos respaldos; los ajustes propuestos pasaron validación.
+
+Una muestra encontró `max_connections=100`, tres slots reservados, 14 conexiones cliente y **83 slots ordinarios restantes**, sin límites adicionales de rol/base. Esa muestra admite las diez conexiones de API y hasta diez del worker; debe repetirse antes de activar. Se observaron cero locks de escritura y cero sesiones ajenas con estado inaccesible. Esto es una captura puntual, no acredita que las escrituras estén congeladas.
+
+La preparación nativa creó **diez conexiones distintas en 0,144 s** contra la base publicada con su esquema actual: diez devueltas al pool, cero prestadas, overflow cero y ajustes de transacción restaurados. El pool temporal se cerró. Las huellas UTC de las primeras 2.000 filas de crudos/procesados y el estado administrativo coincidieron antes/después; ese estado aún coincide con el checkpoint preparado. API/interfaz respondieron 200 y los bindings activos conservaron sus hashes. No se ejecutó el startup completo del candidato ni se ensayó carga concurrente en este destino.
+
+A las **09:23 UTC (04:23 Bogotá)** se verificó la aplicación anterior `915e863` contra el esquema ampliado `3c19a8f7e2d0`, en la copia completa ya existente, OID 75045, puerto 5433. Sus **186 archivos** se compararon con el archivo Git de esa revisión y el lock coincidió con el runtime. Se inició solo su API en loopback:8797, forzando todas sus transacciones SQL a solo lectura. Ocho solicitudes, dos por ruta, respondieron 200: búsqueda de 2024 (1.670.370 resultados, página de 20), búsqueda vacía, calidad y proveedores. Calidad/proveedores coincidieron exactamente con las referencias del candidato. Las dos páginas de búsqueda no coincidieron por contenido con el candidato: la versión anterior carece del desempate por ID; se comprobó su total/tamaño, no equivalencia completa de esa página.
+
+Los tiempos individuales de ese ensayo no son un perfil de carga ni una medición p95. No se iniciaron worker ni pruebas de mutación de autenticación/exportación. Huellas acotadas, resumen y último trabajo conservaron sus valores; el servidor terminó y las configuraciones publicadas no cambiaron. **Esto acredita compatibilidad HTTP de lectura de la reversa en la copia; no una reversa ejecutada en el destino publicado ni equivalencia de todo su comportamiento.** [Informe estructurado de ambas comprobaciones](ACTIVACION_LOCAL_COMPROBACIONES_20261012.json).
+
+## Pasos de ejecución
 
 1. Registrar la aceptación del responsable del perfil de ocho lectores, búsqueda p95 ≤1 s y calidad ≤3 s, revisando los timeouts conservados y el alcance separado de las pruebas.
 2. Coordinar el cambio, congelar escrituras, comprobar trabajos activos y pendientes, detener servicios ordenadamente y actualizar el checkpoint. Reconciliar cambios administrativos posteriores al checkpoint preparado.
