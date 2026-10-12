@@ -88,6 +88,8 @@ La base sintética de la preparación, OID 26620, se retiró después de cerrar 
 
 ## Base publicada
 
+La [preparación de activación del 12/10](../operacion/ACTIVACION_LOCAL_PREPARADA_20261012.md) respaldó el esquema y las cuatro tablas administrativas con un snapshot consistente. La restauración aislada pasó después de incorporar colación/enum desde el esquema; se conservaron los intentos detenidos y se retiró solo la base temporal propia. Se prepararon seis archivos privados de activación/reversa sin reemplazar bindings. No se repitió copia, dump, restauración o procesamiento del corte histórico; aceptación y despliegue siguen pendientes.
+
 La base publicada continúa con el histórico **01/10/2026**, backend/worker `915e863`, interfaz `9362d94` y esquema `f4826b9d1c30`. Las configuraciones activas se cotejaron mediante hashes; el resumen y el índice nuevo solo están aplicados en la copia de ensayo. El original de 18.980 filas, generaciones únicas y respaldos siguen preservados.
 
 El postflight de las **02:18 UTC del 12/10 (21:18 del 11/10 en Bogotá)** confirmó PostgreSQL 15.19, OID 24577, rol ordinario, componentes vivos, respuestas 200 de API/interfaz, cero fuentes/trabajos activos, 21 índices válidos, huellas UTC acotadas de crudos/procesados y hashes de configuración iguales. El candidato no se activó y el resumen todavía no existe en la base publicada.

@@ -46,6 +46,8 @@ Para cambios incompatibles, separar en despliegues de **expansión → migració
 
 ## Decisión de reversa
 
+La [preparación del 12/10/2026](../operacion/ACTIVACION_LOCAL_PREPARADA_20261012.md) añade un checkpoint administrativo actual, su restauración aislada comprobada y seis archivos privados de activación/reversa todavía inactivos. El dump por tablas necesita primero la colación `secop_source_locale` y el enum `tipoformato`, seleccionados del respaldo de esquema verificado. Preparar una reversa no acredita su ejecución: registrar la revisión real del esquema expandido y comprobar compatibilidad antes de iniciar la versión anterior.
+
 - Si falla antes de modificar datos, detener el despliegue y volver a los artefactos previos; mantener scheduler y escrituras pausados hasta confirmar compatibilidad.
 - Si solo cambió la aplicación y el esquema sigue siendo compatible, volver a la versión previa de backend/worker/frontend, comprobar que procesa la cola existente y luego reanudar trabajos.
 - No ejecutar `alembic downgrade` por rutina. Revisar el cuerpo de cada migración: borrados, proyecciones limpiadas, backfills o pérdida de historia pueden ser irreversibles aunque exista una función `downgrade()`.

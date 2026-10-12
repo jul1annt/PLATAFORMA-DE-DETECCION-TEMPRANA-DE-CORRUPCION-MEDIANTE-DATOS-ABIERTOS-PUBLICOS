@@ -2,6 +2,8 @@
 
 Estado: pendiente de cierre (decisión de alcance actualizada el 2026-10-11, Bogotá).
 
+**Preparación adicional del 12/10:** checkpoint administrativo actual respaldado y restaurado en una base temporal aislada, que se retiró al concluir. Se prepararon seis archivos privados para activación y reversa sin sustituir bindings activos ni recargar el histórico. Candidato inactivo; el checklist conserva 95/101 y seis pendientes. [Evidencia y secuencia concreta](../operacion/ACTIVACION_LOCAL_PREPARADA_20261012.md).
+
 Base: auditoría documentada en `REVISION.md`, sus 15 hallazgos y observaciones complementarias. Los responsables indicados son roles, no personas asignadas. Las fases definen un orden de implementación; no representan fechas comprometidas.
 
 ## Estado vigente: qué existe y qué falta
