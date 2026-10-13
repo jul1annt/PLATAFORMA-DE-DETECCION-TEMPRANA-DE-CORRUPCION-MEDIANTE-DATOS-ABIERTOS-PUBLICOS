@@ -29,6 +29,18 @@ Se intentó iniciar el helper administrativo con ventana oculta, limitado a las 
 
 La instalación exige `#Requires -RunAsAdministrator` en `apply_local_egress.ps1`. Se pidió elegir entre reintentar la elevación confirmándola en Windows o ejecutar el comando en PowerShell como administrador. No se vuelve a pedir autorización del alcance de las seis reglas.
 
+El reintento solicitado mediante «Continúa» también terminó con cancelación de Windows antes de iniciar el helper. La sesión es interactiva, pero el token del proceso no está elevado ni contiene el grupo de administradores. Siguen existiendo cero reglas nuevas y no hay un registro de instalación administrativa. El diagnóstico corresponde al token del proceso de ejecución.
+
+### Un solo comando para instalar y verificar
+
+Abrir **PowerShell como administrador** y ejecutar:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File "C:\PLATAFORMA-DE-DETECCION-TEMPRANA-DE-CORRUPCION-MEDIANTE-DATOS-ABIERTOS-PUBLICOS\Backend\.codex-e2e-postgres\install_and_verify_approved_egress_20261012.ps1"
+```
+
+El entrypoint actualiza DNS/hashes, instala únicamente las seis reglas autorizadas y ejecuta las pruebas de tráfico. Su sintaxis se comprobó sin ejecutarlo; `#Requires` impide usarlo desde un terminal sin privilegios. Si ya hay reglas o una ejecución parcial registrada, se detiene para preservar la evidencia. Al terminar correctamente deja `firewall-verified.json`; hasta comprobar ese resultado P01 sigue abierto.
+
 ### Comando preparado para PowerShell como administrador
 
 ```powershell

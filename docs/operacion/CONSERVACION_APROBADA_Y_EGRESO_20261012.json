@@ -579,6 +579,28 @@
   "private_evidence_sha256": {
     "retention-applied.json": "3ddb13da5b9b5df048da48803c8f6c59d20920b66c72f09a8580a64b12c84922",
     "elevation-attempt.json": "fb5e69a00e3669f008fdc882ad910a386d84e9466ea27a4142e5c5fb0bb921d4",
-    "authorization.json": "42427ac4de77178f6f51d04af93d5bcbb1fc8066d221d2ffc6756685d9e81bef"
-  }
+    "authorization.json": "42427ac4de77178f6f51d04af93d5bcbb1fc8066d221d2ffc6756685d9e81bef",
+    "elevation-attempt-2.json": "f03ea384973f8e22180829fc30d366006a5ec18d4f8054c9441a05c5e0955582",
+    "windows-execution-context.json": "4c51c5d4e7ffb17de7ca25569341c8fe10994f9245b76d425fb86239566c24a7"
+  },
+  "firewall_retry": {
+    "at_utc": "2026-10-13T00:58:29.4105512+00:00",
+    "stage": "elevation_retry_failed_before_helper",
+    "error_type": "System.InvalidOperationException",
+    "native_message": "This command cannot be run due to the error: An error occurred trying to start process 'C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe' with working directory 'C:\\PLATAFORMA-DE-DETECCION-TEMPRANA-DE-CORRUPCION-MEDIANTE-DATOS-ABIERTOS-PUBLICOS'. El usuario ha cancelado la operación.",
+    "approved_rules": 6,
+    "rules_applied": false
+  },
+  "windows_execution_context": {
+    "at_utc": "2026-10-13T01:00:41.1387565+00:00",
+    "user_interactive": true,
+    "session_id": 1,
+    "administrator_group_in_execution_token": false,
+    "elevated": false,
+    "named_scoped_rules": [],
+    "administrative_execution_started": false,
+    "interpretation": "Execution token lacks administrator privilege; Windows cancelled the second RunAs attempt before helper startup. Human administrative shell execution is required."
+  },
+  "manual_install_and_verification_entrypoint": "Backend/.codex-e2e-postgres/install_and_verify_approved_egress_20261012.ps1",
+  "entrypoint_syntax_checked_without_execution": true
 }
