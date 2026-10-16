@@ -1,0 +1,35 @@
+{
+  "recorded_at_utc": "2026-10-16T04:01:56.097351+00:00",
+  "client_date_bogota": "2026-10-15",
+  "human_question": "¿Existe alguna exportación o bitácora antigua que conserve los IDs oficiales de las filas SECOP, además de las tablas de contratos guardadas?",
+  "human_answer": "No, solo están los contratos guardados",
+  "prior_export_or_log_available_from_user": false,
+  "official_public_changelog_observation": {
+    "method": "Anonymous rendered page read through browser accessibility snapshot",
+    "url": "https://www.datos.gov.co/Estad-sticas-Nacionales/SECOP-II-Procesos-de-Contrataci-n/p6dx-8zbt/about_data",
+    "title": "SECOP II - Procesos de Contratación | Datos Abiertos Colombia",
+    "section": "Registro de cambio del conjunto de datos",
+    "visible_message": "Aún no se han archivado cambios",
+    "archived_historical_export_obtained": false,
+    "limitations": "Visible anonymous changelog only; no claim about private/hidden publisher archives or unpublished extraction logs."
+  },
+  "official_archiving_documentation": "https://support.socrata.com/hc/en-us/articles/9486838238743-Introducing-Dataset-Archiving",
+  "external_state_modified": false,
+  "database_writes": 0,
+  "historical_reload_performed": false,
+  "official_identity_assignments": 0,
+  "P05_P12_criteria_changed": false,
+  "closure_proposal_pending_acceptance": true,
+  "checklist": {
+    "complete": 98,
+    "open": 3,
+    "ids": [
+      "P01",
+      "P05",
+      "P12"
+    ]
+  },
+  "private_evidence_sha256": "334f3d930ee71e65093541d7285c90deedb43caef36e57ef33e6f7fadf7c30e9",
+  "historical_snapshot_before_scope_acceptance": true,
+  "superseded_by": "docs/auditoria/CIERRE_LEGADO_SECOP_ACEPTADO_20261015.json"
+}
