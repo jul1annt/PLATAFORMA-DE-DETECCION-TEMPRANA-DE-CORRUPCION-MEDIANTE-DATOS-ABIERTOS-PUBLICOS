@@ -7,6 +7,27 @@ $plan = Get-Content -LiteralPath (Join-Path $root 'egress-plan.json') -Raw | Con
 $runtime = Join-Path $root 'runtime'
 $expected = @((Join-Path $runtime 'venv/Scripts/python.exe'), (Join-Path $runtime 'python/python.exe')) | ForEach-Object { [IO.Path]::GetFullPath($_) }
 $group = 'PDTC Local Integration'
+function ConvertTo-FirewallRanges {
+    param([string[]]$Networks)
+    foreach ($network in $Networks) {
+        $parts = $network.Split('/')
+        if ($parts.Count -ne 2) { throw 'Expected an explicit CIDR network' }
+        $bytes = [Net.IPAddress]::Parse($parts[0]).GetAddressBytes()
+        $prefix = [int]$parts[1]
+        if ($prefix -lt 0 -or $prefix -gt $bytes.Length * 8) { throw 'Invalid network prefix length' }
+        $first = [byte[]]$bytes.Clone()
+        $last = [byte[]]$bytes.Clone()
+        for ($index = 0; $index -lt $bytes.Length; $index++) {
+            $remaining = $prefix - $index * 8
+            $mask = if ($remaining -ge 8) { 255 } elseif ($remaining -le 0) { 0 } else { (255 -shl (8 - $remaining)) -band 255 }
+            $first[$index] = $bytes[$index] -band $mask
+            $last[$index] = $first[$index] -bor (255 - $mask)
+        }
+        $start = [Net.IPAddress]::new($first).ToString()
+        $end = [Net.IPAddress]::new($last).ToString()
+        if ($start -eq $end) { $start } else { "$start-$end" }
+    }
+}
 if ($plan.rules.Count -ne 6) { throw 'Unexpected rule count' }
 foreach ($rule in $plan.rules) {
     $program = [IO.Path]::GetFullPath($rule.program)
@@ -31,7 +52,9 @@ try {
         $parameters = @{
             Name=$rule.name; DisplayName=$rule.name; Group=$group; Direction='Outbound';
             Action='Block'; Enabled='True'; Profile='Any'; Program=$rule.program;
-            Protocol=$rule.protocol; RemoteAddress=@($rule.addresses)
+            # Windows' CIM provider rejects some complement prefixes. Explicit
+            # IP ranges represent exactly the same sets, including full IPv6.
+            Protocol=$rule.protocol; RemoteAddress=@(ConvertTo-FirewallRanges -Networks $rule.addresses)
         }
         if ($rule.ports) { $parameters.RemotePort = $rule.ports.Split(',') }
         New-NetFirewallRule @parameters | Out-Null
