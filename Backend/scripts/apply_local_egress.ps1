@@ -20,8 +20,10 @@ if (([DateTimeOffset]::UtcNow - [DateTimeOffset]::Parse($plan.created_at_utc)).T
     throw 'Refresh approved DNS addresses before applying this plan'
 }
 # Existing named rules must be reviewed separately; never overwrite another policy.
+# Enumerate successfully before filtering: access failures must not look like missing rules.
+$existingRules = @(Get-NetFirewallRule -PolicyStore ActiveStore -ErrorAction Stop)
 foreach ($rule in $plan.rules) {
-    if (Get-NetFirewallRule -Name $rule.name -ErrorAction SilentlyContinue) { throw 'A named rule already exists' }
+    if (@($existingRules | Where-Object { $_.Name -eq $rule.name }).Count) { throw 'A named rule already exists' }
 }
 $created = @()
 try {

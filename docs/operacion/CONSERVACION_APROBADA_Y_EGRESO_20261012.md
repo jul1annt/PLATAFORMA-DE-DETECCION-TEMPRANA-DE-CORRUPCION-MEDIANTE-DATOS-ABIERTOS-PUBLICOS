@@ -23,13 +23,15 @@ Los archivos se conservan en el directorio privado `Backend/.codex-integration-p
 
 ## P01: autorización recibida, instalación pendiente de Windows
 
+**Corrección del 15/10:** el inventario efectivo sigue desconocido por falta de privilegios. Se corrigieron ambos scripts para detenerse ante errores de consulta. El campo histórico `named_scoped_rules: []` no acredita ausencia de reglas. [Diagnóstico y recuperación actuales](RECUPERACION_LOCAL_20261015.md).
+
 Se renovaron las IP de `www.datos.gov.co`/`datos.gov.co` y los hashes de los dos Python dedicados. Antes de aplicar reglas, ambos ejecutables pasaron siete comprobaciones cada uno: PostgreSQL/API locales, HTTPS de ambos hosts oficiales con certificado y hostname verificados, TCP externo no permitido en 443/80 y una consulta DNS UDP externa. Todas fueron accesibles en la línea base; no hubo extracción completa ni sincronización de fuentes.
 
 Se intentó iniciar el helper administrativo con ventana oculta, limitado a las seis reglas aprobadas. **Windows informó cancelación de la elevación antes de iniciar el helper.** No se crearon reglas, no cambió ningún perfil global y no se hizo una prueba posterior de bloqueo. El rechazo automático anterior por falta de autorización queda resuelto por la instrucción explícita; esta cancelación es un requisito de privilegios de Windows distinto.
 
 La instalación exige `#Requires -RunAsAdministrator` en `apply_local_egress.ps1`. Se pidió elegir entre reintentar la elevación confirmándola en Windows o ejecutar el comando en PowerShell como administrador. No se vuelve a pedir autorización del alcance de las seis reglas.
 
-El reintento solicitado mediante «Continúa» también terminó con cancelación de Windows antes de iniciar el helper. La sesión es interactiva, pero el token del proceso no está elevado ni contiene el grupo de administradores. Siguen existiendo cero reglas nuevas y no hay un registro de instalación administrativa. El diagnóstico corresponde al token del proceso de ejecución.
+El reintento solicitado mediante «Continúa» también terminó con cancelación de Windows antes de iniciar el helper. La sesión es interactiva, pero el token del proceso no está elevado ni contiene el grupo de administradores. No hay un registro de instalación administrativa de este helper. La consulta anterior omitía errores y no permite concluir cuántas reglas existen; el diagnóstico del 15/10 confirma acceso denegado. El diagnóstico corresponde al token del proceso de ejecución.
 
 ### Un solo comando para instalar y verificar
 

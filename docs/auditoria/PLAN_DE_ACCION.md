@@ -1,5 +1,7 @@
 # Plan de acción para cerrar las brechas técnicas
 
+**Revisión del 15/10/2026:** se recuperaron API, interfaz y worker de la misma versión local tras comprobar procesos terminados y conservar el bloqueo obsoleto. PostgreSQL, fuentes pausadas y muestras de datos verificados; sin recarga histórica. Se corrigió la consulta de firewall para detenerse ante errores: «acceso denegado» no significa cero reglas. **97/101; cuatro pendientes.** [Recuperación y límites](../operacion/RECUPERACION_LOCAL_20261015.md).
+
 Estado: **97/101 completados; cuatro pendientes.** Activación local verificada el 2026-10-12, Bogotá. [Despliegue y cierre local de P16](../operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.md).
 
 **Preparación anterior a la activación del 12/10:** checkpoint administrativo actual respaldado y restaurado en una base temporal aislada, que se retiró al concluir. Se prepararon seis archivos privados para activación y reversa sin sustituir bindings activos ni recargar el histórico. En esa preparación el candidato estaba inactivo y el checklist tenía 95/101; la activación posterior cerró P16 y lo actualizó a 96/101. [Evidencia y secuencia concreta](../operacion/ACTIVACION_LOCAL_PREPARADA_20261012.md).
@@ -51,7 +53,7 @@ La muestra de `IDENTIDAD_ENTRE_GENERACIONES_SECOP_20261003.json` descartó las c
 
 ### Registro único de pendientes
 
-**Reintento de P01:** Windows canceló también el segundo intento antes de iniciar el helper; el token de ejecución no tiene privilegios administrativos. El comando único de instalación/verificación está preparado para PowerShell como administrador. La autorización de las seis reglas ya está recibida; cero reglas nuevas y P01 sigue abierto. [Comando y evidencia](../operacion/CONSERVACION_APROBADA_Y_EGRESO_20261012.md).
+**Reintento de P01:** Windows canceló también el segundo intento antes de iniciar el helper; el token de ejecución no tiene privilegios administrativos. El comando único de instalación/verificación está preparado para PowerShell como administrador. La autorización de las seis reglas ya está recibida; no hay constancia de ejecución del helper y P01 sigue abierto. La consulta anterior no demuestra ausencia de reglas: el diagnóstico del 15/10 confirma acceso denegado. [Comando y evidencia](../operacion/CONSERVACION_APROBADA_Y_EGRESO_20261012.md).
 
 [La revisión local posterior a la activación](../operacion/PENDIENTES_LOCALES_20261012.md) comprobó respaldos/checkpoints y condiciones de Windows Firewall, sin cambios destructivos ni reglas aplicadas. La copia completa se conserva para P06; se solicitaron decisiones de conservación/firewall y rutas de los dos insumos de identidad. El checklist permanece en 96/101, cinco pendientes.
 
@@ -59,7 +61,7 @@ Cada fila corresponde a una casilla abierta del checklist. Su última columna es
 
 | ID | Entrega y fase | Dependencia / estado | Evidencia para cerrar |
 | --- | --- | --- | --- |
-| P01 | API desplegada y egreso, F1 | Autorización explícita de seis reglas recibida. Windows canceló la elevación antes de iniciar el helper; cero reglas nuevas. [Constancia/comando](../operacion/CONSERVACION_APROBADA_Y_EGRESO_20261012.md) | Aplicar con privilegios administrativos y probar bloqueo real desde ambos Python, conservando SECOP y PostgreSQL/API locales; verificar perfiles globales iguales. |
+| P01 | API desplegada y egreso, F1 | Autorización explícita de seis reglas recibida. Windows canceló la elevación antes de iniciar el helper. El inventario efectivo no pudo consultarse por acceso denegado; presencia de reglas desconocida. [Constancia/comando](../operacion/CONSERVACION_APROBADA_Y_EGRESO_20261012.md) | Aplicar con privilegios administrativos y probar bloqueo real desde ambos Python, conservando SECOP y PostgreSQL/API locales; verificar perfiles globales iguales. |
 | P05 | Historia anterior al trigger, F3 | Mixto: diferencias en `LINAJE_LEGADO.md`; crecimiento real de 6 000 versiones medido en `HISTORIAL_CAPACIDAD_SECOP_20261006.md` (2 121,728 bytes por versión con índices en la muestra); conservación del historial aprobada/aplicada el 12/10; falta identidad anterior | Diferencias previas cuantificadas, crecimiento medido y retención decidida. |
 | P06 | Identidad histórica de proveedores, F5 | Externo: acceso DIAN autorizado | Backfill contrastado; coincidencias y límites documentados. |
 | P12 | Linaje ambiguo legado, F7 | Detalle individual de las 18.980 filas cotejado contra 105.640 candidatas del 01/10: 3.470 sin coincidencia exacta y 157 tuplas ambiguas. El informe del 30/09 conserva sus 3.405 casos. Falta identidad anterior | Explicar los casos con evidencia de identidad/extracción anterior; identidades no demostrables quedan explícitas. No sumar cortes ni clasificaciones alternativas. |

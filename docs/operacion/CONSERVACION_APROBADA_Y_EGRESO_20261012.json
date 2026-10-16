@@ -587,7 +587,7 @@
     "at_utc": "2026-10-13T00:58:29.4105512+00:00",
     "stage": "elevation_retry_failed_before_helper",
     "error_type": "System.InvalidOperationException",
-    "native_message": "This command cannot be run due to the error: An error occurred trying to start process 'C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe' with working directory 'C:\\PLATAFORMA-DE-DETECCION-TEMPRANA-DE-CORRUPCION-MEDIANTE-DATOS-ABIERTOS-PUBLICOS'. El usuario ha cancelado la operación.",
+    "native_message": "This command cannot be run due to the error: An error occurred trying to start process 'C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe' with working directory 'C:\\PLATAFORMA-DE-DETECCION-TEMPRANA-DE-CORRUPCION-MEDIANTE-DATOS-ABIERTOS-PUBLICOS'. El usuario ha cancelado la operaciÃ³n.",
     "approved_rules": 6,
     "rules_applied": false
   },
@@ -602,5 +602,11 @@
     "interpretation": "Execution token lacks administrator privilege; Windows cancelled the second RunAs attempt before helper startup. Human administrative shell execution is required."
   },
   "manual_install_and_verification_entrypoint": "Backend/.codex-e2e-postgres/install_and_verify_approved_egress_20261012.ps1",
-  "entrypoint_syntax_checked_without_execution": true
+  "entrypoint_syntax_checked_without_execution": true,
+  "inventory_interpretation_correction_20261015": {
+    "prior_empty_inventory_proves_absence": false,
+    "current_rule_presence": "unknown_due_to_access_denied",
+    "evidence": "docs/operacion/RECUPERACION_LOCAL_20261015.json",
+    "historical_private_snapshots_modified": false
+  }
 }

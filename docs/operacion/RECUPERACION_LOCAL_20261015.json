@@ -1,0 +1,80 @@
+{
+  "date_bogota": "2026-10-15",
+  "service_recovery": {
+    "started_at_utc": "2026-10-16T03:33:46.374437+00:00",
+    "completed_at_utc": "2026-10-16T03:34:23.337002+00:00",
+    "stage": "verified_local_services_recovered",
+    "services_running": true,
+    "active_sources": 0,
+    "active_jobs": 0,
+    "bounded_state_unchanged": true,
+    "historical_reload_performed": false,
+    "http_checks": [
+      {
+        "url": "http://127.0.0.1:8000/openapi.json",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:4173/index.html",
+        "status": 200
+      }
+    ],
+    "release": "794d185832c7c56ffa4d91ef08ca1f3d15128be5"
+  },
+  "database_binding_validated": {
+    "database": "plataformaanticorrupcion",
+    "port": 5432,
+    "oid": 24577,
+    "role": "plataforma_operacion",
+    "revision": "3c19a8f7e2d0"
+  },
+  "cached_quality_total": 9249545,
+  "max_job_id_before_after": 104,
+  "fingerprint_scope": "First 2000 rows ordered by id in each raw_secop and contratos_procesados; UTC transaction. No new full-cut count or content verification.",
+  "firewall_diagnosis": {
+    "at_utc": "2026-10-16T03:34:15.3676447+00:00",
+    "elevated": false,
+    "inventory_succeeded": false,
+    "named_rule_count": null,
+    "rule_presence": "unknown",
+    "rules_modified": false,
+    "global_profiles_modified": false,
+    "firewall_execution_file_exists": false,
+    "firewall_verified_file_exists": false,
+    "query_error_id": "Windows System Error 5,Get-NetFirewallRule",
+    "query_error_type": "Microsoft.Management.Infrastructure.CimException",
+    "scripts": [
+      {
+        "syntax_valid": true,
+        "sha256": "258c4b39c5447ddc83867f17b0163a11fdcc0ee284403c32762fb5fd9ed795ba",
+        "path": "Backend/scripts/apply_local_egress.ps1"
+      },
+      {
+        "syntax_valid": true,
+        "sha256": "cd67a947e5e4ea847c50b067c1ef21e48b7e78ab2a5f571f026291fcdee2ad9c",
+        "path": "Backend/.codex-e2e-postgres/install_and_verify_approved_egress_20261012.ps1"
+      }
+    ]
+  },
+  "correction": "Earlier empty rule inventory was obtained with suppressed query errors. Actual rule presence is unknown; named_scoped_rules=[] in the 13 October execution-context snapshot does not prove absence. This helper has no execution or traffic-verification record.",
+  "checklist": {
+    "complete": 97,
+    "open": 4,
+    "ids": [
+      "P01",
+      "P05",
+      "P06",
+      "P12"
+    ]
+  },
+  "private_evidence_sha256": {
+    "Backend/.codex-integration-postgres/service-recovery-20261015-2/recovery.json": "c2a373da0738c1e7e7a48ca378dc4a4ced75145e76b467946e1cf7b508bbfb1a",
+    "Backend/.codex-integration-postgres/security-diagnosis-20261015/diagnosis.json": "f486ffd7e31305480e4d660d4296ab54db6076aa4a4aca00eed04d23e069edc1"
+  },
+  "limits": [
+    "Two unauthenticated HTTP availability probes; prior 19-check authenticated smoke and accepted 8-reader profile remain historical evidence, not rerun.",
+    "An initial recovery helper stopped before lock removal due to report Decimal serialization; corrected in a separate attempt directory.",
+    "No firewall rule or global profile changed; strict rule inventory was denied by Windows.",
+    "Missing authorized DIAN registry and prior extraction with official row IDs remain unresolved."
+  ]
+}
