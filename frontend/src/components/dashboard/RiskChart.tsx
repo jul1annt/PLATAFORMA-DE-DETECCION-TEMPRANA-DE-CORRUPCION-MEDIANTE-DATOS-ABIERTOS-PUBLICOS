@@ -64,9 +64,9 @@ export const RiskChart: React.FC<RiskChartProps> = ({ data }) => {
           data={data}
           cx="50%"
           cy="50%"
-          innerRadius={60}
-          outerRadius={100}
-          paddingAngle={3}
+          innerRadius={66}
+          outerRadius={92}
+          paddingAngle={1}
           dataKey="value"
           labelLine={false}
           label={renderCustomLabel}

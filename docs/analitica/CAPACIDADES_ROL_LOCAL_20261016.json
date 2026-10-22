@@ -1,0 +1,24 @@
+{
+  "time": "2026-10-16T21:59:57.928350+00:00",
+  "oid": 24577,
+  "schema": "3c19a8f7e2d0",
+  "read_only": true,
+  "create_schemas_in_database": true,
+  "create_objects_in_public": true,
+  "public_usage": true,
+  "owns_existing_source_and_quality_tables": {
+    "contrato_anomalo_incompleto": true,
+    "contratos_metricas_calidad": true,
+    "contratos_procesados": true,
+    "estadistica_campos_faltantes": true,
+    "raw_secop": true
+  },
+  "elevated_role_flags": {
+    "superuser": false,
+    "create_database": false,
+    "create_role": false,
+    "replication": false
+  },
+  "candidate_not_installed": true,
+  "scope": "Existing capabilities only; no proof of new object privileges after an unperformed deployment"
+}

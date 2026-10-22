@@ -1,0 +1,13 @@
+{
+  "time": "2026-10-16T22:52:38.390726+00:00",
+  "status": "COMPLETE",
+  "deadline_seconds": 5,
+  "elapsed_seconds": 5.707588500008569,
+  "actual_process_ids": {
+    "actual_parent": 61512,
+    "actual_descendant": 64300
+  },
+  "actual_parent_stopped": true,
+  "actual_descendant_stopped": true,
+  "scope": "Synthetic owned tree in actual Windows inference venv, including launcher indirection. No model or database command. Does not prove cleanup after forced API termination or OS crash."
+}

@@ -1,0 +1,797 @@
+{
+  "policy": "contract-result-strata-v1",
+  "scope": {
+    "date_bogota": "2026-10-19",
+    "database_oid": 24577,
+    "schema": "3c19a8f7e2d0",
+    "unit": "resultado_contrato_legado",
+    "selection": "16 rangos UUID de igual ancho, uno en cada primer dígito hexadecimal",
+    "seed": 20261019,
+    "uuid_space_fraction": "1/1024",
+    "census": false,
+    "sampling_assumption": "Intervalos independientes de puntuaciones; representatividad depende de distribución uniforme de UUID. No garantiza segmentos raros.",
+    "source_run": "4e677b91-c0df-4a20-8f3a-b114b5beb382",
+    "reiteration_run": "4ce36d30-b387-4f29-b4de-f068a2e3d296",
+    "publication_period_basis": "Fecha de publicación normalizada consultada en el corte actual, no instante histórico reconstruido.",
+    "read_only": true,
+    "elapsed_seconds": 14.162990299984813,
+    "maximum_rows": 12000,
+    "selected_rows": 841,
+    "enrichment_batch_size": 50,
+    "single_query_timeout_seconds": 10,
+    "enrichment_completed": true,
+    "enrichment_seconds": 18.93580809998093,
+    "alias_lookup_batch_size": 1,
+    "alias_lookup_max_matches": 2,
+    "alias_matching": "Identificadores SECOP con su escritura exacta en la fuente; sin coincidencias por nombre ni IDs inferidos.",
+    "unknown_reiteration_policy": "Sin par verificado no implica señal ausente; no convertir a cero."
+  },
+  "input_rows": 841,
+  "eligible_award_units": 510,
+  "excluded_rows": 331,
+  "exclusions": {
+    "unidad_ambigua_o_sin_comprobacion_global": 331
+  },
+  "overall": {
+    "rows": 510,
+    "iqr_evaluable": 510,
+    "iqr_detected": 52,
+    "reiteration_observed_with_verified_link": 24,
+    "reiteration_unknown": 486,
+    "joint_comparable_rows": 24,
+    "comparison": null,
+    "comparison_abstention": "menos_de_30_unidades_con_ambos_componentes"
+  },
+  "strata": {
+    "publication_year": {
+      "2016": {
+        "rows": 2,
+        "iqr_evaluable": 2,
+        "iqr_detected": 0,
+        "reiteration_observed_with_verified_link": 0,
+        "reiteration_unknown": 2,
+        "joint_comparable_rows": 0,
+        "comparison": null,
+        "comparison_abstention": "menos_de_30_unidades_con_ambos_componentes"
+      },
+      "2017": {
+        "rows": 25,
+        "iqr_evaluable": 25,
+        "iqr_detected": 0,
+        "reiteration_observed_with_verified_link": 0,
+        "reiteration_unknown": 25,
+        "joint_comparable_rows": 0,
+        "comparison": null,
+        "comparison_abstention": "menos_de_30_unidades_con_ambos_componentes"
+      },
+      "2018": {
+        "rows": 31,
+        "iqr_evaluable": 31,
+        "iqr_detected": 2,
+        "reiteration_observed_with_verified_link": 1,
+        "reiteration_unknown": 30,
+        "joint_comparable_rows": 1,
+        "comparison": null,
+        "comparison_abstention": "menos_de_30_unidades_con_ambos_componentes"
+      },
+      "2019": {
+        "rows": 38,
+        "iqr_evaluable": 38,
+        "iqr_detected": 3,
+        "reiteration_observed_with_verified_link": 1,
+        "reiteration_unknown": 37,
+        "joint_comparable_rows": 1,
+        "comparison": null,
+        "comparison_abstention": "menos_de_30_unidades_con_ambos_componentes"
+      },
+      "2020": {
+        "rows": 34,
+        "iqr_evaluable": 34,
+        "iqr_detected": 1,
+        "reiteration_observed_with_verified_link": 3,
+        "reiteration_unknown": 31,
+        "joint_comparable_rows": 3,
+        "comparison": null,
+        "comparison_abstention": "menos_de_30_unidades_con_ambos_componentes"
+      },
+      "2021": {
+        "rows": 54,
+        "iqr_evaluable": 54,
+        "iqr_detected": 11,
+        "reiteration_observed_with_verified_link": 2,
+        "reiteration_unknown": 52,
+        "joint_comparable_rows": 2,
+        "comparison": null,
+        "comparison_abstention": "menos_de_30_unidades_con_ambos_componentes"
+      },
+      "2022": {
+        "rows": 63,
+        "iqr_evaluable": 63,
+        "iqr_detected": 5,
+        "reiteration_observed_with_verified_link": 0,
+        "reiteration_unknown": 63,
+        "joint_comparable_rows": 0,
+        "comparison": null,
+        "comparison_abstention": "menos_de_30_unidades_con_ambos_componentes"
+      },
+      "2023": {
+        "rows": 83,
+        "iqr_evaluable": 83,
+        "iqr_detected": 9,
+        "reiteration_observed_with_verified_link": 5,
+        "reiteration_unknown": 78,
+        "joint_comparable_rows": 5,
+        "comparison": null,
+        "comparison_abstention": "menos_de_30_unidades_con_ambos_componentes"
+      },
+      "2024": {
+        "rows": 74,
+        "iqr_evaluable": 74,
+        "iqr_detected": 10,
+        "reiteration_observed_with_verified_link": 7,
+        "reiteration_unknown": 67,
+        "joint_comparable_rows": 7,
+        "comparison": null,
+        "comparison_abstention": "menos_de_30_unidades_con_ambos_componentes"
+      },
+      "2025": {
+        "rows": 57,
+        "iqr_evaluable": 57,
+        "iqr_detected": 5,
+        "reiteration_observed_with_verified_link": 3,
+        "reiteration_unknown": 54,
+        "joint_comparable_rows": 3,
+        "comparison": null,
+        "comparison_abstention": "menos_de_30_unidades_con_ambos_componentes"
+      },
+      "2026": {
+        "rows": 49,
+        "iqr_evaluable": 49,
+        "iqr_detected": 6,
+        "reiteration_observed_with_verified_link": 2,
+        "reiteration_unknown": 47,
+        "joint_comparable_rows": 2,
+        "comparison": null,
+        "comparison_abstention": "menos_de_30_unidades_con_ambos_componentes"
+      }
+    },
+    "method": {
+      "CONCURSO DE MERITOS ABIERTO": {
+        "rows": 10,
+        "iqr_evaluable": 10,
+        "iqr_detected": 0,
+        "reiteration_observed_with_verified_link": 0,
+        "reiteration_unknown": 10,
+        "joint_comparable_rows": 0,
+        "comparison": null,
+        "comparison_abstention": "menos_de_30_unidades_con_ambos_componentes"
+      },
+      "CONTRATACION DIRECTA (CON OFERTAS)": {
+        "rows": 65,
+        "iqr_evaluable": 65,
+        "iqr_detected": 11,
+        "reiteration_observed_with_verified_link": 7,
+        "reiteration_unknown": 58,
+        "joint_comparable_rows": 7,
+        "comparison": null,
+        "comparison_abstention": "menos_de_30_unidades_con_ambos_componentes"
+      },
+      "CONTRATACION REGIMEN ESPECIAL (CON OFERTAS)": {
+        "rows": 42,
+        "iqr_evaluable": 42,
+        "iqr_detected": 4,
+        "reiteration_observed_with_verified_link": 2,
+        "reiteration_unknown": 40,
+        "joint_comparable_rows": 2,
+        "comparison": null,
+        "comparison_abstention": "menos_de_30_unidades_con_ambos_componentes"
+      },
+      "LICITACION PUBLICA": {
+        "rows": 6,
+        "iqr_evaluable": 6,
+        "iqr_detected": 3,
+        "reiteration_observed_with_verified_link": 0,
+        "reiteration_unknown": 6,
+        "joint_comparable_rows": 0,
+        "comparison": null,
+        "comparison_abstention": "menos_de_30_unidades_con_ambos_componentes"
+      },
+      "LICITACION PUBLICA OBRA PUBLICA": {
+        "rows": 6,
+        "iqr_evaluable": 6,
+        "iqr_detected": 2,
+        "reiteration_observed_with_verified_link": 0,
+        "reiteration_unknown": 6,
+        "joint_comparable_rows": 0,
+        "comparison": null,
+        "comparison_abstention": "menos_de_30_unidades_con_ambos_componentes"
+      },
+      "MINIMA CUANTIA": {
+        "rows": 296,
+        "iqr_evaluable": 296,
+        "iqr_detected": 11,
+        "reiteration_observed_with_verified_link": 11,
+        "reiteration_unknown": 285,
+        "joint_comparable_rows": 11,
+        "comparison": null,
+        "comparison_abstention": "menos_de_30_unidades_con_ambos_componentes"
+      },
+      "SELECCION ABREVIADA DE MENOR CUANTIA": {
+        "rows": 47,
+        "iqr_evaluable": 47,
+        "iqr_detected": 6,
+        "reiteration_observed_with_verified_link": 2,
+        "reiteration_unknown": 45,
+        "joint_comparable_rows": 2,
+        "comparison": null,
+        "comparison_abstention": "menos_de_30_unidades_con_ambos_componentes"
+      },
+      "SELECCION ABREVIADA MENOR CUANTIA SIN MANIFESTACION INTERES": {
+        "rows": 2,
+        "iqr_evaluable": 2,
+        "iqr_detected": 1,
+        "reiteration_observed_with_verified_link": 0,
+        "reiteration_unknown": 2,
+        "joint_comparable_rows": 0,
+        "comparison": null,
+        "comparison_abstention": "menos_de_30_unidades_con_ambos_componentes"
+      },
+      "SELECCION ABREVIADA SUBASTA INVERSA": {
+        "rows": 36,
+        "iqr_evaluable": 36,
+        "iqr_detected": 14,
+        "reiteration_observed_with_verified_link": 2,
+        "reiteration_unknown": 34,
+        "joint_comparable_rows": 2,
+        "comparison": null,
+        "comparison_abstention": "menos_de_30_unidades_con_ambos_componentes"
+      }
+    },
+    "unspsc_segment": {
+      "10": {
+        "rows": 2,
+        "iqr_evaluable": 2,
+        "iqr_detected": 0,
+        "reiteration_observed_with_verified_link": 0,
+        "reiteration_unknown": 2,
+        "joint_comparable_rows": 0,
+        "comparison": null,
+        "comparison_abstention": "menos_de_30_unidades_con_ambos_componentes"
+      },
+      "11": {
+        "rows": 4,
+        "iqr_evaluable": 4,
+        "iqr_detected": 0,
+        "reiteration_observed_with_verified_link": 1,
+        "reiteration_unknown": 3,
+        "joint_comparable_rows": 1,
+        "comparison": null,
+        "comparison_abstention": "menos_de_30_unidades_con_ambos_componentes"
+      },
+      "12": {
+        "rows": 7,
+        "iqr_evaluable": 7,
+        "iqr_detected": 1,
+        "reiteration_observed_with_verified_link": 0,
+        "reiteration_unknown": 7,
+        "joint_comparable_rows": 0,
+        "comparison": null,
+        "comparison_abstention": "menos_de_30_unidades_con_ambos_componentes"
+      },
+      "14": {
+        "rows": 6,
+        "iqr_evaluable": 6,
+        "iqr_detected": 0,
+        "reiteration_observed_with_verified_link": 0,
+        "reiteration_unknown": 6,
+        "joint_comparable_rows": 0,
+        "comparison": null,
+        "comparison_abstention": "menos_de_30_unidades_con_ambos_componentes"
+      },
+      "15": {
+        "rows": 5,
+        "iqr_evaluable": 5,
+        "iqr_detected": 0,
+        "reiteration_observed_with_verified_link": 0,
+        "reiteration_unknown": 5,
+        "joint_comparable_rows": 0,
+        "comparison": null,
+        "comparison_abstention": "menos_de_30_unidades_con_ambos_componentes"
+      },
+      "20": {
+        "rows": 1,
+        "iqr_evaluable": 1,
+        "iqr_detected": 1,
+        "reiteration_observed_with_verified_link": 0,
+        "reiteration_unknown": 1,
+        "joint_comparable_rows": 0,
+        "comparison": null,
+        "comparison_abstention": "menos_de_30_unidades_con_ambos_componentes"
+      },
+      "21": {
+        "rows": 2,
+        "iqr_evaluable": 2,
+        "iqr_detected": 0,
+        "reiteration_observed_with_verified_link": 1,
+        "reiteration_unknown": 1,
+        "joint_comparable_rows": 1,
+        "comparison": null,
+        "comparison_abstention": "menos_de_30_unidades_con_ambos_componentes"
+      },
+      "22": {
+        "rows": 1,
+        "iqr_evaluable": 1,
+        "iqr_detected": 0,
+        "reiteration_observed_with_verified_link": 0,
+        "reiteration_unknown": 1,
+        "joint_comparable_rows": 0,
+        "comparison": null,
+        "comparison_abstention": "menos_de_30_unidades_con_ambos_componentes"
+      },
+      "23": {
+        "rows": 1,
+        "iqr_evaluable": 1,
+        "iqr_detected": 0,
+        "reiteration_observed_with_verified_link": 0,
+        "reiteration_unknown": 1,
+        "joint_comparable_rows": 0,
+        "comparison": null,
+        "comparison_abstention": "menos_de_30_unidades_con_ambos_componentes"
+      },
+      "24": {
+        "rows": 4,
+        "iqr_evaluable": 4,
+        "iqr_detected": 0,
+        "reiteration_observed_with_verified_link": 0,
+        "reiteration_unknown": 4,
+        "joint_comparable_rows": 0,
+        "comparison": null,
+        "comparison_abstention": "menos_de_30_unidades_con_ambos_componentes"
+      },
+      "25": {
+        "rows": 7,
+        "iqr_evaluable": 7,
+        "iqr_detected": 2,
+        "reiteration_observed_with_verified_link": 0,
+        "reiteration_unknown": 7,
+        "joint_comparable_rows": 0,
+        "comparison": null,
+        "comparison_abstention": "menos_de_30_unidades_con_ambos_componentes"
+      },
+      "26": {
+        "rows": 2,
+        "iqr_evaluable": 2,
+        "iqr_detected": 0,
+        "reiteration_observed_with_verified_link": 0,
+        "reiteration_unknown": 2,
+        "joint_comparable_rows": 0,
+        "comparison": null,
+        "comparison_abstention": "menos_de_30_unidades_con_ambos_componentes"
+      },
+      "27": {
+        "rows": 2,
+        "iqr_evaluable": 2,
+        "iqr_detected": 0,
+        "reiteration_observed_with_verified_link": 0,
+        "reiteration_unknown": 2,
+        "joint_comparable_rows": 0,
+        "comparison": null,
+        "comparison_abstention": "menos_de_30_unidades_con_ambos_componentes"
+      },
+      "30": {
+        "rows": 5,
+        "iqr_evaluable": 5,
+        "iqr_detected": 1,
+        "reiteration_observed_with_verified_link": 1,
+        "reiteration_unknown": 4,
+        "joint_comparable_rows": 1,
+        "comparison": null,
+        "comparison_abstention": "menos_de_30_unidades_con_ambos_componentes"
+      },
+      "31": {
+        "rows": 6,
+        "iqr_evaluable": 6,
+        "iqr_detected": 0,
+        "reiteration_observed_with_verified_link": 0,
+        "reiteration_unknown": 6,
+        "joint_comparable_rows": 0,
+        "comparison": null,
+        "comparison_abstention": "menos_de_30_unidades_con_ambos_componentes"
+      },
+      "39": {
+        "rows": 8,
+        "iqr_evaluable": 8,
+        "iqr_detected": 1,
+        "reiteration_observed_with_verified_link": 0,
+        "reiteration_unknown": 8,
+        "joint_comparable_rows": 0,
+        "comparison": null,
+        "comparison_abstention": "menos_de_30_unidades_con_ambos_componentes"
+      },
+      "40": {
+        "rows": 6,
+        "iqr_evaluable": 6,
+        "iqr_detected": 0,
+        "reiteration_observed_with_verified_link": 0,
+        "reiteration_unknown": 6,
+        "joint_comparable_rows": 0,
+        "comparison": null,
+        "comparison_abstention": "menos_de_30_unidades_con_ambos_componentes"
+      },
+      "41": {
+        "rows": 4,
+        "iqr_evaluable": 4,
+        "iqr_detected": 0,
+        "reiteration_observed_with_verified_link": 0,
+        "reiteration_unknown": 4,
+        "joint_comparable_rows": 0,
+        "comparison": null,
+        "comparison_abstention": "menos_de_30_unidades_con_ambos_componentes"
+      },
+      "42": {
+        "rows": 11,
+        "iqr_evaluable": 11,
+        "iqr_detected": 2,
+        "reiteration_observed_with_verified_link": 0,
+        "reiteration_unknown": 11,
+        "joint_comparable_rows": 0,
+        "comparison": null,
+        "comparison_abstention": "menos_de_30_unidades_con_ambos_componentes"
+      },
+      "43": {
+        "rows": 20,
+        "iqr_evaluable": 20,
+        "iqr_detected": 3,
+        "reiteration_observed_with_verified_link": 1,
+        "reiteration_unknown": 19,
+        "joint_comparable_rows": 1,
+        "comparison": null,
+        "comparison_abstention": "menos_de_30_unidades_con_ambos_componentes"
+      },
+      "44": {
+        "rows": 14,
+        "iqr_evaluable": 14,
+        "iqr_detected": 2,
+        "reiteration_observed_with_verified_link": 0,
+        "reiteration_unknown": 14,
+        "joint_comparable_rows": 0,
+        "comparison": null,
+        "comparison_abstention": "menos_de_30_unidades_con_ambos_componentes"
+      },
+      "45": {
+        "rows": 1,
+        "iqr_evaluable": 1,
+        "iqr_detected": 0,
+        "reiteration_observed_with_verified_link": 0,
+        "reiteration_unknown": 1,
+        "joint_comparable_rows": 0,
+        "comparison": null,
+        "comparison_abstention": "menos_de_30_unidades_con_ambos_componentes"
+      },
+      "46": {
+        "rows": 8,
+        "iqr_evaluable": 8,
+        "iqr_detected": 3,
+        "reiteration_observed_with_verified_link": 0,
+        "reiteration_unknown": 8,
+        "joint_comparable_rows": 0,
+        "comparison": null,
+        "comparison_abstention": "menos_de_30_unidades_con_ambos_componentes"
+      },
+      "47": {
+        "rows": 5,
+        "iqr_evaluable": 5,
+        "iqr_detected": 0,
+        "reiteration_observed_with_verified_link": 0,
+        "reiteration_unknown": 5,
+        "joint_comparable_rows": 0,
+        "comparison": null,
+        "comparison_abstention": "menos_de_30_unidades_con_ambos_componentes"
+      },
+      "48": {
+        "rows": 2,
+        "iqr_evaluable": 2,
+        "iqr_detected": 0,
+        "reiteration_observed_with_verified_link": 0,
+        "reiteration_unknown": 2,
+        "joint_comparable_rows": 0,
+        "comparison": null,
+        "comparison_abstention": "menos_de_30_unidades_con_ambos_componentes"
+      },
+      "49": {
+        "rows": 4,
+        "iqr_evaluable": 4,
+        "iqr_detected": 0,
+        "reiteration_observed_with_verified_link": 0,
+        "reiteration_unknown": 4,
+        "joint_comparable_rows": 0,
+        "comparison": null,
+        "comparison_abstention": "menos_de_30_unidades_con_ambos_componentes"
+      },
+      "50": {
+        "rows": 21,
+        "iqr_evaluable": 21,
+        "iqr_detected": 3,
+        "reiteration_observed_with_verified_link": 1,
+        "reiteration_unknown": 20,
+        "joint_comparable_rows": 1,
+        "comparison": null,
+        "comparison_abstention": "menos_de_30_unidades_con_ambos_componentes"
+      },
+      "51": {
+        "rows": 1,
+        "iqr_evaluable": 1,
+        "iqr_detected": 0,
+        "reiteration_observed_with_verified_link": 0,
+        "reiteration_unknown": 1,
+        "joint_comparable_rows": 0,
+        "comparison": null,
+        "comparison_abstention": "menos_de_30_unidades_con_ambos_componentes"
+      },
+      "52": {
+        "rows": 9,
+        "iqr_evaluable": 9,
+        "iqr_detected": 0,
+        "reiteration_observed_with_verified_link": 0,
+        "reiteration_unknown": 9,
+        "joint_comparable_rows": 0,
+        "comparison": null,
+        "comparison_abstention": "menos_de_30_unidades_con_ambos_componentes"
+      },
+      "53": {
+        "rows": 15,
+        "iqr_evaluable": 15,
+        "iqr_detected": 1,
+        "reiteration_observed_with_verified_link": 1,
+        "reiteration_unknown": 14,
+        "joint_comparable_rows": 1,
+        "comparison": null,
+        "comparison_abstention": "menos_de_30_unidades_con_ambos_componentes"
+      },
+      "55": {
+        "rows": 3,
+        "iqr_evaluable": 3,
+        "iqr_detected": 0,
+        "reiteration_observed_with_verified_link": 0,
+        "reiteration_unknown": 3,
+        "joint_comparable_rows": 0,
+        "comparison": null,
+        "comparison_abstention": "menos_de_30_unidades_con_ambos_componentes"
+      },
+      "56": {
+        "rows": 4,
+        "iqr_evaluable": 4,
+        "iqr_detected": 0,
+        "reiteration_observed_with_verified_link": 0,
+        "reiteration_unknown": 4,
+        "joint_comparable_rows": 0,
+        "comparison": null,
+        "comparison_abstention": "menos_de_30_unidades_con_ambos_componentes"
+      },
+      "60": {
+        "rows": 9,
+        "iqr_evaluable": 9,
+        "iqr_detected": 0,
+        "reiteration_observed_with_verified_link": 0,
+        "reiteration_unknown": 9,
+        "joint_comparable_rows": 0,
+        "comparison": null,
+        "comparison_abstention": "menos_de_30_unidades_con_ambos_componentes"
+      },
+      "70": {
+        "rows": 4,
+        "iqr_evaluable": 4,
+        "iqr_detected": 0,
+        "reiteration_observed_with_verified_link": 0,
+        "reiteration_unknown": 4,
+        "joint_comparable_rows": 0,
+        "comparison": null,
+        "comparison_abstention": "menos_de_30_unidades_con_ambos_componentes"
+      },
+      "72": {
+        "rows": 48,
+        "iqr_evaluable": 48,
+        "iqr_detected": 4,
+        "reiteration_observed_with_verified_link": 3,
+        "reiteration_unknown": 45,
+        "joint_comparable_rows": 3,
+        "comparison": null,
+        "comparison_abstention": "menos_de_30_unidades_con_ambos_componentes"
+      },
+      "73": {
+        "rows": 5,
+        "iqr_evaluable": 5,
+        "iqr_detected": 0,
+        "reiteration_observed_with_verified_link": 1,
+        "reiteration_unknown": 4,
+        "joint_comparable_rows": 1,
+        "comparison": null,
+        "comparison_abstention": "menos_de_30_unidades_con_ambos_componentes"
+      },
+      "76": {
+        "rows": 6,
+        "iqr_evaluable": 6,
+        "iqr_detected": 2,
+        "reiteration_observed_with_verified_link": 0,
+        "reiteration_unknown": 6,
+        "joint_comparable_rows": 0,
+        "comparison": null,
+        "comparison_abstention": "menos_de_30_unidades_con_ambos_componentes"
+      },
+      "77": {
+        "rows": 10,
+        "iqr_evaluable": 10,
+        "iqr_detected": 0,
+        "reiteration_observed_with_verified_link": 0,
+        "reiteration_unknown": 10,
+        "joint_comparable_rows": 0,
+        "comparison": null,
+        "comparison_abstention": "menos_de_30_unidades_con_ambos_componentes"
+      },
+      "78": {
+        "rows": 22,
+        "iqr_evaluable": 22,
+        "iqr_detected": 2,
+        "reiteration_observed_with_verified_link": 1,
+        "reiteration_unknown": 21,
+        "joint_comparable_rows": 1,
+        "comparison": null,
+        "comparison_abstention": "menos_de_30_unidades_con_ambos_componentes"
+      },
+      "80": {
+        "rows": 50,
+        "iqr_evaluable": 50,
+        "iqr_detected": 2,
+        "reiteration_observed_with_verified_link": 2,
+        "reiteration_unknown": 48,
+        "joint_comparable_rows": 2,
+        "comparison": null,
+        "comparison_abstention": "menos_de_30_unidades_con_ambos_componentes"
+      },
+      "81": {
+        "rows": 43,
+        "iqr_evaluable": 43,
+        "iqr_detected": 9,
+        "reiteration_observed_with_verified_link": 1,
+        "reiteration_unknown": 42,
+        "joint_comparable_rows": 1,
+        "comparison": null,
+        "comparison_abstention": "menos_de_30_unidades_con_ambos_componentes"
+      },
+      "82": {
+        "rows": 5,
+        "iqr_evaluable": 5,
+        "iqr_detected": 0,
+        "reiteration_observed_with_verified_link": 0,
+        "reiteration_unknown": 5,
+        "joint_comparable_rows": 0,
+        "comparison": null,
+        "comparison_abstention": "menos_de_30_unidades_con_ambos_componentes"
+      },
+      "83": {
+        "rows": 3,
+        "iqr_evaluable": 3,
+        "iqr_detected": 0,
+        "reiteration_observed_with_verified_link": 0,
+        "reiteration_unknown": 3,
+        "joint_comparable_rows": 0,
+        "comparison": null,
+        "comparison_abstention": "menos_de_30_unidades_con_ambos_componentes"
+      },
+      "84": {
+        "rows": 16,
+        "iqr_evaluable": 16,
+        "iqr_detected": 0,
+        "reiteration_observed_with_verified_link": 1,
+        "reiteration_unknown": 15,
+        "joint_comparable_rows": 1,
+        "comparison": null,
+        "comparison_abstention": "menos_de_30_unidades_con_ambos_componentes"
+      },
+      "85": {
+        "rows": 19,
+        "iqr_evaluable": 19,
+        "iqr_detected": 3,
+        "reiteration_observed_with_verified_link": 1,
+        "reiteration_unknown": 18,
+        "joint_comparable_rows": 1,
+        "comparison": null,
+        "comparison_abstention": "menos_de_30_unidades_con_ambos_componentes"
+      },
+      "86": {
+        "rows": 11,
+        "iqr_evaluable": 11,
+        "iqr_detected": 0,
+        "reiteration_observed_with_verified_link": 1,
+        "reiteration_unknown": 10,
+        "joint_comparable_rows": 1,
+        "comparison": null,
+        "comparison_abstention": "menos_de_30_unidades_con_ambos_componentes"
+      },
+      "90": {
+        "rows": 10,
+        "iqr_evaluable": 10,
+        "iqr_detected": 1,
+        "reiteration_observed_with_verified_link": 2,
+        "reiteration_unknown": 8,
+        "joint_comparable_rows": 2,
+        "comparison": null,
+        "comparison_abstention": "menos_de_30_unidades_con_ambos_componentes"
+      },
+      "91": {
+        "rows": 2,
+        "iqr_evaluable": 2,
+        "iqr_detected": 0,
+        "reiteration_observed_with_verified_link": 0,
+        "reiteration_unknown": 2,
+        "joint_comparable_rows": 0,
+        "comparison": null,
+        "comparison_abstention": "menos_de_30_unidades_con_ambos_componentes"
+      },
+      "92": {
+        "rows": 4,
+        "iqr_evaluable": 4,
+        "iqr_detected": 2,
+        "reiteration_observed_with_verified_link": 0,
+        "reiteration_unknown": 4,
+        "joint_comparable_rows": 0,
+        "comparison": null,
+        "comparison_abstention": "menos_de_30_unidades_con_ambos_componentes"
+      },
+      "93": {
+        "rows": 27,
+        "iqr_evaluable": 27,
+        "iqr_detected": 2,
+        "reiteration_observed_with_verified_link": 4,
+        "reiteration_unknown": 23,
+        "joint_comparable_rows": 4,
+        "comparison": null,
+        "comparison_abstention": "menos_de_30_unidades_con_ambos_componentes"
+      },
+      "94": {
+        "rows": 3,
+        "iqr_evaluable": 3,
+        "iqr_detected": 1,
+        "reiteration_observed_with_verified_link": 0,
+        "reiteration_unknown": 3,
+        "joint_comparable_rows": 0,
+        "comparison": null,
+        "comparison_abstention": "menos_de_30_unidades_con_ambos_componentes"
+      },
+      "SIN_UNSPSC_VERIFICABLE": {
+        "rows": 22,
+        "iqr_evaluable": 22,
+        "iqr_detected": 4,
+        "reiteration_observed_with_verified_link": 1,
+        "reiteration_unknown": 21,
+        "joint_comparable_rows": 1,
+        "comparison": null,
+        "comparison_abstention": "menos_de_30_unidades_con_ambos_componentes"
+      }
+    }
+  },
+  "minimum_joint_rows": 30,
+  "definitions": {
+    "publication_year": "Año de publicación, no año de sentencia ni adjudicación.",
+    "unspsc_segment": "Dos primeros dígitos de código UNSPSC con formato de ocho dígitos; no sector institucional.",
+    "reiteration_unknown": "No existe par comprobado o el vínculo no supera revisión de identidades/fechas; no significa ausencia."
+  },
+  "limitations": [
+    "Selección exploratoria por intervalos UUID; no garantiza representación de segmentos raros.",
+    "Metadatos del corte actual enlazados a resultados legados; no reconstrucción histórica de etapa.",
+    "Las fórmulas legadas no equivalen a las familias corregidas por operación.",
+    "Comparaciones condicionadas a ambos componentes observados; informar su cobertura.",
+    "30 unidades es un mínimo operativo de presentación, no suficiencia inferencial.",
+    "No se propaga riesgo de proveedor, no se calcula probabilidad o prevalencia de corrupción."
+  ],
+  "training_performed": false,
+  "publication_authorized": false,
+  "database_accessed": false,
+  "input_sha256": "5cd2a832c8e004aebf2e91d4611ad80deb1e27fc3a420ac0eab26964eb93ff7e",
+  "implementation_sha256": {
+    "scripts/risk_contract_strata.py": "275eab49ea5ecf0b7d5373ea056ecd30a3efdc794e0ed6854c1587dd476f0c84",
+    "modules/motor_riesgo/contract_strata.py": "cf61b1f0730d4d10151e1e3f11c385da91cd82a8fc8354125967271cc11b8764",
+    "modules/motor_riesgo/weight_lab.py": "eeb456b49a88d9185ae7d3d297f86a53b3ef89ab99420c31223ea91b45925354",
+    "modules/motor_riesgo/domain.py": "48d8fe00d07572047f57460ea05aace1f30c464b919073b80075afbbe7a430dd"
+  }
+}

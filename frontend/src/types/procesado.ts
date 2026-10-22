@@ -11,7 +11,7 @@ import type {
 } from './api.generated';
 
 // Public data contracts come from the backend's generated OpenAPI schema.
-export type Procesado = ContratoProcesadoResponseDto;
+export type Procesado = ContratoProcesadoResponseDto & { public_cut_id?: string | null };
 export type MetricasCalidad = MetricasCalidadDto;
 export type CampoFaltante = ApiCampoFaltanteDto;
 export type CampoFaltanteDTO = ApiCampoFaltanteDto;
@@ -42,4 +42,6 @@ export interface QualitySummaryProps {
   camposFaltantes: CampoFaltante[];
   onFilterChange: (filter: QualityFilterType) => void;
   activeFilter: QualityFilterType;
+  onViewAll: () => void;
+  showingAllFields: boolean;
 }

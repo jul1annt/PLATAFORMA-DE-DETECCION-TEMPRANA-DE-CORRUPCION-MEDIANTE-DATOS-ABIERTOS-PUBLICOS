@@ -56,6 +56,8 @@ Fuente: `Backend/openapi.json`, generado por FastAPI. Se actualiza y verifica co
 | GET | `/api/jobs/resumen` | Administrador autenticado (Bearer; cuenta activa) | Get Jobs Summary |
 | GET | `/api/jobs/{job_id}` | Administrador autenticado (Bearer; cuenta activa) | Get Job |
 | GET | `/api/procesados/` | Público: lectura | Listar contratos procesados |
+| GET | `/api/procesados/admin/metricas/calidad` | Administrador autenticado (Bearer; cuenta activa) | Admin Metricas Calidad |
+| GET | `/api/procesados/admin/metricas/campos-faltantes` | Administrador autenticado (Bearer; cuenta activa) | Admin Campos Faltantes |
 | GET | `/api/procesados/anomalias/` | Público: lectura | Listar anomalías detectadas |
 | GET | `/api/procesados/autocomplete` | Público: lectura | Autocomplete |
 | GET | `/api/procesados/estadisticas/campos-faltantes` | Público: lectura | Estadísticas de campos faltantes |
@@ -74,3 +76,16 @@ Fuente: `Backend/openapi.json`, generado por FastAPI. Se actualiza y verifica co
 | GET | `/api/procesados/search` | Público: lectura | Buscar contratos procesados |
 | GET | `/api/procesados/sospechosos` | Público: lectura | Listar contratos sospechosos |
 | GET | `/api/procesados/{id}` | Público: lectura | Detalle de contrato procesado |
+| POST | `/api/riesgo/admin/activar` | Administrador autenticado (Bearer; cuenta activa) | Activation |
+| POST | `/api/riesgo/admin/actualizar` | Administrador autenticado (Bearer; cuenta activa) | Refresh |
+| POST | `/api/riesgo/admin/casos` | Administrador autenticado (Bearer; cuenta activa) | Add Case |
+| POST | `/api/riesgo/admin/entrenar` | Administrador autenticado (Bearer; cuenta activa) | Train |
+| GET | `/api/riesgo/admin/evidencias-variables` | Administrador autenticado (Bearer; cuenta activa) | Feature Evidence |
+| POST | `/api/riesgo/admin/evidencias-variables` | Administrador autenticado (Bearer; cuenta activa) | Add Feature Evidence |
+| GET | `/api/riesgo/admin/inventario` | Administrador autenticado (Bearer; cuenta activa) | Inventory |
+| GET | `/api/riesgo/admin/modelos` | Administrador autenticado (Bearer; cuenta activa) | Models |
+| POST | `/api/riesgo/admin/preparar-base` | Administrador autenticado (Bearer; cuenta activa) | Prepare Public Base |
+| POST | `/api/riesgo/admin/revertir/{cut_id}` | Administrador autenticado (Bearer; cuenta activa) | Revert |
+| GET | `/api/riesgo/estado` | Público: lectura | Get Status |
+| GET | `/api/riesgo/metodologia` | Público: lectura | Methodology |
+| GET | `/api/riesgo/resultados` | Público: lectura | Results |

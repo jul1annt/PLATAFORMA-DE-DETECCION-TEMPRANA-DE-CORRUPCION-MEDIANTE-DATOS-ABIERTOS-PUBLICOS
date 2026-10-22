@@ -6,6 +6,8 @@ export const QualitySummaryBanner: React.FC<QualitySummaryProps> = ({
   camposFaltantes,
   onFilterChange,
   activeFilter,
+  onViewAll,
+  showingAllFields,
 }) => {
   if (!metricas) return null;
 
@@ -102,8 +104,13 @@ export const QualitySummaryBanner: React.FC<QualitySummaryProps> = ({
               </div>
             ))}
           </div>
-          <button className="mt-4 text-[10px] font-bold text-teal-600 uppercase flex items-center gap-1 hover:gap-2 transition-all">
-            Ver todos los campos →
+          <button
+            type="button"
+            onClick={onViewAll}
+            aria-expanded={showingAllFields}
+            className="mt-4 text-[10px] font-bold text-teal-700 uppercase flex items-center gap-1 hover:gap-2 transition-all focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-teal-700"
+          >
+            {showingAllFields ? 'Ocultar todos los campos ↑' : `Ver todos los campos (${camposFaltantes.length}) →`}
           </button>
         </div>
       </div>

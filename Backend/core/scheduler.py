@@ -62,6 +62,11 @@ def iniciar_scheduler():
     if scheduler.running:
         return
     recover_abandoned_jobs()
+    from modules.motor_riesgo.pipeline import scheduled_tick
+    # A minute-level due check catches up after 03:00 and after local restarts.
+    scheduled_tick()
+    scheduler.add_job(scheduled_tick, trigger=IntervalTrigger(minutes=1),
+                      id='risk_daily_due', replace_existing=True, max_instances=1, coalesce=True)
     cleanup_expired_artifacts()
     scheduler.add_job(
         process_next_job,

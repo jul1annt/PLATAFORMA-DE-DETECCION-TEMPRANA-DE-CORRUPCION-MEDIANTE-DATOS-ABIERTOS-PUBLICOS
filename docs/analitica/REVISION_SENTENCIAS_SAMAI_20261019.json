@@ -1,0 +1,42 @@
+{
+  "date": "2026-10-19",
+  "acquisition": "ADQUISICION_SENTENCIAS_SAMAI_20261019.json",
+  "case": "csj-sp1919-2025-58953",
+  "documents": [
+    {
+      "extraction": "scanned_without_text",
+      "visually_reviewed_physical_pages": [
+        1,
+        150,
+        151,
+        152,
+        153,
+        156,
+        157,
+        158
+      ],
+      "sha256": "2decb9c210a9a4c162104a21e8cf6b2b4cb9ca7f3eb176554ec6670a1e98791b",
+      "judgment_date": "2019-04-29",
+      "includes_clarification": true
+    },
+    {
+      "visually_reviewed_physical_pages": [
+        1,
+        60,
+        62
+      ],
+      "sha256": "0df7e88632d18e3625bdcd21aa3e7c911644eec8cadcf018e5209a7ab40c0624",
+      "judgment_date": "2020-09-28",
+      "permits_cassation": true
+    }
+  ],
+  "new_eligible_cases": 0,
+  "new_training_labels": 0,
+  "full_review": false,
+  "next_requirements": [
+    "Complete factual and operative review",
+    "Documented label availability and finality",
+    "Unambiguous SECOP award linkage",
+    "Historical stage observations"
+  ]
+}

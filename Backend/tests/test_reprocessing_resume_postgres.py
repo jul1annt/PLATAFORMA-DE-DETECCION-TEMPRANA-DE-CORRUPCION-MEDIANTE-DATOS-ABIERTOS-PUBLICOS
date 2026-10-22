@@ -21,6 +21,7 @@ from modules.transformacion.model.ProcesamientoLog import ProcesamientoLog
 from modules.transformacion.repository.transformacion import TransformacionRepository
 from modules.transformacion.services.trasformacionservice import TransformacionService
 from shared.enums import TipoFormato
+from citizen_history_fixture import OwnedCitizenHistory
 
 
 @pytest.mark.parametrize("failure_point", ["mid_batch", "after_service"])
@@ -28,6 +29,7 @@ def test_forced_job_resumes_committed_writes_without_repeating_them(
     postgres_test_session, monkeypatch, failure_point,
 ):
     engine = create_engine(os.environ["TEST_DATABASE_URL"], pool_pre_ping=True)
+    owned_history=OwnedCitizenHistory(engine)
     monkeypatch.setattr(worker, "SessionLocal", lambda: Session(engine))
     started, release = Event(), Event()
     observations = {1: [], 2: []}
@@ -153,4 +155,5 @@ def test_forced_job_resumes_committed_writes_without_repeating_them(
                 db.execute(delete(BackgroundJob).where(BackgroundJob.id == job_id))
             TransformacionRepository(db).recalculate_porcentajes_estadisticas_campos()
             db.commit()
+        owned_history.cleanup(raw_ids)
         engine.dispose()

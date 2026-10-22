@@ -1,0 +1,48 @@
+{
+  "date_bogota": "2026-10-19",
+  "policy": "selected-source-capture-rolling-v1",
+  "status": "STRICT_ROLLING_COUNTS_INTEGRATED_IN_DIAGNOSTIC_CAPTURE",
+  "full_backend_suite": {
+    "run_id": "b64790f3309f401d88824a9cb8f21ec6",
+    "count": 958,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 98.977,
+    "new_materializer_parity_tests": 17,
+    "junit_sha256": "e3ae3e71c83d676895f1ff9444a9ca5da3280c37546e9d498d13464c0c989c0b"
+  },
+  "implementation_and_tests_sha256": {
+    "modules/motor_riesgo/history.py": "e111a138265bb0c393d6c7cce07409d75b899f6b3cdb7b723b7fff2ffb7fe8f6",
+    "modules/motor_riesgo/rolling_materialize.py": "dac0723ed00b37234885dd9db0c52d01968bf80df6ac5cafccf8b0967205e7af",
+    "modules/motor_riesgo/method_reference.py": "4adaa7c20eb5078b21a6c5160e7a1d124fe02b283d31a2a98b87d9a57b008769",
+    "modules/motor_riesgo/materialize.py": "f7ffbb976ee036f89553f903b8b4d02a90c36b6326ab3add62f15417e54c3834",
+    "modules/motor_riesgo/feature_store.py": "e2c864c87c8d1cd21f6c5a9151ba11167d338cb40ba71ab5c67a2723f22fba6e",
+    "modules/motor_riesgo/feature_builder.py": "9f711e6f29c7cee337dcfcfcb24d8e8c8751c80919c8d74a7811a17f1f48e516",
+    "tests/test_rolling_materialize_postgres.py": "00ccbdf99b548fa701712cc62a7fe5a5eb31de91fd1fe977cb08322bbdb206e9",
+    "tests/test_risk_engine_postgres.py": "1385252735b0786eec75eb7e9385bcb411e91ea5efa29b4877b4e52483693526",
+    "tests/test_rolling_batch.py": "9b2138a70a6933b828c94278126f9a9ad666a0361978be99d82a731a83eecdcc"
+  },
+  "code_snapshot": "rolling-materializer-base-20261019",
+  "python": "3.13.0",
+  "validation_packages": {
+    "SQLAlchemy": "2.0.49",
+    "psycopg2-binary": "2.9.12",
+    "pytest": "9.0.3"
+  },
+  "isolated_real_projection_probe_sha256": "fe554c82a7b956b3264c3c3b2881f7256c05849309e430563051d73a85c0fcf0",
+  "isolated_probe_frames": 13,
+  "isolated_probe_rows": 21,
+  "fixture_writes_rolled_back": true,
+  "original_database_access": false,
+  "source_currency_verified": false,
+  "monetary_totals_in_raw_capture_enabled": false,
+  "yearly_concentration_validation_included": false,
+  "training_eligible": false,
+  "publication_authorized": false,
+  "new_dependencies": false,
+  "external_contact": false,
+  "original_release_manifest_sha256": "d8c350c2391016dfe483df97ca8a942a9bd895e76c5c32da88962172787a6ac2",
+  "canonical_case_registry_sha256": "c1f3693b314857eed4bac388ea41671ef514b1e23783f77c6269ac7b19ba551a",
+  "test_harness_repair": "Terminate the confirmed Python lock-owner PID on Windows; the venv launcher can have another PID."
+}

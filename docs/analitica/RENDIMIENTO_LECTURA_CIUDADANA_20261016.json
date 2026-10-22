@@ -1,0 +1,367 @@
+{
+  "scope": "Frozen real-volume HTTP reads and aggregate preparation; no predictive validation or full inference/persistence",
+  "database_oid": 75045,
+  "source_rows": 9249545,
+  "published_database_touched": false,
+  "read_limits": {
+    "parallel_workers": 0,
+    "work_mem": "32MB",
+    "forced_read_only": true
+  },
+  "variants": [
+    "Union view before optimization",
+    "Bounded ordered branches",
+    "Bounded branches plus persisted chart aggregates"
+  ],
+  "cache_states_controlled": false,
+  "trials": [
+    {
+      "source_file": "citizen-http-benchmark-20261016.json",
+      "source_sha256": "6e89b1badebe582ce3f255691bc79504a1bd33e52ad3d6bfe00dadd460f1c763",
+      "report": {
+        "time": "2026-10-16T16:00:33.226003+00:00",
+        "database_oid": 75045,
+        "source_rows": 9249545,
+        "baseline_id": "99f05e23-fd13-44a5-bcf9-c931e6c40dcd",
+        "schema": "d42f8b6a901c",
+        "api_port": 8016,
+        "read_only_forced": true,
+        "read_parallel_workers": 0,
+        "work_mem": "32MB",
+        "scope": "Public HTTP reads of a frozen real-volume copy; no inference, persistence or predictive validation",
+        "requests": [
+          {
+            "path": "/api/riesgo/estado",
+            "status": 200,
+            "seconds": 0.27336590000777505,
+            "same_cut": true,
+            "bytes": 319,
+            "sha256": "e3c153fd2ba58447e9f680ff8ae8efd8cfee30c1f001f066cf66c86e44250232"
+          },
+          {
+            "path": "/api/procesados/search?limit=25&sort=fecha&order=desc",
+            "status": 200,
+            "seconds": 55.9991721999977,
+            "same_cut": true,
+            "bytes": 25478,
+            "sha256": "c1d2062db271f9f1c0fa5f21c60f94d61af3b22bbdb1da2b9a784acd327f1c98",
+            "total": 9249545
+          },
+          {
+            "path": "/api/procesados/9249499",
+            "status": 200,
+            "seconds": 0.0818033999967156,
+            "same_cut": true,
+            "bytes": 1000,
+            "sha256": "d3554c6b2530b3cb63c165c655a9adcbc0e38b07931c42e0ccdf6337420538cb"
+          },
+          {
+            "path": "/api/procesados/metricas/dashboard",
+            "status": 200,
+            "seconds": 0.022716999999829568,
+            "same_cut": true,
+            "bytes": 286,
+            "sha256": "67185ef64952fce6aaeb88e9b4ed71fa48b9aa6afb4004583ab658e04187fbae"
+          },
+          {
+            "path": "/api/procesados/metricas/calidad",
+            "status": 200,
+            "seconds": 0.006003599992254749,
+            "same_cut": true,
+            "bytes": 239,
+            "sha256": "e8aceb16cc02cebf3aeda1e6f78e43dfd0dfe148990d65ead35a7d10da3e0550"
+          },
+          {
+            "path": "/api/procesados/metricas/distribucion-anomalias",
+            "status": 200,
+            "seconds": 0.005949500002316199,
+            "same_cut": true,
+            "bytes": 110,
+            "sha256": "e0f2f040843e57d5743fcde7e552aedc431100737f54ee5c353ab0de3109bbb8"
+          },
+          {
+            "path": "/api/procesados/estadisticas/campos-faltantes",
+            "status": 200,
+            "seconds": 0.10748250001051929,
+            "same_cut": true,
+            "bytes": 154,
+            "sha256": "d5d2fab5c85e8505f4f5fd51a84c76e723592bd4b416a334cf94bdeef98db22b"
+          },
+          {
+            "path": "/api/procesados/metricas/distribucion-riesgo",
+            "status": 200,
+            "seconds": 9.586843899989617,
+            "same_cut": true,
+            "bytes": 58,
+            "sha256": "72ff517cf84e9ad7236a3d4b657cd77adbd8b6ad7126835ebe0707d8afc8609f"
+          },
+          {
+            "path": "/api/procesados/metricas/top-proveedores?limit=10",
+            "status": 200,
+            "seconds": 3.1119739999994636,
+            "same_cut": true,
+            "bytes": 788,
+            "sha256": "3c2df98d0f005f291dcbf7dcf6730ee1cdcaf7a247641bbbd8057f09044d7636"
+          }
+        ],
+        "concurrent_readers": {
+          "requests": 20,
+          "median_seconds": 6.1332299999921815,
+          "p95_seconds": 13.123218299995642,
+          "max_seconds": 15.778038600008585
+        },
+        "minimum_free_bytes": 89749172224,
+        "errors": [],
+        "real_models": 0,
+        "published_database_touched": false
+      }
+    },
+    {
+      "source_file": "citizen-http-benchmark-20261016-v2.json",
+      "source_sha256": "32c103da933667e86df0c16e3cc9a8b602639c09e667d833ad678f134f33bc5a",
+      "report": {
+        "time": "2026-10-16T16:07:46.281698+00:00",
+        "database_oid": 75045,
+        "source_rows": 9249545,
+        "baseline_id": "99f05e23-fd13-44a5-bcf9-c931e6c40dcd",
+        "schema": "d42f8b6a901c",
+        "api_port": 8016,
+        "read_only_forced": true,
+        "read_parallel_workers": 0,
+        "work_mem": "32MB",
+        "scope": "Public HTTP reads of a frozen real-volume copy; no inference, persistence or predictive validation",
+        "requests": [
+          {
+            "path": "/api/riesgo/estado",
+            "status": 200,
+            "seconds": 0.1688840999995591,
+            "same_cut": true,
+            "bytes": 319,
+            "sha256": "e3c153fd2ba58447e9f680ff8ae8efd8cfee30c1f001f066cf66c86e44250232"
+          },
+          {
+            "path": "/api/procesados/search?limit=25&sort=fecha&order=desc",
+            "status": 200,
+            "seconds": 0.09892669999680948,
+            "same_cut": true,
+            "bytes": 25478,
+            "sha256": "c1d2062db271f9f1c0fa5f21c60f94d61af3b22bbdb1da2b9a784acd327f1c98",
+            "total": 9249545
+          },
+          {
+            "path": "/api/procesados/9249499",
+            "status": 200,
+            "seconds": 0.033653200007393025,
+            "same_cut": true,
+            "bytes": 1000,
+            "sha256": "d3554c6b2530b3cb63c165c655a9adcbc0e38b07931c42e0ccdf6337420538cb"
+          },
+          {
+            "path": "/api/procesados/metricas/dashboard",
+            "status": 200,
+            "seconds": 0.006393700008629821,
+            "same_cut": true,
+            "bytes": 286,
+            "sha256": "67185ef64952fce6aaeb88e9b4ed71fa48b9aa6afb4004583ab658e04187fbae"
+          },
+          {
+            "path": "/api/procesados/metricas/calidad",
+            "status": 200,
+            "seconds": 0.006376100005581975,
+            "same_cut": true,
+            "bytes": 239,
+            "sha256": "e8aceb16cc02cebf3aeda1e6f78e43dfd0dfe148990d65ead35a7d10da3e0550"
+          },
+          {
+            "path": "/api/procesados/metricas/distribucion-anomalias",
+            "status": 200,
+            "seconds": 0.005113799998071045,
+            "same_cut": true,
+            "bytes": 110,
+            "sha256": "e0f2f040843e57d5743fcde7e552aedc431100737f54ee5c353ab0de3109bbb8"
+          },
+          {
+            "path": "/api/procesados/estadisticas/campos-faltantes",
+            "status": 200,
+            "seconds": 0.010323599999537691,
+            "same_cut": true,
+            "bytes": 154,
+            "sha256": "d5d2fab5c85e8505f4f5fd51a84c76e723592bd4b416a334cf94bdeef98db22b"
+          },
+          {
+            "path": "/api/procesados/metricas/distribucion-riesgo",
+            "status": 200,
+            "seconds": 36.882268199988175,
+            "same_cut": true,
+            "bytes": 58,
+            "sha256": "72ff517cf84e9ad7236a3d4b657cd77adbd8b6ad7126835ebe0707d8afc8609f"
+          },
+          {
+            "path": "/api/procesados/metricas/top-proveedores?limit=10",
+            "status": 200,
+            "seconds": 5.453484799989383,
+            "same_cut": true,
+            "bytes": 788,
+            "sha256": "3c2df98d0f005f291dcbf7dcf6730ee1cdcaf7a247641bbbd8057f09044d7636"
+          }
+        ],
+        "concurrent_readers": {
+          "requests": 23,
+          "median_seconds": 0.019511300008161925,
+          "p95_seconds": 0.1354567000089446,
+          "max_seconds": 0.816907699991134
+        },
+        "minimum_free_bytes": 89748336640,
+        "errors": [],
+        "real_models": 0,
+        "published_database_touched": false
+      }
+    },
+    {
+      "source_file": "citizen-http-benchmark-20261016-v3.json",
+      "source_sha256": "662de764bdcdd3eb84bba4c7831390ad9116ee77cdfcc9c522e46d9018eafb0a",
+      "report": {
+        "time": "2026-10-16T16:19:45.685462+00:00",
+        "database_oid": 75045,
+        "source_rows": 9249545,
+        "baseline_id": "99f05e23-fd13-44a5-bcf9-c931e6c40dcd",
+        "schema": "e56a990bd730",
+        "api_port": 8016,
+        "read_only_forced": true,
+        "read_parallel_workers": 0,
+        "work_mem": "32MB",
+        "scope": "Public HTTP reads of a frozen real-volume copy; no inference, persistence or predictive validation",
+        "requests": [
+          {
+            "path": "/api/riesgo/estado",
+            "status": 200,
+            "seconds": 0.44818799999484327,
+            "same_cut": true,
+            "bytes": 319,
+            "sha256": "e3c153fd2ba58447e9f680ff8ae8efd8cfee30c1f001f066cf66c86e44250232"
+          },
+          {
+            "path": "/api/procesados/search?limit=25&sort=fecha&order=desc",
+            "status": 200,
+            "seconds": 0.47856509999837726,
+            "same_cut": true,
+            "bytes": 25478,
+            "sha256": "c1d2062db271f9f1c0fa5f21c60f94d61af3b22bbdb1da2b9a784acd327f1c98",
+            "total": 9249545
+          },
+          {
+            "path": "/api/procesados/9249499",
+            "status": 200,
+            "seconds": 0.06099879999237601,
+            "same_cut": true,
+            "bytes": 1000,
+            "sha256": "d3554c6b2530b3cb63c165c655a9adcbc0e38b07931c42e0ccdf6337420538cb"
+          },
+          {
+            "path": "/api/procesados/metricas/dashboard",
+            "status": 200,
+            "seconds": 0.02274770000076387,
+            "same_cut": true,
+            "bytes": 286,
+            "sha256": "67185ef64952fce6aaeb88e9b4ed71fa48b9aa6afb4004583ab658e04187fbae"
+          },
+          {
+            "path": "/api/procesados/metricas/calidad",
+            "status": 200,
+            "seconds": 0.022320300005958416,
+            "same_cut": true,
+            "bytes": 239,
+            "sha256": "e8aceb16cc02cebf3aeda1e6f78e43dfd0dfe148990d65ead35a7d10da3e0550"
+          },
+          {
+            "path": "/api/procesados/metricas/distribucion-anomalias",
+            "status": 200,
+            "seconds": 0.014785499995923601,
+            "same_cut": true,
+            "bytes": 110,
+            "sha256": "e0f2f040843e57d5743fcde7e552aedc431100737f54ee5c353ab0de3109bbb8"
+          },
+          {
+            "path": "/api/procesados/estadisticas/campos-faltantes",
+            "status": 200,
+            "seconds": 0.048829099992872216,
+            "same_cut": true,
+            "bytes": 154,
+            "sha256": "d5d2fab5c85e8505f4f5fd51a84c76e723592bd4b416a334cf94bdeef98db22b"
+          },
+          {
+            "path": "/api/procesados/metricas/distribucion-riesgo",
+            "status": 200,
+            "seconds": 0.0051423000113572925,
+            "same_cut": true,
+            "bytes": 58,
+            "sha256": "72ff517cf84e9ad7236a3d4b657cd77adbd8b6ad7126835ebe0707d8afc8609f"
+          },
+          {
+            "path": "/api/procesados/metricas/top-proveedores?limit=10",
+            "status": 200,
+            "seconds": 0.008650599993416108,
+            "same_cut": true,
+            "bytes": 788,
+            "sha256": "3c2df98d0f005f291dcbf7dcf6730ee1cdcaf7a247641bbbd8057f09044d7636"
+          }
+        ],
+        "concurrent_readers": {
+          "requests": 20,
+          "median_seconds": 0.026420349997351877,
+          "p95_seconds": 0.03379020000284072,
+          "max_seconds": 0.08179309999104589
+        },
+        "minimum_free_bytes": 89760538624,
+        "errors": [],
+        "real_models": 0,
+        "published_database_touched": false
+      }
+    }
+  ],
+  "aggregate_preparation": {
+    "source_sha256": "0e3eb6d1b6ba15fddb327558b7da4494319d2ede91a6004ba341786879442d0b",
+    "report": {
+      "time": "2026-10-16T16:16:02.383170+00:00",
+      "test_oid": 75045,
+      "seconds": 39.79305540000496,
+      "result": {
+        "public_cut_id": "99f05e23-fd13-44a5-bcf9-c931e6c40dcd",
+        "aggregates_ready": true,
+        "data_cut_at": "2026-10-01"
+      },
+      "source_revisions_before": [
+        [
+          "contratos_procesados",
+          0,
+          9249545
+        ],
+        [
+          "raw_secop",
+          0,
+          9249545
+        ]
+      ],
+      "source_revisions_after": [
+        [
+          "contratos_procesados",
+          0,
+          9249545
+        ],
+        [
+          "raw_secop",
+          0,
+          9249545
+        ]
+      ],
+      "source_writes_blocked": true,
+      "real_models": 0
+    }
+  },
+  "not_measured": [
+    "Full-cut inference and result persistence",
+    "Peak process memory",
+    "Predictive quality",
+    "Final candidate deployment recovery"
+  ]
+}

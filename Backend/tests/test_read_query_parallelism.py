@@ -9,6 +9,7 @@ from sqlalchemy.orm import Session
 from core.config import Settings, settings
 from core.database import get_db
 from core.read_database import apply_read_parallelism, get_provider_db, get_search_db
+from core.public_database import get_public_db,get_public_search_db,get_public_provider_db
 from modules.transformacion.controller.transformacionController import router
 
 
@@ -69,13 +70,17 @@ def test_route_limits_are_independent(monkeypatch):
 
 def test_only_the_measured_routes_use_the_optional_read_policy():
     roots = {route.path: next(p for p in route.dependant.dependencies if p.name == 'db').call for route in router.routes if 'db' in route.endpoint.__annotations__}
-    assert roots['/procesados/search'] is get_search_db
-    assert roots['/procesados/metricas/top-proveedores'] is get_provider_db
-    assert all(call is get_db for path, call in roots.items() if path not in {'/procesados/search', '/procesados/metricas/top-proveedores'})
+    assert roots['/procesados/search'] is get_public_search_db
+    assert roots['/procesados/metricas/top-proveedores'] is get_public_provider_db
+    admin={'/procesados/reprocesar','/procesados/logs','/procesados/logs/export/{formato}','/procesados/export/{formato}/jobs',
+           '/procesados/admin/metricas/calidad','/procesados/admin/metricas/campos-faltantes'}
+    assert all(call is get_db for path,call in roots.items() if path in admin)
+    assert all(call is get_public_db for path,call in roots.items() if path not in admin|{'/procesados/search','/procesados/metricas/top-proveedores'})
     for path in ('/procesados/search', '/procesados/metricas/top-proveedores'):
         route = next(route for route in router.routes if route.path == path)
         db_dependency = next(p for p in route.dependant.dependencies if p.name == 'db')
-        assert db_dependency.dependencies[0].call is get_db
+        assert db_dependency.dependencies[0].call is get_public_db
+        assert next(p for p in db_dependency.dependencies[0].dependencies if p.name=='db').call is get_db
 
 
 @pytest.mark.parametrize('finish', ['rollback', 'commit', 'exception'])

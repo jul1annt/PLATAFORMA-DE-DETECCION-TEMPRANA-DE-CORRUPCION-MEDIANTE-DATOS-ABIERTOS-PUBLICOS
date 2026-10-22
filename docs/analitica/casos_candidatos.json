@@ -1,0 +1,567 @@
+[
+  {
+    "case_id": "centros-poblados-andje-20240719",
+    "authority": "Juzgado 47 Penal del Circuito con Función de Conocimiento de Bogotá",
+    "status": "CANDIDATO",
+    "conduct": "POR_CLASIFICAR",
+    "discovery_url": "https://www.defensajuridica.gov.co/2024/07/19/condenado-por-corrupcion-exrepresentante-legal-de-centros-poblados/",
+    "discovery_date": "2024-07-19",
+    "operations": [],
+    "notes": "Comunicado oficial localizado; no acredita por sí solo ejecutoria ni vínculo exacto con filas del corte. No es etiqueta positiva. Revisión 14: CUI 11001600000020240094600 y NI 455754 contrastados con informe ANDJE (p. física 19, fila 16) y CPNU. El registro del 19/07/2024 menciona sentencia condenatoria en firme; CPNU no contiene documentos adjuntos. La ruptura de 2024 proviene de radicado 2021 y no fija inicio de investigación. Falta sentencia original, documento de firmeza y vínculo SECOP exacto. No se traslada el resultado al auto de víctimas de otro radicado ni a otros procesados. Revisión 15: aviso oficial de oferta enlaza la fase inicial guardada; contiene dos lotes y actuaciones de 2022. La fuente actual devuelve un ID de fila distinto del corte aislado. No se concilian IDs ni se asocia la fila sin adjudicación al contrato 1043. Descarga de apertura denegada por la herramienta; ningún original nuevo admitido.",
+    "related_group": "centros-poblados-1043-2020",
+    "docket": "11001600000020240094600",
+    "procurement_year": 2020,
+    "institutional_proceeding_research": {
+      "report": "SEGUIMIENTO_CENTROS_POBLADOS_20261019.json",
+      "internal_number": "455754",
+      "original_docket_as_published": "11001600010120215007900",
+      "administrative_record_mentions_final_conviction": true,
+      "not_an_admitted_judgment_or_finality_document": true
+    },
+    "secop_identity_research": {
+      "report": "IDENTIDAD_SECOP_CENTROS_POBLADOS_20261019.json",
+      "process_id": "CO1.REQ.1439880",
+      "initial_notice": "CO1.NTC.1393216",
+      "offer_notice": "CO1.NTC.1465671",
+      "exact_convicted_award_not_verified": true,
+      "current_and_saved_row_ids_differ": true
+    }
+  },
+  {
+    "case_id": "csj-sep097-2024",
+    "authority": "Corte Suprema de Justicia, Sala Especial de Primera Instancia",
+    "docket": "SEP097-2024",
+    "status": "EXCLUIDO",
+    "conduct": "POR_CLASIFICAR",
+    "discovery_url": "https://cortesuprema.gov.co/sala-de-primera-instancia-condeno-a-exgobernador-de-la-guajira-y-dos-gobernadores-encargados/",
+    "operations": [],
+    "notes": "Sentencia original conservada y antecedentes revisados: contratos de 2002. No se obtuvo evidencia de ejecutoria ni correspondencia con el corte SECOP II 2020+. No es etiqueta positiva.",
+    "procurement_year": 2002,
+    "first_investigation_at": "2004-03-17T00:00:00+00:00",
+    "judgment": {
+      "file": "sep097-2024.pdf",
+      "url": "https://archivodigitalapi.cortesuprema.gov.co/share/2024/10/Sentencias/51414%20SEP%20097-2024%20DEL%2016-10-2024.pdf",
+      "sha256": "481a1fedd0a969aefb44e9026eaf1936e8e8d3127c1adb7d04bd1dd9f20d374c"
+    }
+  },
+  {
+    "case_id": "csj-sp968-2024-65559",
+    "authority": "Corte Suprema de Justicia, Sala de Casación Penal",
+    "docket": "65559 / SP968-2024",
+    "status": "EXCLUIDO",
+    "conduct": "POR_CLASIFICAR",
+    "discovery_url": "https://cortesuprema.gov.co/corte/wp-content/uploads/relatorias/pe/b1may2024/SP968-2024%2865559%29.pdf",
+    "operations": [],
+    "notes": "Sentencia original conservada y parte resolutiva revisada. Contratación del año 2000, fuera del inicio operativo 2020; no se asigna ID SECOP inferido ni etiqueta positiva. No se obtuvo certificado de ejecutoria.",
+    "procurement_year": 2000,
+    "first_investigation_at": "2012-02-20T00:00:00+00:00",
+    "judgment": {
+      "file": "sp968-2024.pdf",
+      "url": "https://cortesuprema.gov.co/corte/wp-content/uploads/relatorias/pe/b1may2024/SP968-2024%2865559%29.pdf",
+      "sha256": "4d04c93cc6ca700b809f6cea305594114330b88bca7858f85a9a0f1510277e3c"
+    }
+  },
+  {
+    "case_id": "csj-sep060-2025-00641",
+    "authority": "Corte Suprema de Justicia, Sala Especial de Primera Instancia",
+    "docket": "00641 / SEP060-2025",
+    "status": "CANDIDATO",
+    "conduct": "POR_CLASIFICAR",
+    "discovery_url": "https://archivodigitalapi.cortesuprema.gov.co/share/2025/5/Sentencias/SEP-060-2025%20-%2012-05-2025%20RAD00641.pdf",
+    "operations": [],
+    "notes": "Se conserva la sentencia original del 12/05/2025, con condena por contrato sin requisitos legales y absolución por peculado. La revisión de 18/10/2026 encontró una correspondencia documental candidata del contrato 497/2013 en el archivo oficial SECOP I de 2013. El periodo del adaptador actual no prohíbe investigar esos contratos históricos. Falta firmeza, clasificación de conducta y reconstrucción temporal por etapa; no es etiqueta positiva. El otro contrato 362 hallado en 2013 corresponde a una operación distinta del 362/2012 citado en la decisión. Los traslados de mayo de 2025 acreditan recursos interpuestos y sustentados contra esta sentencia, sin resolución posterior localizada. SECOP Integrado conserva además una correspondencia candidata del 362/2012; se documenta en SEGUIMIENTO_RECURSOS_Y_VINCULOS_20261018.json. No se cambia operations ni se declara conciliación de filas locales.",
+    "procurement_year": 2012,
+    "procurement_years": [
+      2012,
+      2013
+    ],
+    "judgment": {
+      "file": "sep060-2025.pdf",
+      "url": "https://archivodigitalapi.cortesuprema.gov.co/share/2025/5/Sentencias/SEP-060-2025%20-%2012-05-2025%20RAD00641.pdf",
+      "sha256": "682fbb8c2b72db2b2d1d59bba6f140fed6217286ae23feceadbaa6f7e21ff181",
+      "kind": "SENTENCIA_CONDENATORIA"
+    },
+    "identity_research_report": "SEGUIMIENTO_VINCULO_SEP060_20261018.json",
+    "research_documents": [
+      {
+        "url": "https://archivodigitalapi.cortesuprema.gov.co/share/2025/5/Traslados/00641TrasladoRecurrentes20250516.pdf",
+        "sha256": "50b3c0b1de9eab6ecae810fb729f45bc9dbbfcf480b7a84c84995b2e51add16a",
+        "kind": "TRASLADO_RECURSO",
+        "physical_page_visually_reviewed": 1
+      },
+      {
+        "url": "https://archivodigitalapi.cortesuprema.gov.co/share/2025/5/Traslados/00641NoRecurrentes20250530.pdf",
+        "sha256": "956e1da78a36aac6be594640b6ff8e44b2515a381c43971de20b1d72149ca5fb",
+        "kind": "TRASLADO_RECURSO",
+        "physical_page_visually_reviewed": 1
+      }
+    ]
+  },
+  {
+    "case_id": "csj-sep027-2026-00158",
+    "authority": "Corte Suprema de Justicia, Sala Especial de Primera Instancia",
+    "docket": "00158 / SEP027-2026",
+    "status": "EXCLUIDO",
+    "conduct": "POR_CLASIFICAR",
+    "discovery_url": "https://archivodigitalapi.cortesuprema.gov.co/share/2026/3/Sentencias/00158SEP02720260304.pdf",
+    "operations": [],
+    "notes": "Sentencia del 04/03/2026, hechos de páginas 2 y 21: contratación de 2006–2007. Anterior al periodo del adaptador 2020+. La fecha de una sentencia reciente no acredita contratación reciente ni firmeza. Sin correspondencia SECOP exacta ni etiqueta positiva.",
+    "procurement_year": 2006,
+    "procurement_years": [
+      2006,
+      2007
+    ],
+    "judgment": {
+      "file": "sep027-2026.pdf",
+      "url": "https://archivodigitalapi.cortesuprema.gov.co/share/2026/3/Sentencias/00158SEP02720260304.pdf",
+      "sha256": "e15a83fa094c8eb235e813a98c1bbd913bea81c46889ce42a2fbfbc8ccbd64ae"
+    }
+  },
+  {
+    "case_id": "necocli-covid-095-2020-discovery",
+    "authority": "Autoridad judicial por identificar en sentencia original",
+    "status": "CANDIDATO",
+    "conduct": "POR_CLASIFICAR",
+    "discovery_url": "https://www.fiscalia.gov.co/colombia/wp-content/uploads/Informe-de-gestion-2020-2024-consolidado.-final_18_12_23.pdf",
+    "discovery_reference": "Caso 285: COVID Necoclí – Antioquia",
+    "procurement_year": 2020,
+    "operations": [],
+    "notes": "Pista del índice del informe oficial: contrato municipal 095 del 26/03/2020 relacionado con higienización. La consulta directa del informe agotó el tiempo de descarga. No se obtuvo sentencia original, radicado, firmeza ni identificadores SECOP exactos. Es una pista de búsqueda; no constituye etiqueta positiva ni confirmación judicial independiente."
+  },
+  {
+    "case_id": "centros-poblados-auto-victimas-20230217",
+    "authority": "Tribunal Superior de Bogotá, Sala Penal",
+    "docket": "11001-60000-00-2022-01125-01 (0053)",
+    "status": "EXCLUIDO",
+    "conduct": "POR_CLASIFICAR",
+    "related_group": "centros-poblados-1043-2020",
+    "procurement_year": 2020,
+    "discovery_url": "https://www.ramajudicial.gov.co/documents/2233304/f3ca3dcf-a687-3a3a-d026-c812a257ecfb",
+    "operations": [],
+    "judgment": {
+      "kind": "AUTO_RECONOCIMIENTO_VICTIMAS",
+      "file": "centros-poblados-auto-victimas-20230217.pdf",
+      "url": "https://www.ramajudicial.gov.co/documents/2233304/f3ca3dcf-a687-3a3a-d026-c812a257ecfb",
+      "sha256": "04a8cd144abcdda79bb662b5f069874617aa75e541c11f36fae2b78f73b9eaca"
+    },
+    "document_date": "2023-02-17",
+    "reviewed_pages": [
+      1,
+      2,
+      15,
+      43
+    ],
+    "procurement_references": {
+      "tender_reference": "FTIC-LP-038-2020",
+      "contract_reference": "1043 de 2020"
+    },
+    "notes": "Auto de segunda instancia que confirma una decisión sobre reconocimiento de víctimas. No es sentencia condenatoria: la cláusula de ausencia de recursos se refiere a ese auto. Sus referencias al proceso FTIC-LP-038-2020 y contrato 1043 de 2020 sirven para localizar documentos. No se asignaron filas, adjudicaciones ni etiquetas SECOP. Se conserva relacionado con el mismo proyecto sin contarlo como expediente positivo independiente."
+  },
+  {
+    "case_id": "csj-sep077-2023-00542",
+    "authority": "Corte Suprema de Justicia, Sala Especial de Primera Instancia",
+    "docket": "00542 / SEP077-2023",
+    "status": "CANDIDATO",
+    "conduct": "POR_CLASIFICAR",
+    "related_group": "marionetas-00542",
+    "procurement_years": [
+      2020,
+      2021,
+      2022
+    ],
+    "discovery_url": "https://www.cortesuprema.gov.co/corte/wp-content/uploads/prensa/SEP00077-2023.pdf",
+    "document_date": "2023-06-15",
+    "operations": [],
+    "judgment": {
+      "kind": "SENTENCIA_CONDENATORIA",
+      "file": "sep077-2023.pdf",
+      "url": "https://www.cortesuprema.gov.co/corte/wp-content/uploads/prensa/SEP00077-2023.pdf",
+      "sha256": "3d72edf1225e6745e470e48d63280bca3990e76ecb614501279713397fafb3dd"
+    },
+    "visually_reviewed_pages": [
+      141,
+      185,
+      186,
+      187,
+      188
+    ],
+    "procurement_references": [
+      {
+        "displayed_text": "CO1.PCCNTR 3454253",
+        "page": 141,
+        "footnote": 196,
+        "status": "PISTA_NO_CONCILIADA"
+      },
+      {
+        "displayed_text": "9677-PPAL001-292-2021",
+        "page": 100,
+        "status": "REFERENCIA_CONTRACTUAL_NO_ID_SECOP"
+      }
+    ],
+    "notes": "Original de 218 páginas, incluida sentencia de 189 páginas y salvamentos. Condenas y nulidad parcial coexisten: la página 187 anula determinados cargos, por lo que no se etiquetan indiscriminadamente los contratos mencionados. La página 188 permite apelación; falta evidencia específica de firmeza. La página 141 muestra 3454253 y el superíndice de nota 196, no el ID concatenado 3454253196. Sin correspondencia exacta con filas del corte ni observaciones históricas revisadas. La fecha de apertura formal de 2022 no se toma como primera investigación: se menciona un SPOA iniciado en 2020 y falta reconstruir esa cronología. No es etiqueta positiva."
+  },
+  {
+    "case_id": "antioquia-050016099150202000452-20230213",
+    "authority": "Tribunal Superior del Distrito Judicial de Antioquia, Sala de Decisión Penal",
+    "docket": "050016099150202000452 / NI 2022-00621",
+    "status": "EXCLUIDO",
+    "conduct": "POR_CLASIFICAR",
+    "procurement_year": 2020,
+    "document_date": "2023-02-13",
+    "discovery_url": "https://www.ramajudicial.gov.co/documents/14899929/137980794/EstadoElectronico%2B031%2BSalaPenalTribunalSuperiorAntioquia.pdf/695943a5-0550-280f-6b04-c6d2460d3001",
+    "operations": [],
+    "judgment": {
+      "kind": "SENTENCIA_ABSOLUTORIA_CONFIRMADA",
+      "file": "antioquia-estado031-necocli-086-2020.pdf",
+      "url": "https://www.ramajudicial.gov.co/documents/14899929/137980794/EstadoElectronico%2B031%2BSalaPenalTribunalSuperiorAntioquia.pdf/695943a5-0550-280f-6b04-c6d2460d3001",
+      "sha256": "100ed828f675df5c0f91acf5e9dd4bac4f55ae454e84a03124c082b583cd5530",
+      "container_pages": 117,
+      "selected_decision_pages": [
+        98,
+        117
+      ]
+    },
+    "visually_reviewed_pages": [
+      98,
+      100,
+      115,
+      116
+    ],
+    "procurement_references": {
+      "contract_reference": "086 del 26/03/2020",
+      "municipality": "Necoclí"
+    },
+    "notes": "El documento agrupa varias decisiones; solo las páginas físicas 98–117 corresponden al radicado indicado. La página 115 confirma la absolución y la 116 permite casación; no se verificó firmeza o actuación posterior. No es una condena positiva ni una etiqueta negativa de ausencia de corrupción. Se mantiene distinta de la pista del contrato 095, cuya correspondencia judicial no se estableció. No se trasladan resultados por nombres de personas, proveedor o municipio. La línea de fecha y la firma indican 13/02/2023; el encabezado del acta contiene una mención 2022 que no se usa como fecha de la sentencia."
+  },
+  {
+    "case_id": "csj-sep042-2026-00904-discovery",
+    "authority": "Corte Suprema de Justicia, Sala Especial de Primera Instancia",
+    "docket": "00904 / CUI 11001024700020230007701",
+    "status": "CANDIDATO",
+    "conduct": "POR_CLASIFICAR",
+    "related_group": "ciro-00904",
+    "document_date": "2026-03-26",
+    "discovery_url": "https://archivodigitalapi.cortesuprema.gov.co/share/2026/3/Ejecutorias/00904Ejecutoria20260326.pdf",
+    "discovery_sha256": "d1c8f4fd9cfd8ef0c65186b75dedc37a1029e2757c39a27071a53d415b442475",
+    "visually_reviewed_pages": [
+      1,
+      2
+    ],
+    "operations": [],
+    "notes": "Sentencia original de 438 páginas preservada y portada/parte resolutiva seleccionada revisadas. Nombre de archivo SEP041, portada SEP042. Los traslados de abril acreditan recurso interpuesto y sustentado en esas fechas; no se localizó resolución posterior. Absoluciones sobre contratos 4 y 12 e interventorías 16 y 17: no se etiquetan. Falta revisión completa de hechos, clasificación, cronología inicial y vínculos SECOP exactos. No es positivo. Ver HALLAZGOS_JUDICIALES_REV9_20261018.md.",
+    "judgment": {
+      "kind": "SENTENCIA_CONDENATORIA",
+      "file": "sep042-2026-00904.pdf",
+      "url": "https://archivodigitalapi.cortesuprema.gov.co/share/2026/3/Sentencias/00904%20SEP04120260325.pdf",
+      "sha256": "2c4dd2a4856a135b0acac10f8b53b86a055415a28916ef17ad5331c1c48e627b",
+      "document_date": "2026-03-25"
+    },
+    "visually_reviewed_judgment_pages": [
+      1,
+      436,
+      438
+    ],
+    "procurement_years": [
+      2021
+    ],
+    "research_documents": [
+      {
+        "url": "https://archivodigitalapi.cortesuprema.gov.co/share/2026/4/Traslados/00904Recurrentes20260407.pdf",
+        "sha256": "91b157368f48529656e595b732723a456e84af78679646c66f2f501b9176e705",
+        "kind": "TRASLADO_RECURSO",
+        "physical_page_visually_reviewed": 1
+      },
+      {
+        "url": "https://archivodigitalapi.cortesuprema.gov.co/share/2026/4/Traslados/00904NoApelantes20260413.pdf",
+        "sha256": "1ae80c9e02c04d4f8953d33cb22d5347aafc4c52a0f24c496c82efd27de946d9",
+        "kind": "TRASLADO_RECURSO",
+        "physical_page_visually_reviewed": 1
+      }
+    ]
+  },
+  {
+    "case_id": "csj-sp1919-2025-58953",
+    "authority": "Corte Suprema de Justicia, Sala de Casación Penal",
+    "docket": "58953 / SP1919-2025 / CUI 11001600010120170015601",
+    "status": "CANDIDATO",
+    "conduct": "CORRUPCION",
+    "related_group": "ruta-del-sol-sector2-2009",
+    "procurement_years": [
+      2009,
+      2010
+    ],
+    "discovery_url": "https://cortesuprema.gov.co/sala-de-casacion-penal-ratifica-condena-por-cohecho-e-interes-indebido-en-contratacion-contra-exdirectivo-vinculado-al-caso-odebrech/",
+    "document_date": "2025-09-24",
+    "operations": [],
+    "research_documents": [
+      {
+        "url": "https://archivodigitalapi.cortesuprema.gov.co/share/2025/9/Sentencias/SP1919-2025%20(58953).pdf",
+        "sha256": "454526891e3105802d189f70db246450beacad60df2098b92ab41ae9b58b1323",
+        "file": "sp1919-2025-58953.pdf",
+        "kind": "SENTENCIA_CASACION",
+        "visually_reviewed_pages": [
+          2,
+          3,
+          60
+        ]
+      },
+      {
+        "kind": "SENTENCIA_SEGUNDA_INSTANCIA",
+        "file": "melo-2020-segunda-instancia.pdf",
+        "sha256": "0df7e88632d18e3625bdcd21aa3e7c911644eec8cadcf018e5209a7ab40c0624",
+        "url": "https://samai.consejodeestado.gov.co/Vistas/Casos/list_procesos.aspx?guid=250002341000201700083021100103",
+        "document_date": "2020-09-28",
+        "public_attachment": 401,
+        "act_index": 166,
+        "visually_reviewed_pages": [
+          1,
+          60,
+          62
+        ],
+        "text_reviewed_pages": [
+          3,
+          4,
+          5,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53
+        ]
+      }
+    ],
+    "notes": "Copias originales de instancia y aclaración recuperadas del índice 166 de SAMAI. Se clasificó la conducta como corrupción por los delitos acreditados, sin admitir positivo. La apelación permite casación; SP1919-2025 ya conservada no casa. Faltan fecha documental de disponibilidad de etiqueta, corte inicial de investigación, revisión completa y vínculo SECOP exacto del sector 2. No se etiqueta todo el proceso ni los contratos privados mencionados. Ver SENTENCIAS_SAMAI_20261019.md y HALLAZGOS_JUDICIALES_REV10_20261019.md.",
+    "judgment": {
+      "kind": "SENTENCIA_CONDENATORIA",
+      "file": "melo-2019-primera-instancia-y-aclaracion.pdf",
+      "sha256": "2decb9c210a9a4c162104a21e8cf6b2b4cb9ca7f3eb176554ec6670a1e98791b",
+      "url": "https://samai.consejodeestado.gov.co/Vistas/Casos/list_procesos.aspx?guid=250002341000201700083021100103",
+      "document_date": "2019-04-29",
+      "public_attachment": 402,
+      "act_index": 166,
+      "includes_clarification": true
+    },
+    "judgment_review": {
+      "scope": "partial",
+      "visually_reviewed_physical_pages": [
+        1,
+        150,
+        151,
+        152,
+        153,
+        156,
+        157,
+        158
+      ],
+      "operative_locator": "páginas físicas 150–152; aclaración 153–158",
+      "conduct_review_locator": "apelación, páginas físicas 42, 52–53 y 60",
+      "classification": "Cohecho por dar u ofrecer e interés indebido en la celebración de contratos; sentencia original y confirmación identificadas. La clasificación no acredita admisión al entrenamiento."
+    },
+    "legal_operation_reference": {
+      "process_reference": "SEA-LP-001-2009",
+      "sector": "2",
+      "award_resolution": "641 del 15/12/2009",
+      "contract_reference": "001 del 14/01/2010",
+      "facts_locator": "apelación, página física 43, apartado 6.4",
+      "secop_award_identity_verified": false,
+      "not_a_training_operation": true
+    }
+  },
+  {
+    "case_id": "csj-sep079-2023-00059",
+    "authority": "Corte Suprema de Justicia, Sala Especial de Primera Instancia",
+    "docket": "00059 / SEP079-2023",
+    "status": "CANDIDATO",
+    "conduct": "CORRUPCION",
+    "related_group": "guainia-acumulado-00059",
+    "document_date": "2023-06-20",
+    "procurement_years": [
+      2013
+    ],
+    "operations": [],
+    "judgment": {
+      "kind": "SENTENCIA_CONDENATORIA",
+      "file": "sep079-2023-00059.pdf",
+      "sha256": "b40da81dbd50268e7c0dc4cef23e1059aa8324d30a646867b517795943dbe47c",
+      "url": "https://cortesuprema.gov.co/corte/wp-content/uploads/2023/08/SEP079-2023.pdf",
+      "document_date": "2023-06-20"
+    },
+    "visually_reviewed_judgment_pages": [
+      1,
+      5,
+      192,
+      193,
+      195
+    ],
+    "review_scope": "Parcial; seis actuaciones acumuladas, sin dividir artificialmente su independencia.",
+    "legal_contract_references": [
+      {
+        "reference": "068 de 2013",
+        "locator": "página física 5",
+        "secop_identity_verified": false
+      },
+      {
+        "reference": "069 de 2013",
+        "locator": "página física 5",
+        "secop_identity_verified": false
+      },
+      {
+        "reference": "070 de 2013",
+        "locator": "página física 5",
+        "secop_identity_verified": false
+      },
+      {
+        "reference": "204 de 2013",
+        "locator": "página física 5",
+        "secop_identity_verified": false
+      },
+      {
+        "reference": "205 de 2013",
+        "locator": "página física 5",
+        "secop_identity_verified": false
+      },
+      {
+        "reference": "079 de 2013",
+        "locator": "página física 5",
+        "secop_identity_verified": false
+      }
+    ],
+    "notes": "Parte resolutiva condena por conductas que incluyen interés indebido y cohecho. Página 195 permite apelación. Faltan firmeza, corte inicial de investigación revisado, vínculos SECOP exactos y variables por etapa. No se etiquetan automáticamente todos los contratos o delitos de los acumulados. Revisión 12: seis correspondencias candidatas preservadas de archivos oficiales 2012/2013; no seis grupos positivos. Resolución 0175 recuperada en detalle 12-1-84082 respalda vínculo de Pueblo Nuevo/UT CAM; fecha prevista 20/12/2012 difiere de resolución 15/02/2013 y publicación 21/02/2013. Falta revisión completa por operación y firmeza. Revisión 13: la relatoría oficial, ID 867595 / AEP012-2024, declara en las consideraciones que SEP079-2023 está ejecutoriada. El PDF exportado es un aviso de indisponibilidad. Falta original completo y fecha documentada; no se fija final_at desde una transcripción secundaria ni desde la fecha del auto. Revisión 16: revisión visual de pp. 4, 5, 7 y 10-12 delimita seis contratos del bloque número 1 y distingue valores contractuales de desembolsos. Contrato 069: sentencia 1.355.576.695 COP frente a archivo SECOP 1.355.576.595 COP; diferencia de 100 COP sin resolver. Las imputaciones de octubre de 2018 no se convierten en inicio de investigación. Una sola agrupación relacionada, ninguna etiqueta nueva.",
+    "archive_research_correspondences": {
+      "report": "CORRESPONDENCIAS_HISTORICAS_GUAINIA_PUTUMAYO_20261019.json",
+      "constancias": [
+        "12-1-84081",
+        "12-1-84082",
+        "12-1-83953",
+        "12-15-1269067",
+        "13-11-1538012",
+        "13-11-1537995"
+      ],
+      "training_operations_created": false,
+      "historical_stage_features_verified": false
+    },
+    "finality_research": {
+      "report": "FIRMEZA_GUAINIA_RELATORIA_20261019.json",
+      "institutional_excerpt_confirms_conviction_finality": true,
+      "referenced_order": "AEP012-2024",
+      "repository_record": "867595",
+      "original_order_acquired": false,
+      "exact_finality_date_verified": false,
+      "not_a_finality_registration": true
+    },
+    "judicial_scope_research": {
+      "report": "ALCANCE_CONTRATOS_GUAINIA_20261019.json",
+      "contracts_of_process_one": [
+        "068",
+        "069",
+        "070",
+        "204",
+        "205",
+        "079"
+      ],
+      "contract_069_amount_discrepancy_COP": "100.00",
+      "accepted_training_operations": 0
+    }
+  },
+  {
+    "case_id": "csj-sp1731-2025-60747",
+    "authority": "Corte Suprema de Justicia, Sala de Casación Penal",
+    "docket": "60747 / SP1731-2025 / CUI 11001024700020180000602",
+    "status": "CANDIDATO",
+    "conduct": "CORRUPCION",
+    "related_group": "putumayo-1226-2015",
+    "document_date": "2025-07-16",
+    "procurement_years": [
+      2015
+    ],
+    "operations": [],
+    "judgment": {
+      "kind": "SENTENCIA_CONDENATORIA",
+      "file": "sep115-2021-00021.pdf",
+      "sha256": "fb8b748e93d44adae3a6038c2610f0c4c43031742630df98d3c0a0ef19d2a944",
+      "url": "https://cortesuprema.gov.co/corte/wp-content/uploads/2021/09/SEP-00115-2021-2.pdf",
+      "document_date": "2021-09-28"
+    },
+    "visually_reviewed_judgment_pages": [
+      1,
+      237,
+      239
+    ],
+    "research_documents": [
+      {
+        "kind": "SENTENCIA_SEGUNDA_INSTANCIA",
+        "file": "sp1731-2025-60747.pdf",
+        "sha256": "416c14fb65c9529eca22e7153998e19568203809fe3e99155beb172cf9074961",
+        "url": "https://archivodigitalapi.cortesuprema.gov.co/share/2025/8/Documentos/SP1731-2025%2860747%29.pdf",
+        "document_date": "2025-07-16",
+        "visually_reviewed_pages": [
+          1,
+          4,
+          5,
+          157
+        ]
+      }
+    ],
+    "legal_operation_reference": {
+      "contract_reference": "1226 del 28/12/2015",
+      "buyer": "Departamento del Putumayo",
+      "supplier": "Fundación Victoria Regia",
+      "amount_as_described": "86000000",
+      "facts_locator": "apelación, página física 4",
+      "secop_award_identity_verified": false,
+      "not_a_training_operation": true
+    },
+    "investigation_milestones": [
+      {
+        "date": "2018-10-24",
+        "kind": "APERTURA_INVESTIGACION_PREVIA",
+        "locator": "apelación, página física 5",
+        "earliest_related_investigation_not_verified": true
+      }
+    ],
+    "notes": "La apelación confirma la condena y señala que no procede recurso. No se infiere fecha de ejecutoria o disponibilidad de etiqueta. La remisión de piezas de otras investigaciones exige revisar el corte inicial. La consulta textual SECOP agotó plazo y la consulta exacta de fecha/importe devolvió cero filas; ninguna crea un vínculo. Falta revisión integral y evidencia por etapa. Revisión 12: archivo oficial 2015 y detalle público identifican constancia 15-11-4399251 y contrato 1226. El contrato original, páginas 1/12, confirma 28/12/2015 frente a fecha estructurada 28/01/2016. Resolución 1647 acredita 86.020.000 COP, distinta del resumen judicial previamente registrado. Sin alterar operations ni asignar filas locales.",
+    "archive_research_correspondences": {
+      "report": "CORRESPONDENCIAS_HISTORICAS_GUAINIA_PUTUMAYO_20261019.json",
+      "constancias": [
+        "15-11-4399251"
+      ],
+      "training_operations_created": false,
+      "historical_stage_features_verified": false
+    }
+  },
+  {
+    "case_id": "csj-sp1281-2024-57851",
+    "authority": "Corte Suprema de Justicia, Sala de Casación Penal",
+    "docket": "57851 / SP1281-2024 / CUI 19698600063320090026401",
+    "status": "EXCLUIDO",
+    "conduct": "FRAUDE_CONTRACTUAL",
+    "related_group": "hospital-quilichao-inversiones-2008",
+    "document_date": "2024-05-29",
+    "procurement_years": [
+      2008
+    ],
+    "registration_eligible": false,
+    "operations": [],
+    "judgment": {
+      "kind": "SENTENCIA_CONDENATORIA",
+      "file": "sp1281-2024-57851.pdf",
+      "sha256": "7c507af137ee405041b5f02cb806258e4296922fb6f6730d49181c0e84a975eb",
+      "url": "https://cortesuprema.gov.co/corte/wp-content/uploads/relatorias/pe/b1jun2024/SP1281-2024%2857851%29.pdf",
+      "document_date": "2024-05-29"
+    },
+    "visually_reviewed_judgment_pages": [
+      1,
+      151
+    ],
+    "judicial_outcome": "ESTAFA_AGRAVADA; prescripción del delito de contrato sin cumplimiento de requisitos legales en los términos de la parte resolutiva",
+    "notes": "La portada describe la condena previa por peculado, pero página 151 modifica la calificación a estafa agravada. Se separa del objetivo de corrupción. El archivo incluye aclaración de voto posterior; sus páginas finales no sustituyen la parte resolutiva mayoritaria. No es positivo ni negativo de ausencia de corrupción; no se infiere identidad SECOP."
+  }
+]

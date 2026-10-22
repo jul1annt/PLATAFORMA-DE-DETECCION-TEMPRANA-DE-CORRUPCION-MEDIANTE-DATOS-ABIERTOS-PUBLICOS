@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, Path, Query, Request, status
+from fastapi import APIRouter, Depends, HTTPException, Path, Query, Request, status, Header
 from pydantic import ValidationError
 from fastapi.responses import Response
 from sqlalchemy.orm import Session
@@ -11,7 +11,7 @@ import uuid
 
 from core.config import settings
 from core.database import get_db
-from core.read_database import get_search_db, get_provider_db
+from core.public_database import get_public_db, get_public_search_db, get_public_provider_db
 from modules.transformacion.dto.request import (
     ContratoProcesadoFilterDTO, AnomaliaFilterDTO, ReprocesarRequestDTO
 )
@@ -112,7 +112,7 @@ def list_procesados(
     request: Request,
     page: int = Query(1, ge=1, description="Número de página"),
     size: int = Query(50, ge=1, le=1000, description="Registros por página"),
-    db: Session = Depends(get_db),
+    db: Session = Depends(get_public_db),
 ):
     _validar_query_params(request, {"page", "size"})
     repo = TransformacionRepository(db)
@@ -154,7 +154,7 @@ def search_procesados(
     offset: int = Query(0, ge=0),
     sort: Optional[str] = Query(None, pattern="^(valor|valor_total_normalizado|precio_base_normalizado|fecha|id|entidad|proveedor|riesgo)$", description="Campo por el cual ordenar"),
     order: str = Query("desc", pattern="^(asc|desc)$"),
-    db: Session = Depends(get_search_db),
+    db: Session = Depends(get_public_search_db),
 ):
     allowed_query_params = {
         "entidad", "proveedor", "modalidad", "estado", "fecha_inicio", "fecha_fin",
@@ -226,6 +226,7 @@ def crear_exportacion_contratos(
     formato: str,
     request: Request,
     response: Response,
+    x_public_cut: uuid.UUID | None = Header(None),
     db: Session = Depends(get_db),
 ):
     response.headers["Cache-Control"] = "no-store"
@@ -233,13 +234,16 @@ def crear_exportacion_contratos(
     if formato not in {"csv", "xlsx", "pdf"}:
         raise HTTPException(status_code=422, detail="Formato de exportación inválido")
     filters, sort, order = _parse_export_filters(request)
-    _, total = TransformacionRepository(db).search_contratos(
-        filters,
-        skip=0,
-        limit=1,
-        sort=sort,
-        order=order,
-    )
+    from modules.motor_riesgo.publication import read_snapshot, SnapshotNotFound
+    try:
+        with read_snapshot(db,x_public_cut) as snapshot:
+            _,total=TransformacionRepository(db).search_contratos(filters,skip=0,limit=1,sort=sort,order=order)
+            snapshot_id=snapshot['id'] if snapshot else None
+            if snapshot:
+                response.headers['X-Public-Cut']=snapshot_id
+                response.headers['X-Data-Cut-At']=snapshot['data_cut_at']
+    except SnapshotNotFound:
+        raise HTTPException(404,'El corte ciudadano solicitado no está disponible.') from None
     if total == 0:
         raise HTTPException(status_code=422, detail="No hay contratos para exportar")
     row_limit = min(settings.EXPORT_MAX_ROWS, 1000) if formato == "pdf" else settings.EXPORT_MAX_ROWS
@@ -256,6 +260,7 @@ def crear_exportacion_contratos(
         "sort": sort,
         "order": order,
         "expires_at": expires_at,
+        "public_cut_id": snapshot_id,
     }
     job, _ = enqueue_job(
         db,
@@ -278,7 +283,7 @@ def crear_exportacion_contratos(
 def exportar_contratos(
     formato: str,
     request: Request,
-    db: Session = Depends(get_db),
+    db: Session = Depends(get_public_db),
 ):
     if formato not in {"csv", "xlsx", "pdf"}:
         raise HTTPException(status_code=422, detail="Formato de exportación inválido")
@@ -304,7 +309,12 @@ def exportar_contratos(
         )
         for item in items
     )
-    return render_export(columns, rows, formato, "contratos_calidad", "Contratos procesados")
+    result=render_export(columns, rows, formato, "contratos_calidad", "Contratos procesados")
+    snapshot=db.info.get('public_snapshot')
+    if snapshot:
+        result.headers['X-Public-Cut']=snapshot['id']
+        result.headers['X-Data-Cut-At']=snapshot['data_cut_at']
+    return result
 
 
 @router.get("/autocomplete", response_model=list[AutocompleteDTO])
@@ -312,26 +322,40 @@ def autocomplete(
     request: Request,
     q: str = Query(..., min_length=2, max_length=200),
     limit: int = Query(8, ge=1, le=20),
-    db: Session = Depends(get_db),
+    db: Session = Depends(get_public_db),
 ):
     _validar_query_params(request, {"q", "limit"})
     return TransformacionRepository(db).autocomplete(q, limit)
 
 
 @router.get("/metricas/dashboard", response_model=DashboardMetricasDTO)
-def dashboard_metricas(request: Request, db: Session = Depends(get_db)):
+def dashboard_metricas(request: Request, db: Session = Depends(get_public_db)):
     _validar_query_params(request, set())
     return TransformacionRepository(db).get_dashboard_metricas()
 
 
+@router.get('/admin/metricas/calidad',response_model=MetricasCalidadDTO,dependencies=[Depends(get_current_admin)])
+def admin_metricas_calidad(request: Request,db: Session=Depends(get_db)):
+    _validar_query_params(request,set())
+    return TransformacionRepository(db).get_metricas_calidad()
+
+
+@router.get('/admin/metricas/campos-faltantes',response_model=list[CampoFaltanteDTO],dependencies=[Depends(get_current_admin)])
+def admin_campos_faltantes(request: Request,db: Session=Depends(get_db)):
+    _validar_query_params(request,set())
+    return [CampoFaltanteDTO(campo=row.nombre_campo,cantidad=row.contador_faltantes,
+            porcentaje=float(row.porcentaje_total) if row.porcentaje_total is not None else 0)
+            for row in TransformacionRepository(db).get_all_estadisticas()]
+
+
 @router.get("/metricas/distribucion-riesgo", response_model=list[DistribucionDTO])
-def distribucion_riesgo(request: Request, db: Session = Depends(get_db)):
+def distribucion_riesgo(request: Request, db: Session = Depends(get_public_db)):
     _validar_query_params(request, set())
     return TransformacionRepository(db).get_risk_distribution()
 
 
 @router.get("/metricas/distribucion-anomalias", response_model=list[DistribucionDTO])
-def distribucion_anomalias(request: Request, db: Session = Depends(get_db)):
+def distribucion_anomalias(request: Request, db: Session = Depends(get_public_db)):
     _validar_query_params(request, set())
     return TransformacionRepository(db).get_anomaly_distribution()
 
@@ -340,7 +364,7 @@ def distribucion_anomalias(request: Request, db: Session = Depends(get_db)):
 def top_proveedores(
     request: Request,
     limit: int = Query(10, ge=1, le=50),
-    db: Session = Depends(get_provider_db),
+    db: Session = Depends(get_public_provider_db),
 ):
     _validar_query_params(request, {"limit"})
     return TransformacionRepository(db).get_top_providers(limit)
@@ -358,7 +382,7 @@ def list_sospechosos(
     request: Request,
     page: int = Query(1, ge=1),
     size: int = Query(50, ge=1, le=1000),
-    db: Session = Depends(get_db),
+    db: Session = Depends(get_public_db),
 ):
     _validar_query_params(request, {"page", "size"})
     repo = TransformacionRepository(db)
@@ -380,7 +404,7 @@ def list_incompletos(
     request: Request,
     page: int = Query(1, ge=1),
     size: int = Query(50, ge=1, le=1000),
-    db: Session = Depends(get_db),
+    db: Session = Depends(get_public_db),
 ):
     _validar_query_params(request, {"page", "size"})
     repo = TransformacionRepository(db)
@@ -410,7 +434,7 @@ def list_anomalias(
     campo_afectado: Optional[str] = Query(None, min_length=1, max_length=200, description="Campo que presentó la anomalía"),
     page: int = Query(1, ge=1),
     size: int = Query(50, ge=1, le=1000),
-    db: Session = Depends(get_db),
+    db: Session = Depends(get_public_db),
 ):
     _validar_query_params(request, {"raw_secop_id", "motivo", "campo_afectado", "page", "size"})
     repo = TransformacionRepository(db)
@@ -437,7 +461,7 @@ def list_anomalias(
         "Ordenado de mayor a menor frecuencia."
     ),
 )
-def get_estadisticas(request: Request, db: Session = Depends(get_db)):
+def get_estadisticas(request: Request, db: Session = Depends(get_public_db)):
     _validar_query_params(request, set())
     repo = TransformacionRepository(db)
     return repo.get_all_estadisticas()
@@ -451,7 +475,7 @@ def get_estadisticas(request: Request, db: Session = Depends(get_db)):
     summary="Métricas de calidad de datos",
     description="Resumen de contratos completos vs incompletos y sus porcentajes.",
 )
-def metricas_calidad(request: Request, db: Session = Depends(get_db)):
+def metricas_calidad(request: Request, db: Session = Depends(get_public_db)):
     _validar_query_params(request, set())
     repo = TransformacionRepository(db)
     return repo.get_metricas_calidad()
@@ -465,7 +489,7 @@ def metricas_calidad(request: Request, db: Session = Depends(get_db)):
     summary="Ranking de campos faltantes",
     description="Devuelve el conteo y porcentaje de cada campo obligatorio faltante, ordenado de mayor a menor.",
 )
-def metricas_campos_faltantes(request: Request, db: Session = Depends(get_db)):
+def metricas_campos_faltantes(request: Request, db: Session = Depends(get_public_db)):
     _validar_query_params(request, set())
     repo = TransformacionRepository(db)
     estadisticas = repo.get_all_estadisticas()
@@ -490,7 +514,7 @@ def metricas_campos_faltantes(request: Request, db: Session = Depends(get_db)):
 def get_procesado(
     request: Request,
     id: int = Path(..., ge=1),
-    db: Session = Depends(get_db),
+    db: Session = Depends(get_public_db),
 ):
     _validar_query_params(request, set())
     contrato = TransformacionRepository(db).get_contrato_by_id(id)

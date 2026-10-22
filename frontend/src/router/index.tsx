@@ -10,6 +10,7 @@ import {
   PublicProcesadosRoute,
   PublicContratoDetalleRoute,
   PublicDashboardRoute,
+  PublicIndiciosMvpRoute,
   AdminLoginRoute,
   AdminDashboardRoute,
   AdminSyncLogsRoute,
@@ -42,6 +43,10 @@ export const router = createBrowserRouter([
   {
     path: '/public/procesados/:id',
     element: withSuspense(<PublicContratoDetalleRoute />),
+  },
+  {
+    path: '/public/indicios',
+    element: withSuspense(<PublicIndiciosMvpRoute />),
   },
 
   // ── Admin login (public) ──────────────────────────────────────────────────

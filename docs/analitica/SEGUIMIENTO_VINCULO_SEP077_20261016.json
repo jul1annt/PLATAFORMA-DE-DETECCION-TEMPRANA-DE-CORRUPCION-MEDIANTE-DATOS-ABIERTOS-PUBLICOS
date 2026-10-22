@@ -1,0 +1,38 @@
+{
+  "status": "INVESTIGACION_DE_IDENTIDAD_NO_ETIQUETA",
+  "judgment": "SEP077-2023 / 00542",
+  "judgment_sha256": "3d72edf1225e6745e470e48d63280bca3990e76ecb614501279713397fafb3dd",
+  "judgment_page": 141,
+  "footnote_excluded_from_identifier": 196,
+  "contract_dataset": "jbjy-vk9h",
+  "contract_id": "CO1.PCCNTR.3454253",
+  "contract_source_row_id": "row-7cwi_zqs4~9y9a",
+  "contract_purchase_reference": "CO1.BDOS.2729233",
+  "process_dataset": "p6dx-8zbt",
+  "portfolio_id": "CO1.BDOS.2729233",
+  "process_id": "CO1.REQ.2809361",
+  "notice_id": "CO1.NTC.2735009",
+  "current_process_source_row_id": "row-8dtw~kxk9.qeew",
+  "stored_source_row_id": "row-pmph_sq9k_xby2",
+  "isolated_database_oid": 75045,
+  "stored_raw_id": 2336242,
+  "stored_source_id": 1,
+  "stored_process_matches": 1,
+  "stored_award_id": "No Adjudicado",
+  "current_award_id": "No Adjudicado",
+  "same_socrata_row_identity": false,
+  "source_rows_updated": 0,
+  "positive_labels_created": 0,
+  "research_evidence_files": [
+    "sep077-contract-link-20261016.json",
+    "sep077-stored-process-link-20261016.json",
+    "sep077-portfolio-link-20261016.json"
+  ],
+  "limitations": [
+    "La referencia de compra del contrato coincide explícitamente con el portafolio de la fuente de procesos; no se usa como id_del_proceso.",
+    "El proceso oficial coincide con una fila del corte aislado, pero sus IDs Socrata actuales y guardados difieren. No se sustituyen ni se declara conciliación completa.",
+    "No Adjudicado es ausencia de identidad oficial de adjudicación; no se reemplaza por el ID del contrato.",
+    "Faltan firmeza, revisión del alcance concreto de la condena, cronología preinvestigación y variables históricas físicas revisadas.",
+    "La correspondencia se conserva únicamente como investigación, sin convertir al proveedor, a contratos relacionados o a cargos anulados en positivos."
+  ]
+}

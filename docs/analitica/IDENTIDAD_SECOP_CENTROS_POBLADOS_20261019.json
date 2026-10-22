@@ -1,0 +1,74 @@
+{
+  "created_at": "2026-10-19T22:11:57.170473+00:00",
+  "case_id": "centros-poblados-andje-20240719",
+  "official_notice_url": "https://community.secop.gov.co/Public/Tendering/OpportunityDetail/Index?noticeUID=CO1.NTC.1465671&isFromPublicArea=True&isModal=False",
+  "observation_method": "Lectura de interfaz pública después de resolver el CAPTCHA expresamente autorizado. No es un archivo original ni una captura histórica.",
+  "process_reference": "FTIC-LP-038-2020",
+  "phase_displayed": "Presentación de oferta",
+  "state_displayed": "Proceso adjudicado y celebrado",
+  "previous_phase_notice_as_linked": "CO1.NTC.1393216",
+  "nominal_estimated_process_budget_COP_as_displayed": "2138117270447",
+  "lots_as_displayed": [
+    {
+      "number": "1",
+      "name": "REGIÓN A",
+      "estimated_value": "1065564968972.000000"
+    },
+    {
+      "number": "2",
+      "name": "REGIÓN B",
+      "estimated_value": "1072552301475.000000"
+    }
+  ],
+  "documents_listed_not_acquired": [
+    "2_Estudio Previo Centros Digitales 140820.pdf",
+    "PROYECTO DE PLIEGO DE CONDICIONES_18082020.pdf",
+    "RESOLUCION DE APERTURA FTIC-LP-038-2020 VF.pdf",
+    "PLIEGO DE CONDICIONES 23092020.pdf",
+    "ADENDA No. 5 FTIC-LP-038-2020 VFOK.pdf"
+  ],
+  "schedule_as_displayed_not_actual_event_proof": {
+    "definitive_conditions_publication": "2020-09-23T19:24:16-05:00",
+    "award_hearing": "2020-11-27T09:00:00-05:00",
+    "contract_signature": "2020-12-04T23:59:00-05:00"
+  },
+  "later_public_messages": {
+    "reference": "CO1.AWD.1272856",
+    "selection_report_as_displayed": "2022-05-18T22:18:00-05:00",
+    "scope": "No se vincula este informe posterior a la adjudicación investigada de 2020 ni se usa como variable histórica de 2020."
+  },
+  "download": {
+    "requested_document": "RESOLUCION DE APERTURA FTIC-LP-038-2020 VF.pdf",
+    "acquired": false,
+    "browser_security_policy_result": "Permission denied: user declined download approval for community.secop.gov.co.",
+    "no_workaround_attempted_after_denial": true
+  },
+  "local_identity_read": {
+    "database_oid": 75045,
+    "raw_id": 2307014,
+    "socrata_row_id": "row-5jmz.ur5e.ad74",
+    "receipt_sha256": "c372dc5a6767acb9ea7c2081c853186a27b5c5f98e33df80da78647c15721a9a",
+    "adjudicado": "No",
+    "award_id": "No Adjudicado"
+  },
+  "current_source_read": {
+    "dataset": "p6dx-8zbt",
+    "query_url": "https://www.datos.gov.co/resource/p6dx-8zbt.json?%24where=referencia_del_proceso+%3D+%27FTIC-LP-038-2020%27&%24select=%3Aid%2Cid_del_proceso%2Creferencia_del_proceso%2Centidad%2Cnit_entidad%2Cadjudicado%2Cid_adjudicacion%2Cvalor_total_adjudicacion%2Cnombre_del_proveedor%2Cfecha_adjudicacion%2Curlproceso%2Cfecha_de_publicacion_del%2Cprecio_base%2Ccodigo_principal_de_categoria%2Cmodalidad_de_contratacion&%24limit=31",
+    "body_sha256": "ae6f6471219cb8cb3fa1ce681fd2bff76eff5bf2fd17b2390d97600670ddf18b",
+    "socrata_row_id": "row-ne3d.eun6-zx28",
+    "adjudicado": "No",
+    "award_id": "No Adjudicado"
+  },
+  "identity_limitations": [
+    "Coincide el proceso; difiere el identificador de fila actual frente al corte guardado. No se establece alias ni causa del cambio.",
+    "La fila guardada corresponde al aviso inicial sin adjudicación; no acredita por sí sola la identidad de la adjudicación del contrato 1043.",
+    "La página actual contiene dos lotes y actuaciones posteriores. No propagar resultados judiciales a ambos lotes ni a reemplazos de 2022.",
+    "Cronograma, publicación, celebración e investigación requieren evidencias y fechas independientes."
+  ],
+  "database_writes": false,
+  "identities_reconciled": false,
+  "labels_created": 0,
+  "stage_observations_created": 0,
+  "training_performed": false,
+  "publication_changed": false
+}

@@ -1,0 +1,125 @@
+{
+  "date_bogota": "2026-10-18",
+  "scope": "Inicio de corpus público; documentos de descubrimiento separados del inventario judicial de entrenamiento",
+  "catalog_sources": 7,
+  "bulletin_pdfs": 5,
+  "bulletin_pages": 184,
+  "linked_decision_pdfs": 4,
+  "linked_decision_pages": 259,
+  "bulletin_pages_prioritized": 5,
+  "decision_pages_prioritized": 110,
+  "prioritized_pages_are_not_case_counts": true,
+  "successful_cached_sources_reused": 7,
+  "successful_cached_decisions_reused": 4,
+  "training_labels_created": 0,
+  "eligible_training_cases": 0,
+  "previous_registry_candidates": 9,
+  "database_accessed": false,
+  "tests": {
+    "tests": 16,
+    "failures": 0,
+    "errors": 0,
+    "success": true,
+    "scope": "Acquisition and public storage tools only; predictive model validity not tested",
+    "code_sha256": {
+      "acquire.py": "f3056f51a10805fa89c36c260f375a6cccd6efda9614806825eccf1e79775417",
+      "storage.py": "c30ef1d0a5fafc571dc247c80ba43b647935274a5caade8781ba69807fd4c4dd",
+      "test_acquire.py": "63783f6b32921ed3be7a79f134b40304a7040386ddfc790cc94049f87d2d2c4e",
+      "test_storage.py": "5ab7bd9d2088fbcd46c3c3e11715f7545c738a069335498ea304bacd4e3c3a05"
+    }
+  },
+  "code_sha256": {
+    "corpus_tools\\__init__.py": "19e0fbf67fe303d2d52b248cc10d8e363f6c9a2d8ddfe70c65f89ec4982bfa4b",
+    "corpus_tools\\acquire.py": "f3056f51a10805fa89c36c260f375a6cccd6efda9614806825eccf1e79775417",
+    "corpus_tools\\index_pdf.py": "cf6af2d1abf2726ba15f2d6fb8c70f801f858cf72580f41f0dafc3d6b821695d",
+    "corpus_tools\\storage.py": "c30ef1d0a5fafc571dc247c80ba43b647935274a5caade8781ba69807fd4c4dd",
+    "corpus_tools\\test_acquire.py": "63783f6b32921ed3be7a79f134b40304a7040386ddfc790cc94049f87d2d2c4e",
+    "corpus_tools\\test_storage.py": "5ab7bd9d2088fbcd46c3c3e11715f7545c738a069335498ea304bacd4e3c3a05"
+  },
+  "documents": [
+    {
+      "sha256": "73374666060a30e92a493f41b2a4d0f70e6dc2d5931b8cc00b258d1654b24c62",
+      "bytes": 776495,
+      "provenance": [
+        {
+          "bulletin_sha256": "93f8195c6a11a485b22f11b8bcfcc77f523601f9115386c74880b05de5296b5b",
+          "physical_page": 16
+        }
+      ],
+      "initial_document_screen": "AUTO_ACUMULACION_NO_SENTENCIA_ORIGINAL",
+      "physical_pages_visually_reviewed": [
+        1
+      ],
+      "finality_verified": false,
+      "secop_identity_assigned": false,
+      "training_label": null
+    },
+    {
+      "sha256": "7f0245eecacc25a6d938823cbb31e3a4ecbec5bea534b648aa629511689a9037",
+      "bytes": 413946,
+      "provenance": [
+        {
+          "bulletin_sha256": "a2067173dd4487eeba95030ac8720fcb8efad024b935c7658b89e32d13819b12",
+          "physical_page": 11
+        }
+      ],
+      "initial_document_screen": "AUTO_INTERLOCUTORIO_NO_CONDENA",
+      "physical_pages_visually_reviewed": [
+        1
+      ],
+      "finality_verified": false,
+      "secop_identity_assigned": false,
+      "training_label": null
+    },
+    {
+      "sha256": "3b6372b0aae9eb315f65d63ae2d3a367df88fa7ada7b17882ca30fbbb7d2e7d4",
+      "bytes": 803027,
+      "provenance": [
+        {
+          "bulletin_sha256": "a2067173dd4487eeba95030ac8720fcb8efad024b935c7658b89e32d13819b12",
+          "physical_page": 12
+        }
+      ],
+      "initial_document_screen": "SENTENCIA_PRESCRIPCION_ESTAFA_NO_POSITIVO",
+      "physical_pages_visually_reviewed": [
+        1,
+        95
+      ],
+      "finality_verified": false,
+      "secop_identity_assigned": false,
+      "training_label": null
+    },
+    {
+      "sha256": "b8a005758d7723a1572f367cff6abcd6bdd248bda3c4bd86f8ff086695a48f08",
+      "bytes": 642922,
+      "provenance": [
+        {
+          "bulletin_sha256": "a2067173dd4487eeba95030ac8720fcb8efad024b935c7658b89e32d13819b12",
+          "physical_page": 12
+        }
+      ],
+      "initial_document_screen": "SENTENCIA_ABSOLUTORIA_CONFIRMADA_NO_POSITIVO",
+      "physical_pages_visually_reviewed": [
+        1,
+        104
+      ],
+      "finality_verified": false,
+      "secop_identity_assigned": false,
+      "training_label": null
+    }
+  ],
+  "reports_sha256": {
+    "runs/20261019T041649532692Z.json": "3b83b66c5edac7452a148268fb6b51327c30c84ac49211e82de93ef8e7a13b17",
+    "index-boletines-v4-20261018.json": "35655300c351c21f3327938d339bdf301366c1a694307e636abc68710887c46c",
+    "index-providencias-20261018.json": "d0f7cb2008873a59c7cdf248cf1291ed59d7d538d8f08c3a8094afa93123399e",
+    "storage-resolved-20261018.json": "b25d92348e8f9c3ecfa9ff04f2bee85a730c4d45e3587949597faf941f13228a",
+    "storage-reused-20261018.json": "800adb37480b16258c003f2ab90728b56bb9e01fa0cafe23e45fcf326e64c0f1",
+    "unit-tests-20261018.json": "93cc232587bd5df5de12f2ec282567448932d2382b3773eaad4d00df3f6fc7a4"
+  },
+  "next_required_evidence": [
+    "Sentencias condenatorias originales de hechos con vínculo SECOP comprobable",
+    "Firmeza vinculada a cada sentencia",
+    "Alcance exacto de operaciones condenadas y cronología de investigación",
+    "Variables históricas documentadas para ambas etapas"
+  ]
+}

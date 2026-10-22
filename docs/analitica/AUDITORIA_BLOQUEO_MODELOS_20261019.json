@@ -1,0 +1,123 @@
+{
+  "created_at": "2026-10-19T22:43:26.243947+00:00",
+  "objective_complete": false,
+  "scope": "Auditoría del bloqueo de entrenamiento y aceptación real, sin sustituirlos por ensayos sintéticos.",
+  "registry_sha256": "c1f3693b314857eed4bac388ea41671ef514b1e23783f77c6269ac7b19ba551a",
+  "candidates": 14,
+  "eligible_cases": 0,
+  "independent_positive_groups": 0,
+  "exclusion_reason_counts": {
+    "conducta_fuera_del_objetivo": 10,
+    "decision_no_verificada": 14,
+    "documento_local_ausente:finality": 14,
+    "documento_local_ausente:judgment": 2,
+    "evidencia_finality_incompleta": 14,
+    "evidencia_judgment_incompleta": 2,
+    "falta_corte_temporal_preinvestigacion": 12,
+    "falta_final_at": 14,
+    "falta_published_at": 14,
+    "falta_sentencia_condenatoria_identificada": 7,
+    "falta_verified_by": 14,
+    "firmeza_no_vinculada_a_sentencia_condenatoria": 14,
+    "firmeza_sin_efecto_confirmado_y_revisado": 14,
+    "vinculo_secop_no_exacto": 14,
+    "falta_docket": 1,
+    "fraude_contractual_separado_del_objetivo_corrupcion": 1,
+    "registro_de_base_no_elegible": 1
+  },
+  "live_isolated_database_checks": [
+    {
+      "database_oid": 82244,
+      "schema": "f67b120ce841",
+      "read_only": true,
+      "models": 0,
+      "reviewed_feature_observations": 0,
+      "eligible_registered_cases": 0,
+      "publication": {
+        "cut_id": null,
+        "model_ids": {},
+        "daily_enabled": false
+      }
+    },
+    {
+      "database_oid": 75045,
+      "schema": "f67b120ce841",
+      "read_only": true,
+      "models": 0,
+      "reviewed_feature_observations": 0,
+      "eligible_registered_cases": 0,
+      "publication": {
+        "cut_id": null,
+        "model_ids": {},
+        "daily_enabled": false
+      }
+    }
+  ],
+  "technical_minimum": {
+    "independent_positive_groups_per_chronological_block": 5,
+    "blocks": [
+      "training",
+      "tuning",
+      "final_evaluation"
+    ],
+    "minimum_is_not_statistical_sufficiency": true
+  },
+  "persistent_blocker": "Faltan decisiones originales firmes, correspondencias exactas y observaciones históricas admitidas; no existen modelos reales aprobados.",
+  "prior_consecutive_goal_turn_evidence": {
+    "VALIDACION_PAQUETE_AISLADO_20261019.json": {
+      "sha256": "f651f3a46bed1606243d302ae4fa5ad95e374c1b688fe4170894af55876f6ff1",
+      "real_models_approved": false,
+      "labels_created": 0
+    },
+    "VALIDACION_AUTOINICIO_PAQUETE_20261019.json": {
+      "sha256": "5fc7ec01796e801749f29990b1f4028744742c818b687ecc26cadd9c2ced39de",
+      "real_models_approved": false,
+      "labels_created": 0
+    },
+    "DESCUBRIMIENTO_CARTAGENA_NERI_20261019.json": {
+      "sha256": "f08164d793b85b3cc9eeb36dcf7d2dcae8e067fb222154a119149cb37a0f6ace",
+      "real_models_approved": false,
+      "labels_created": 0
+    }
+  },
+  "navigation_setting_change_still_pending": true,
+  "remaining_dependency_chain": [
+    {
+      "step": "Admitir corpus judicial y datos temporales",
+      "blocked_by": "originales, firmeza, identidad y cobertura insuficientes"
+    },
+    {
+      "step": "Demostrar equivalencia temporal con documentos reales",
+      "blocked_by": "corpus y observaciones no admitidos"
+    },
+    {
+      "step": "Entrenar y evaluar modelos de ambas etapas",
+      "blocked_by": "cero grupos positivos admitidos"
+    },
+    {
+      "step": "Medir inferencia y recursos reales",
+      "blocked_by": "modelos reales todavía no aprobados"
+    },
+    {
+      "step": "Aceptación operativa final y autoinicio",
+      "blocked_by": "modelos aprobados y evaluación final ausentes"
+    },
+    {
+      "step": "Activar publicación y actualización",
+      "blocked_by": "criterios de aceptación reales no superados"
+    }
+  ],
+  "no_progress_workarounds_rejected": [
+    "inferir identidades o firmeza",
+    "entrenar con noticias como positivos",
+    "declarar modelos reales a partir de fixtures",
+    "repetir pruebas aprobadas para sustituir evidencia faltante",
+    "eludir permisos guardados de navegación"
+  ],
+  "published_release_ref_read_from_manifest": "794d185832c7c56ffa4d91ef08ca1f3d15128be5",
+  "published_cut_date_read_from_manifest": "2026-10-01",
+  "production_database_not_accessed_this_audit": true,
+  "database_writes": false,
+  "tests_rerun": false,
+  "necessary_external_change": "Habilitar efectivamente las fuentes públicas bloqueadas o aportar originales judiciales y de contratación que puedan verificarse."
+}

@@ -19,6 +19,35 @@ class AnaliticaRepository:
     def __init__(self, db: Session):
         self.db = db
 
+    @staticmethod
+    def _universo_iqr(campo: str) -> str:
+        """Use verified procurement units before filters or cohort counts.
+
+        The adapter has no lot identity. Budget belongs to a process, awarded
+        value to its official award. Aliases are ambiguous, not extra samples;
+        exclude all aliases instead of choosing an arbitrary representative.
+        Data-quality measurements retain their per-row meaning.
+        """
+        def official(column):
+            return f"CASE WHEN upper(trim({column})) NOT IN ('','N/A','NA','NULL','NONE','NO DEFINIDO','NO ADJUDICADO','SIN DATO','NO APLICA') THEN trim({column}) END"
+        process = official('r.id_del_proceso')
+        award = official('r.id_adjudicacion')
+        monetary = campo in {'valor_total_normalizado', 'precio_base_normalizado'}
+        award_unit = campo == 'valor_total_normalizado'
+        identity = f'r.fuente_id,{process}' + (f',{award}' if award_unit else '')
+        window = f'count(*) OVER (PARTITION BY {identity})' if monetary else '1'
+        requirements = 'unit_rows=1'
+        if monetary:
+            requirements += ' AND proceso_oficial IS NOT NULL'
+            if award_unit:
+                requirements += ' AND adjudicacion_oficial IS NOT NULL'
+        return f"""identidades_iqr AS (
+            SELECT c.*, NULLIF(TRIM(r.codigo_principal_de_categoria),'') AS categoria_secop,
+                   {process} AS proceso_oficial, {award} AS adjudicacion_oficial,
+                   {window} AS unit_rows
+            FROM contratos_procesados c JOIN raw_secop r ON r.id=c.raw_secop_id
+        ), universo_iqr AS (SELECT * FROM identidades_iqr WHERE {requirements})"""
+
     def _configure_large_query_memory(self) -> None:
         """Give large PostgreSQL sorts/hashes more room for this transaction only."""
         if self.db.get_bind().dialect.name == "postgresql":
@@ -136,16 +165,15 @@ class AnaliticaRepository:
         )
 
         query = text(f"""
-            WITH contratos_validos AS (
+            WITH {self._universo_iqr(campo)}, contratos_validos AS (
                 SELECT
-                    COALESCE(
-                        NULLIF(TRIM(modalidad_contratacion), ''),
-                        NULLIF(TRIM(tipo_contrato_normalizado), '')
-                    ) AS grupo,
+                    CASE WHEN NULLIF(TRIM(modalidad_contratacion), '') IS NOT NULL
+                         AND categoria_secop IS NOT NULL AND fecha_publicacion_normalizada IS NOT NULL
+                    THEN concat(left(categoria_secop,100),'|',left(upper(trim(modalidad_contratacion)),100),'|',
+                                extract(year FROM fecha_publicacion_normalizada)::text) END AS grupo,
                     {campo} AS valor
-                FROM contratos_procesados
-                WHERE es_incompleto = false
-                  AND {campo} IS NOT NULL
+                FROM universo_iqr
+                WHERE {campo} IS NOT NULL
                   AND {campo} > 0
                   {filtros_base['where_extra']}
             ),
@@ -159,7 +187,7 @@ class AnaliticaRepository:
                         - percentile_cont(0.25) WITHIN GROUP (ORDER BY valor)         AS iqr
                 FROM contratos_validos
                 WHERE grupo IS NOT NULL
-                GROUP BY grupo
+                GROUP BY grupo HAVING COUNT(*) >= 30
             )
             SELECT
                 grupo,
@@ -200,16 +228,15 @@ class AnaliticaRepository:
         )
 
         query = text(f"""
-            SELECT
+            WITH {self._universo_iqr(campo)} SELECT
                 id,
                 {campo} AS valor,
-                COALESCE(
-                    NULLIF(TRIM(modalidad_contratacion), ''),
-                    NULLIF(TRIM(tipo_contrato_normalizado), '')
-                ) AS grupo
-            FROM contratos_procesados
-            WHERE es_incompleto = false
-              AND {campo} IS NOT NULL
+                CASE WHEN NULLIF(TRIM(modalidad_contratacion), '') IS NOT NULL
+                         AND categoria_secop IS NOT NULL AND fecha_publicacion_normalizada IS NOT NULL
+                    THEN concat(left(categoria_secop,100),'|',left(upper(trim(modalidad_contratacion)),100),'|',
+                                extract(year FROM fecha_publicacion_normalizada)::text) END AS grupo
+            FROM universo_iqr
+            WHERE {campo} IS NOT NULL
               AND {campo} > 0
               {filtros_base['where_extra']}
         """)
@@ -240,6 +267,8 @@ class AnaliticaRepository:
         }
         if campo not in campos_numericos_validos:
             raise ValueError(f"Campo numérico no válido: {campo}")
+        if not estadisticas_por_grupo:
+            return 0, 0
 
         filtros = self._construir_filtros_base(
             campo=campo,
@@ -264,18 +293,17 @@ class AnaliticaRepository:
 
         params.update({"run_id": str(run_id), "campo_analizado": campo, "fecha_calculo": fecha_calculo})
         query = text(f"""
-            WITH estadisticas(
+            WITH {self._universo_iqr(campo)}, estadisticas(
                 grupo, q1, q3, iqr, limite_inferior, limite_superior
             ) AS (VALUES {", ".join(valores_stats)}),
             contratos AS (
                 SELECT id, {campo} AS valor,
-                    COALESCE(
-                        NULLIF(TRIM(modalidad_contratacion), ''),
-                        NULLIF(TRIM(tipo_contrato_normalizado), '')
-                    ) AS grupo
-                FROM contratos_procesados
-                WHERE es_incompleto = false
-                  AND {campo} IS NOT NULL
+                    CASE WHEN NULLIF(TRIM(modalidad_contratacion), '') IS NOT NULL
+                         AND categoria_secop IS NOT NULL AND fecha_publicacion_normalizada IS NOT NULL
+                    THEN concat(left(categoria_secop,100),'|',left(upper(trim(modalidad_contratacion)),100),'|',
+                                extract(year FROM fecha_publicacion_normalizada)::text) END AS grupo
+                FROM universo_iqr
+                WHERE {campo} IS NOT NULL
                   AND {campo} > 0
                   {filtros['where_extra']}
             ),
@@ -456,26 +484,35 @@ class AnaliticaRepository:
             params["fecha_hasta"] = fecha_hasta
 
         query = text(f"""
-            WITH Ventana AS (
+            WITH procesos AS (
+                SELECT DISTINCT ON (nit_proveedor_clave,nit_entidad,id_del_proceso) *
+                FROM contratos_procesados
+                WHERE nit_proveedor_clave IS NOT NULL AND NULLIF(TRIM(nit_entidad),'') IS NOT NULL
+                  AND id_del_proceso IS NOT NULL AND fecha_publicacion_normalizada IS NOT NULL
+                  {where_extra}
+                ORDER BY nit_proveedor_clave,nit_entidad,id_del_proceso,fecha_publicacion_normalizada,id
+            ), Ventana AS (
                 SELECT 
-                    id, 
+                    id, id_del_proceso, nit_proveedor_clave, nit_entidad,
                     proveedor_normalizado, 
                     entidad_normalizada, 
                     tipo_contrato_normalizado, 
                     modalidad_contratacion, 
                     fecha_publicacion_normalizada,
                     LAG(id) OVER w AS prev_id,
+                    LAG(id_del_proceso) OVER w AS prev_process,
                     LAG(fecha_publicacion_normalizada) OVER w AS prev_fecha
-                FROM contratos_procesados
-                WHERE proveedor_normalizado IS NOT NULL 
+                FROM procesos
+                WHERE nit_proveedor_clave IS NOT NULL AND NULLIF(TRIM(nit_entidad),'') IS NOT NULL AND id_del_proceso IS NOT NULL
+                  AND proveedor_normalizado IS NOT NULL
                   AND entidad_normalizada IS NOT NULL
                   AND fecha_publicacion_normalizada IS NOT NULL
-                  AND es_incompleto = false
+
                   {where_extra}
                 WINDOW w AS (
-                    PARTITION BY proveedor_normalizado, entidad_normalizada, 
+                    PARTITION BY nit_proveedor_clave, nit_entidad,
                                  COALESCE(tipo_contrato_normalizado, modalidad_contratacion)
-                    ORDER BY fecha_publicacion_normalizada
+                    ORDER BY fecha_publicacion_normalizada, id
                 )
             )
             SELECT 
@@ -489,7 +526,7 @@ class AnaliticaRepository:
                 prev_fecha AS fecha_relacionada,
                 (fecha_publicacion_normalizada - prev_fecha) AS diferencia_dias
             FROM Ventana
-            WHERE prev_fecha IS NOT NULL 
+            WHERE prev_fecha IS NOT NULL AND prev_process <> id_del_proceso
               AND (fecha_publicacion_normalizada - prev_fecha) <= 30
         """)
         resultado = self.db.execute(query, params)
@@ -515,26 +552,35 @@ class AnaliticaRepository:
             params["fecha_hasta"] = fecha_hasta
 
         query = text(f"""
-            WITH ventana AS (
+            WITH procesos AS (
+                SELECT DISTINCT ON (nit_proveedor_clave,nit_entidad,id_del_proceso) *
+                FROM contratos_procesados
+                WHERE nit_proveedor_clave IS NOT NULL AND NULLIF(TRIM(nit_entidad),'') IS NOT NULL
+                  AND id_del_proceso IS NOT NULL AND fecha_publicacion_normalizada IS NOT NULL
+                  {where_extra}
+                ORDER BY nit_proveedor_clave,nit_entidad,id_del_proceso,fecha_publicacion_normalizada,id
+            ), ventana AS (
                 SELECT
-                    id,
+                    id, id_del_proceso, nit_proveedor_clave, nit_entidad,
                     proveedor_normalizado,
                     entidad_normalizada,
                     tipo_contrato_normalizado,
                     modalidad_contratacion,
                     fecha_publicacion_normalizada,
                     LAG(id) OVER w AS prev_id,
+                    LAG(id_del_proceso) OVER w AS prev_process,
                     LAG(fecha_publicacion_normalizada) OVER w AS prev_fecha
-                FROM contratos_procesados
-                WHERE proveedor_normalizado IS NOT NULL
+                FROM procesos
+                WHERE nit_proveedor_clave IS NOT NULL AND NULLIF(TRIM(nit_entidad),'') IS NOT NULL AND id_del_proceso IS NOT NULL
+                  AND proveedor_normalizado IS NOT NULL
                   AND entidad_normalizada IS NOT NULL
                   AND fecha_publicacion_normalizada IS NOT NULL
-                  AND es_incompleto = false
+
                   {where_extra}
                 WINDOW w AS (
-                    PARTITION BY proveedor_normalizado, entidad_normalizada,
+                    PARTITION BY nit_proveedor_clave, nit_entidad,
                         COALESCE(tipo_contrato_normalizado, modalidad_contratacion)
-                    ORDER BY fecha_publicacion_normalizada
+                    ORDER BY fecha_publicacion_normalizada, id
                 )
             )
             INSERT INTO contrato_duplicado_periodo (
@@ -556,7 +602,7 @@ class AnaliticaRepository:
                 END,
                 :fecha_calculo
             FROM ventana
-            WHERE prev_fecha IS NOT NULL
+            WHERE prev_fecha IS NOT NULL AND prev_process <> id_del_proceso
               AND fecha_publicacion_normalizada - prev_fecha <= 30
         """)
         result = self.db.execute(query, params)
@@ -663,67 +709,31 @@ class AnaliticaRepository:
             params["fecha_hasta"] = fecha_hasta
 
         query = text(f"""
-            WITH contratos_filtrados AS (
-                SELECT
-                    cp.id,
-                    cp.proveedor_normalizado,
-                    cp.nit_proveedor_clave AS nit_proveedor,
-                    cp.entidad_normalizada,
-                    cp.tipo_contrato_normalizado,
-                    cp.modalidad_contratacion,
-                    cp.fecha_publicacion_normalizada,
-                    CASE 
-                        WHEN (
-                            LOWER(cp.modalidad_contratacion) LIKE '%directa%' 
-                            OR LOWER(cp.modalidad_contratacion) LIKE '%contrataci_n_directa%'
-                            OR LOWER(cp.modalidad_contratacion) LIKE '%contratacion_directa%'
-                        )
-                        THEN 1 ELSE 0 
-                    END as es_directa
+            WITH procesos AS (
+                SELECT DISTINCT ON (cp.nit_proveedor_clave,cp.nit_entidad,cp.id_del_proceso)
+                    cp.id,cp.nit_proveedor_clave AS nit_proveedor,cp.nit_entidad,
+                    cp.proveedor_normalizado,cp.entidad_normalizada,cp.tipo_contrato_normalizado,
+                    cp.modalidad_contratacion,cp.fecha_publicacion_normalizada,
+                    CASE WHEN LOWER(cp.modalidad_contratacion) LIKE '%directa%' THEN 1 ELSE 0 END AS es_directa
                 FROM contratos_procesados cp
-                WHERE cp.proveedor_normalizado IS NOT NULL
-                  AND TRIM(cp.proveedor_normalizado) <> ''
-                  AND UPPER(TRIM(cp.proveedor_normalizado)) NOT IN ('NO DEFINIDO', 'N/A', 'SIN INFORMACION', 'SIN INFORMACIÓN', 'SIN REGISTRO')
-                  AND cp.nit_proveedor_clave IS NOT NULL
-                  AND cp.fecha_publicacion_normalizada IS NOT NULL
-                  {where_extra}
-            ),
-
-            resumen_proveedor AS (
-                SELECT
-                    nit_proveedor,
-                    MAX(proveedor_normalizado) AS proveedor_normalizado,
-                    COUNT(*)                                                   AS total_contratos,
-                    SUM(es_directa)                                            AS contratos_directos,
-                    MIN(fecha_publicacion_normalizada) FILTER (WHERE es_directa = 1) AS fecha_primera_directa,
-                    MAX(fecha_publicacion_normalizada) FILTER (WHERE es_directa = 1) AS fecha_ultima_directa,
-                    MAX(entidad_normalizada)                                   AS entidad,
-                    MAX(tipo_contrato_normalizado)                             AS tipo_contrato,
-                    MAX(modalidad_contratacion)                                AS modalidad_contratacion,
-                    MAX(fecha_publicacion_normalizada)                         AS fecha_contrato,
-                    MAX(id)                                                    AS contrato_id
-                FROM contratos_filtrados
-                GROUP BY nit_proveedor
+                WHERE cp.nit_proveedor_clave IS NOT NULL AND NULLIF(TRIM(cp.nit_entidad),'') IS NOT NULL
+                  AND cp.id_del_proceso IS NOT NULL AND cp.proveedor_normalizado IS NOT NULL
+                  AND cp.fecha_publicacion_normalizada IS NOT NULL {where_extra}
+                ORDER BY cp.nit_proveedor_clave,cp.nit_entidad,cp.id_del_proceso,
+                         cp.fecha_publicacion_normalizada,cp.id
+            ), ventanas AS (
+                SELECT *,count(*) OVER w AS total_contratos,sum(es_directa) OVER w AS contratos_directos
+                FROM procesos
+                WINDOW w AS (PARTITION BY nit_proveedor,nit_entidad ORDER BY fecha_publicacion_normalizada::timestamp
+                    RANGE BETWEEN make_interval(days => :dias_ventana) PRECEDING AND CURRENT ROW)
             )
-
-            SELECT
-                proveedor_normalizado   AS proveedor,
-                nit_proveedor,
-                total_contratos,
-                contratos_directos,
-                ROUND(
-                    (contratos_directos::numeric / NULLIF(total_contratos, 0)) * 100,
-                    2
-                )                       AS porcentaje_directos,
-                entidad,
-                tipo_contrato,
-                modalidad_contratacion,
-                fecha_contrato,
-                contrato_id
-            FROM resumen_proveedor
-            WHERE contratos_directos >= :minimo_directas
-              AND (fecha_ultima_directa - fecha_primera_directa) <= :dias_ventana
-            ORDER BY contratos_directos DESC, porcentaje_directos DESC
+            SELECT DISTINCT ON (nit_proveedor) proveedor_normalizado AS proveedor,nit_proveedor,
+                total_contratos,contratos_directos,
+                round(100.0*contratos_directos/nullif(total_contratos,0),2) AS porcentaje_directos,
+                entidad_normalizada AS entidad,tipo_contrato_normalizado AS tipo_contrato,
+                modalidad_contratacion,fecha_publicacion_normalizada AS fecha_contrato,id AS contrato_id
+            FROM ventanas WHERE contratos_directos>=:minimo_directas
+            ORDER BY nit_proveedor,contratos_directos DESC,fecha_publicacion_normalizada DESC,id DESC
         """)
 
         resultado = self.db.execute(query, params)

@@ -1,0 +1,14 @@
+[
+  {"input":"https://community.secop.gov.co/Public/Tendering/NoticeDetail/Index?noticeUID=TEST","expected":"https://community.secop.gov.co/Public/Tendering/NoticeDetail/Index?noticeUID=TEST"},
+  {"input":{"url":"https://www.contratos.gov.co/consultas/detalleProceso.do?numConstancia=TEST"},"expected":"https://www.contratos.gov.co/consultas/detalleProceso.do?numConstancia=TEST"},
+  {"input":"{'url': 'https://community.secop.gov.co/Public/Test'}","expected":"https://community.secop.gov.co/Public/Test"},
+  {"input":"{\"url\":\"https://community.secop.gov.co/Public/Test\",\"description\":null}","expected":"https://community.secop.gov.co/Public/Test"},
+  {"input":null,"expected":null},
+  {"input":"javascript:alert(1)","expected":null},
+  {"input":"https://community.secop.gov.co.evil.example/Public/Test","expected":null},
+  {"input":"https://user:password@community.secop.gov.co/Public/Test","expected":null},
+  {"input":"https://community.secop.gov.co:8888/Public/Test","expected":null},
+  {"input":"https://evil.example\\community.secop.gov.co/Public/Test","expected":null},
+  {"input":"https://community.secop.gov.co/\nPublic/Test","expected":null},
+  {"input":"http://community.secop.gov.co/Public/Test","expected":null}
+]

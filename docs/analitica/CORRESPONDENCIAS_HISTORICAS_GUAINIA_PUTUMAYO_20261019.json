@@ -1,0 +1,369 @@
+{
+  "created_at": "2026-10-19T17:22:08.809641+00:00",
+  "scans": [
+    {
+      "file": "guainia-history-2012-20261019.json",
+      "sha256": "9b4d13623dee00c7fddb0126834c140e661426fbea103d7e756eba7436ff406c",
+      "lines_scanned": 456742,
+      "uncompressed_bytes": 1285140673,
+      "compressed_bytes": 142580269,
+      "candidate_lines": 7,
+      "buyer_profile": "gobernacion-guainia",
+      "archive_url": "https://apiocds.colombiacompra.gov.co/ArchivosSECOP/Archivos/SI2012.zip",
+      "crc32": 2907246851,
+      "scanner_code_sha256": "62156d0339da21c94c17f5d5badd7dffe2d8efba6168d99df82f2c0dbcef46cf"
+    },
+    {
+      "file": "guainia-history-2013-20261019.json",
+      "sha256": "6ff9b154e8db4c8067a471a7b6bf4f3d6bfbe4194fded1abdc5628cadfbbda70",
+      "lines_scanned": 644937,
+      "uncompressed_bytes": 1893263415,
+      "compressed_bytes": 214304197,
+      "candidate_lines": 7,
+      "buyer_profile": "gobernacion-guainia",
+      "archive_url": "https://apiocds.colombiacompra.gov.co/ArchivosSECOP/Archivos/SI2013.zip",
+      "crc32": 2297529117,
+      "scanner_code_sha256": "370fc412ac8735e8a6d37304153eecf7003ff1f2890650af2b05bdce6c36ea85"
+    },
+    {
+      "file": "putumayo-history-2015-20261019.json",
+      "sha256": "19f3fd885d6d93c8a465a261634e255800f0c8f76de6ccf7436a9735dd4b6aea",
+      "lines_scanned": 1030160,
+      "uncompressed_bytes": 3361249396,
+      "compressed_bytes": 365731055,
+      "candidate_lines": 1,
+      "buyer_profile": "gobernacion-putumayo",
+      "archive_url": "https://apiocds.colombiacompra.gov.co/ArchivosSECOP/Archivos/SI2015.zip",
+      "crc32": 4278304827,
+      "scanner_code_sha256": "62156d0339da21c94c17f5d5badd7dffe2d8efba6168d99df82f2c0dbcef46cf"
+    }
+  ],
+  "total_lines_scanned": 2131839,
+  "retained_lines": 15,
+  "candidate_correspondences": [
+    {
+      "case_id": "csj-sep079-2023-00059",
+      "constancia_as_published": "12-1-84081",
+      "process_reference_as_published": "LP-SPD-14-2012",
+      "archive_ocid": "ocds-k50g02-12-1-84081",
+      "archive_award_id_as_published": "7455850",
+      "archive_contract_id_as_published": "7455850",
+      "contract_reference_as_published": "069",
+      "date_signed_as_published": "2013-02-28T00:00:00.000Z",
+      "award_date_as_published": "2012-11-20T10:00:00.000Z",
+      "amount_as_published": "1355576595.0",
+      "currency": "COP",
+      "suppliers": [
+        {
+          "id": "900595805",
+          "name": "UNION TEMPORAL MINITAS HI 2012"
+        }
+      ],
+      "raw_line_sha256": "790dffbd7f7bb9aaf1a8aa6e8e70d6403eecf255976db27b9b13dcaf58274ed1",
+      "raw_line_file": "guainia-history-2012/790dffbd7f7bb9aaf1a8aa6e8e70d6403eecf255976db27b9b13dcaf58274ed1.line",
+      "source_report": "guainia-history-2012-20261019.json",
+      "training_label": null,
+      "local_row_identity_assigned": false,
+      "review_status": "CORRESPONDENCIA_DOCUMENTAL_PENDIENTE",
+      "not_a_point_in_time_snapshot": true
+    },
+    {
+      "case_id": "csj-sep079-2023-00059",
+      "constancia_as_published": "12-1-84082",
+      "process_reference_as_published": "LP-SPD-15-2012",
+      "archive_ocid": "ocds-k50g02-12-1-84082",
+      "archive_award_id_as_published": "7769884",
+      "archive_contract_id_as_published": "7769884",
+      "contract_reference_as_published": "068",
+      "date_signed_as_published": "2013-02-28T00:00:00.000Z",
+      "award_date_as_published": "2012-12-20T11:00:00.000Z",
+      "amount_as_published": "1364873500.0",
+      "currency": "COP",
+      "suppliers": [
+        {
+          "id": "900595720",
+          "name": "UNION TEMPORAL CAM"
+        }
+      ],
+      "raw_line_sha256": "81fa2209866f17afaaf095174ecefb28a5f9d2c21eeffb2f465d89de5922095c",
+      "raw_line_file": "guainia-history-2012/81fa2209866f17afaaf095174ecefb28a5f9d2c21eeffb2f465d89de5922095c.line",
+      "source_report": "guainia-history-2012-20261019.json",
+      "training_label": null,
+      "local_row_identity_assigned": false,
+      "review_status": "CORRESPONDENCIA_DOCUMENTAL_PENDIENTE",
+      "not_a_point_in_time_snapshot": true
+    },
+    {
+      "case_id": "csj-sep079-2023-00059",
+      "constancia_as_published": "12-1-83953",
+      "process_reference_as_published": "LP-SPD-13-2012",
+      "archive_ocid": "ocds-k50g02-12-1-83953",
+      "archive_award_id_as_published": "7769974",
+      "archive_contract_id_as_published": "7769974",
+      "contract_reference_as_published": "70",
+      "date_signed_as_published": "2013-02-28T00:00:00.000Z",
+      "award_date_as_published": "2012-12-20T09:00:00.000Z",
+      "amount_as_published": "1415465689.0",
+      "currency": "COP",
+      "suppliers": [
+        {
+          "id": "900594850",
+          "name": "CONSORCIO CARPINTERO 2013"
+        }
+      ],
+      "raw_line_sha256": "cd36941a0f58f9fa846800342e95aecc4216194b303df906cca2291ef334112d",
+      "raw_line_file": "guainia-history-2012/cd36941a0f58f9fa846800342e95aecc4216194b303df906cca2291ef334112d.line",
+      "source_report": "guainia-history-2012-20261019.json",
+      "training_label": null,
+      "local_row_identity_assigned": false,
+      "review_status": "CORRESPONDENCIA_DOCUMENTAL_PENDIENTE",
+      "not_a_point_in_time_snapshot": true
+    },
+    {
+      "case_id": "csj-sep079-2023-00059",
+      "constancia_as_published": "12-15-1269067",
+      "process_reference_as_published": "CM-GG-012-2012",
+      "archive_ocid": "ocds-k50g02-12-15-1269067",
+      "archive_award_id_as_published": "3319750",
+      "archive_contract_id_as_published": "3319750",
+      "contract_reference_as_published": "079",
+      "date_signed_as_published": "2013-03-05T00:00:00.000Z",
+      "award_date_as_published": null,
+      "amount_as_published": "472948216.0",
+      "currency": "COP",
+      "suppliers": [
+        {
+          "id": "23556732",
+          "name": "CONSORCIO AGUAS DEL ORIENTE"
+        }
+      ],
+      "raw_line_sha256": "8924f8fb97220580da676ce65a57e9714bc6178afbcf1e5a2e0846c5413b1c4a",
+      "raw_line_file": "guainia-history-2012/8924f8fb97220580da676ce65a57e9714bc6178afbcf1e5a2e0846c5413b1c4a.line",
+      "source_report": "guainia-history-2012-20261019.json",
+      "training_label": null,
+      "local_row_identity_assigned": false,
+      "review_status": "CORRESPONDENCIA_DOCUMENTAL_PENDIENTE",
+      "not_a_point_in_time_snapshot": true
+    },
+    {
+      "case_id": "csj-sep079-2023-00059",
+      "constancia_as_published": "13-11-1538012",
+      "process_reference_as_published": "SAMC-002-2013",
+      "archive_ocid": "ocds-k50g02-13-11-1538012",
+      "archive_award_id_as_published": "1550735",
+      "archive_contract_id_as_published": "1550735",
+      "contract_reference_as_published": "204",
+      "date_signed_as_published": "2013-05-03T00:00:00.000Z",
+      "award_date_as_published": "2013-04-11T11:00:00.000Z",
+      "amount_as_published": "1220490007.0",
+      "currency": "COP",
+      "suppliers": [
+        {
+          "id": "900613835",
+          "name": "CONSORCIO PISGA"
+        }
+      ],
+      "raw_line_sha256": "89514608bf8d41b583eccdb1311234be7b178f9c1c37b07a05865c995836bcf8",
+      "raw_line_file": "guainia-history-2013/89514608bf8d41b583eccdb1311234be7b178f9c1c37b07a05865c995836bcf8.line",
+      "source_report": "guainia-history-2013-20261019.json",
+      "training_label": null,
+      "local_row_identity_assigned": false,
+      "review_status": "CORRESPONDENCIA_DOCUMENTAL_PENDIENTE",
+      "not_a_point_in_time_snapshot": true
+    },
+    {
+      "case_id": "csj-sep079-2023-00059",
+      "constancia_as_published": "13-11-1537995",
+      "process_reference_as_published": "SAMC-001-2013",
+      "archive_ocid": "ocds-k50g02-13-11-1537995",
+      "archive_award_id_as_published": "1560801",
+      "archive_contract_id_as_published": "1560801",
+      "contract_reference_as_published": "205",
+      "date_signed_as_published": "2013-05-07T00:00:00.000Z",
+      "award_date_as_published": "2013-04-11T09:00:00.000Z",
+      "amount_as_published": "1399666350.0",
+      "currency": "COP",
+      "suppliers": [
+        {
+          "id": "900613882",
+          "name": "UNION TEMPORAL 2013 LA UNION"
+        }
+      ],
+      "raw_line_sha256": "df6e8bd26880cf444c07f8334d1fcfac7aca8629a48049570c2bf1323537db09",
+      "raw_line_file": "guainia-history-2013/df6e8bd26880cf444c07f8334d1fcfac7aca8629a48049570c2bf1323537db09.line",
+      "source_report": "guainia-history-2013-20261019.json",
+      "training_label": null,
+      "local_row_identity_assigned": false,
+      "review_status": "CORRESPONDENCIA_DOCUMENTAL_PENDIENTE",
+      "not_a_point_in_time_snapshot": true
+    },
+    {
+      "case_id": "csj-sp1731-2025-60747",
+      "constancia_as_published": "15-11-4399251",
+      "process_reference_as_published": "SPCD SAMC-003-2015",
+      "archive_ocid": "ocds-k50g02-15-11-4399251",
+      "archive_award_id_as_published": "4225659",
+      "archive_contract_id_as_published": "4225659",
+      "contract_reference_as_published": "1226",
+      "date_signed_as_published": "2016-01-28T00:00:00.000Z",
+      "award_date_as_published": null,
+      "amount_as_published": "86020000.0",
+      "currency": "COP",
+      "suppliers": [
+        {
+          "id": "900302698",
+          "name": "FUNDACIoN VICTORIA REGIA"
+        }
+      ],
+      "raw_line_sha256": "b5718dd234853f23bdf120d5d77c5550cb4419c8e4f6497925971880b204349b",
+      "raw_line_file": "putumayo-history-2015/b5718dd234853f23bdf120d5d77c5550cb4419c8e4f6497925971880b204349b.line",
+      "source_report": "putumayo-history-2015-20261019.json",
+      "training_label": null,
+      "local_row_identity_assigned": false,
+      "review_status": "CORRESPONDENCIA_DOCUMENTAL_PENDIENTE",
+      "not_a_point_in_time_snapshot": true
+    }
+  ],
+  "unlinked_numeric_matches": [
+    {
+      "release_id": "12-13-1319985",
+      "raw_line_sha256": "7c36ce4fc9f269ead439a0e37a7544e1360f61988596be63e62bfcb18f8a6b21",
+      "reason": "Coincidencia de número en convocatoria distinta o contrato de otro año; no vinculado a hechos judiciales."
+    },
+    {
+      "release_id": "12-13-1325427",
+      "raw_line_sha256": "fd62d721ff0c08a164392e0ae893a1b91cb8b1b4a15199a0c641e554dd4a9a46",
+      "reason": "Coincidencia de número en convocatoria distinta o contrato de otro año; no vinculado a hechos judiciales."
+    },
+    {
+      "release_id": "12-13-1319322",
+      "raw_line_sha256": "4a83beeaa37ac3ee08dfb35f30e0211d2841322b0b3b9bf55663e1550a454b22",
+      "reason": "Coincidencia de número en convocatoria distinta o contrato de otro año; no vinculado a hechos judiciales."
+    },
+    {
+      "release_id": "13-13-1896562",
+      "raw_line_sha256": "b04048e7939fcf93237c32501e4373503ca3dffbc0873cb37e38b32938041b3f",
+      "reason": "Coincidencia de número en convocatoria distinta o contrato de otro año; no vinculado a hechos judiciales."
+    },
+    {
+      "release_id": "13-13-1880504",
+      "raw_line_sha256": "a47f9198e123028cf3b73da3417036f46fb2d979168fb1f81278e9f968dc082d",
+      "reason": "Coincidencia de número en convocatoria distinta o contrato de otro año; no vinculado a hechos judiciales."
+    },
+    {
+      "release_id": "13-13-1888165",
+      "raw_line_sha256": "683b937fc2dfd1a38cb51a9c19444724bbe7cc91e8c0f78534218441188c802e",
+      "reason": "Coincidencia de número en convocatoria distinta o contrato de otro año; no vinculado a hechos judiciales."
+    },
+    {
+      "release_id": "13-13-1880376",
+      "raw_line_sha256": "83e079a05c884fea223c6dd042b5ac07430b7897189c37dc353069755fc97024",
+      "reason": "Coincidencia de número en convocatoria distinta o contrato de otro año; no vinculado a hechos judiciales."
+    },
+    {
+      "release_id": "13-12-1705544",
+      "raw_line_sha256": "8166be43e40c3819bffe9497ed17b6158758dc41aef3000974fa64379e200d73",
+      "reason": "Coincidencia de número en convocatoria distinta o contrato de otro año; no vinculado a hechos judiciales."
+    }
+  ],
+  "downloaded_documents": [
+    {
+      "download_filename": "C_PROCESO_15-11-4399251_286000001_18028614.PDF",
+      "sha256": "4c74086a56e7689099eb66f7facb1b895fc9103deeff53eea0e96f9dabfad14f",
+      "bytes": 247992,
+      "pages": 12,
+      "process_constancia": "15-11-4399251",
+      "kind": "CONTRATO",
+      "index_publication_as_observed": "2016-01-15T16:10:00-05:00",
+      "source_page": "https://www.contratos.gov.co/consultas/detalleProceso.do?numConstancia=15-11-4399251",
+      "acquisition": "Normal browser click on the observed document link, then preserved unchanged from its exact download filename.",
+      "review_status": "PENDIENTE_REVISION",
+      "training_label": null
+    },
+    {
+      "download_filename": "ADA_PROCESO_15-11-4399251_286000001_17735512.PDF",
+      "sha256": "fbc8bbd7b72090851b8533e0fa94b91101c4ad6dbb4266b016c81e4e8e7abea5",
+      "bytes": 72091,
+      "pages": 3,
+      "process_constancia": "15-11-4399251",
+      "kind": "ADJUDICACION",
+      "index_publication_as_observed": "2015-12-22T17:28:00-05:00",
+      "source_page": "https://www.contratos.gov.co/consultas/detalleProceso.do?numConstancia=15-11-4399251",
+      "acquisition": "Normal browser click on the observed document link, then preserved unchanged from its exact download filename.",
+      "review_status": "PENDIENTE_REVISION",
+      "training_label": null
+    },
+    {
+      "download_filename": "v2ADA_PROCESO_12-1-84082_294000001_6542293.pdf",
+      "sha256": "f43da09aa71b2818e651dba5a61a48b7695915221939faea0e7917e426a738e3",
+      "bytes": 342533,
+      "pages": 5,
+      "process_constancia": "12-1-84082",
+      "kind": "ADJUDICACION",
+      "index_publication_as_observed": "2013-02-21T11:15:00-05:00",
+      "source_page": "https://www.contratos.gov.co/consultas/detalleProceso.do?numConstancia=12-1-84082",
+      "acquisition": "Normal browser click on the observed document link, then preserved unchanged from its exact download filename.",
+      "review_status": "PENDIENTE_REVISION",
+      "training_label": null
+    }
+  ],
+  "physical_pages_reviewed": {
+    "4c74086a56e7689099eb66f7facb1b895fc9103deeff53eea0e96f9dabfad14f": [
+      1,
+      12
+    ],
+    "fbc8bbd7b72090851b8533e0fa94b91101c4ad6dbb4266b016c81e4e8e7abea5": [
+      3
+    ],
+    "f43da09aa71b2818e651dba5a61a48b7695915221939faea0e7917e426a738e3": [
+      4,
+      5
+    ]
+  },
+  "browser_details_consulted": [
+    "https://www.contratos.gov.co/consultas/detalleProceso.do?numConstancia=15-11-4399251",
+    "https://www.contratos.gov.co/consultas/detalleProceso.do?numConstancia=12-1-84082"
+  ],
+  "contradictions": [
+    {
+      "process": "15-11-4399251",
+      "field": "dateSigned",
+      "archive_and_current_page": "2016-01-28",
+      "signed_contract_pages_1_12": "2015-12-28",
+      "action": "Preservar ambas; no alterar fuentes ni convertir la captura actual en estado histórico."
+    },
+    {
+      "process": "15-11-4399251",
+      "field": "amount",
+      "judicial_summary_as_previously_reviewed": "86000000",
+      "award_resolution_page_3": "86020000",
+      "action": "Conservar la diferencia y la fuente de cada magnitud."
+    },
+    {
+      "process": "12-1-84082",
+      "field": "award_date",
+      "archive_and_schedule": "2012-12-20",
+      "resolution_0175_date": "2013-02-15",
+      "index_publication": "2013-02-21T11:15:00-05:00",
+      "action": "No usar fecha prevista como actuación efectiva ni retrofechar disponibilidad."
+    }
+  ],
+  "tests": {
+    "run": 37,
+    "failures": 0,
+    "errors": 0,
+    "seconds": 0.172,
+    "log_sha256": "08a35e22e49551b89a29941b36583b03e83deffcd2fff8be7075d46bf8a485b7",
+    "scope": "Standalone corpus tools only; the unchanged backend suite is not rerun.",
+    "initial_attempt": "35 tests, 4 temporary-directory permission errors in sandbox; privileged rerun 35 passed. Final version adds member-boundary tests: 37 passed."
+  },
+  "current_code_hashes": {
+    "corpus_tools\\scan_history.py": "62156d0339da21c94c17f5d5badd7dffe2d8efba6168d99df82f2c0dbcef46cf",
+    "corpus_tools\\test_history.py": "e76bf616e080a74c1758e0f5c69aa803e0a19d65323a9daa7c29a44be026f708"
+  },
+  "training_labels_created": 0,
+  "historical_stage_observations_created": 0,
+  "database_accessed": false,
+  "publication_changed": false,
+  "scope": "Official archival discovery and selected document review. Published IDs preserved, not inferred or assigned to local legacy rows. No finality or sufficient training corpus established."
+}

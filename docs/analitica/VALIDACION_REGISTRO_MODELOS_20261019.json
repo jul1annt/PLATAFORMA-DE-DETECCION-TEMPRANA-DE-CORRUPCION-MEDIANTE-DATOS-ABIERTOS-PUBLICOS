@@ -1,0 +1,55 @@
+{
+  "time": "2026-10-19T16:25:35.153221+00:00",
+  "state": "COMPLETE",
+  "split_policy": "chronological-grouped-label-availability-v1",
+  "backend_tests": {
+    "total": 613,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "run_id": "d7dcd94af0be4adcb587b10c7dc758ed",
+    "junit_sha256": "c5f2ec2d25f05dbbe1bc12560472f19ce13667a193575e26acf2a8af5eb2631f"
+  },
+  "code_sha256": {
+    "analytics_ml/evaluation.py": "ba631ca50117ed69d60feba5dcc6de88afaf3635502c35cc3d8cc502e5ef8fdf",
+    "analytics_ml/training.py": "4936773a8af4ca9e9cca6e1826cfb045680efb3f87be04d5cee46db6a299318e",
+    "analytics_ml/approval.py": "067d153cdba5a2db80347b48e1bb6d3a6bba7a9df60f2257d44a62da413b7f40",
+    "tests/test_risk_temporal_audit.py": "bf4eb34c348fa93dfca58bb5264def5c3af701946dc2f13cd07e03f4c7319b00",
+    "tests/risk_training_smoke.py": "2c34b61b6d6e89cb4587422c349015dd59561ba7f390b468eebb970f0d98ae10",
+    "tests/test_risk_engine_postgres.py": "e7f14b7aaa32c9253c6ffbb6a4c0639b273e56c34e1ec6cb53a718023b7519a0",
+    "modules/motor_riesgo/service.py": "48f46110d48522b75190d2bbce64ba8af72cb3111c55eefc9926f74c5a54a415"
+  },
+  "regression": {
+    "excluded_case_rows_accounted": true,
+    "future_labels_remain_unlabelled": true,
+    "model_binds_split_audit_hash": true,
+    "cases_cannot_exceed_split_rows": true,
+    "synthetic_training_with_excluded_row_passed_approval": true,
+    "training_registration_uses_shared_approval": true,
+    "cached_training_result_revalidated_without_duplicate_model": true,
+    "failed_comparison_remains_unvalidated_candidate": true
+  },
+  "isolated_database": {
+    "oid": 82244,
+    "schema": "f67b120ce841",
+    "counts": {
+      "raw_secop": 0,
+      "contratos_procesados": 0,
+      "riesgo_modelos": 0,
+      "riesgo_evidencias_variables": 0
+    },
+    "read_only": true
+  },
+  "published_database": {
+    "oid": 24577,
+    "schema": "3c19a8f7e2d0",
+    "read_only": true,
+    "new_risk_tables_absent": true,
+    "active_sources": 0,
+    "active_jobs": 0
+  },
+  "candidate_inventory": "INVENTARIO_CASOS_REVISION9_20261018.json",
+  "real_models_trained": 0,
+  "real_models_activated": 0,
+  "scope": "Software and synthetic fixtures; no claim of real judicial model validity. No migration or volume load repeated."
+}

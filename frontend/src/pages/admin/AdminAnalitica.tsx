@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { 
   Brain, 
   TrendingUp, 
@@ -223,11 +224,11 @@ export const AdminAnalitica: React.FC = () => {
       setResults((prev) => ({ ...prev, duplicados: res }));
       showToast(
         'success',
-        `Análisis de duplicados finalizado. Se detectaron ${res.total_duplicados.toLocaleString()} contratos duplicados en período corto. Score promedio: ${res.promedio_score.toFixed(2)}`
+        `Análisis de reiteración de compras finalizado. Se detectaron ${res.total_duplicados.toLocaleString()} reiteraciones de procesos en período corto. Score promedio: ${res.promedio_score.toFixed(2)}`
       );
     } catch (err: unknown) {
       console.error(getErrorMessage(err, 'Error desconocido'));
-      showCalculationError(err, 'Error al ejecutar análisis de duplicados.');
+      showCalculationError(err, 'Error al ejecutar análisis de reiteración de compras.');
     } finally {
       setLoadingDuplicados(false);
       void fetchExecutionStatuses();
@@ -249,7 +250,7 @@ export const AdminAnalitica: React.FC = () => {
       setResults((prev) => ({ ...prev, directas: res }));
       showToast(
         'success',
-        `Análisis de adjudicaciones directas finalizado. Se identificaron ${res.total_proveedores_detectados.toLocaleString()} proveedores con posible abuso de adjudicación directa.`
+        `Análisis de adjudicaciones directas finalizado. Se identificaron ${res.total_proveedores_detectados.toLocaleString()} proveedores con concentración de contratación directa.`
       );
     } catch (err: unknown) {
       console.error(getErrorMessage(err, 'Error desconocido'));
@@ -323,6 +324,14 @@ export const AdminAnalitica: React.FC = () => {
           </p>
         </div>
       </div>
+
+      <section aria-label="Revisión de señales del corte local" className="flex flex-col gap-3 rounded-xl border border-indigo-200 bg-indigo-50 p-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h2 className="font-semibold text-indigo-950">Señales por contrato del corte local</h2>
+          <p className="mt-1 max-w-3xl text-sm leading-6 text-indigo-900">Abre el corte reproducible, revisa las reglas y consulta la evidencia y la cobertura por operación. Las señales no son conclusiones de corrupción.</p>
+        </div>
+        <Link to="/public/indicios" className="inline-flex w-fit shrink-0 items-center justify-center rounded-lg bg-indigo-700 px-4 py-2.5 text-sm font-semibold text-white hover:bg-indigo-800 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2">Revisar señales</Link>
+      </section>
 
       <section aria-label="Últimas ejecuciones analíticas" className="rounded-xl border border-slate-200 bg-white p-4">
         <h2 className="text-sm font-semibold text-slate-800">Estado de las últimas ejecuciones</h2>
@@ -415,7 +424,7 @@ export const AdminAnalitica: React.FC = () => {
                           <h4 className="text-sm font-semibold text-slate-800 mt-1">
                             {p.tipo_anomalia === 'OUTLIER' && 'Outliers / Precios Atípicos (IQR)'}
                             {(p.tipo_anomalia === 'DUPLICADO' || p.tipo_anomalia === 'DUPLICADO_CORTO') && 'Duplicados en Período Corto'}
-                            {(p.tipo_anomalia === 'DIRECTA' || p.tipo_anomalia === 'ABUSO_DIRECTO') && 'Abuso de Contratación Directa'}
+                            {(p.tipo_anomalia === 'DIRECTA' || p.tipo_anomalia === 'ABUSO_DIRECTO') && 'Concentración de contratación directa'}
                           </h4>
                           {p.updated_at && (
                             <p className="text-xxs text-slate-400">
@@ -480,7 +489,7 @@ export const AdminAnalitica: React.FC = () => {
                 <ul className="list-disc pl-5 space-y-1 text-xs text-slate-500 font-medium">
                   <li>Outliers (IQR)</li>
                   <li>Duplicados en período corto</li>
-                  <li>Abuso de adjudicación directa</li>
+                  <li>Concentración de contratación directa</li>
                 </ul>
                 <p className="text-xs text-slate-400 italic">
                   Actualiza el score combinado por proveedor y detecta anomalías complejas.
@@ -731,7 +740,7 @@ export const AdminAnalitica: React.FC = () => {
                     <span>Calculando...</span>
                   </>
                 ) : (
-                  <span>Ejecutar análisis de duplicados</span>
+                  <span>Ejecutar análisis de reiteración de compras</span>
                 )}
               </button>
             </form>
@@ -748,7 +757,7 @@ export const AdminAnalitica: React.FC = () => {
               <CardTitle className="text-base font-bold text-slate-800">
                 Adjudicación Directa
               </CardTitle>
-              <span className="text-slate-400 text-xxs block">Algoritmo Abuso</span>
+              <span className="text-slate-400 text-xxs block">Ventanas móviles</span>
             </div>
           </CardHeader>
           <CardContent className="p-6 flex-1 flex flex-col justify-between space-y-6">

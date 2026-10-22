@@ -1,6 +1,32 @@
 {
   "components": {
     "schemas": {
+      "ActivationRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "adjudicacion": {
+            "format": "uuid",
+            "title": "Adjudicacion",
+            "type": "string"
+          },
+          "convocatoria": {
+            "format": "uuid",
+            "title": "Convocatoria",
+            "type": "string"
+          },
+          "daily": {
+            "default": true,
+            "title": "Daily",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "convocatoria",
+          "adjudicacion"
+        ],
+        "title": "ActivationRequest",
+        "type": "object"
+      },
       "AdjudicacionDirectaCalculoRequest": {
         "description": "Parámetros para disparar una nueva ejecución del análisis de abuso\nde adjudicación directa por proveedor.",
         "properties": {
@@ -382,6 +408,21 @@
           "porcentaje"
         ],
         "title": "CampoFaltanteDTO",
+        "type": "object"
+      },
+      "CaseRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "record": {
+            "additionalProperties": true,
+            "title": "Record",
+            "type": "object"
+          }
+        },
+        "required": [
+          "record"
+        ],
+        "title": "CaseRequest",
         "type": "object"
       },
       "ComparativaFuenteDTO": {
@@ -1922,6 +1963,39 @@
         "title": "OutlierListaResponse",
         "type": "object"
       },
+      "PageResponse": {
+        "properties": {
+          "cut_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cut Id"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/ResultResponse"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "total": {
+            "title": "Total",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "items",
+          "total",
+          "cut_id"
+        ],
+        "title": "PageResponse",
+        "type": "object"
+      },
       "PaginatedAnomaliasDTO": {
         "properties": {
           "items": {
@@ -2404,6 +2478,30 @@
         "title": "ReprocesarRequestDTO",
         "type": "object"
       },
+      "ResultResponse": {
+        "properties": {
+          "raw_secop_id": {
+            "title": "Raw Secop Id",
+            "type": "integer"
+          },
+          "result": {
+            "additionalProperties": true,
+            "title": "Result",
+            "type": "object"
+          },
+          "stage": {
+            "title": "Stage",
+            "type": "string"
+          }
+        },
+        "required": [
+          "raw_secop_id",
+          "stage",
+          "result"
+        ],
+        "title": "ResultResponse",
+        "type": "object"
+      },
       "RiesgoGlobalResumenResponse": {
         "properties": {
           "estado_ejecucion": {
@@ -2575,6 +2673,104 @@
           "total"
         ],
         "title": "RiesgoResumenResponse",
+        "type": "object"
+      },
+      "RiskStatusResponse": {
+        "properties": {
+          "available": {
+            "title": "Available",
+            "type": "boolean"
+          },
+          "cut_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cut Id"
+          },
+          "daily_enabled": {
+            "title": "Daily Enabled",
+            "type": "boolean"
+          },
+          "data_cut_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Data Cut At"
+          },
+          "last_attempt_day": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Attempt Day"
+          },
+          "last_success_day": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Success Day"
+          },
+          "message": {
+            "title": "Message",
+            "type": "string"
+          },
+          "public_cut_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Public Cut Id"
+          },
+          "public_data_cut_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Public Data Cut At"
+          },
+          "update_status": {
+            "title": "Update Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "available",
+          "cut_id",
+          "data_cut_at",
+          "daily_enabled",
+          "last_attempt_day",
+          "last_success_day",
+          "update_status",
+          "message"
+        ],
+        "title": "RiskStatusResponse",
         "type": "object"
       },
       "RunResumenResponse": {
@@ -2842,6 +3038,22 @@
           "contracts"
         ],
         "title": "TopProveedorDTO",
+        "type": "object"
+      },
+      "TrainRequest": {
+        "properties": {
+          "dataset": {
+            "maxLength": 240,
+            "minLength": 1,
+            "pattern": "^[a-zA-Z0-9_./-]+\\.jsonl(?:\\.gz)?$",
+            "title": "Dataset",
+            "type": "string"
+          }
+        },
+        "required": [
+          "dataset"
+        ],
+        "title": "TrainRequest",
         "type": "object"
       },
       "ValidationError": {
@@ -5005,6 +5217,23 @@
               "title": "Size",
               "type": "integer"
             }
+          },
+          {
+            "in": "header",
+            "name": "x-public-cut",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "uuid",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Public-Cut"
+            }
           }
         ],
         "responses": {
@@ -5030,6 +5259,62 @@
           }
         },
         "summary": "Listar contratos procesados",
+        "tags": [
+          "Transformacion"
+        ]
+      }
+    },
+    "/api/procesados/admin/metricas/calidad": {
+      "get": {
+        "operationId": "admin_metricas_calidad_api_procesados_admin_metricas_calidad_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MetricasCalidadDTO"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Admin Metricas Calidad",
+        "tags": [
+          "Transformacion"
+        ]
+      }
+    },
+    "/api/procesados/admin/metricas/campos-faltantes": {
+      "get": {
+        "operationId": "admin_campos_faltantes_api_procesados_admin_metricas_campos_faltantes_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/CampoFaltanteDTO"
+                  },
+                  "title": "Response Admin Campos Faltantes Api Procesados Admin Metricas Campos Faltantes Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Admin Campos Faltantes",
         "tags": [
           "Transformacion"
         ]
@@ -5120,6 +5405,23 @@
               "title": "Size",
               "type": "integer"
             }
+          },
+          {
+            "in": "header",
+            "name": "x-public-cut",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "uuid",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Public-Cut"
+            }
           }
         ],
         "responses": {
@@ -5176,6 +5478,23 @@
               "title": "Limit",
               "type": "integer"
             }
+          },
+          {
+            "in": "header",
+            "name": "x-public-cut",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "uuid",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Public-Cut"
+            }
           }
         ],
         "responses": {
@@ -5214,6 +5533,25 @@
       "get": {
         "description": "Devuelve el ranking de campos obligatorios que más frecuentemente han llegado vacíos o nulos en los datos crudos. Ordenado de mayor a menor frecuencia.",
         "operationId": "get_estadisticas_api_procesados_estadisticas_campos_faltantes_get",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "x-public-cut",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "uuid",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Public-Cut"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "content": {
@@ -5228,6 +5566,16 @@
               }
             },
             "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
           }
         },
         "summary": "Estadísticas de campos faltantes",
@@ -5247,6 +5595,23 @@
             "schema": {
               "title": "Formato",
               "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "x-public-cut",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "uuid",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Public-Cut"
             }
           }
         ],
@@ -5282,6 +5647,23 @@
             "schema": {
               "title": "Formato",
               "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "x-public-cut",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "uuid",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Public-Cut"
             }
           }
         ],
@@ -5339,6 +5721,23 @@
               "minimum": 1,
               "title": "Size",
               "type": "integer"
+            }
+          },
+          {
+            "in": "header",
+            "name": "x-public-cut",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "uuid",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Public-Cut"
             }
           }
         ],
@@ -5480,6 +5879,25 @@
       "get": {
         "description": "Resumen de contratos completos vs incompletos y sus porcentajes.",
         "operationId": "metricas_calidad_api_procesados_metricas_calidad_get",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "x-public-cut",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "uuid",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Public-Cut"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "content": {
@@ -5490,6 +5908,16 @@
               }
             },
             "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
           }
         },
         "summary": "Métricas de calidad de datos",
@@ -5502,6 +5930,25 @@
       "get": {
         "description": "Devuelve el conteo y porcentaje de cada campo obligatorio faltante, ordenado de mayor a menor.",
         "operationId": "metricas_campos_faltantes_api_procesados_metricas_campos_faltantes_get",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "x-public-cut",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "uuid",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Public-Cut"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "content": {
@@ -5516,6 +5963,16 @@
               }
             },
             "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
           }
         },
         "summary": "Ranking de campos faltantes",
@@ -5527,6 +5984,25 @@
     "/api/procesados/metricas/dashboard": {
       "get": {
         "operationId": "dashboard_metricas_api_procesados_metricas_dashboard_get",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "x-public-cut",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "uuid",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Public-Cut"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "content": {
@@ -5537,6 +6013,16 @@
               }
             },
             "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
           }
         },
         "summary": "Dashboard Metricas",
@@ -5548,6 +6034,25 @@
     "/api/procesados/metricas/distribucion-anomalias": {
       "get": {
         "operationId": "distribucion_anomalias_api_procesados_metricas_distribucion_anomalias_get",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "x-public-cut",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "uuid",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Public-Cut"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "content": {
@@ -5562,6 +6067,16 @@
               }
             },
             "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
           }
         },
         "summary": "Distribucion Anomalias",
@@ -5573,6 +6088,25 @@
     "/api/procesados/metricas/distribucion-riesgo": {
       "get": {
         "operationId": "distribucion_riesgo_api_procesados_metricas_distribucion_riesgo_get",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "x-public-cut",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "uuid",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Public-Cut"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "content": {
@@ -5587,6 +6121,16 @@
               }
             },
             "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
           }
         },
         "summary": "Distribucion Riesgo",
@@ -5609,6 +6153,23 @@
               "minimum": 1,
               "title": "Limit",
               "type": "integer"
+            }
+          },
+          {
+            "in": "header",
+            "name": "x-public-cut",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "uuid",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Public-Cut"
             }
           }
         ],
@@ -6012,6 +6573,23 @@
               "title": "Order",
               "type": "string"
             }
+          },
+          {
+            "in": "header",
+            "name": "x-public-cut",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "uuid",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Public-Cut"
+            }
           }
         ],
         "responses": {
@@ -6069,6 +6647,23 @@
               "title": "Size",
               "type": "integer"
             }
+          },
+          {
+            "in": "header",
+            "name": "x-public-cut",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "uuid",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Public-Cut"
+            }
           }
         ],
         "responses": {
@@ -6113,6 +6708,23 @@
               "title": "Id",
               "type": "integer"
             }
+          },
+          {
+            "in": "header",
+            "name": "x-public-cut",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "uuid",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Public-Cut"
+            }
           }
         ],
         "responses": {
@@ -6140,6 +6752,603 @@
         "summary": "Detalle de contrato procesado",
         "tags": [
           "Transformacion"
+        ]
+      }
+    },
+    "/api/riesgo/admin/activar": {
+      "post": {
+        "operationId": "activation_api_riesgo_admin_activar_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActivationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Activation",
+        "tags": [
+          "Motor de riesgo"
+        ]
+      }
+    },
+    "/api/riesgo/admin/actualizar": {
+      "post": {
+        "operationId": "refresh_api_riesgo_admin_actualizar_post",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BackgroundJobAccepted"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Refresh",
+        "tags": [
+          "Motor de riesgo"
+        ]
+      }
+    },
+    "/api/riesgo/admin/casos": {
+      "post": {
+        "operationId": "add_case_api_riesgo_admin_casos_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CaseRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Add Case",
+        "tags": [
+          "Motor de riesgo"
+        ]
+      }
+    },
+    "/api/riesgo/admin/entrenar": {
+      "post": {
+        "operationId": "train_api_riesgo_admin_entrenar_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TrainRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BackgroundJobAccepted"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Train",
+        "tags": [
+          "Motor de riesgo"
+        ]
+      }
+    },
+    "/api/riesgo/admin/evidencias-variables": {
+      "get": {
+        "operationId": "feature_evidence_api_riesgo_admin_evidencias_variables_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "schema": {
+              "default": 0,
+              "minimum": 0,
+              "title": "Offset",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 25,
+              "maximum": 200,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Feature Evidence",
+        "tags": [
+          "Motor de riesgo"
+        ]
+      },
+      "post": {
+        "operationId": "add_feature_evidence_api_riesgo_admin_evidencias_variables_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CaseRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Add Feature Evidence",
+        "tags": [
+          "Motor de riesgo"
+        ]
+      }
+    },
+    "/api/riesgo/admin/inventario": {
+      "get": {
+        "operationId": "inventory_api_riesgo_admin_inventario_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Inventory",
+        "tags": [
+          "Motor de riesgo"
+        ]
+      }
+    },
+    "/api/riesgo/admin/modelos": {
+      "get": {
+        "operationId": "models_api_riesgo_admin_modelos_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Models",
+        "tags": [
+          "Motor de riesgo"
+        ]
+      }
+    },
+    "/api/riesgo/admin/preparar-base": {
+      "post": {
+        "operationId": "prepare_public_base_api_riesgo_admin_preparar_base_post",
+        "responses": {
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BackgroundJobAccepted"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Prepare Public Base",
+        "tags": [
+          "Motor de riesgo"
+        ]
+      }
+    },
+    "/api/riesgo/admin/revertir/{cut_id}": {
+      "post": {
+        "operationId": "revert_api_riesgo_admin_revertir__cut_id__post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "cut_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Cut Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Revert",
+        "tags": [
+          "Motor de riesgo"
+        ]
+      }
+    },
+    "/api/riesgo/estado": {
+      "get": {
+        "operationId": "get_status_api_riesgo_estado_get",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "x-public-cut",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "uuid",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Public-Cut"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RiskStatusResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Status",
+        "tags": [
+          "Motor de riesgo"
+        ]
+      }
+    },
+    "/api/riesgo/metodologia": {
+      "get": {
+        "operationId": "methodology_api_riesgo_metodologia_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Methodology",
+        "tags": [
+          "Motor de riesgo"
+        ]
+      }
+    },
+    "/api/riesgo/resultados": {
+      "get": {
+        "operationId": "results_api_riesgo_resultados_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "stage",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "CONVOCATORIA",
+                    "ADJUDICACION"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Stage"
+            }
+          },
+          {
+            "in": "query",
+            "name": "raw_secop_id",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Raw Secop Id"
+            }
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "schema": {
+              "default": 0,
+              "minimum": 0,
+              "title": "Offset",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "raw_secop_ids",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "items": {
+                    "type": "integer"
+                  },
+                  "maxItems": 200,
+                  "type": "array"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Raw Secop Ids"
+            }
+          },
+          {
+            "in": "query",
+            "name": "cut_id",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "uuid",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Cut Id"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 25,
+              "maximum": 200,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "header",
+            "name": "x-public-cut",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "uuid",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Public-Cut"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Results",
+        "tags": [
+          "Motor de riesgo"
         ]
       }
     }

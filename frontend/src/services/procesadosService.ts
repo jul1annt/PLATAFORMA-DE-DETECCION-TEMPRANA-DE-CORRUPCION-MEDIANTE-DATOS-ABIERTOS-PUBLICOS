@@ -1,4 +1,5 @@
 import api from '../api/axios';
+import { publicCutHeaders } from './riskService';
 import type { ExportJobAccepted, ExportJobStatus } from '../types/api.generated';
 import type {
   AnomaliaContrato,
@@ -29,16 +30,21 @@ export function toProcesadosApiParams(searchParams: URLSearchParams): Record<str
   const filter = searchParams.get('calidad') as QualityFilterType | null;
   if (filter === 'INCOMPLETOS') params.solo_incompletos = 'true';
   if (filter === 'SOSPECHOSOS') params.solo_sospechosos = 'true';
-  if (filter === 'ALTO_RIESGO') params.solo_alto_riesgo = 'true';
+  if (filter === 'ALTO_RIESGO') {
+    params.solo_incompletos = 'true';
+    params.solo_sospechosos = 'true';
+  }
   return params;
 }
 
 export async function downloadProcesadosExport(
   format: 'csv' | 'xlsx' | 'pdf',
   params: Record<string, string>,
+  publicCutId?: string | null,
 ): Promise<void> {
   const { data: job } = await api.post<ExportJobAccepted>(`/api/procesados/export/${format}/jobs`, undefined, {
     params,
+    headers: publicCutHeaders(publicCutId),
   });
 
   const headers = { 'X-Export-Token': job.access_token };
@@ -74,6 +80,7 @@ export async function downloadProcesadosExport(
 export interface PaginatedResult<T> {
   items: T[];
   total: number;
+  publicCutId?: string | null;
 }
 
 export interface Suggestion {
@@ -84,26 +91,29 @@ export interface Suggestion {
 export async function getProcesados(
   params?: Record<string, string | number>,
   signal?: AbortSignal,
+  publicCutId?: string | null,
 ): Promise<PaginatedResult<Procesado>> {
-  const response = await api.get('/api/procesados/search', { params, signal });
-  return { items: response.data.items ?? [], total: response.data.total ?? 0 };
+  const response = await api.get('/api/procesados/search', { params, signal, headers: publicCutHeaders(publicCutId) });
+  return { items: response.data.items ?? [], total: response.data.total ?? 0, publicCutId: response.headers['x-public-cut'] ?? null };
 }
 
-export async function getMetricasCalidad(signal?: AbortSignal): Promise<MetricasCalidad> {
-  return (await api.get('/api/procesados/metricas/calidad', { signal })).data;
+export async function getMetricasCalidad(signal?: AbortSignal, publicCutId?: string | null): Promise<MetricasCalidad> {
+  return (await api.get('/api/procesados/metricas/calidad', { signal, headers: publicCutHeaders(publicCutId) })).data;
 }
 
-export async function getCamposFaltantes(signal?: AbortSignal): Promise<CampoFaltante[]> {
-  return (await api.get('/api/procesados/metricas/campos-faltantes', { signal })).data;
+export async function getCamposFaltantes(signal?: AbortSignal, publicCutId?: string | null): Promise<CampoFaltante[]> {
+  return (await api.get('/api/procesados/metricas/campos-faltantes', { signal, headers: publicCutHeaders(publicCutId) })).data;
 }
 
 export async function getProcesadoById(id: string | number): Promise<Procesado> {
-  return (await api.get(`/api/procesados/${id}`)).data;
+  const response=await api.get(`/api/procesados/${id}`);
+  return {...response.data,public_cut_id:response.headers['x-public-cut']??null};
 }
 
-export async function getAnomaliasByRawSecopId(rawSecopId: number): Promise<AnomaliaContrato[]> {
+export async function getAnomaliasByRawSecopId(rawSecopId: number, publicCutId?: string | null): Promise<AnomaliaContrato[]> {
   const response = await api.get('/api/procesados/anomalias/', {
     params: { raw_secop_id: rawSecopId },
+    headers: publicCutHeaders(publicCutId),
   });
   return response.data.items ?? [];
 }
@@ -113,18 +123,23 @@ export async function getAutocompleteSuggestions(query: string, signal?: AbortSi
   return (await api.get('/api/procesados/autocomplete', { params: { q: query.trim() }, signal })).data;
 }
 
-export async function getDashboardMetrics(signal?: AbortSignal): Promise<DashboardMetrics> {
-  return (await api.get('/api/procesados/metricas/dashboard', { signal })).data;
+export async function getDashboardMetrics(signal?: AbortSignal, publicCutId?: string | null): Promise<DashboardMetrics> {
+  return (await api.get('/api/procesados/metricas/dashboard', { signal, headers: publicCutHeaders(publicCutId) })).data;
 }
 
-export async function getTopProviders(limit = 10, signal?: AbortSignal): Promise<TopProvider[]> {
-  return (await api.get('/api/procesados/metricas/top-proveedores', { params: { limit }, signal })).data;
+export async function getHistoricalHighCount(signal?: AbortSignal, publicCutId?: string | null): Promise<number> {
+  const result = await getProcesados({ solo_incompletos: 'true', solo_sospechosos: 'true', limit: 1, offset: 0 }, signal, publicCutId);
+  return result.total;
 }
 
-export async function getRiskDistribution(signal?: AbortSignal): Promise<RiskDistribution[]> {
-  return (await api.get('/api/procesados/metricas/distribucion-riesgo', { signal })).data;
+export async function getTopProviders(limit = 10, signal?: AbortSignal, publicCutId?: string | null): Promise<TopProvider[]> {
+  return (await api.get('/api/procesados/metricas/top-proveedores', { params: { limit }, signal, headers: publicCutHeaders(publicCutId) })).data;
 }
 
-export async function getAnomalyDistribution(signal?: AbortSignal): Promise<AnomalyDistribution[]> {
-  return (await api.get('/api/procesados/metricas/distribucion-anomalias', { signal })).data;
+export async function getRiskDistribution(signal?: AbortSignal, publicCutId?: string | null): Promise<RiskDistribution[]> {
+  return (await api.get('/api/procesados/metricas/distribucion-riesgo', { signal, headers: publicCutHeaders(publicCutId) })).data;
+}
+
+export async function getAnomalyDistribution(signal?: AbortSignal, publicCutId?: string | null): Promise<AnomalyDistribution[]> {
+  return (await api.get('/api/procesados/metricas/distribucion-anomalias', { signal, headers: publicCutHeaders(publicCutId) })).data;
 }

@@ -1,0 +1,118 @@
+{
+  "date_bogota": "2026-10-18",
+  "scope": "Investigación documental acotada, sin etiquetas ni acceso a la base publicada",
+  "acquisition_report": "runs/20261019T044735526369Z.json",
+  "acquisition_sources": [
+    {
+      "source_id": "spi-traslados-index",
+      "url": "https://cortesuprema.gov.co/notificaciones-sala-especial-de-primera-instancia-traslados/",
+      "sha256": "829a9f8e97b469ca1cbfc82862756a9968b4c38d949110a53d4081783dcb14f1",
+      "bytes": 181818
+    },
+    {
+      "source_id": "00904-recurrentes-20260407",
+      "url": "https://archivodigitalapi.cortesuprema.gov.co/share/2026/4/Traslados/00904Recurrentes20260407.pdf",
+      "sha256": "91b157368f48529656e595b732723a456e84af78679646c66f2f501b9176e705",
+      "bytes": 192990
+    },
+    {
+      "source_id": "00904-noapelantes-20260413",
+      "url": "https://archivodigitalapi.cortesuprema.gov.co/share/2026/4/Traslados/00904NoApelantes20260413.pdf",
+      "sha256": "1ae80c9e02c04d4f8953d33cb22d5347aafc4c52a0f24c496c82efd27de946d9",
+      "bytes": 218078
+    },
+    {
+      "source_id": "00641-recurrentes-20250516",
+      "url": "https://archivodigitalapi.cortesuprema.gov.co/share/2025/5/Traslados/00641TrasladoRecurrentes20250516.pdf",
+      "sha256": "50b3c0b1de9eab6ecae810fb729f45bc9dbbfcf480b7a84c84995b2e51add16a",
+      "bytes": 658285
+    },
+    {
+      "source_id": "00641-norecurrentes-20250530",
+      "url": "https://archivodigitalapi.cortesuprema.gov.co/share/2025/5/Traslados/00641NoRecurrentes20250530.pdf",
+      "sha256": "956e1da78a36aac6be594640b6ff8e44b2515a381c43971de20b1d72149ca5fb",
+      "bytes": 691256
+    },
+    {
+      "source_id": "csj-melo-casacion-comunicado",
+      "url": "https://cortesuprema.gov.co/sala-de-casacion-penal-ratifica-condena-por-cohecho-e-interes-indebido-en-contratacion-contra-exdirectivo-vinculado-al-caso-odebrech/",
+      "sha256": "10797005fc9a1e599506cb3ba8b7bdf63f2d4c01193fe60c31ba9a4c99392b8f",
+      "bytes": 73362
+    },
+    {
+      "source_id": "csj-sp1919-2025-58953",
+      "url": "https://archivodigitalapi.cortesuprema.gov.co/share/2025/9/Sentencias/SP1919-2025%20(58953).pdf",
+      "sha256": "454526891e3105802d189f70db246450beacad60df2098b92ab41ae9b58b1323",
+      "bytes": 6335791
+    }
+  ],
+  "judicial_events": [
+    {
+      "case_id": "csj-sep042-2026-00904-discovery",
+      "document_date": "2026-04-13",
+      "effect": "RECURSO_INTERPUESTO_Y_SUSTENTADO_EN_FECHA_DOCUMENTO",
+      "physical_page": 1,
+      "source_sha256": "1ae80c9e02c04d4f8953d33cb22d5347aafc4c52a0f24c496c82efd27de946d9",
+      "current_pending_status_not_inferred": true
+    },
+    {
+      "case_id": "csj-sep060-2025-00641",
+      "document_date": "2025-05-30",
+      "effect": "RECURSOS_INTERPUESTOS_Y_SUSTENTADOS_EN_FECHA_DOCUMENTO",
+      "physical_page": 1,
+      "source_sha256": "956e1da78a36aac6be594640b6ff8e44b2515a381c43971de20b1d72149ca5fb",
+      "current_pending_status_not_inferred": true
+    }
+  ],
+  "secop_integrated": {
+    "dataset": "rpmr-utcd",
+    "metadata_sha256": "65e7ca3fb57528923504729caae2326016a747d440b45854a75afad33af27a38",
+    "provenance": "official",
+    "current_snapshots_not_stage_evidence": true,
+    "candidate_362_2012": {
+      "body_sha256": "ae9aabc1a1baf891b6cc5e66625d038afdf85dfd3fb06004df7ca10a6752ce67",
+      "source_published_identifier": "12-9-357532",
+      "process_reference": "SU-06-09-2012",
+      "signature_date": "2012-12-10",
+      "buyer_nit": "800102838",
+      "supplier_raw": "CONSORCIO R& S 2012",
+      "supplier_document_raw": "9005727124",
+      "compared_judgment_page": 4,
+      "agreement": "Entidad, fecha, objeto y consorcio; no aparece el número literal 362 ni identidad de adjudicación en esta respuesta",
+      "status": "CORRESPONDENCIA_CANDIDATA_NO_CONCILIACION_LOCAL"
+    },
+    "candidate_497_2013": {
+      "body_sha256": "b3a7fd218f161a97360d006158a43363d68bcb400dfe8423243059f163934515",
+      "source_published_identifier": "13-9-372325",
+      "process_reference": "SU-06-14-2013",
+      "archive_link_previously_observed": true,
+      "valor_contrato_integrated": "7335272000",
+      "award_value_archive": "7312940179",
+      "amount_disagreement_unresolved": true
+    },
+    "ruta_del_sol": {
+      "body_sha256": "3794ba90266dec3eb8dade3cef61ca59ef9a4d605706df1208dee88fde51780f",
+      "source_published_identifier": "09-1-41316",
+      "process_reference": "SEA LP 001 2009",
+      "returned_rows": 4,
+      "distinct_supplier_raw_names": 2,
+      "official_award_id_not_obtained": true,
+      "no_process_wide_label": true
+    },
+    "query_reports": [
+      "secop-research/integrated-lookups-20261018.json",
+      "secop-research/integrated-lookups-rev2-20261018.json",
+      "secop-research/integrated-targeted-lookups-20261018.json"
+    ],
+    "limitations": [
+      "La selección :id,* produjo HTTP 400; se corrigió la consulta, sin interpretar el error como ausencia de datos.",
+      "v58r-zq4a tiene procedencia community; no se utiliza como fuente oficial. xvdy-vvsk devolvió HTTP 403.",
+      "La consulta por texto CONCESIONES y RUTA SOL devolvió contratos de Cundinamarca distintos; la búsqueda por referencia localizó el proceso pertinente.",
+      "No se obtuvieron documentos del portal contratos.gov.co mediante la herramienta web; no se simulan detalles ni adjudicaciones."
+    ]
+  },
+  "training_labels_created": 0,
+  "database_modified": false,
+  "models_trained": 0,
+  "publication_activated": false
+}

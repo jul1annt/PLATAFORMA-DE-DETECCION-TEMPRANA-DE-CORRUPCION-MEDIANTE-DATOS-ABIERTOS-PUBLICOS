@@ -25,6 +25,7 @@ class ContratoAnomaloIncompleto(Base):
     
     campo_afectado  = Column(String(100), nullable=False)   # nombre de la columna afectada
     created_at      = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+    riesgo_desde_revision = Column(BigInteger, nullable=False, server_default='0')
 
     __table_args__ = (
         Index("ix_cai_motivo",       "motivo"),

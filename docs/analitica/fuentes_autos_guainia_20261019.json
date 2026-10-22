@@ -1,0 +1,7 @@
+{
+  "scope": "Índices oficiales para localizar actuaciones posteriores al fallo; no acreditan firmeza por sí solos.",
+  "sources": [
+    {"id":"spi-autos-index-20261019","kind":"INDICE","url":"https://cortesuprema.gov.co/sala-especial-de-primera-instancia-autos/"},
+    {"id":"spi-secretaria-index-20261019","kind":"INDICE","url":"https://cortesuprema.gov.co/sala-especial-de-primera-instancia-secretaria/"}
+  ]
+}

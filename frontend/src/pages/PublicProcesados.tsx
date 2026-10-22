@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { FileDown, FileSpreadsheet, FileText } from 'lucide-react';
 import type { Procesado, MetricasCalidad, CampoFaltante, QualityFilterType } from '../types/procesado';
 import { getProcesados, getMetricasCalidad, getCamposFaltantes, toProcesadosApiParams, downloadProcesadosExport } from '../services/procesadosService';
 import { QualitySummaryBanner } from '../components/QualitySummaryBanner';
+import { CamposFaltantesTable } from '../components/calidad/CamposFaltantesTable';
 import { SearchAutocomplete } from '../components/SearchAutocomplete';
 import { PublicNavbar } from '../components/layout/PublicNavbar';
+import { RiskEvidence } from '../components/RiskEvidence';
+import { getRiskStatus } from '../services/riskService';
 import { getErrorMessage } from '../utils/errors';
 import { formatCalendarDate, formatDecimalAmount } from '../utils/format';
 import { runAbortableRequest } from '../utils/abortableRequest';
@@ -19,6 +22,8 @@ export const PublicProcesados: React.FC = () => {
   const [procesados, setProcesados] = useState<Procesado[]>([]);
   const [metricas, setMetricas] = useState<MetricasCalidad | null>(null);
   const [camposFaltantes, setCamposFaltantes] = useState<CampoFaltante[]>([]);
+  const [showAllMissingFields, setShowAllMissingFields] = useState(false);
+  const allMissingFieldsRef = useRef<HTMLDivElement>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -39,6 +44,9 @@ export const PublicProcesados: React.FC = () => {
 
 
   const activeFilter = (searchParams.get('calidad') as QualityFilterType) || 'ALL';
+  useEffect(() => {
+    if (showAllMissingFields) allMissingFieldsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, [showAllMissingFields]);
   const setActiveFilter = (filter: QualityFilterType) => {
     const newParams = new URLSearchParams(searchParams);
     if (filter === 'ALL') {
@@ -51,6 +59,7 @@ export const PublicProcesados: React.FC = () => {
   };
 
   const [totalItems, setTotalItems] = useState(0);
+  const [publicCutId,setPublicCutId] = useState<string | null>(null);
   const [exportingFormat, setExportingFormat] = useState<'csv' | 'xlsx' | 'pdf' | null>(null);
   const [exportError, setExportError] = useState<string | null>(null);
   
@@ -134,11 +143,15 @@ export const PublicProcesados: React.FC = () => {
     params.order = order;
 
     const request = runAbortableRequest(
-      (signal) => Promise.all([
-        getProcesados(params, signal),
-        getMetricasCalidad(signal),
-        getCamposFaltantes(signal),
-      ]),
+      async (signal) => {
+        const publication=await getRiskStatus(signal);
+        const selected=publication?.public_cut_id ?? null;
+        return Promise.all([
+          getProcesados(params,signal,selected),
+          getMetricasCalidad(signal,selected),
+          getCamposFaltantes(signal,selected),
+        ]);
+      },
       {
         onStart: () => {
           setLoading(true);
@@ -149,6 +162,7 @@ export const PublicProcesados: React.FC = () => {
           setTotalItems(procesadosData.total);
           setMetricas(metricasData);
           setCamposFaltantes(camposData);
+          setPublicCutId(procesadosData.publicCutId??null);
         },
         onError: (err) => setError(getErrorMessage(err, 'Error al cargar los datos')),
         onFinally: () => setLoading(false),
@@ -191,7 +205,7 @@ export const PublicProcesados: React.FC = () => {
     setExportingFormat(format);
     setExportError(null);
     try {
-      await downloadProcesadosExport(format, toProcesadosApiParams(searchParams));
+      await downloadProcesadosExport(format, toProcesadosApiParams(searchParams),publicCutId);
     } catch (err: unknown) {
       setExportError(getErrorMessage(err, 'No se pudo generar la exportación.'));
     } finally {
@@ -274,7 +288,14 @@ export const PublicProcesados: React.FC = () => {
               camposFaltantes={camposFaltantes}
               activeFilter={activeFilter}
               onFilterChange={setActiveFilter}
+              onViewAll={() => setShowAllMissingFields((visible) => !visible)}
+              showingAllFields={showAllMissingFields}
             />
+            {showAllMissingFields ? (
+              <div ref={allMissingFieldsRef} className="mb-8 scroll-mt-24" aria-live="polite">
+                <CamposFaltantesTable campos={camposFaltantes} />
+              </div>
+            ) : null}
 
             {/* Controles de Filtros */}
             <div className="flex flex-col gap-4 mb-8">
@@ -731,6 +752,7 @@ export const PublicProcesados: React.FC = () => {
             </div>
           </>
         )}
+        {!loading && !error ? <RiskEvidence rawIds={procesados.map(item => item.raw_secop_id)} publicCutId={publicCutId} /> : null}
       </main>
     </div>
   );

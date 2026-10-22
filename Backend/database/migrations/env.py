@@ -29,6 +29,8 @@ from modules.auth.model.Admin import Admin
 from modules.auth.model.AdminSession import AdminSession
 from modules.auth.model.LoginAttempt import LoginAttempt
 from modules.jobs.model import BackgroundJob
+from modules.motor_riesgo.models import JudicialCase, RiskModel, RiskCut, RiskResult, RiskPublication, RiskAudit, RiskDataVersion, RiskFeatureEvidence
+from modules.motor_riesgo.models import CitizenSnapshot, CitizenPublication
 
 
 # Alembic Config object

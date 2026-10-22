@@ -1,0 +1,67 @@
+{
+  "date_bogota": "2026-10-19",
+  "policy": "contract-result-strata-v1",
+  "scope": "Selección exploratoria de resultados contractuales por rangos UUID, no censo ni muestra de corrupción.",
+  "selected_rows": 841,
+  "identity_eligible_awards_for_descriptive_analysis": 510,
+  "excluded_ambiguous_units": 331,
+  "iqr_evaluable_in_retained_units": 510,
+  "iqr_legacy_findings": 52,
+  "verified_reiteration_observations": 24,
+  "unknown_reiteration": 486,
+  "joint_comparison_performed": false,
+  "joint_minimum": 30,
+  "repeat_evaluation_identical": true,
+  "input_sha256": "5cd2a832c8e004aebf2e91d4611ad80deb1e27fc3a420ac0eab26964eb93ff7e",
+  "report_sha256": "aa9f5d9cc97c68e84f4e12da4a9a19aa8f7d8a01de897906e8434df79f45c857",
+  "implementation_sha256": {
+    "scripts/risk_contract_strata.py": "275eab49ea5ecf0b7d5373ea056ecd30a3efdc794e0ed6854c1587dd476f0c84",
+    "modules/motor_riesgo/contract_strata.py": "cf61b1f0730d4d10151e1e3f11c385da91cd82a8fc8354125967271cc11b8764",
+    "modules/motor_riesgo/weight_lab.py": "eeb456b49a88d9185ae7d3d297f86a53b3ef89ab99420c31223ea91b45925354",
+    "modules/motor_riesgo/domain.py": "48d8fe00d07572047f57460ea05aace1f30c464b919073b80075afbbe7a430dd"
+  },
+  "private_acquisition_sha256": {
+    "export_contract_strata_20261019.py": "ce2c70f714c5055ddf55f94c0accf82158d70867ff0c432f828afe2ca48acd91",
+    "enrich_contract_strata_20261019.py": "5ee6637796eb5a0335f50c8c7f70b81327033fd528f771d615860c72b3356b19"
+  },
+  "performance": {
+    "base_selection_and_metadata_seconds": 14.162990299984813,
+    "bounded_identity_and_pair_enrichment_seconds": 18.93580809998093,
+    "identity_max_matches": 2,
+    "per_statement_timeout_seconds": 10,
+    "failed_initial_query_timeout_seconds": 30,
+    "failed_combined_batch_timeout_seconds": 10,
+    "failed_unbounded_grouped_alias_lookup_timeout_seconds": 10,
+    "failed_smaller_grouped_alias_lookup_timeout_seconds": 10,
+    "timeouts_are_failures_not_successful_checks": true,
+    "original_slow_plan_sha256": "b37f50c62d74a98bb206138fbdf5ec66a9eaccfa8bcfbffd356d81e72d39130f"
+  },
+  "tests": {
+    "run_id": "c76bab3b0eff43e8b1c72578b8bd37bb",
+    "tests": 81,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 1.081,
+    "junit_sha256": "201839715b37f1a2d92076c4143d46fef7993fa4647957578b418ddf2a73ca9f"
+  },
+  "production_checks": {
+    "oid": 24577,
+    "schema": "3c19a8f7e2d0",
+    "weights": {
+      "OUTLIER": "1.00",
+      "DUPLICADO_CORTO": "1.50",
+      "ABUSO_DIRECTO": "2.00"
+    },
+    "release_ref": "794d185832c7c56ffa4d91ef08ca1f3d15128be5",
+    "publication_cut_date": "2026-10-01",
+    "read_only": true
+  },
+  "database_writes": false,
+  "dependencies_added": false,
+  "training_performed": false,
+  "third_parties_contacted": false,
+  "publication_changed": false,
+  "full_backend_suite_rerun": false,
+  "remaining": "Repetir comparaciones conjuntas con cobertura y unidades suficientes por estrato; evaluar familias corregidas sin trasladar scores de proveedor."
+}

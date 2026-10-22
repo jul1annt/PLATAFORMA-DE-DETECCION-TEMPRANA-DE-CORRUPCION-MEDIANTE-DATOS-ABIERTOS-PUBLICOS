@@ -3,6 +3,7 @@ from pydantic_settings import BaseSettings, NoDecode, SettingsConfigDict
 from typing import Annotated
 from cryptography.fernet import Fernet
 from urllib.parse import urlsplit
+from datetime import date
 
 
 def normalize_cors_origins(origins: list[str]) -> list[str]:
@@ -65,6 +66,10 @@ class Settings(BaseSettings):
     EXPORT_MAX_ROWS: int = 50000
     EXPORT_CAPABILITY_TTL_HOURS: int = 24
     EXPORT_ARTIFACT_TTL_HOURS: int = 24
+    RISK_WORK_DIR: str = "var/risk"
+    RISK_TRAINING_PYTHON: str = ""
+    RISK_INFERENCE_PYTHON: str = ""
+    RISK_BASELINE_CUT_DATE: date = date(2026, 10, 1)
 
     @property
     def DATABASE_URL(self) -> str:

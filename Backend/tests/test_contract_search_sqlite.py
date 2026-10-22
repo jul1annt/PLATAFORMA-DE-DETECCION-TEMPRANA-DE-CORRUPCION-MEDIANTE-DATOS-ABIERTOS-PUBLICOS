@@ -40,7 +40,8 @@ def _engine_with_contracts():
                 score_riesgo NUMERIC,
                 riesgo_run_id TEXT,
                 created_at DATETIME,
-                procesado_en DATETIME
+                procesado_en DATETIME,
+                riesgo_desde_revision BIGINT NOT NULL DEFAULT 0
             )
             """
         )

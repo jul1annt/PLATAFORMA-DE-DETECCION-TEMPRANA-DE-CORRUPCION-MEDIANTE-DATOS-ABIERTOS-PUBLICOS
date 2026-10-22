@@ -1,0 +1,23 @@
+{
+  "date": "2026-10-19",
+  "secop_acquired_documents_verified": 3,
+  "judicial_index_and_notices_verified": 6,
+  "draft_identical_to_ani_copy": true,
+  "secondary_ids_remain_unverified": true,
+  "secop_visual_reviews": {
+    "bd7d800f3cf01fbd85e9a363c64a0da7dd98236a41e4df455facc275898dbc92": [
+      1,
+      5,
+      6
+    ],
+    "4b685ccf5f4784cb4860706e92e8e2cffb2744ad8e1cbc32048b97fc85f8f037": [
+      28,
+      29,
+      30
+    ]
+  },
+  "training_labels_created": 0,
+  "historical_observations_admitted": 0,
+  "database_accessed": false,
+  "publication_activated": false
+}

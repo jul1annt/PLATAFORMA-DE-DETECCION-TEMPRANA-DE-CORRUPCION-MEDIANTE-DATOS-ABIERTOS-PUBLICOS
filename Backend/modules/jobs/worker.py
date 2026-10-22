@@ -111,6 +111,15 @@ def _execute(
             result = IngestaService(work_db).sincronizar_fuente(
                 int(payload["fuente_id"]), job_id=job_id
             )
+        elif kind == "RIESGO_ENTRENAR":
+            from modules.motor_riesgo.service import train_job
+            result = train_job(work_db, payload['dataset'], job_public_id)
+        elif kind == "RIESGO_ACTUALIZAR":
+            from modules.motor_riesgo.pipeline import update_job
+            result = update_job(work_db, job_id, job_public_id, payload)
+        elif kind == 'RIESGO_BASE_CIUDADANA':
+            from modules.motor_riesgo.publication import prepare_baseline_job
+            result=prepare_baseline_job(work_db,job_public_id)
         elif kind == "ANALITICA":
             from modules.analitica.dto.request import (
                 AdjudicacionDirectaCalculoRequest,
@@ -211,6 +220,16 @@ def _process_next_job(lease_db, connection_alive) -> bool:
                 for fmt in ("csv", "xlsx", "pdf"):
                     artifact_path(job_public_id, fmt).unlink(missing_ok=True)
             error_id = uuid.uuid4()
+            if kind == 'RIESGO_ACTUALIZAR':
+                from modules.motor_riesgo.models import RiskCut, RiskPublication
+                cut_id = uuid.UUID(payload['cut_id']) if payload.get('cut_id') else uuid.uuid5(job_public_id, 'risk-cut')
+                cut = lease_db.get(RiskCut, cut_id)
+                if cut and cut.status != 'PUBLICADO':
+                    cut.status = 'BLOQUEADO'
+                    cut.context = {**cut.context, 'error_id': str(error_id)}
+                pointer = lease_db.get(RiskPublication, 1)
+                if pointer:
+                    pointer.daily_enabled = False
             logger.error(
                 "Fallo en trabajo %s, referencia %s, tipo=%s",
                 job_id,

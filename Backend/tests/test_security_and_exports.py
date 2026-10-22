@@ -354,7 +354,8 @@ def test_contract_export_applies_filters_and_exports_all_filtered_rows(monkeypat
             return rows, len(rows)
 
     monkeypatch.setattr(transformacionController, "TransformacionRepository", Repository)
-    app.dependency_overrides[get_db] = lambda: object()
+    monkeypatch.setattr('modules.motor_riesgo.publication.select_snapshot',lambda _db,_selected=None:None)
+    app.dependency_overrides[get_db] = lambda: SimpleNamespace(info={})
     try:
         response = client.get(
             "/api/procesados/export/xlsx?limit=10&offset=20&q=acme&solo_sospechosos=true&order=asc"

@@ -7,6 +7,7 @@ const DataQualityDashboard = lazy(() => import('../pages/DataQualityDashboard').
 const PublicProcesados = lazy(() => import('../pages/PublicProcesados').then((module) => ({ default: module.PublicProcesados })));
 const PublicContratoDetalle = lazy(() => import('../pages/PublicContratoDetalle').then((module) => ({ default: module.PublicContratoDetalle })));
 const PublicDashboard = lazy(() => import('../pages/PublicDashboard').then((module) => ({ default: module.PublicDashboard })));
+const PublicIndiciosMvp = lazy(() => import('../pages/PublicIndiciosMvp').then((module) => ({ default: module.PublicIndiciosMvp })));
 const AdminLogin = lazy(() => import('../pages/admin/AdminLogin'));
 const AdminDashboard = lazy(() => import('../pages/admin/AdminDashboard'));
 const AdminSyncLogs = lazy(() => import('../pages/admin/AdminSyncLogs'));
@@ -20,6 +21,7 @@ export function DataQualityDashboardRoute() { return <DataQualityDashboard />; }
 export function PublicProcesadosRoute() { return <PublicProcesados />; }
 export function PublicContratoDetalleRoute() { return <PublicContratoDetalle />; }
 export function PublicDashboardRoute() { return <PublicDashboard />; }
+export function PublicIndiciosMvpRoute() { return <PublicIndiciosMvp />; }
 export function AdminLoginRoute() { return <AdminLogin />; }
 export function AdminDashboardRoute() { return <AdminDashboard />; }
 export function AdminSyncLogsRoute() { return <AdminSyncLogs />; }

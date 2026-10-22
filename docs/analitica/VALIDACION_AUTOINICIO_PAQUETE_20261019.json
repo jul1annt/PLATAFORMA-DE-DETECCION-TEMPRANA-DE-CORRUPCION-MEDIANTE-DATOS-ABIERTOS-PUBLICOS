@@ -1,0 +1,62 @@
+{
+  "created_at": "2026-10-19T22:36:32.898661+00:00",
+  "scope": "Instalador desde el runtime y backend seleccionados. Registro y arranque positivos simulados; rechazo real sin modelos aprobados. No instalación de tarea Windows.",
+  "files_sha256": {
+    "scripts/install_risk_autostart.ps1": "2fa62c2bc549348b1ee7469e10b2b9903a471956aee915268d56a6aac9367c5e",
+    "tests/test_risk_autostart.py": "477b5278a3564acad3a538b9fb319ca4ab10b1219978fc3787e0767b80e1d78b"
+  },
+  "focused_tests": {
+    "passed": 13,
+    "seconds": 16.49,
+    "host": "Windows PowerShell",
+    "task_cmdlets_simulated": true
+  },
+  "full_backend_tests": {
+    "run_id": "1ec00c40567d47b684e438126694f41a",
+    "passed": 744,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "junit_seconds": 76.271,
+    "junit_sha256": "4adfff7d4d80430d55d69422402ed084c4729c2d31d0708499dcb1c408ca4c4b"
+  },
+  "native_pending_models_refusal": {
+    "report_sha256": "3c07e42223067b3b9a9f053c65c5c5512d9f111c2a82e42fbdf93643989aad01",
+    "modes": [
+      {
+        "mode": "install",
+        "exit_code": 1,
+        "gate_rejected_missing_models": true,
+        "log_sha256": "fab79c6ecca913c058f6be2640f10f17bca2fe2db1e388b7cf41d17050248286"
+      },
+      {
+        "mode": "run",
+        "exit_code": 1,
+        "gate_rejected_missing_models": true,
+        "log_sha256": "fab79c6ecca913c058f6be2640f10f17bca2fe2db1e388b7cf41d17050248286"
+      }
+    ],
+    "packaged_installer_executed": true,
+    "package_backend_has_no_venv": true
+  },
+  "package_revision": {
+    "revision": 3,
+    "ref": "worktree-3708e33f0a8ff1b490f2",
+    "backend_snapshot_sha256": "3708e33f0a8ff1b490f2f49ce452e3364b07f8c0771a9d58efa2928cd52190ea",
+    "only_changed_file": "scripts/install_risk_autostart.ps1",
+    "previous_native_validation_sha256": "6f5457274e388fc3e599878b5b030f330ef258d6cb3c70f4d3ba359fcd3340e0",
+    "previous_complete_cycles_not_repeated": true
+  },
+  "published_binding_hashes_unchanged": true,
+  "windows_task_installed": false,
+  "service_started_by_installer": false,
+  "login_trigger_executed_in_windows": false,
+  "real_models_approved": false,
+  "publication_activated": false,
+  "pending": [
+    "Evidencia judicial e histórica suficiente",
+    "Entrenamiento y evaluación real por etapa",
+    "Instalación y comprobación del inicio de sesión con modelos aprobados",
+    "Recursos, publicación, recuperación y reversa finales"
+  ]
+}

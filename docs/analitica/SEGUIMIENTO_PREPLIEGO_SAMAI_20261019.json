@@ -1,0 +1,103 @@
+{
+  "date_bogota": "2026-10-19",
+  "case_id": "csj-sp1919-2025-58953",
+  "state": "LOCALIZACION_DE_ORIGINALES_Y_CRONOLOGIA_EN_CURSO",
+  "documents": [
+    {
+      "source_id": "ani-prepliego-ruta-sol-20090309",
+      "url": "https://wwwold.ani.gov.co/sites/default/files/contratos_anteriores/file_doc_procesos11684.pdf",
+      "sha256": "8ae976fa9a3f2edcd83d3bc99a8944eadd1893d7d1312801c73b1e7b7a20fcd9",
+      "physical_pages": 105,
+      "visually_reviewed_pages": [
+        1,
+        26,
+        27
+      ],
+      "receipt": "runs/20261019T045848446630Z.json"
+    },
+    {
+      "source_id": "ani-adenda12-ruta-sol",
+      "url": "https://wwwold.ani.gov.co/sites/default/files/contratos_anteriores/file_doc_procesos14530.pdf",
+      "sha256": "8ac51fdb0da4db7201aa3a6374fd5248a097abbc8116a4a2db5a406dee9ac2e8",
+      "physical_pages": 2,
+      "visually_reviewed_pages": [
+        2
+      ],
+      "receipt": "runs/20261019T045848446630Z.json"
+    },
+    {
+      "source_id": "ce-64048-accion-popular-referencia-indice166",
+      "url": "https://www.consejodeestado.gov.co/wp-content/uploads/2023/64048%20sentencia.pdf",
+      "sha256": "a5d09656fcfcd13030de1eb4ea415a419a1a899a5b917ae96cbccf73936c55d7",
+      "physical_pages": 87,
+      "visually_reviewed_pages": [
+        35
+      ],
+      "receipt": "runs/20261019T050113189123Z.json"
+    }
+  ],
+  "prepliego": {
+    "project_not_final_terms": true,
+    "process_as_displayed": "SEA-LP-001-2009",
+    "cover_month": "2009-03",
+    "version_as_displayed": "V.5.-030309",
+    "filename_or_metadata_not_publication_proof": true,
+    "pdf_creation_metadata_no_timezone": "D:20090310002828",
+    "blank_schedule_dates_verified_on_pages": [
+      26,
+      27
+    ],
+    "do_not_fill_from_later_document": true,
+    "stage_observation_accepted": false
+  },
+  "adenda12": {
+    "dated_as_written": "2009-10-21",
+    "consolidated_versions_referenced": true,
+    "consolidated_attachments_not_obtained": true,
+    "not_usable_as_initial_call_evidence": true,
+    "reference_to_signed_original_is_not_visible_signature_verification": true
+  },
+  "judicial_reference": {
+    "jurisdiction": "CONTENCIOSO_ADMINISTRATIVO",
+    "case_type": "ACCION_POPULAR",
+    "docket": "25000234100020170008302",
+    "internal_number": "64048",
+    "decision_date": "2023-07-27",
+    "physical_page": 35,
+    "section": "29.2",
+    "referred_original_penal_judgments": "Primera y segunda instancia del proceso penal de José Elías Melo Acosta, índice 166 de SAMAI",
+    "not_used_as_penal_conviction_or_finality": true
+  },
+  "samai_lookup": {
+    "consultation_url": "https://samai.consejodeestado.gov.co/Vistas/Casos/procesos.aspx?id=25000234100020170008302",
+    "corporation_selected": "Consejo de Estado",
+    "public_results": 1,
+    "result_docket": "25000-23-41-000-2017-00083-02",
+    "result_internal_number": "64048",
+    "detail_url": "https://samai.consejodeestado.gov.co/Vistas/Casos/list_procesos.aspx?guid=250002341000201700083021100103",
+    "detail_access": "CAPTCHA_PRESENTE",
+    "captcha_completed": false,
+    "explicit_captcha_authorization_requested": true,
+    "credentials_used": false,
+    "detail_or_index166_documents_not_obtained": true,
+    "no_current_case_state_inferred_from_search_badge": true
+  },
+  "tool_validation": {
+    "created_at": "2026-10-19T05:02:48.191431+00:00",
+    "tests_run": 28,
+    "failures": 0,
+    "errors": 0,
+    "passed": true,
+    "collector_sha256": "0d9e5830c511a64f5c88e2243123e53ef4ab40019a3e4952a1e6d70b5b5df1f8",
+    "cache_report": "var\\risk\\judicial-discovery\\runs\\20261019T050248041338Z.json",
+    "documents_reused_without_network": 2,
+    "api_or_ml_dependencies_changed": false
+  },
+  "inventory_reference": "INVENTARIO_CASOS_REVISION9_20261018.json",
+  "registered_candidates": 11,
+  "eligible_training_cases": 0,
+  "training_performed": false,
+  "stage_observations_registered": 0,
+  "database_modified": false,
+  "publication_activated": false
+}

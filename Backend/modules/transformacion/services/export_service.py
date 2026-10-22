@@ -35,33 +35,23 @@ def generate_contract_export(db: Session, job_id: UUID, payload: dict) -> dict:
         raise ValueError("Orden de exportación inválido")
 
     row_limit = min(settings.EXPORT_MAX_ROWS, 1000) if fmt == "pdf" else settings.EXPORT_MAX_ROWS
-    items, total = TransformacionRepository(db).search_contratos(
-        filters,
-        skip=0,
-        limit=row_limit + 1,
-        sort=sort,
-        order=order,
-    )
-    if total > row_limit or len(items) > row_limit:
-        raise ExportLimitExceededError(
-            f"La exportación supera el límite de {row_limit} registros"
-        )
+    from modules.motor_riesgo.publication import read_snapshot
+    selected=UUID(payload['public_cut_id']) if payload.get('public_cut_id') else None
+    with read_snapshot(db,selected) as snapshot:
+        items,total=TransformacionRepository(db).search_contratos(filters,skip=0,limit=row_limit+1,sort=sort,order=order)
+        if total>row_limit or len(items)>row_limit:
+            raise ExportLimitExceededError(f'La exportación supera el límite de {row_limit} registros')
+        # Copy values before leaving the snapshot context expires ORM objects.
+        frozen_rows=[(item.id,item.entidad_normalizada,item.proveedor_normalizado,
+            item.modalidad_contratacion,item.valor_total_normalizado,item.fecha_publicacion_normalizada,
+            item.estado_normalizado,item.nivel_confianza,item.es_incompleto,item.es_sospechoso,item.clasificacion_riesgo) for item in items]
+        snapshot_id=snapshot['id'] if snapshot else None
 
     columns = (
         "ID", "Entidad", "Proveedor", "Modalidad", "Valor total", "Fecha publicación",
         "Estado", "Confianza", "Incompleto", "Sospechoso", "Riesgo",
     )
-    rows = (
-        (
-            item.id, item.entidad_normalizada, item.proveedor_normalizado,
-            item.modalidad_contratacion, item.valor_total_normalizado,
-            item.fecha_publicacion_normalizada, item.estado_normalizado,
-            item.nivel_confianza, item.es_incompleto, item.es_sospechoso,
-            item.clasificacion_riesgo,
-        )
-        for item in items
-    )
-    response = render_export(columns, rows, fmt, "contratos_calidad", "Contratos procesados")
+    response = render_export(columns, frozen_rows, fmt, "contratos_calidad", "Contratos procesados")
     # A disconnected attempt may finish rendering after its recovery. Distinct
     # filenames prevent it from overwriting the recovered attempt's artifact.
     artifact_id = uuid4()
@@ -72,6 +62,7 @@ def generate_contract_export(db: Session, job_id: UUID, payload: dict) -> dict:
         "filename": f"contratos_calidad.{fmt}",
         "media_type": response.media_type,
         "row_count": total,
+        "public_cut_id": snapshot_id,
         "size_bytes": path.stat().st_size,
         "sha256": checksum,
         "expires_at": datetime.fromtimestamp(expires_at, timezone.utc).isoformat(),

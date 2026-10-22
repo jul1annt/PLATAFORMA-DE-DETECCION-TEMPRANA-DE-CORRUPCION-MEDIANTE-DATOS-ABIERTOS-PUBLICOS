@@ -1,0 +1,185 @@
+{
+  "time": "2026-10-16T23:11:32.224485+00:00",
+  "state": "COMPLETE",
+  "scope": "Full isolated current SECOP capture and abstention-only inference, durable persistence recovery; no learned/approved models or citizen activation",
+  "source_rows": 9249545,
+  "source_oid": 75045,
+  "cut_id": "12123789-5a7a-491b-b564-4086b339b011",
+  "baseline_citizen_cut_id": "99f05e23-fd13-44a5-bcf9-c931e6c40dcd",
+  "publication_performed": false,
+  "real_models": 0,
+  "capture": {
+    "seconds": 2904.764632999999,
+    "coverage": {
+      "source_rows": 9249545,
+      "raw_rows_read": 9249545,
+      "normalized_rows_read": 9249545,
+      "observed_rows": 4261387,
+      "not_normalized_rows": 0,
+      "exclusions": {
+        "etapa_sin_confirmar": 4785322,
+        "estado_fuera_del_alcance": 202836
+      },
+      "stage_counts": {
+        "CONVOCATORIA": 3378967,
+        "ADJUDICACION": 882420
+      },
+      "observations_sha256": "434525503a7f8260c92a1c887dfca9b4b7f42fc299575eb9453b5a5c426a7df6",
+      "hash_scope": "uncompressed_jsonl_bytes",
+      "file_sha256": "5441b067ab4bd9dbe9ee4cf6bc4c9b9c95f41d560c2bf3bc32c87ef9d4ab83dd",
+      "file_bytes": 1440576735,
+      "encoding": "gzip"
+    }
+  },
+  "inference": {
+    "seconds": 531.0156664000096,
+    "input_rows": 4261387,
+    "evaluated_counts": {
+      "ADJUDICACION": 0,
+      "CONVOCATORIA": 0
+    },
+    "output_bytes": 870385190,
+    "output_sha256": "9eb391cd7b4a433ea6cd9ba66f86343a2e27f0af0fdcc2f86ce29d055eae5576",
+    "invocations": 1,
+    "actual_inference_peak_rss": null,
+    "memory_limitation": "Windows venv launcher was sampled; actual Python descendant RSS was not verified. Launcher values are not inference memory measurements."
+  },
+  "recovery": {
+    "first_committed_checkpoint": {
+      "lines": 1000,
+      "counts": {
+        "ADJUDICACION": 223,
+        "CONVOCATORIA": 777
+      },
+      "output_sha256": "9eb391cd7b4a433ea6cd9ba66f86343a2e27f0af0fdcc2f86ce29d055eae5576"
+    },
+    "verified_file_reuse_seconds": 12.558180300009553,
+    "resume_inference_invocations": 0,
+    "interrupted_checkpoint": {
+      "at": "2026-10-16T22:22:08.513717+00:00",
+      "lines": 1837000,
+      "counts": {
+        "ADJUDICACION": 380677,
+        "CONVOCATORIA": 1456323
+      },
+      "output_sha256": "9eb391cd7b4a433ea6cd9ba66f86343a2e27f0af0fdcc2f86ce29d055eae5576",
+      "count_validation": "Durable cursor read; persisted stage counts will be revalidated by persist_results on resume"
+    },
+    "persistence_complete": true
+  },
+  "runs": [
+    {
+      "resume": false,
+      "phases": [
+        {
+          "phase": "CAPTURE",
+          "seconds": 2904.764632999999,
+          "rows": 4261387,
+          "file_bytes": 1440576735
+        },
+        {
+          "phase": "INFERENCE",
+          "seconds": 531.0156664000096,
+          "input_rows": 4261387,
+          "output_bytes": 870385190
+        },
+        {
+          "phase": "PERSISTENCE",
+          "seconds": 0.8640433000109624
+        }
+      ],
+      "reader_errors": [],
+      "concurrent_readers": {
+        "requests": 13367,
+        "median_seconds": 0.005308000007062219,
+        "p95_seconds": 0.01155070000095293,
+        "max_seconds": 0.2098178000014741
+      },
+      "minimum_free_bytes": 79273840640,
+      "elapsed_seconds": 3437.172699700008,
+      "stop_reason": null,
+      "accessible_process_memory": {
+        "worker": {
+          "pid": 57688,
+          "sampled_peak_rss": 82034688,
+          "peak_commit": 66138112
+        },
+        "postgres_capture": {
+          "pid": 56548,
+          "sampled_peak_rss": 236638208,
+          "peak_commit": 94277632
+        }
+      }
+    },
+    {
+      "resume": true,
+      "phases": [
+        {
+          "phase": "INFERENCE",
+          "seconds": 12.558180300009553,
+          "input_rows": 4261387,
+          "output_bytes": 870385190
+        }
+      ],
+      "reader_errors": [],
+      "concurrent_readers": {
+        "requests": 5030,
+        "median_seconds": 0.006267649994697422,
+        "p95_seconds": 0.06546779999916907,
+        "max_seconds": 0.17906969999603461
+      },
+      "minimum_free_bytes": 83567955968,
+      "elapsed_seconds": 1320.951694000003,
+      "stop_reason": "Intentional cancellation of exact benchmark INSERT to serialize heavy I/O; confirmed batches retained. Not an unexplained production failure.",
+      "accessible_process_memory": {
+        "worker": {
+          "pid": 66932,
+          "sampled_peak_rss": 103194624,
+          "peak_commit": 88674304
+        }
+      }
+    },
+    {
+      "resume": true,
+      "phases": [
+        {
+          "phase": "INFERENCE",
+          "seconds": 15.23046940000495,
+          "input_rows": 4261387,
+          "output_bytes": 870385190
+        },
+        {
+          "phase": "PERSISTENCE",
+          "seconds": 1723.0155923999992
+        }
+      ],
+      "reader_errors": [],
+      "concurrent_readers": {
+        "requests": 6697,
+        "median_seconds": 0.005846300002303906,
+        "p95_seconds": 0.013115599998855032,
+        "max_seconds": 0.26555630000075325
+      },
+      "minimum_free_bytes": 81015005184,
+      "elapsed_seconds": 1738.4909794999985,
+      "stop_reason": null,
+      "accessible_process_memory": {
+        "worker": {
+          "pid": 61680,
+          "sampled_peak_rss": 100839424,
+          "peak_commit": 87371776
+        }
+      }
+    }
+  ],
+  "limitations": [
+    "Only abstention paths exercised; no predictive validation or approved-model inference throughput",
+    "Not total PostgreSQL or operating-system memory",
+    "Uncontrolled caches; additional isolated tests/capture ran during persistence",
+    "Candidate operational deployment and actual learned-model resource validation remain pending"
+  ],
+  "persisted_total": 4261387,
+  "results_table_bytes": 12726919168,
+  "source_signature_unchanged": true,
+  "baseline_pointer_unchanged": true
+}

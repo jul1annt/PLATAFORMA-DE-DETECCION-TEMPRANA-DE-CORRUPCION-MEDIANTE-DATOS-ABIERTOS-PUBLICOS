@@ -1,0 +1,38 @@
+{
+  "created_at": "2026-10-19T22:18:08.350383+00:00",
+  "scope": "Comprobación del intérprete antes del inicio; no ensayo operativo completo ni aprobación de modelos reales.",
+  "files_sha256": {
+    "Backend/scripts/risk_runtime_check.py": "b84866d22efe4147c6558056ef5b53fb5cdb45df3c63d6625da3a36d2deeb43b",
+    "Backend/scripts/risk_inference_probe.py": "69eba50f9d185d58e1ea6fd082ab22eae8e1e230e93174df67812456d6600ce4",
+    "Backend/tests/test_risk_inference_preflight.py": "cbc9f8ab8196fba12f0aac0bd89126a413ce13aba9a29b40b2ed0c76b93e9091"
+  },
+  "focused_validation": {
+    "passed": 33,
+    "seconds": 1.12,
+    "new_preflight_tests": 16,
+    "previous_permissions_tests": 17,
+    "real_independent_interpreter_accepted": true,
+    "real_api_interpreter_reuse_rejected": true
+  },
+  "complete_backend_validation": {
+    "run_id": "0110d08d39ae4730b2aa66cd8d68bbd7",
+    "runner": "Backend/.codex-e2e-postgres/run_risk_tests_20261016.py",
+    "arguments": ["tests"],
+    "working_directory": "Backend",
+    "passed": 707,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds_reported_by_pytest": 68.33,
+    "junit_sha256": "149840c10af1bbd0db9ff16326349d8d627fe40f64bc64d7e5e16ad5fd6baa8d",
+    "log_sha256": "95d6349b26a8b9575914c79beeaf6d0935ec1e595ae70db51b9333e1aa7ce0c2"
+  },
+  "training_runtime_required_for_daily_startup": false,
+  "training_dependencies_imported_by_probe": false,
+  "database_credentials_forwarded_to_probe": false,
+  "published_deployment_changed": false,
+  "supervisor_started": false,
+  "scheduler_installed_or_activated": false,
+  "real_models_trained_or_approved": false,
+  "final_operational_package_verified": false
+}

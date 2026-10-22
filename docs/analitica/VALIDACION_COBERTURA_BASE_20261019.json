@@ -1,0 +1,99 @@
+{
+  "date_bogota": "2026-10-19",
+  "recorded_at_utc": "2026-10-20T00:34:42.628580+00:00",
+  "policy": "binary-family-coverage-v1",
+  "code_sha256": {
+    "modules/motor_riesgo/baseline_coverage.py": "3bcd8a116dc56cf3f7d5cf9168c5a782b0f657a957fb5d8850125955acf684bb",
+    "modules/motor_riesgo/rules.py": "c4b78866d0c09f589dfe31d54a60dac20baac35ad21e3f7da2b528010b5c6713",
+    "analytics_ml/training.py": "9ae4846a0ad14f2bfb3fca98cf7ffb941ce47d1a47b89823abb7a4694db26369",
+    "analytics_ml/approval.py": "7c07d2c1245acfb14db22c4096abd81204896bbe36dab9a63831f3f85df5e177",
+    "scripts/risk_baseline_coverage.py": "55cdbb2f3736f9dda05645da6c89051fe8ca2ada11481c98258cc31b85ee1cee",
+    "tests/test_baseline_coverage.py": "77a6faf410b4807e9b76cc73f02148ca9dfcf5b59e492cb6a88afbfc8b2f6e58",
+    "tests/risk_training_smoke.py": "bce2ccea59e3989675f6f66d39f7ec1e8af4dc3760e846e45089851283273ccf",
+    "tests/test_risk_engine_postgres.py": "f4ca6b7867a784be37863334c6751608f83dc952276cf5851f693bb581d4d287"
+  },
+  "policy_sha256": "b1d8aa2c25b9e9f76b3838abcd44ad5636926d9d19db1bfdb8a6aee4a21c6183",
+  "test_runs": [
+    {
+      "run_id": "b814a59aa1cf4e01875aafd5312490e1",
+      "tests": 85,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0,
+      "seconds": 8.92,
+      "junit_sha256": "7c8f5b29ab80aeb2a33ed82ffcbf338526c716ac8c5e74edc1a38c8909a7ae72",
+      "log_sha256": "dd17960a79cd7942f8529f61f4eb0fda236f6060dff83ae8f1c9fe322e0eb4e4"
+    },
+    {
+      "run_id": "9e197edb42bb4312b9405ac5414a3ac3",
+      "tests": 142,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "seconds": 14.028,
+      "junit_sha256": "87265480a283f4b06df5b9b0164440972abd1fa61daa5c23b5c031a9de17974f",
+      "log_sha256": "1d09046f6ec7030c5bb2e59a775fafccd1266f75cdc175064515d50eb5540aaa"
+    },
+    {
+      "run_id": "07427b3e8ea04112a921e2234eff3671",
+      "tests": 788,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "seconds": 75.164,
+      "junit_sha256": "ceb2d8c00687e6d679ba457f393b4afa0146d5bf498f814e1018d31bcbb2be19",
+      "log_sha256": "04be2e07c2822f567c6932ba6bb3f6f2d57925a13331a810feaa243865ba243d"
+    },
+    {
+      "run_id": "9e63826a502848abb8f8d8a142d4e753",
+      "tests": 38,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "seconds": 0.462,
+      "junit_sha256": "09791c6f7010f18ef502756d7a6fd1486b6f322409c073bd17e555bdc210027d",
+      "log_sha256": "c3f93731ed706c3c448f0bcd7718dc275d4e0fc2fe6787bfa398f5a595630581"
+    }
+  ],
+  "full_suite_tests": 788,
+  "later_focused_tests": 38,
+  "focused_tests_overlap_full_suite": true,
+  "first_failure": "El ensayo sintético tenía IQR constante; se añadió dispersión comparable sin ligar presupuesto a la etiqueta.",
+  "database_checks": [
+    {
+      "oid": 82244,
+      "schema": "f67b120ce841",
+      "read_only": true,
+      "models": 0,
+      "reviewed_features": 0,
+      "publication": {
+        "cut_id": null,
+        "model_ids": {},
+        "daily_enabled": false
+      }
+    },
+    {
+      "oid": 24577,
+      "schema": "3c19a8f7e2d0",
+      "read_only": true,
+      "weights": {
+        "OUTLIER": "1.00",
+        "DUPLICADO_CORTO": "1.50",
+        "ABUSO_DIRECTO": "2.00"
+      }
+    }
+  ],
+  "release_ref": "794d185832c7c56ffa4d91ef08ca1f3d15128be5",
+  "cut_date": "2026-10-01",
+  "production_writes": false,
+  "production_weights_changed": false,
+  "real_models_trained": false,
+  "judicial_labels_added": 0,
+  "third_parties_contacted": false,
+  "deployment_changed": false,
+  "remaining_scope": [
+    "Comparación de transformaciones y referencias con muestras representativas",
+    "Sensibilidad y redundancia por sector, periodo y modalidad",
+    "Validación judicial y operación real antes de activar modelos"
+  ]
+}

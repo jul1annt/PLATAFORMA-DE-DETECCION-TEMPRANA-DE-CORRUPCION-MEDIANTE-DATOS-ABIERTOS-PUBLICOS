@@ -6,6 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { ShieldCheck, Lock, User, AlertCircle } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { useAuth } from '../../context/useAuth';
+import { BackButton } from '../../components/navigation/BackButton';
 import type { LoginRequest } from '../../types/auth';
 
 // ─── Validation schema ────────────────────────────────────────────────────────
@@ -68,6 +69,7 @@ const AdminLogin: React.FC = () => {
           </div>
 
           {/* Form */}
+          <div className="mb-5"><BackButton fallback="/public/dashboard" label="Vista pública" /></div>
           <form id="admin-login-form" onSubmit={handleSubmit(onSubmit)} className="space-y-5">
             {/* Username */}
             <div>

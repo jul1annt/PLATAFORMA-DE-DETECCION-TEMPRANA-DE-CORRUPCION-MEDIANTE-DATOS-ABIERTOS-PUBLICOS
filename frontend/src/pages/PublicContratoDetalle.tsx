@@ -5,6 +5,8 @@ import type { Procesado, AnomaliaContrato } from '../types/procesado';
 import { PublicNavbar } from '../components/layout/PublicNavbar';
 import { getErrorMessage } from '../utils/errors';
 import { formatCalendarDate, formatDecimalAmount } from '../utils/format';
+import { secopSourceUrl } from '../utils/secopLink';
+import { BackButton } from '../components/navigation/BackButton';
 
 
 export const PublicContratoDetalle: React.FC = () => {
@@ -27,7 +29,7 @@ export const PublicContratoDetalle: React.FC = () => {
         
         // Fetch anomalies if the record has suspicious/incomplete flags
         if (contratoData.raw_secop_id && (contratoData.es_sospechoso || contratoData.es_incompleto)) {
-          const anomaliasData = await getAnomaliasByRawSecopId(contratoData.raw_secop_id);
+          const anomaliasData = await getAnomaliasByRawSecopId(contratoData.raw_secop_id,contratoData.public_cut_id);
           setAnomalias(anomaliasData);
         }
       } catch (err: unknown) {
@@ -59,12 +61,14 @@ export const PublicContratoDetalle: React.FC = () => {
           </div>
           <h2 className="text-2xl font-black text-slate-800 mb-2">Contrato no encontrado</h2>
           <p className="text-slate-500 mb-8 font-medium">{error || "El registro solicitado no existe o no está disponible."}</p>
-          <button 
-            onClick={() => navigate('/public/procesados')}
+          <button
+            onClick={() => {
+              const index = window.history.state?.idx;
+              if (typeof index === 'number' && index > 0) navigate(-1);
+              else navigate('/public/procesados', { replace: true });
+            }}
             className="w-full py-4 bg-slate-900 text-white rounded-2xl font-bold uppercase tracking-widest text-sm hover:bg-slate-800 transition-colors"
-          >
-            Volver al listado
-          </button>
+          >Volver al listado</button>
         </div>
       </div>
     );
@@ -98,15 +102,7 @@ export const PublicContratoDetalle: React.FC = () => {
       <main className="max-w-[1000px] mx-auto px-8 py-6 relative z-10">
         {/* Back button */}
         <div className="mb-8">
-          <button
-            onClick={() => navigate('/public/procesados')}
-            className="flex items-center gap-2 px-5 py-2.5 bg-white border border-slate-200 text-slate-600 text-xs font-bold uppercase tracking-widest rounded-full hover:bg-slate-50 transition-all shadow-sm"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-            </svg>
-            Volver al listado
-          </button>
+          <BackButton fallback="/public/procesados" label="Volver al listado" />
         </div>
 
         
@@ -145,7 +141,7 @@ export const PublicContratoDetalle: React.FC = () => {
           <h1 className="text-4xl font-black text-indigo-950 tracking-tighter mb-2 leading-tight">
             Detalle del Contrato
           </h1>
-          <p className="text-slate-500 font-medium">ID Interno: {contrato.id} • Secop ID: {contrato.raw_secop_id}</p>
+            <p className="text-slate-500 font-medium">ID interno: {contrato.id} · Proceso SECOP: {contrato.id_del_proceso || 'Sin identificador oficial disponible'}</p>
         </div>
 
         {/* Sección: Información General */}
@@ -339,19 +335,7 @@ export const PublicContratoDetalle: React.FC = () => {
             
             <div className="mt-8 pt-8 border-t border-slate-100 flex justify-center">
               {(() => {
-                const getCleanUrl = (url?: string | null): string => {
-                  if (!url) return '';
-                  const trimmed = url.trim();
-                  if (!trimmed) return '';
-                  
-                  if (trimmed.startsWith('{') && trimmed.endsWith('}')) {
-                    const match = trimmed.match(/https?:\/\/[^\s'}"]+/);
-                    if (match) return match[0];
-                  }
-                  return trimmed;
-                };
-                
-                const cleanUrl = getCleanUrl(contrato.urlproceso);
+                const cleanUrl = secopSourceUrl(contrato.urlproceso);
                 
                 if (cleanUrl) {
                   return (

@@ -31,7 +31,8 @@ app.add_middleware(
     allow_origins=settings.CORS_ORIGINS,
     allow_credentials=False,
     allow_methods=["GET", "HEAD", "POST", "PUT", "PATCH", "DELETE"],
-    allow_headers=["Accept", "Authorization", "Content-Type", "X-Export-Token"],
+    allow_headers=["Accept", "Authorization", "Content-Type", "X-Export-Token", "X-Public-Cut"],
+    expose_headers=["X-Public-Cut", "X-Data-Cut-At"],
 )
 
 app.include_router(api_router)

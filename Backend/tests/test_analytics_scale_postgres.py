@@ -185,9 +185,9 @@ def test_outlier_and_duplicate_results_are_inserted_by_postgres(postgres_test_se
     session.add(source)
     session.flush()
 
-    values = [Decimal("100"), Decimal("120"), Decimal("130"), Decimal("1000")]
+    values = [Decimal(100+i) for i in range(30)] + [Decimal("1000")]
     raw_rows = [
-        RawSecop(fuente_id=source.id, id_del_proceso=f"pytest-sql-{suffix}-{index}")
+        RawSecop(fuente_id=source.id, id_del_proceso=f"pytest-sql-{suffix}-{index}", id_adjudicacion=f"AWARD-{index}", codigo_principal_de_categoria="80160000")
         for index in range(len(values))
     ]
     session.add_all(raw_rows)
@@ -199,7 +199,8 @@ def test_outlier_and_duplicate_results_are_inserted_by_postgres(postgres_test_se
             id_del_proceso=raw.id_del_proceso,
             proveedor_normalizado=f"Proveedor {suffix}",
             entidad_normalizada=f"Entidad {suffix}",
-            fecha_publicacion_normalizada=date(2026, 1, 1 + index * 3),
+            fecha_publicacion_normalizada=date(2026, 1, 1 + index),
+            nit_entidad=str(source.id),nit_proveedor_clave="900000001",
             valor_total_normalizado=value,
             tipo_contrato_normalizado="Servicios",
             modalidad_contratacion=f"Prueba {suffix}",
@@ -243,10 +244,10 @@ def test_outlier_and_duplicate_results_are_inserted_by_postgres(postgres_test_se
         proveedor=f"Proveedor {suffix}",
     ).count()
 
-    assert analyzed == 4
+    assert analyzed == 31
     assert outliers == 1
-    assert duplicates >= 3
-    assert own_duplicates == 3
+    assert duplicates >= 30
+    assert own_duplicates == 30
 
 
 def test_outlier_score_accepts_large_statistical_outliers(postgres_test_session):
@@ -262,9 +263,9 @@ def test_outlier_score_accepts_large_statistical_outliers(postgres_test_session)
     session.add(source)
     session.flush()
 
-    values = [Decimal("100"), Decimal("100.5"), Decimal("101"), Decimal("101.5"), Decimal("102"), Decimal("9000000000000")]
+    values = [Decimal("100")+Decimal(i)/10 for i in range(30)] + [Decimal("9000000000000")]
     raw_rows = [
-        RawSecop(fuente_id=source.id, id_del_proceso=f"pytest-score-{suffix}-{index}")
+        RawSecop(fuente_id=source.id, id_del_proceso=f"pytest-score-{suffix}-{index}", id_adjudicacion=f"AWARD-{index}", codigo_principal_de_categoria="80160000")
         for index in range(len(values))
     ]
     session.add_all(raw_rows)
@@ -311,6 +312,6 @@ def test_outlier_score_accepts_large_statistical_outliers(postgres_test_session)
         ).scalar_subquery(),
     ).one()[0]
 
-    assert analyzed == 6
+    assert analyzed == 31
     assert outliers == 1
     assert saved_score > Decimal("999999.9999")

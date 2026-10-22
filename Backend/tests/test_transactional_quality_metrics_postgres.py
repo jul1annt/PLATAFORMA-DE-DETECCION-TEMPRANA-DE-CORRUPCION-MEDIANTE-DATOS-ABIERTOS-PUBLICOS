@@ -9,6 +9,7 @@ from sqlalchemy.exc import DBAPIError, NoResultFound
 from sqlalchemy.orm import Session
 
 from modules.transformacion.repository.transformacion import TransformacionRepository
+from citizen_history_fixture import OwnedCitizenHistory
 
 DIRECT = """SELECT count(*) AS total,count(*) FILTER (WHERE es_incompleto IS TRUE) AS incompletos,
  count(*) FILTER (WHERE es_sospechoso IS TRUE) AS sospechosos,
@@ -114,11 +115,11 @@ def test_summary_and_contracts_roll_back_together_at_savepoint(postgres_test_ses
 def test_truncate_and_rollback_preserve_exact_summary(postgres_test_session):
     s=postgres_test_session
     _insert(s,_raw(s))
-    savepoint=s.begin_nested()
-    s.execute(text('TRUNCATE public.contratos_procesados CASCADE'))
-    assert s.execute(text('SELECT total,con_confianza,suma_confianza FROM public.contratos_metricas_calidad WHERE id=1')).one()==(0,0,0)
-    assert TransformacionRepository(s).get_metricas_calidad()['calificacion_confianza']=='SIN_DATOS'
-    savepoint.rollback()
+    # A complete truncate would destroy reversible citizen versions. The new
+    # policy refuses it before any source row or metric can disappear.
+    with pytest.raises(DBAPIError,match='Conservar versiones ciudadanas'):
+        with s.begin_nested():
+            s.execute(text('TRUNCATE public.contratos_procesados CASCADE'))
     _assert_exact(s)
 
 
@@ -195,6 +196,7 @@ def test_sqlite_keeps_original_aggregate_without_summary():
 def test_parallel_committed_writers_and_reader_observe_exact_totals(postgres_test_session):
     # Separate ordinary-role connections, real commits. Clean only our synthetic rows.
     engine=create_engine(postgres_test_session.connection().engine.url,pool_size=4,max_overflow=0)
+    owned_history=OwnedCitizenHistory(engine)
     source_ids=[]
     try:
         with engine.begin() as c:
@@ -219,7 +221,9 @@ def test_parallel_committed_writers_and_reader_observe_exact_totals(postgres_tes
             assert s.execute(text('SELECT count(*) FROM contratos_procesados c JOIN raw_secop r ON r.id=c.raw_secop_id WHERE r.fuente_id=ANY(:sources)'),{'sources':source_ids}).scalar_one()==6
     finally:
         with engine.begin() as c:
+            owned_raw_ids=c.execute(text('SELECT id FROM raw_secop WHERE fuente_id=ANY(:sources)'),{'sources':source_ids}).scalars().all()
             c.execute(text('DELETE FROM contratos_procesados WHERE raw_secop_id IN (SELECT id FROM raw_secop WHERE fuente_id=ANY(:sources))'),{'sources':source_ids})
             c.execute(text('DELETE FROM raw_secop WHERE fuente_id=ANY(:sources)'),{'sources':source_ids})
             c.execute(text('DELETE FROM fuentes_datos WHERE id=ANY(:sources)'),{'sources':source_ids})
+        owned_history.cleanup(owned_raw_ids)
         engine.dispose()

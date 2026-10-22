@@ -1,0 +1,42 @@
+{
+  "created_at": "2026-10-19T17:14:02.965626+00:00",
+  "candidates": 14,
+  "eligible_cases": 0,
+  "registry_by_conduct": {
+    "POR_CLASIFICAR": 10,
+    "CORRUPCION": 3,
+    "FRAUDE_CONTRACTUAL": 1
+  },
+  "checked_evidence": [
+    {
+      "file": "sep079-2023-00059.pdf",
+      "sha256": "b40da81dbd50268e7c0dc4cef23e1059aa8324d30a646867b517795943dbe47c"
+    },
+    {
+      "file": "sep115-2021-00021.pdf",
+      "sha256": "fb8b748e93d44adae3a6038c2610f0c4c43031742630df98d3c0a0ef19d2a944"
+    },
+    {
+      "file": "sp1731-2025-60747.pdf",
+      "sha256": "416c14fb65c9529eca22e7153998e19568203809fe3e99155beb172cf9074961"
+    },
+    {
+      "file": "sp1281-2024-57851.pdf",
+      "sha256": "7c507af137ee405041b5f02cb806258e4296922fb6f6730d49181c0e84a975eb"
+    }
+  ],
+  "additional_preagreement_sha256": "b95aefe7c8d7822f04ef3dd58b48ef373824f556471b0c626b2532488ad2a348",
+  "report_hashes": {
+    "casos_candidatos.json": "89f105bdc51617ba27ec1609bb369c5cb3f6d9e6e81696fbe990fce0eeb316fa",
+    "INVENTARIO_CASOS_REVISION11_20261019.json": "8873ba17c15125dda9b6adeceb9cf81e907de7e701731e376cae5c931c0cb718",
+    "COBERTURA_CORPUS_REV11_20261019.json": "892f6987d83c875cefc815ae310248ee3c19222dbc54c9514a0882ab6bc2d9b6",
+    "REVISION_CORPUS_20261019_REV11.json": "2268dd51f0725e02e01572f254c847de88cca131d667fd486f0c61b8ba89540b",
+    "HALLAZGOS_JUDICIALES_REV11_20261019.md": "274886ac4cfb4422ded28ea7d641f3a2a4f16caa35931574d81c3561134e6a77"
+  },
+  "coverage_recomputed": true,
+  "registry_exclusions_recomputed": true,
+  "database_accessed": false,
+  "training_performed": false,
+  "publication_changed": false,
+  "scope": "Documentary integrity and admission policy only; not a judicial finality or statistical sufficiency certification."
+}

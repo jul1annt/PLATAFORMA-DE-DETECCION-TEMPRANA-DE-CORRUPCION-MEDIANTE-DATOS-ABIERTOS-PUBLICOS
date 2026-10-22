@@ -28,6 +28,13 @@ client = TestClient(app)
 JOB_ID = UUID("6fb4f936-708f-4c28-bdc3-8f87d5086fa3")
 
 
+@pytest.fixture(autouse=True)
+def isolate_export_unit_mocks_from_snapshot_storage(monkeypatch):
+    # These tests supply object() repositories, not database sessions. Native
+    # snapshot/export integration is covered by test_citizen_snapshots_postgres.
+    monkeypatch.setattr('modules.motor_riesgo.publication.select_snapshot',lambda _db,_selected=None:None)
+
+
 def test_late_export_attempt_cannot_overwrite_recovered_artifact(tmp_path, monkeypatch):
     started, release = Event(), Event()
 

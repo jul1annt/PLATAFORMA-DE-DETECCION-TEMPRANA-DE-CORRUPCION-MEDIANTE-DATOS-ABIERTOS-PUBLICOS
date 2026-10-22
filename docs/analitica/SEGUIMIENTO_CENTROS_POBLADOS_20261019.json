@@ -1,0 +1,100 @@
+{
+  "created_at": "2026-10-19T22:04:57.754622+00:00",
+  "case_id": "centros-poblados-andje-20240719",
+  "institutional_report": {
+    "url": "https://www.defensajuridica.gov.co/wp-content/uploads/2025/12/informe_empalme_Jhon_Jairo_Camargo_Motta.pdf",
+    "document_date": "2024-07-11",
+    "publication_date_not_inferred_from_document_date": true,
+    "sha256": "f9797a9c75d4e807fcd61fd0850d6ad8e55d5f2e1a249baac317614f0d047ed9",
+    "pages": 61,
+    "physical_page_visually_reviewed": 19,
+    "table_row": 16,
+    "dockets_as_published": [
+      "11001600000020220141900",
+      "11001600000020240094600"
+    ],
+    "court": "Juzgado 47 Penal del Circuito con funciones de conocimiento de Bogotá D.C.",
+    "not_a_conviction": true
+  },
+  "previous_location_failed": {
+    "url": "https://www.defensajuridica.gov.co/servicios-al-ciudadano/ley_transparencia/documentos_2024/informe_empalme_Jhon_Jairo_Camargo_Motta.pdf",
+    "http_status": 404,
+    "receipt": "runs/20261019T220157920254Z.json"
+  },
+  "successful_acquisition": "runs/20261019T220215799767Z.json",
+  "cpnu": {
+    "url": "https://consultaprocesos.ramajudicial.gov.co/Procesos/NumeroRadicacion",
+    "query": {
+      "docket": "11001600000020240094600",
+      "scope": "Todos los Procesos"
+    },
+    "results": 1,
+    "internal_number": "455754",
+    "court": "JUZGADO 047 PENAL DEL CIRCUITO CON FUNCIÓN DE CONOCIMIENTO DE BOGOTÁ",
+    "registered_on": "2024-04-17",
+    "consulted_as_displayed": "2026-10-19 17:02:45.93",
+    "replicated_as_displayed": "2026-10-19 16:53:10.55",
+    "timezone_context": "America/Bogota",
+    "record_location": "ARCHIVO ENVIADOS JEPMS",
+    "documents_registered": 0,
+    "activities_count": 46,
+    "activity_pages_reviewed": [
+      1,
+      2
+    ],
+    "milestones": [
+      {
+        "activity_date": "2024-07-19",
+        "registered_on": "2024-07-19",
+        "kind": "Regreso al Centro De Servicios-ASIGNADO",
+        "short_exact_fragment": "CON SENTENCIA CONDENATORIA EN FIRME",
+        "interpretation": "El registro administrativo declara firmeza; no sustituye sentencia ni constancia judicial original."
+      },
+      {
+        "activity_date": "2024-07-19",
+        "registered_on": "2024-07-31",
+        "kind": "Aud Individualización pena y Sentencia (Art 447)-R",
+        "interpretation": "Anota condena por peculado, pena de 52 meses y que procede apelación. Se conserva separado de la anotación de regreso en firme."
+      },
+      {
+        "activity_date": "2024-09-12",
+        "registered_on": "2024-09-12",
+        "kind": "Envio Ejecucion De Penas-REALIZADO",
+        "interpretation": "Anota remisión de ficha técnica digital a ejecución de penas de Barranquilla; no se convierte la fecha de remisión en fecha de ejecutoria."
+      },
+      {
+        "activity_date": "2024-04-17",
+        "registered_on": "2024-04-17",
+        "kind": "Ruptura Procesal",
+        "original_docket_as_published": "11001600010120215007900",
+        "derived_docket_as_published": "11001600000020240094600",
+        "interpretation": "La ruptura se materializa en 2024; no es fecha inicial de investigación."
+      },
+      {
+        "activity_date": "2026-11-13",
+        "registered_on": "2026-10-19",
+        "kind": "Aud Incidente de reparación integral (Art 103)",
+        "interpretation": "Audiencia futura programada y registrada hoy; no una actuación celebrada después del momento de consulta."
+      }
+    ],
+    "data_quality_notes": [
+      "La fila del 15/05/2026 contiene anotación de otro delito, despacho 40 y fecha interna 05/03/2026. No se utiliza para concluir sobre este caso.",
+      "Las fechas de actuación, registro, hecho narrado y consulta permanecen separadas.",
+      "Dos actuaciones aparecen restringidas; no se intentó acceder a contenido restringido."
+    ],
+    "csv_export": {
+      "attempted": true,
+      "local_file_acquired": false,
+      "not_used_as_evidence_file": true
+    }
+  },
+  "secondary_locator": {
+    "url": "https://es.scribd.com/document/751780592/Condena-a-Luis-Fernando-Duque-Torres",
+    "scope": "Pista de CUI y número interno contrastados con fuentes institucionales; no original admitido ni prueba de firmeza."
+  },
+  "training_labels_created": 0,
+  "database_accessed": false,
+  "new_judgment_original_acquired": false,
+  "final_at_assigned": false,
+  "scope": "Trazabilidad institucional y revisión parcial. No admite etiquetas, fechas de investigación ni IDs SECOP inferidos."
+}

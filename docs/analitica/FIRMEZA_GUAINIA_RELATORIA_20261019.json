@@ -1,0 +1,51 @@
+{
+  "created_at": "2026-10-19T17:31:51.316466+00:00",
+  "case_id": "csj-sep079-2023-00059",
+  "institutional_source": "https://consultajurisprudencial.ramajudicial.gov.co/WebRelatoria/csj/index.xhtml",
+  "query": {
+    "field": "n.º providencia",
+    "value": "AEP012-2024"
+  },
+  "result": {
+    "count": 1,
+    "id": "867595",
+    "docket": "00059",
+    "decision": "AEP012-2024",
+    "decision_date": "2024-02-05",
+    "authority": "Sala Especial de Primera Instancia",
+    "type": "AUTO INTERLOCUTORIO",
+    "rapporteur": "ARIEL AUGUSTO TORRES ROJAS"
+  },
+  "institutional_excerpt_review": {
+    "locator": "Consideraciones / Jurisprudencia Relacionada; DE LA SALA; 1.- Competencia; paragraph beginning Como en el presente caso",
+    "referenced_conviction": "SEP079-2023",
+    "referenced_conviction_date": "2023-06-20",
+    "effect": "EJECUTORIA_DE_CONDENA_REFERENCIADA",
+    "short_exact_fragment": "la cual se halla debidamente ejecutoriada",
+    "finality_date_not_stated_in_reviewed_excerpt": true,
+    "full_original_not_obtained": true
+  },
+  "pdf_export": {
+    "observed_action": "Select result; Descargar menu; Pdf",
+    "download_name": "format.html",
+    "bytes": 1075,
+    "sha256": "d966a52dbb26a49bd5b72c741b9f11cb8707e7b4a398d310b6373580100ac160",
+    "actual_content": "Notice that the document is not available in magnetic form. Not the judgment or order.",
+    "is_original_judicial_document": false
+  },
+  "other_lookup": {
+    "url": "https://consultaprovidencias.cortesuprema.gov.co/busqueda#/resultados-busqueda/%22AEP012-2024%22/Penal",
+    "result": "No se encontraron resultados",
+    "scope": "Penal section only; not a global absence finding."
+  },
+  "secondary_lead": {
+    "url": "https://vlex.com.co/vid/auto-interlocutorio-corte-suprema-1027005623",
+    "role": "Locate original and review exact finality date; not an admitted finality document.",
+    "not_used_as_final_at": true
+  },
+  "index_acquisition": "runs/20261019T172450280837Z.json",
+  "judicial_review_policy": "reviewed-finality-effect-v2",
+  "final_at_assigned": false,
+  "training_labels_created": 0,
+  "database_accessed": false
+}

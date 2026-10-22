@@ -1,0 +1,11 @@
+{
+  "scope": "Avisos enlazados por el calendario oficial de estados de Casación Penal. Su consulta no equivale a firmeza del caso 58953.",
+  "sources": [
+    {"id":"penal-estados-index","kind":"INDICE","url":"https://cortesuprema.gov.co/notificaciones-sala-de-casacion-penal-estados/"},
+    {"id":"penal-aviso-120","kind":"AVISO_ESTADOS","url":"https://archivodigitalapi.cortesuprema.gov.co/share/2025/9/Estados/Aviso120penal250925.pdf"},
+    {"id":"penal-aviso-121","kind":"AVISO_ESTADOS","url":"https://archivodigitalapi.cortesuprema.gov.co/share/2025/9/Estados/Aviso121penal260925.pdf"},
+    {"id":"penal-aviso-122","kind":"AVISO_ESTADOS","url":"https://archivodigitalapi.cortesuprema.gov.co/share/2025/9/Estados/Aviso122penal290925.pdf"},
+    {"id":"penal-aviso-123","kind":"AVISO_ESTADOS","url":"https://archivodigitalapi.cortesuprema.gov.co/share/2025/9/Estados/Aviso123penal300925.pdf"},
+    {"id":"penal-aviso-124","kind":"AVISO_ESTADOS","url":"https://archivodigitalapi.cortesuprema.gov.co/share/2025/10/Estados/Aviso124penal011025.pdf"}
+  ]
+}

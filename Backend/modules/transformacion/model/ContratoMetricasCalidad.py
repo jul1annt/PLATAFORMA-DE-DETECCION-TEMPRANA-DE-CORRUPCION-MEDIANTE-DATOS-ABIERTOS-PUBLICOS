@@ -13,6 +13,7 @@ class ContratoMetricasCalidad(Base):
     alto_riesgo = Column(BigInteger, nullable=False, server_default=text('0'))
     con_confianza = Column(BigInteger, nullable=False, server_default=text('0'))
     suma_confianza = Column(Numeric(38, 0), nullable=False, server_default=text('0'))
+    riesgo_desde_revision = Column(BigInteger, nullable=False, server_default=text('0'))
 
     __table_args__ = (
         CheckConstraint('id = 1', name='ck_cmc_singleton'),

@@ -1,0 +1,15 @@
+{
+  "scope": "Descubrimiento de radicados mediante páginas públicas; sin contactar terceros ni admitir etiquetas.",
+  "sources": [
+    {
+      "id": "j18-garantias-bogota-indice-2022",
+      "kind": "INDICE_JUDICIAL_PUBLICO",
+      "url": "https://www.ramajudicial.gov.co/web/juzgado-018-penal-municipal-con-funcion-de-control-de-garantias-de-bogota/51"
+    },
+    {
+      "id": "csj-reparto-penal-20210803",
+      "kind": "ACTA_REPARTO_TUTELA_NO_CONDENA",
+      "url": "https://cortesuprema.gov.co/corte/wp-content/uploads/not/penal21/actarepartopenal03082021.pdf"
+    }
+  ]
+}

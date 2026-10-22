@@ -1,0 +1,71 @@
+{
+  "started_at": "2026-10-16T22:20:35.665516+00:00",
+  "pid": 68488,
+  "state": "COMPLETE",
+  "scope": "Full current-capture engineering comparison; no usable historical predictors or model validation",
+  "baseline_seconds": 2904.764632999999,
+  "source_oid": 75045,
+  "read_errors": [],
+  "source_at": "2026-10-16T16:52:03.749852+00:00",
+  "capture_code_sha256": {
+    "modules/motor_riesgo/feature_store.py": "4b4e8029e90f98e8f6d97eacbc9005bf354577887c30472ba11b97eae2e96d12",
+    "modules/motor_riesgo/feature_builder.py": "2885c8e67ff446b2875ae499e594202ae9072df8e1e99c829a8cbe1f2865622d",
+    "modules/motor_riesgo/stage_evidence.py": "57458d6d450c5d04df67f5d9da003fa584498734fd33ad14f8e41d5f382d5ddf"
+  },
+  "minimum_free_bytes": 86872678400,
+  "publication_performed": false,
+  "capture_seconds": 1304.3612779999967,
+  "coverage": {
+    "source_rows": 9249545,
+    "raw_rows_read": 9249545,
+    "normalized_rows_read": 9249545,
+    "observed_rows": 4261387,
+    "capture_mode": "reviewed_stage_evidence",
+    "source_count_scope": "complete_selected_source_keyset_traversal",
+    "not_normalized_rows": 0,
+    "exclusions": {
+      "etapa_sin_confirmar": 4785322,
+      "estado_fuera_del_alcance": 202836
+    },
+    "stage_counts": {
+      "CONVOCATORIA": 3378967,
+      "ADJUDICACION": 882420
+    },
+    "observations_sha256": "d9d8985cba8e2a9f236f53f17a6add2c865b07c1c16b62f777426d44af172d33",
+    "hash_scope": "uncompressed_jsonl_bytes",
+    "file_sha256": "444df0b4f3b5dd15395c8006d36f8e451eaecd6ae0b4796ae123d9d416569c10",
+    "file_bytes": 1251744317,
+    "encoding": "gzip"
+  },
+  "counts": {
+    "CONVOCATORIA": 3378967,
+    "ADJUDICACION": 882420
+  },
+  "source_signature_unchanged": true,
+  "baseline_pointer_unchanged": true,
+  "speedup": 2.226963251664395,
+  "concurrent_readers": {
+    "requests": 5043,
+    "p95_seconds": 0.014699199993629009,
+    "max_seconds": 0.28764169999340083
+  },
+  "elapsed_seconds": 1304.7901004000014,
+  "memory": {
+    "started_at": "2026-10-16T22:23:48.763471+00:00",
+    "state": "COMPLETE",
+    "scope": "OS lifetime peaks of actual capture worker and its accessible PostgreSQL backend only; not total PostgreSQL/OS/inference memory",
+    "processes": {
+      "capture_worker": {
+        "pid": 68488,
+        "peak_rss_bytes": 80019456,
+        "peak_commit_bytes": 63385600
+      },
+      "capture_backend": {
+        "pid": 67352,
+        "peak_rss_bytes": 155115520,
+        "peak_commit_bytes": 7852032
+      }
+    },
+    "finished_at": "2026-10-16T22:42:24.927779+00:00"
+  }
+}

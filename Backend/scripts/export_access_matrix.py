@@ -21,6 +21,8 @@ PUBLIC_OPERATIONS = {
     ("POST", "/api/procesados/export/{formato}/jobs"),
 }
 ADMIN_PATH_PREFIXES = (
+    "/api/procesados/admin",
+    "/api/riesgo/admin",
     "/api/analitica",
     "/api/ingesta/fuentes",
     "/api/jobs",

@@ -94,80 +94,95 @@ class TransformacionRepository:
         ).first()
 
     def search_contratos(
-        self,
-        filters: ContratoProcesadoFilter,
-        skip: int = 0,
-        limit: int = 50,
-        sort: Optional[str] = None,
-        order: str = "desc"
+        self, filters: ContratoProcesadoFilter, skip: int=0, limit: int=50,
+        sort: Optional[str]=None, order: str="desc",
     ) -> Tuple[List[ContratoProcesado], int]:
-        q = self.session.query(ContratoProcesado)
+        q=self._filtered_contracts(ContratoProcesado,filters)
+        active={name for name,value in filters.model_dump().items() if value is not None and value is not False and value!=''}
+        summary_index={frozenset():0,frozenset({'solo_incompletos'}):1,
+                       frozenset({'solo_sospechosos'}):2,frozenset({'solo_alto_riesgo'}):3}.get(frozenset(active))
+        summary=self._leer_resumen_metricas() if summary_index is not None else None
+        total=summary[summary_index] if summary is not None else q.count()
+        if summary_index == 3:
+            from modules.motor_riesgo.public_aggregates import cached_aggregates
+            public_aggregate = cached_aggregates(self.session)
+            if public_aggregate and public_aggregate.get('historical_high') is not None:
+                total = public_aggregate['historical_high']
+        snapshot=self.session.info.get('public_snapshot')
+        if snapshot:
+            from .snapshot_query import snapshot_page
+            items=snapshot_page(self,filters,snapshot['revision'],skip,limit,sort,order)
+        else:
+            items=self._ordered_contracts(q,ContratoProcesado,sort,order).offset(skip).limit(limit).all()
+        return items,total
+
+    def _filtered_contracts(self,model,filters):
+        q = self.session.query(model)
 
         if filters.entidad:
-            q = q.filter(ContratoProcesado.entidad_normalizada.ilike(f"%{filters.entidad}%"))
+            q = q.filter(model.entidad_normalizada.ilike(f"%{filters.entidad}%"))
         if filters.proveedor:
-            q = q.filter(ContratoProcesado.proveedor_normalizado.ilike(f"%{filters.proveedor}%"))
+            q = q.filter(model.proveedor_normalizado.ilike(f"%{filters.proveedor}%"))
         if filters.modalidad:
-            q = q.filter(ContratoProcesado.modalidad_contratacion.ilike(f"%{filters.modalidad}%"))
+            q = q.filter(model.modalidad_contratacion.ilike(f"%{filters.modalidad}%"))
         if filters.estado:
-            q = q.filter(ContratoProcesado.estado_normalizado.ilike(f"%{filters.estado}%"))
+            q = q.filter(model.estado_normalizado.ilike(f"%{filters.estado}%"))
         if filters.fecha_inicio:
-            q = q.filter(ContratoProcesado.fecha_publicacion_normalizada >= filters.fecha_inicio)
+            q = q.filter(model.fecha_publicacion_normalizada >= filters.fecha_inicio)
         if filters.fecha_fin:
-            q = q.filter(ContratoProcesado.fecha_publicacion_normalizada <= filters.fecha_fin)
+            q = q.filter(model.fecha_publicacion_normalizada <= filters.fecha_fin)
         if filters.valor_min is not None:
-            q = q.filter(ContratoProcesado.valor_total_normalizado >= filters.valor_min)
+            q = q.filter(model.valor_total_normalizado >= filters.valor_min)
         if filters.valor_max is not None:
-            q = q.filter(ContratoProcesado.valor_total_normalizado <= filters.valor_max)
+            q = q.filter(model.valor_total_normalizado <= filters.valor_max)
         if filters.solo_incompletos:
-            q = q.filter(ContratoProcesado.es_incompleto == True)
+            q = q.filter(model.es_incompleto == True)
         if getattr(filters, 'solo_sospechosos', False):
-            q = q.filter(ContratoProcesado.es_sospechoso == True)
+            q = q.filter(model.es_sospechoso == True)
         if filters.nivel_confianza_min is not None:
-            q = q.filter(ContratoProcesado.nivel_confianza >= filters.nivel_confianza_min)
+            q = q.filter(model.nivel_confianza >= filters.nivel_confianza_min)
         if filters.nivel_confianza_max is not None:
-            q = q.filter(ContratoProcesado.nivel_confianza <= filters.nivel_confianza_max)
+            q = q.filter(model.nivel_confianza <= filters.nivel_confianza_max)
         if filters.query:
             pattern = f"%{filters.query}%"
             q = q.filter(or_(
-                ContratoProcesado.entidad_normalizada.ilike(pattern),
-                ContratoProcesado.proveedor_normalizado.ilike(pattern),
-                ContratoProcesado.nit_proveedor.ilike(pattern),
-                ContratoProcesado.id_del_proceso.ilike(pattern),
+                model.entidad_normalizada.ilike(pattern),
+                model.proveedor_normalizado.ilike(pattern),
+                model.nit_proveedor.ilike(pattern),
+                model.id_del_proceso.ilike(pattern),
             ))
         if filters.solo_alto_riesgo:
-            q = q.filter(ContratoProcesado.clasificacion_riesgo == "ALTO")
+            q = q.filter(model.es_sospechoso.is_(True), model.es_incompleto.is_(True))
+        return q
 
-        total = q.count()
-        
-        sort_field = ContratoProcesado.fecha_publicacion_normalizada
+    @staticmethod
+    def _ordered_contracts(q,model,sort,order):
+        sort_field = model.fecha_publicacion_normalizada
         if sort:
             if sort == "valor" or sort == "valor_total_normalizado":
-                sort_field = ContratoProcesado.valor_total_normalizado
+                sort_field = model.valor_total_normalizado
             elif sort == "precio_base_normalizado":
-                sort_field = ContratoProcesado.precio_base_normalizado
+                sort_field = model.precio_base_normalizado
             elif sort == "fecha":
-                sort_field = ContratoProcesado.fecha_publicacion_normalizada
+                sort_field = model.fecha_publicacion_normalizada
             elif sort == "id":
-                sort_field = ContratoProcesado.id
+                sort_field = model.id
             elif sort == "entidad":
-                sort_field = ContratoProcesado.entidad_normalizada
+                sort_field = model.entidad_normalizada
             elif sort == "proveedor":
-                sort_field = ContratoProcesado.proveedor_normalizado
+                sort_field = model.proveedor_normalizado
             elif sort == "riesgo":
-                sort_field = ContratoProcesado.nivel_confianza
+                sort_field = model.nivel_confianza
 
         if order == "asc":
             q = q.order_by(sort_field.asc())
             if sort != "id":
-                q = q.order_by(ContratoProcesado.id.asc())
+                q = q.order_by(model.id.asc())
         else:
             q = q.order_by(sort_field.desc())
             if sort != "id":
-                q = q.order_by(ContratoProcesado.id.desc())
-
-        items = q.offset(skip).limit(limit).all()
-        return items, total
+                q = q.order_by(model.id.desc())
+        return q
 
     # ─── ContratoAnomaloIncompleto ─────────────────────────────────────
 
@@ -378,6 +393,11 @@ class TransformacionRepository:
 
     def get_dashboard_metricas(self) -> Dict[str, float | int | str | None]:
         total, incompletos, sospechosos, alto, promedio = self._agregar_metricas_contratos()
+        from modules.motor_riesgo.public_aggregates import cached_aggregates
+        public_aggregate = cached_aggregates(self.session)
+        alto = (public_aggregate or {}).get('historical_high')
+        if alto is None:
+            alto = self.count_historical_high()
         completos = total - incompletos
         porcentaje_completos = round(completos / total * 100, 2) if total else None
         porcentaje_incompletos = round(incompletos / total * 100, 2) if total else None
@@ -420,6 +440,11 @@ class TransformacionRepository:
     def _leer_resumen_metricas(self) -> tuple[int, int, int, int, float | None] | None:
         if self.session.get_bind().dialect.name != 'postgresql':
             return None
+        if self.session.info.get('public_snapshot'):
+            total,incomplete,suspicious,high,average=self.session.execute(text('''SELECT
+                total,incompletos,sospechosos,alto_riesgo,suma_confianza/nullif(con_confianza,0)
+                FROM riesgo_ciudadano.contratos_metricas_calidad WHERE id=1''')).one()
+            return (int(total),int(incomplete),int(suspicious),int(high),round(float(average),2) if total and average is not None else None)
         key = 'contract_quality_summary_available'
         if key not in self.session.info:
             self.session.info[key] = self.session.execute(
@@ -439,7 +464,27 @@ class TransformacionRepository:
         return (int(total),int(incomplete),int(suspicious),int(high),
                 round(float(average),2) if total and average is not None else None)
 
-    def get_risk_distribution(self) -> list[dict]:
+    def count_historical_high(self) -> int:
+        return int(self.session.query(func.count()).filter(
+            ContratoProcesado.es_sospechoso.is_(True),
+            ContratoProcesado.es_incompleto.is_(True),
+        ).scalar() or 0)
+
+    def get_risk_distribution(self, historical_high: int | None = None, total: int | None = None) -> list[dict]:
+        from modules.motor_riesgo.public_aggregates import cached_aggregates
+        cache=cached_aggregates(self.session)
+        if cache is not None:
+            if 'historical_high' in cache:return cache['risk_distribution']
+            historical_high = self.count_historical_high()
+            return [
+                {'name':'Alto histórico · alerta + incompleto','value':historical_high,'color':'#ef4444'},
+                {'name':'Sin ambas condiciones','value':max(0,cache['rows']-historical_high),'color':'#94a3b8'},
+            ]
+        if historical_high is not None and total is not None:
+            return [
+                {'name':'Alto histórico · alerta + incompleto','value':historical_high,'color':'#ef4444'},
+                {'name':'Sin ambas condiciones','value':max(0,total-historical_high),'color':'#94a3b8'},
+            ]
         colors = {
             "ALTO": "#ef4444", "MEDIO": "#f59e0b",
             "BAJO": "#10b981", "SIN_EVALUAR": "#94a3b8",
@@ -459,6 +504,8 @@ class TransformacionRepository:
         ]
 
     def get_anomaly_distribution(self) -> list[dict]:
+        from modules.motor_riesgo.public_aggregates import cached_aggregates
+        public_aggregate = cached_aggregates(self.session)
         summary = self._leer_resumen_metricas()
         if summary is None:
             incompletos, sospechosos, alto = self.session.query(
@@ -468,6 +515,8 @@ class TransformacionRepository:
             ).one()
         else:
             _, incompletos, sospechosos, alto, _ = summary
+        if public_aggregate and public_aggregate.get('historical_high') is not None:
+            alto = public_aggregate['historical_high']
         counts = {
             "Incompletos": incompletos or 0,
             "Sospechosos": sospechosos or 0,
@@ -477,6 +526,9 @@ class TransformacionRepository:
         return [{"name": key, "value": value, "color": colors[key]} for key, value in counts.items() if value]
 
     def get_top_providers(self, limit: int) -> list[dict]:
+        from modules.motor_riesgo.public_aggregates import cached_aggregates
+        cache=cached_aggregates(self.session)
+        if cache is not None:return cache['top_providers'][:limit]
         nit_identidad = ContratoProcesado.nit_proveedor_clave
         ranking = self.session.query(
             nit_identidad.label("nit"),

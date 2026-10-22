@@ -27,9 +27,21 @@ def read_json(path):
 
 
 def atomic_json(path, value):
-    temporary = path.with_suffix('.partial')
-    temporary.write_text(json.dumps(value, indent=2) + '\n', encoding='utf-8')
-    temporary.replace(path)
+    temporary = path.with_name(path.name + '.' + uuid.uuid4().hex + '.partial')
+    try:
+        temporary.write_text(json.dumps(value, indent=2) + '\n', encoding='utf-8')
+        for attempt in range(20):
+            try:
+                temporary.replace(path)
+                return
+            except PermissionError:
+                # Windows readers can briefly deny replacement of an open
+                # destination. Preserve atomicity; never truncate live state.
+                if attempt == 19:
+                    raise
+                time.sleep(.05)
+    finally:
+        temporary.unlink(missing_ok=True)
 
 
 def inside(root, path):
@@ -81,9 +93,33 @@ def verify_files(directory, files):
             raise RuntimeError('Un archivo del artefacto no coincide con su manifiesto')
 
 
+def local_endpoints(release):
+    """Use the selected release's loopback ports for bind and readiness alike."""
+    endpoints = {}
+    for name in ('api', 'frontend'):
+        try:
+            url = release[name + '_url']
+            if not isinstance(url, str) or any(character.isspace() for character in url):
+                raise ValueError('Dirección no textual o con espacios')
+            parts = urlsplit(url)
+            port = parts.port
+        except (KeyError, TypeError, ValueError) as exc:
+            raise RuntimeError('Dirección local del paquete inválida') from exc
+        if (parts.scheme != 'http' or parts.hostname != '127.0.0.1'
+                or parts.username or parts.password or parts.query or parts.fragment
+                or parts.path not in ('', '/') or type(port) is not int
+                or not 1024 <= port <= 65535):
+            raise RuntimeError('El paquete debe declarar puertos HTTP locales explícitos')
+        endpoints[name] = {'port': port, 'url': f'http://127.0.0.1:{port}'}
+    if endpoints['api']['port'] == endpoints['frontend']['port']:
+        raise RuntimeError('API e interfaz requieren puertos distintos')
+    return endpoints
+
+
 def configuration(root):
     from dotenv import dotenv_values
     release, runtime = read_json(root / 'release.json'), read_json(root / 'runtime.json')
+    local_endpoints(release)
     provision = read_json(root / 'provision.json')
     if provision['stage'] != 'provisioned':
         raise RuntimeError('La preparación de la base todavía no terminó')
@@ -135,6 +171,7 @@ def database_binding(provision):
     allowed = {
         ('plataforma_integracion_local', 5433): 'plataforma_integracion',
         ('plataformaanticorrupcion', 5432): 'plataforma_operacion',
+        ('codex_risk_engine_20261016_test', 5433): 'plataforma_integracion',
     }
     if not isinstance(database, str) or type(port) is not int or (database, port) not in allowed:
         raise RuntimeError('El destino declarado no está autorizado')
@@ -222,6 +259,7 @@ def observe_disconnects(application, audit_path):
 
 def component(root, name):
     _release, backend, frontend, _python, _env = configuration(root)
+    endpoints = local_endpoints(_release)
     sys.path.insert(0, str(backend))
     os.chdir(backend)
     stop = root / f'stop-{name}'
@@ -231,7 +269,7 @@ def component(root, name):
         application = import_module('main').app
         if (root / 'audit-http-disconnect').exists():
             application = observe_disconnects(application, root / 'http-disconnect.jsonl')
-        server = uvicorn.Server(uvicorn.Config(application, host='127.0.0.1', port=8000,
+        server = uvicorn.Server(uvicorn.Config(application, host='127.0.0.1', port=endpoints['api']['port'],
                                                access_log=False, log_level='info'))
         def stop_api():
             while not stop.exists():
@@ -252,7 +290,7 @@ def component(root, name):
             (root / 'worker-ready').unlink(missing_ok=True)
     else:
         directory = frontend / 'dist'
-        server = ThreadingHTTPServer(('127.0.0.1', 4173), frontend_handler(directory))
+        server = ThreadingHTTPServer(('127.0.0.1', endpoints['frontend']['port']), frontend_handler(directory))
         server.timeout = .3
         try:
             while not stop.exists():
@@ -263,6 +301,7 @@ def component(root, name):
 
 def supervise(root):
     release, _backend, _frontend, python, env = configuration(root)
+    endpoints = local_endpoints(release)
     state_path, lock_path = root / 'services.json', root / 'supervisor.lock'
     descriptor = os.open(lock_path, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
     os.close(descriptor)
@@ -295,9 +334,9 @@ def supervise(root):
             if any(child.poll() is not None for child in children.values()):
                 raise RuntimeError('Un componente terminó antes de estar disponible')
             try:
-                with urlopen('http://127.0.0.1:8000/openapi.json', timeout=2) as response:
+                with urlopen(endpoints['api']['url'] + '/openapi.json', timeout=2) as response:
                     api_ready = response.status == 200
-                with urlopen('http://127.0.0.1:4173/index.html', timeout=2) as response:
+                with urlopen(endpoints['frontend']['url'] + '/index.html', timeout=2) as response:
                     frontend_ready = response.status == 200
                 ready = api_ready and frontend_ready and (root / 'worker-ready').exists()
                 if ready:
@@ -321,10 +360,12 @@ def supervise(root):
         for child in children.values():
             child.wait()  # Drain SQL/jobs; never forcibly kill a different process.
         state.update(phase='stopped', stopped_at_utc=datetime.now(timezone.utc).isoformat())
-        atomic_json(state_path, state)
-        for output in outputs:
-            output.close()
-        lock_path.unlink(missing_ok=True)
+        try:
+            atomic_json(state_path, state)
+        finally:
+            for output in outputs:
+                output.close()
+            lock_path.unlink(missing_ok=True)
 
 
 def main():
@@ -352,14 +393,14 @@ def main():
             raise RuntimeError('Hay trabajos activos; espera a que terminen antes de detener')
         (root / 'stop-all').touch()
         print('Detención solicitada; los servicios cerrarán de forma ordenada'); return
-    configuration(root)
+    release, _, _, _, _ = configuration(root)
     if alive(state) or any(alive(item) for item in state.get('components', {}).values()):
         raise RuntimeError('La integración ya tiene procesos activos')
     if (root / 'supervisor.lock').exists():
         raise RuntimeError('Existe un bloqueo anterior; verifica el estado antes de recuperarlo')
-    for port in (8000, 4173):
+    for endpoint in local_endpoints(release).values():
         with socket.socket() as probe:
-            probe.bind(('127.0.0.1', port))
+            probe.bind(('127.0.0.1', endpoint['port']))
     active_jobs(root)  # Validate live DB identity/role; queued jobs may be recovered on start.
     python = inside(root / 'runtime', read_json(root / 'runtime.json')['python'])
     with (root / 'logs-supervisor.log').open('a', encoding='utf-8') as output:

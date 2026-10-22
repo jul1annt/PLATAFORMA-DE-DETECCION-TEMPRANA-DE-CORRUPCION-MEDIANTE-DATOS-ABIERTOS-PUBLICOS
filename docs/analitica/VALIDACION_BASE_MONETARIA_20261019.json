@@ -1,0 +1,45 @@
+{
+  "created_at": "2026-10-19T16:58:39.016348+00:00",
+  "state": "COMPLETE",
+  "feature_evidence_policy": "reviewed-physical-stage-evidence-v2",
+  "feature_version": "secop-point-in-time-v3",
+  "backend_tests": {
+    "total": 656,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "run_id": "04bcedc7a2384aa89492c349419da8fe",
+    "junit_sha256": "33eaa310e2c95840b1c42f7eb754f65bf9fcacde0f063e9373fef38885a83822"
+  },
+  "code_sha256": {
+    "analytics_ml/evidence.py": "02844b38e2f7f77ab8dc9c4abe259db16f07b0ed5d561600ea211709b829458a",
+    "analytics_ml/approval.py": "067d153cdba5a2db80347b48e1bb6d3a6bba7a9df60f2257d44a62da413b7f40",
+    "modules/motor_riesgo/stage_evidence.py": "57458d6d450c5d04df67f5d9da003fa584498734fd33ad14f8e41d5f382d5ddf",
+    "tests/test_risk_monetary_evidence.py": "598ffba7cda295fb2fb6d982db83a2e14c6b2458dc56fb3330b5b0dab479fdaf",
+    "tests/test_risk_feature_evidence.py": "3747ffd692295c4aa042baea51368736819da168f806e7fccb52be64de573923"
+  },
+  "databases": {
+    "isolated": {
+      "oid": 82244,
+      "schema": "f67b120ce841",
+      "read_only": true,
+      "counts": {
+        "raw_secop": 0,
+        "contratos_procesados": 0,
+        "riesgo_modelos": 0,
+        "riesgo_evidencias_variables": 0
+      }
+    },
+    "published": {
+      "oid": 24577,
+      "schema": "3c19a8f7e2d0",
+      "read_only": true,
+      "new_risk_tables_absent": true
+    }
+  },
+  "monetary_scope": "Only explicitly reviewed nominal COP pesos; raw positive decimal and LOG1P coherence. VPIT/constant prices/foreign currency are not implicitly converted.",
+  "candidate_inventory": "INVENTARIO_CASOS_REVISION10_20261019.json",
+  "real_models_trained": 0,
+  "new_publication_activated": false,
+  "scope": "Synthetic software validation and read-only database checks. No migration, volume rerun or judicial model validity claim."
+}

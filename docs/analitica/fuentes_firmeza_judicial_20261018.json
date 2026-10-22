@@ -1,0 +1,14 @@
+{
+  "scope": "Investigación de notificaciones; los títulos de ejecutoria no acreditan firmeza de una condena",
+  "sources": [
+    {"id":"spi-ejecutorias-index","kind":"INDICE","url":"https://cortesuprema.gov.co/notificaciones-sala-especial-de-primera-instancia-ejecutoria/"},
+    {"id":"sep060-anuncio-20250425","kind":"PROVIDENCIA_PENDIENTE","url":"https://archivodigitalapi.cortesuprema.gov.co/share/2025/4/Sentencias/FALLO.pdf"},
+    {"id":"ap3597-2024-66145","kind":"PROVIDENCIA_PENDIENTE","url":"https://cortesuprema.gov.co/corte/wp-content/uploads/relatorias/pe/b1jul2024/AP3597-2024(66145).pdf"},
+    {"id":"ejecutoria-00904-20260326","kind":"CONSTANCIA_PENDIENTE","url":"https://archivodigitalapi.cortesuprema.gov.co/share/2026/3/Ejecutorias/00904Ejecutoria20260326.pdf"},
+    {"id":"ejecutoria-51414-20250728","kind":"CONSTANCIA_PENDIENTE","url":"https://archivodigitalapi.cortesuprema.gov.co/share/2025/7/Ejecutorias/51414Ejecutoria20250728.pdf"},
+    {"id":"ejecutoria-35693-20250515","kind":"CONSTANCIA_PENDIENTE","url":"https://archivodigitalapi.cortesuprema.gov.co/share/2025/5/Ejecutorias/35693Ejecutoria20250515.pdf"},
+    {"id":"ejecutoria-00728-20251124","kind":"CONSTANCIA_PENDIENTE","url":"https://archivodigitalapi.cortesuprema.gov.co/share/2025/11/Ejecutorias/00728Ejecutoria20251124.pdf"},
+    {"id":"ejecutoria-00067-20251021","kind":"CONSTANCIA_PENDIENTE","url":"https://archivodigitalapi.cortesuprema.gov.co/share/2025/10/Ejecutorias/00067Ejecutoria20251021.pdf"},
+    {"id":"index-link-00904-20260407-target33663","kind":"CONSTANCIA_PENDIENTE","url":"https://archivodigitalapi.cortesuprema.gov.co/share/2026/4/Ejecutorias/33663Ejecutoria20260406.pdf"}
+  ]
+}

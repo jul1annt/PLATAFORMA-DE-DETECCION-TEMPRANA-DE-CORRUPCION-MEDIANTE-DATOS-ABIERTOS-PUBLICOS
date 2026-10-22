@@ -689,6 +689,40 @@ export type paths = {
         patch?: never;
         trace?: never;
     };
+    "/api/procesados/admin/metricas/calidad": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Admin Metricas Calidad */
+        get: operations["admin_metricas_calidad_api_procesados_admin_metricas_calidad_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/procesados/admin/metricas/campos-faltantes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Admin Campos Faltantes */
+        get: operations["admin_campos_faltantes_api_procesados_admin_metricas_campos_faltantes_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/procesados/anomalias/": {
         parameters: {
             query?: never;
@@ -1025,10 +1059,233 @@ export type paths = {
         patch?: never;
         trace?: never;
     };
+    "/api/riesgo/admin/activar": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Activation */
+        post: operations["activation_api_riesgo_admin_activar_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/riesgo/admin/actualizar": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Refresh */
+        post: operations["refresh_api_riesgo_admin_actualizar_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/riesgo/admin/casos": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Add Case */
+        post: operations["add_case_api_riesgo_admin_casos_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/riesgo/admin/entrenar": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Train */
+        post: operations["train_api_riesgo_admin_entrenar_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/riesgo/admin/evidencias-variables": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Feature Evidence */
+        get: operations["feature_evidence_api_riesgo_admin_evidencias_variables_get"];
+        put?: never;
+        /** Add Feature Evidence */
+        post: operations["add_feature_evidence_api_riesgo_admin_evidencias_variables_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/riesgo/admin/inventario": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Inventory */
+        get: operations["inventory_api_riesgo_admin_inventario_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/riesgo/admin/modelos": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Models */
+        get: operations["models_api_riesgo_admin_modelos_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/riesgo/admin/preparar-base": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Prepare Public Base */
+        post: operations["prepare_public_base_api_riesgo_admin_preparar_base_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/riesgo/admin/revertir/{cut_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Revert */
+        post: operations["revert_api_riesgo_admin_revertir__cut_id__post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/riesgo/estado": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Status */
+        get: operations["get_status_api_riesgo_estado_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/riesgo/metodologia": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Methodology */
+        get: operations["methodology_api_riesgo_metodologia_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/riesgo/resultados": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Results */
+        get: operations["results_api_riesgo_resultados_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 };
 export type webhooks = Record<string, never>;
 export type components = {
     schemas: {
+        /** ActivationRequest */
+        ActivationRequest: {
+            /**
+             * Adjudicacion
+             * Format: uuid
+             */
+            adjudicacion: string;
+            /**
+             * Convocatoria
+             * Format: uuid
+             */
+            convocatoria: string;
+            /**
+             * Daily
+             * @default true
+             */
+            daily: boolean;
+        };
         /**
          * AdjudicacionDirectaCalculoRequest
          * @description Parámetros para disparar una nueva ejecución del análisis de abuso
@@ -1198,6 +1455,13 @@ export type components = {
             cantidad: number;
             /** Porcentaje */
             porcentaje: number;
+        };
+        /** CaseRequest */
+        CaseRequest: {
+            /** Record */
+            record: {
+                [key: string]: unknown;
+            };
         };
         /** ComparativaFuenteDTO */
         ComparativaFuenteDTO: {
@@ -1855,6 +2119,15 @@ export type components = {
             /** Total Pages */
             total_pages: number;
         };
+        /** PageResponse */
+        PageResponse: {
+            /** Cut Id */
+            cut_id: string | null;
+            /** Items */
+            items: components["schemas"]["ResultResponse"][];
+            /** Total */
+            total: number;
+        };
         /** PaginatedAnomaliasDTO */
         PaginatedAnomaliasDTO: {
             /** Items */
@@ -2049,6 +2322,17 @@ export type components = {
              */
             forzar_reproceso: boolean;
         };
+        /** ResultResponse */
+        ResultResponse: {
+            /** Raw Secop Id */
+            raw_secop_id: number;
+            /** Result */
+            result: {
+                [key: string]: unknown;
+            };
+            /** Stage */
+            stage: string;
+        };
         /** RiesgoGlobalResumenResponse */
         RiesgoGlobalResumenResponse: {
             /**
@@ -2134,6 +2418,29 @@ export type components = {
             riesgo: string;
             /** Total */
             total: number;
+        };
+        /** RiskStatusResponse */
+        RiskStatusResponse: {
+            /** Available */
+            available: boolean;
+            /** Cut Id */
+            cut_id: string | null;
+            /** Daily Enabled */
+            daily_enabled: boolean;
+            /** Data Cut At */
+            data_cut_at: string | null;
+            /** Last Attempt Day */
+            last_attempt_day: string | null;
+            /** Last Success Day */
+            last_success_day: string | null;
+            /** Message */
+            message: string;
+            /** Public Cut Id */
+            public_cut_id?: string | null;
+            /** Public Data Cut At */
+            public_data_cut_at?: string | null;
+            /** Update Status */
+            update_status: string;
         };
         /**
          * RunResumenResponse
@@ -2247,6 +2554,11 @@ export type components = {
             /** Nit */
             nit: string;
         };
+        /** TrainRequest */
+        TrainRequest: {
+            /** Dataset */
+            dataset: string;
+        };
         /** ValidationError */
         ValidationError: {
             /** Context */
@@ -2267,6 +2579,7 @@ export type components = {
     headers: never;
     pathItems: never;
 };
+export type ActivationRequest = components['schemas']['ActivationRequest'];
 export type AdjudicacionDirectaCalculoRequest = components['schemas']['AdjudicacionDirectaCalculoRequest'];
 export type AdminResponse = components['schemas']['AdminResponse'];
 export type AnomaliaResponseDto = components['schemas']['AnomaliaResponseDTO'];
@@ -2275,6 +2588,7 @@ export type BackgroundJobAccepted = components['schemas']['BackgroundJobAccepted
 export type BackgroundJobResponse = components['schemas']['BackgroundJobResponse'];
 export type BackgroundJobStatusSummary = components['schemas']['BackgroundJobStatusSummary'];
 export type CampoFaltanteDto = components['schemas']['CampoFaltanteDTO'];
+export type CaseRequest = components['schemas']['CaseRequest'];
 export type ComparativaFuenteDto = components['schemas']['ComparativaFuenteDTO'];
 export type ConexionTestResponseDto = components['schemas']['ConexionTestResponseDTO'];
 export type ContratoProcesadoResponseDto = components['schemas']['ContratoProcesadoResponseDTO'];
@@ -2301,6 +2615,7 @@ export type MetricasCalidadDto = components['schemas']['MetricasCalidadDTO'];
 export type OutlierCalculoRequest = components['schemas']['OutlierCalculoRequest'];
 export type OutlierDetalleResponse = components['schemas']['OutlierDetalleResponse'];
 export type OutlierListaResponse = components['schemas']['OutlierListaResponse'];
+export type PageResponse = components['schemas']['PageResponse'];
 export type PaginatedAnomaliasDto = components['schemas']['PaginatedAnomaliasDTO'];
 export type PaginatedContratosDto = components['schemas']['PaginatedContratosDTO'];
 export type PaginatedProcesamientoLogsDto = components['schemas']['PaginatedProcesamientoLogsDTO'];
@@ -2311,10 +2626,12 @@ export type ProveedorDirectaDetalleResponse = components['schemas']['ProveedorDi
 export type ProveedorDirectaListaResponse = components['schemas']['ProveedorDirectaListaResponse'];
 export type ProveedorDirectaResumenResponse = components['schemas']['ProveedorDirectaResumenResponse'];
 export type ReprocesarRequestDto = components['schemas']['ReprocesarRequestDTO'];
+export type ResultResponse = components['schemas']['ResultResponse'];
 export type RiesgoGlobalResumenResponse = components['schemas']['RiesgoGlobalResumenResponse'];
 export type RiesgoProveedorListaResponse = components['schemas']['RiesgoProveedorListaResponse'];
 export type RiesgoProveedorResponse = components['schemas']['RiesgoProveedorResponse'];
 export type RiesgoResumenResponse = components['schemas']['RiesgoResumenResponse'];
+export type RiskStatusResponse = components['schemas']['RiskStatusResponse'];
 export type RunResumenResponse = components['schemas']['RunResumenResponse'];
 export type SincronizacionHistorialPaginaDto = components['schemas']['SincronizacionHistorialPaginaDTO'];
 export type SincronizacionHistorialResponseDto = components['schemas']['SincronizacionHistorialResponseDTO'];
@@ -2322,6 +2639,7 @@ export type SincronizacionHistorialResumenDto = components['schemas']['Sincroniz
 export type TipoFormato = components['schemas']['TipoFormato'];
 export type TokenResponse = components['schemas']['TokenResponse'];
 export type TopProveedorDto = components['schemas']['TopProveedorDTO'];
+export type TrainRequest = components['schemas']['TrainRequest'];
 export type ValidationError = components['schemas']['ValidationError'];
 export type $defs = Record<string, never>;
 export interface operations {
@@ -3485,7 +3803,9 @@ export interface operations {
                 /** @description Registros por página */
                 size?: number;
             };
-            header?: never;
+            header?: {
+                "x-public-cut"?: string | null;
+            };
             path?: never;
             cookie?: never;
         };
@@ -3511,6 +3831,46 @@ export interface operations {
             };
         };
     };
+    admin_metricas_calidad_api_procesados_admin_metricas_calidad_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MetricasCalidadDTO"];
+                };
+            };
+        };
+    };
+    admin_campos_faltantes_api_procesados_admin_metricas_campos_faltantes_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CampoFaltanteDTO"][];
+                };
+            };
+        };
+    };
     list_anomalias_api_procesados_anomalias__get: {
         parameters: {
             query?: {
@@ -3523,7 +3883,9 @@ export interface operations {
                 page?: number;
                 size?: number;
             };
-            header?: never;
+            header?: {
+                "x-public-cut"?: string | null;
+            };
             path?: never;
             cookie?: never;
         };
@@ -3555,7 +3917,9 @@ export interface operations {
                 q: string;
                 limit?: number;
             };
-            header?: never;
+            header?: {
+                "x-public-cut"?: string | null;
+            };
             path?: never;
             cookie?: never;
         };
@@ -3584,7 +3948,9 @@ export interface operations {
     get_estadisticas_api_procesados_estadisticas_campos_faltantes_get: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                "x-public-cut"?: string | null;
+            };
             path?: never;
             cookie?: never;
         };
@@ -3599,12 +3965,23 @@ export interface operations {
                     "application/json": components["schemas"]["EstadisticaCampoResponseDTO"][];
                 };
             };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
         };
     };
     exportar_contratos_api_procesados_export__formato__get: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                "x-public-cut"?: string | null;
+            };
             path: {
                 formato: string;
             };
@@ -3633,7 +4010,9 @@ export interface operations {
     crear_exportacion_contratos_api_procesados_export__formato__jobs_post: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                "x-public-cut"?: string | null;
+            };
             path: {
                 formato: string;
             };
@@ -3667,7 +4046,9 @@ export interface operations {
                 page?: number;
                 size?: number;
             };
-            header?: never;
+            header?: {
+                "x-public-cut"?: string | null;
+            };
             path?: never;
             cookie?: never;
         };
@@ -3759,7 +4140,9 @@ export interface operations {
     metricas_calidad_api_procesados_metricas_calidad_get: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                "x-public-cut"?: string | null;
+            };
             path?: never;
             cookie?: never;
         };
@@ -3774,12 +4157,23 @@ export interface operations {
                     "application/json": components["schemas"]["MetricasCalidadDTO"];
                 };
             };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
         };
     };
     metricas_campos_faltantes_api_procesados_metricas_campos_faltantes_get: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                "x-public-cut"?: string | null;
+            };
             path?: never;
             cookie?: never;
         };
@@ -3794,12 +4188,23 @@ export interface operations {
                     "application/json": components["schemas"]["CampoFaltanteDTO"][];
                 };
             };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
         };
     };
     dashboard_metricas_api_procesados_metricas_dashboard_get: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                "x-public-cut"?: string | null;
+            };
             path?: never;
             cookie?: never;
         };
@@ -3814,12 +4219,23 @@ export interface operations {
                     "application/json": components["schemas"]["DashboardMetricasDTO"];
                 };
             };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
         };
     };
     distribucion_anomalias_api_procesados_metricas_distribucion_anomalias_get: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                "x-public-cut"?: string | null;
+            };
             path?: never;
             cookie?: never;
         };
@@ -3834,12 +4250,23 @@ export interface operations {
                     "application/json": components["schemas"]["DistribucionDTO"][];
                 };
             };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
         };
     };
     distribucion_riesgo_api_procesados_metricas_distribucion_riesgo_get: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                "x-public-cut"?: string | null;
+            };
             path?: never;
             cookie?: never;
         };
@@ -3852,6 +4279,15 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["DistribucionDTO"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
                 };
             };
         };
@@ -3861,7 +4297,9 @@ export interface operations {
             query?: {
                 limit?: number;
             };
-            header?: never;
+            header?: {
+                "x-public-cut"?: string | null;
+            };
             path?: never;
             cookie?: never;
         };
@@ -3956,7 +4394,9 @@ export interface operations {
                 sort?: string | null;
                 order?: string;
             };
-            header?: never;
+            header?: {
+                "x-public-cut"?: string | null;
+            };
             path?: never;
             cookie?: never;
         };
@@ -3988,7 +4428,9 @@ export interface operations {
                 page?: number;
                 size?: number;
             };
-            header?: never;
+            header?: {
+                "x-public-cut"?: string | null;
+            };
             path?: never;
             cookie?: never;
         };
@@ -4017,7 +4459,9 @@ export interface operations {
     get_procesado_api_procesados__id__get: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                "x-public-cut"?: string | null;
+            };
             path: {
                 id: number;
             };
@@ -4032,6 +4476,370 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ContratoProcesadoResponseDTO"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    activation_api_riesgo_admin_activar_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ActivationRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    refresh_api_riesgo_admin_actualizar_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BackgroundJobAccepted"];
+                };
+            };
+        };
+    };
+    add_case_api_riesgo_admin_casos_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CaseRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    train_api_riesgo_admin_entrenar_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TrainRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BackgroundJobAccepted"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    feature_evidence_api_riesgo_admin_evidencias_variables_get: {
+        parameters: {
+            query?: {
+                offset?: number;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    add_feature_evidence_api_riesgo_admin_evidencias_variables_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CaseRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    inventory_api_riesgo_admin_inventario_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    models_api_riesgo_admin_modelos_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    prepare_public_base_api_riesgo_admin_preparar_base_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BackgroundJobAccepted"];
+                };
+            };
+        };
+    };
+    revert_api_riesgo_admin_revertir__cut_id__post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                cut_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_status_api_riesgo_estado_get: {
+        parameters: {
+            query?: never;
+            header?: {
+                "x-public-cut"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RiskStatusResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    methodology_api_riesgo_metodologia_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    results_api_riesgo_resultados_get: {
+        parameters: {
+            query?: {
+                stage?: ("CONVOCATORIA" | "ADJUDICACION") | null;
+                raw_secop_id?: number | null;
+                offset?: number;
+                raw_secop_ids?: number[] | null;
+                cut_id?: string | null;
+                limit?: number;
+            };
+            header?: {
+                "x-public-cut"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PageResponse"];
                 };
             };
             /** @description Validation Error */

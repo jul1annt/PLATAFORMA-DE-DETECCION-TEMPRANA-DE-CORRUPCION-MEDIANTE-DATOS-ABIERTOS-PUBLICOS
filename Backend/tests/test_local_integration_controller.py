@@ -2,12 +2,96 @@ import http.client
 import asyncio
 import hashlib
 import os
+import json
+from pathlib import Path
 import threading
 from http.server import ThreadingHTTPServer
 
 import pytest
 
 from scripts.local_integration import alive, frontend_handler, inside, process_stamp, verify_files, validate_database_identity, observe_disconnects, database_binding
+from scripts.local_integration import local_endpoints
+from scripts.local_integration import atomic_json
+
+
+def test_atomic_state_retries_temporary_windows_reader_conflicts(tmp_path, monkeypatch):
+    target = tmp_path / 'services.json'
+    target.write_text('{"phase":"previous"}')
+    original_replace = Path.replace
+    attempts = []
+    pauses = []
+
+    def replace(path, destination):
+        attempts.append(path)
+        assert json.loads(target.read_text()) == {'phase': 'previous'}
+        if len(attempts) < 3:
+            raise PermissionError('simulated sharing violation')
+        return original_replace(path, destination)
+
+    monkeypatch.setattr(Path, 'replace', replace)
+    monkeypatch.setattr('scripts.local_integration.time.sleep', pauses.append)
+    atomic_json(target, {'phase': 'running'})
+    assert json.loads(target.read_text()) == {'phase': 'running'}
+    assert len(attempts) == 3 and pauses == [.05, .05]
+    assert list(tmp_path.iterdir()) == [target]
+
+
+def test_atomic_state_permanent_denial_is_bounded_and_preserves_previous_state(tmp_path, monkeypatch):
+    target = tmp_path / 'services.json'
+    target.write_text('{"phase":"previous"}')
+    attempts = []
+    def denied(path, destination):
+        attempts.append(path)
+        raise PermissionError('simulated permanent denial')
+    monkeypatch.setattr(Path, 'replace', denied)
+    monkeypatch.setattr('scripts.local_integration.time.sleep', lambda _: None)
+    with pytest.raises(PermissionError):
+        atomic_json(target, {'phase': 'running'})
+    assert len(attempts) == 20
+    assert json.loads(target.read_text()) == {'phase': 'previous'}
+    assert list(tmp_path.iterdir()) == [target]
+
+
+def test_atomic_state_other_io_failures_are_not_retried(tmp_path, monkeypatch):
+    target = tmp_path / 'services.json'
+    target.write_text('{"phase":"previous"}')
+    def broken(path, destination):
+        raise OSError('simulated non-transient failure')
+    monkeypatch.setattr(Path, 'replace', broken)
+    monkeypatch.setattr('scripts.local_integration.time.sleep', lambda _: pytest.fail('Unexpected retry'))
+    with pytest.raises(OSError):
+        atomic_json(target, {'phase': 'running'})
+    assert json.loads(target.read_text()) == {'phase': 'previous'}
+    assert list(tmp_path.iterdir()) == [target]
+
+
+@pytest.mark.parametrize('api_port,frontend_port', [(8000, 4173), (18100, 14173)])
+def test_release_endpoints_preserve_original_ports_and_allow_isolated_packages(api_port, frontend_port):
+    assert local_endpoints({'api_url': f'http://127.0.0.1:{api_port}',
+                            'frontend_url': f'http://127.0.0.1:{frontend_port}/'}) == {
+        'api': {'port': api_port, 'url': f'http://127.0.0.1:{api_port}'},
+        'frontend': {'port': frontend_port, 'url': f'http://127.0.0.1:{frontend_port}'},
+    }
+
+
+@pytest.mark.parametrize('bad_url', [None, 18100, '', 'http://127.0.0.1',
+    'http://127.0.0.1:80', 'http://127.0.0.1:65536', 'http://127.0.0.1:invalid',
+    'https://127.0.0.1:18100', 'http://localhost:18100', 'http://0.0.0.0:18100',
+    'http://example.com:18100', 'http://user:password@127.0.0.1:18100',
+    'http://127.0.0.1:18100/api', 'http://127.0.0.1:18100/?secret=value',
+    'http://127.0.0.1:18100/#fragment', ' http://127.0.0.1:18100',
+    'http://127.0.0.1:\n18100'])
+def test_release_endpoints_reject_ambiguous_or_external_addresses(bad_url):
+    with pytest.raises(RuntimeError):
+        local_endpoints({'api_url': bad_url, 'frontend_url': 'http://127.0.0.1:14173'})
+
+
+def test_release_endpoints_require_both_distinct_components():
+    with pytest.raises(RuntimeError):
+        local_endpoints({'api_url': 'http://127.0.0.1:18100'})
+    with pytest.raises(RuntimeError):
+        local_endpoints({'api_url': 'http://127.0.0.1:18100',
+                         'frontend_url': 'http://127.0.0.1:18100'})
 
 
 def test_owned_process_requires_the_original_creation_stamp():
@@ -70,6 +154,21 @@ def test_declared_operational_target_pins_port_role_oid_and_revision():
             validate_database_identity(tuple(changed), flags, provision)
     with pytest.raises(RuntimeError):
         validate_database_identity(expected, dict(flags, rolsuper=True), provision)
+
+
+def test_risk_acceptance_target_remains_pinned_to_its_isolated_identity():
+    provision = {'target_database': 'codex_risk_engine_20261016_test', 'port': 5433,
+                 'app_role': 'plataforma_integracion', 'target_database_oid': 82244,
+                 'source_revision': 'f67b120ce841'}
+    expected = ('codex_risk_engine_20261016_test', 5433, 'plataforma_integracion',
+                82244, 'f67b120ce841')
+    flags = dict.fromkeys(('rolsuper', 'rolcreatedb', 'rolcreaterole', 'rolreplication'), False)
+    validate_database_identity(expected, flags, provision)
+    for position, replacement in ((0, 'plataformaanticorrupcion'), (1, 5432),
+                                  (2, 'plataforma_operacion'), (3, 24577)):
+        changed = list(expected); changed[position] = replacement
+        with pytest.raises(RuntimeError):
+            validate_database_identity(tuple(changed), flags, provision)
 
 
 def test_database_binding_rejects_unknown_crossed_and_untyped_targets():

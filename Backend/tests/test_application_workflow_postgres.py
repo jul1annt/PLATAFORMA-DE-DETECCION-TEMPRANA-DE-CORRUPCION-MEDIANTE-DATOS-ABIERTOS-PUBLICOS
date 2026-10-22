@@ -38,14 +38,15 @@ def test_admin_can_ingest_transform_analyze_search_and_export(
     postgres_test_session.add(admin)
     postgres_test_session.flush()
 
-    base_date = date.today() - timedelta(days=5)
+    base_date = date.today() - timedelta(days=31)
     records = []
-    for index, value in enumerate((10000, 11000, 12000, 13000, 50000000)):
+    for index, value in enumerate([10000+i*1000 for i in range(30)] + [50000000]):
         published = base_date + timedelta(days=index)
         records.append({
             ":id": f"workflow-{suffix}-{index}",
             ":updated_at": datetime.now(timezone.utc).isoformat(),
             "id_del_proceso": f"workflow-process-{suffix}-{index}",
+                "id_adjudicacion": f"workflow-award-{suffix}-{index}",
             "entidad": "Entidad flujo de prueba",
             "nit_entidad": "900123456",
             "nombre_del_proveedor": "Proveedor flujo de prueba",
@@ -55,6 +56,7 @@ def test_admin_can_ingest_transform_analyze_search_and_export(
             "valor_total_adjudicacion": str(value),
             "precio_base": str(value),
             "tipo_de_contrato": "Servicios",
+            "codigo_principal_de_categoria": "80160000",
             "modalidad_de_contratacion": "CONTRATACIÓN DIRECTA",
             "estado_del_procedimiento": "Adjudicado",
             "ciudad_entidad": "Bogotá",
@@ -116,7 +118,7 @@ def test_admin_can_ingest_transform_analyze_search_and_export(
                 ingestion.json()["status_url"], headers=headers
             )
             assert ingestion_status.json()["status"] == "EXITOSO"
-            assert ingestion_status.json()["result"]["registros_insertados"] == 5
+            assert ingestion_status.json()["result"]["registros_insertados"] == 31
 
             reprocesamiento = client.post(
                 "/api/procesados/reprocesar", headers=headers, json={}
@@ -169,7 +171,7 @@ def test_admin_can_ingest_transform_analyze_search_and_export(
                 params={"proveedor": "flujo de prueba", "limit": 2},
             )
             assert search.status_code == 200
-            assert search.json()["total"] == 5
+            assert search.json()["total"] == 31
             assert len(search.json()["items"]) == 2
             updated_contract = client.get(
                 "/api/procesados/search",
@@ -180,7 +182,7 @@ def test_admin_can_ingest_transform_analyze_search_and_export(
 
             dashboard = client.get("/api/procesados/metricas/dashboard")
             assert dashboard.status_code == 200
-            assert dashboard.json()["total_contratos"] == 5
+            assert dashboard.json()["total_contratos"] == 31
 
             analyses = (
                 ("/api/analitica/outliers/calcular", {
@@ -209,7 +211,7 @@ def test_admin_can_ingest_transform_analyze_search_and_export(
             )
             assert export.status_code == 200
             assert "PROVEEDOR FLUJO DE PRUEBA" in export.text.upper()
-            assert export.text.upper().count("PROVEEDOR FLUJO DE PRUEBA") == 5
+            assert export.text.upper().count("PROVEEDOR FLUJO DE PRUEBA") == 31
 
             logout = client.post("/api/auth/logout", headers=headers)
             assert logout.status_code == 200

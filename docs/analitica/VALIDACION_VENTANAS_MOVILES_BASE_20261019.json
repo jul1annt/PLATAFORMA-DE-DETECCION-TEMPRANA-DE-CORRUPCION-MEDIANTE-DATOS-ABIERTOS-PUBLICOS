@@ -1,0 +1,27 @@
+{
+  "date_bogota": "2026-10-19",
+  "policy": "verified-pair-rolling-current-cut-v1",
+  "status": "REFERENCE_IMPLEMENTED_SYNTHETIC_VALIDATION_ONLY",
+  "tests": {
+    "run_id": "eaeb2d8580df43f7a6fe0f37b4f60fd7",
+    "count": 86,
+    "new_module_and_cli_cases": 30,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "junit_sha256": "b5e235319a249a20064c3b6b45f26b91aadf59d8d8a7e2adecc856b759e75eea"
+  },
+  "implementation_sha256": {
+    "modules/motor_riesgo/rolling_evidence.py": "b14d4c62970f3ea729cbf97a2732b3a7a012f4569f65b7457f34ed44cabb9f6f",
+    "scripts/risk_rolling_context.py": "594a10da5faa4fc56c6558e873076885003cdcb8c9eae58956558734b4ae33d0",
+    "tests/test_rolling_evidence.py": "17eb21b85d6d12656f3ba18eeaf5538fa191951fba85d20c43c541938a8f95d3"
+  },
+  "real_secop_pair_history_validated": false,
+  "sql_parity_validated": false,
+  "database_access_performed": false,
+  "deployment_performed": false,
+  "training_eligible": false,
+  "publication_authorized": false,
+  "new_dependencies": false,
+  "external_contact": false
+}

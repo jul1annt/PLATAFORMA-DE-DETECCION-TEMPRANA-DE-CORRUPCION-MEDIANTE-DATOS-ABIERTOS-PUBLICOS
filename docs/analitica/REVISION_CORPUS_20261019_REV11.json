@@ -1,0 +1,34 @@
+{
+  "created_at": "2026-10-19T17:09:49.479149+00:00",
+  "inventory": "INVENTARIO_CASOS_REVISION11_20261019.json",
+  "relevant_documents": [
+    {
+      "sha256": "b40da81dbd50268e7c0dc4cef23e1059aa8324d30a646867b517795943dbe47c",
+      "file": "sep079-2023-00059.pdf"
+    },
+    {
+      "sha256": "fb8b748e93d44adae3a6038c2610f0c4c43031742630df98d3c0a0ef19d2a944",
+      "file": "sep115-2021-00021.pdf"
+    },
+    {
+      "sha256": "416c14fb65c9529eca22e7153998e19568203809fe3e99155beb172cf9074961",
+      "file": "sp1731-2025-60747.pdf"
+    },
+    {
+      "sha256": "7c507af137ee405041b5f02cb806258e4296922fb6f6730d49181c0e84a975eb",
+      "file": "sp1281-2024-57851.pdf"
+    }
+  ],
+  "discarded_for_this_case": {
+    "sha256": "76dff4afda2b94ce1653596f040fa150125a3d6540c367fd9609b7dd7eb12351",
+    "reason": "SEP119-2021 corresponde a Luis Alfredo Ramos, no a Jimmy Harold Díaz; no se vincula al candidato Putumayo."
+  },
+  "acquisition_receipts": [
+    "20261019T170459146772Z.json",
+    "20261019T170640597284Z.json",
+    "20261019T170810923054Z.json"
+  ],
+  "review_scope": "Partial text and selected visual pages; never full review by page count.",
+  "training_labels_created": 0,
+  "database_accessed": false
+}

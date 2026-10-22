@@ -1,0 +1,136 @@
+{
+  "state": "CORRESPONDENCIA_DE_INVESTIGACION_NO_ETIQUETA",
+  "date_bogota": "2026-10-18",
+  "judgment": "SEP060-2025 / 00641",
+  "judgment_sha256": "682fbb8c2b72db2b2d1d59bba6f140fed6217286ae23feceadbaa6f7e21ff181",
+  "physical_pages_visually_reviewed": [
+    4,
+    5,
+    6,
+    263,
+    264
+  ],
+  "official_archive_index": "https://operaciones.colombiacompra.gov.co/transparencia/datos-json",
+  "soda_dataset_checked": {
+    "id": "f789-7hwg",
+    "declared_coverage": "Desde 01/01/2018 según metadatos conservados",
+    "zero_rows_for_2012_2013_is_not_absence_evidence": true
+  },
+  "historical_scan": {
+    "lines_scanned": 1101679,
+    "uncompressed_bytes": 3178404088,
+    "compressed_bytes_streamed": 356884466,
+    "complete_crc_and_generation_checks": true,
+    "full_archives_or_expanded_files_written": false,
+    "2012_candidates": 0,
+    "2013_candidates": 2
+  },
+  "candidate_497": {
+    "line": 40901,
+    "raw_line_sha256": "dcee07a6ece338b971f6d5063f1ea9f5defeb3f9900a657844b97a6c497c029c",
+    "matched_search_numbers": [
+      "497"
+    ],
+    "ocid": "ocds-k50g02-13-9-372325",
+    "release_id": "13-9-372325",
+    "release_date_as_published": "2013-08-26T19:47:29.000Z",
+    "buyer": {
+      "id": "800102838",
+      "name": "ARAUCA - GOBERNACIÓN"
+    },
+    "tender_title": "SU-06-14-2013",
+    "contracts": [
+      {
+        "id": 1872157,
+        "title": "497",
+        "dateSigned": "2013-10-09T00:00:00.000Z"
+      }
+    ],
+    "review_status": "CORRESPONDENCIA_DOCUMENTAL_PENDIENTE",
+    "training_label": null,
+    "document_comparison": {
+      "contract_number": "497",
+      "signature_date": "2013-10-09",
+      "process_reference": "SU-06-14-2013",
+      "entity": "Gobernación de Arauca",
+      "supplier": "Consorcio Educando Arauca",
+      "object": "Dotación de mobiliario escolar",
+      "facts_pages": [
+        4,
+        5
+      ]
+    },
+    "award_id_as_published": 1872157,
+    "research_only": true
+  },
+  "candidate_362_2013": {
+    "line": 174247,
+    "raw_line_sha256": "44e3f8c59128aa939a6ecfa2f80132c14bd6e91806f93c1bb2d15ad0ba277fc9",
+    "matched_search_numbers": [
+      "362"
+    ],
+    "ocid": "ocds-k50g02-13-11-1748514",
+    "release_id": "13-11-1748514",
+    "release_date_as_published": "2013-06-20T16:35:50.000Z",
+    "buyer": {
+      "id": "800102838",
+      "name": "ARAUCA - GOBERNACIÓN"
+    },
+    "tender_title": "SA-05-01-2013",
+    "contracts": [
+      {
+        "id": 1730068,
+        "title": "362",
+        "dateSigned": "2013-07-31T00:00:00.000Z"
+      }
+    ],
+    "review_status": "CORRESPONDENCIA_DOCUMENTAL_PENDIENTE",
+    "training_label": null,
+    "excluded_from_this_judicial_link": true,
+    "reason": "La sentencia cita 362 del 10/12/2012 para dotación escolar; esta fila es 362 del 31/07/2013 para participación ciudadana. No transferir etiqueta por número o entidad."
+  },
+  "temporal_limitation": {
+    "archived_member_last_modified": "Mon, 18 Mar 2019 20:30:00 GMT",
+    "release_tag": "contractTermination",
+    "release_date": "2013-08-26T19:47:29.000Z",
+    "signature_date": "2013-10-09T00:00:00.000Z",
+    "not_a_verified_stage_snapshot": true,
+    "reason": "El registro contiene datos de adjudicación y terminación junto a una fecha anterior a la firma. No se toma release.date como disponibilidad de todos los campos."
+  },
+  "judicial_limitation": {
+    "mixed_outcomes": true,
+    "contract_without_legal_requirements_conviction": true,
+    "peculado_acquittal": true,
+    "appeal_available_as_stated_on_page": 264,
+    "finality_verified": false,
+    "conduct_classification_review_pending": true
+  },
+  "tests": {
+    "tests": 27,
+    "failures": 0,
+    "errors": 0,
+    "success": true,
+    "scope": "Corpus acquisition, public storage and historical streaming only; not predictive validation",
+    "code_sha256": {
+      "__init__.py": "19e0fbf67fe303d2d52b248cc10d8e363f6c9a2d8ddfe70c65f89ec4982bfa4b",
+      "acquire.py": "f3056f51a10805fa89c36c260f375a6cccd6efda9614806825eccf1e79775417",
+      "index_pdf.py": "cf6af2d1abf2726ba15f2d6fb8c70f801f858cf72580f41f0dafc3d6b821695d",
+      "remote_zip.py": "9a4ce10970b7fb521ad33dc853bc13e58f5cc9c43ee2350dcffc8009adb091d3",
+      "scan_history.py": "9978b849946612c13cd6d33df1ee7077904d04c81811406d3e45c829edf63fd2",
+      "storage.py": "c30ef1d0a5fafc571dc247c80ba43b647935274a5caade8781ba69807fd4c4dd",
+      "test_acquire.py": "63783f6b32921ed3be7a79f134b40304a7040386ddfc790cc94049f87d2d2c4e",
+      "test_history.py": "ce6a87f48b64c6d0407bba67ce917d63aae3c0c32117175f8b665844c7624dc1",
+      "test_storage.py": "5ab7bd9d2088fbcd46c3c3e11715f7545c738a069335498ea304bacd4e3c3a05"
+    }
+  },
+  "evidence_reports_sha256": {
+    "metadata-record-20261018.json": "85d2247c40ae40d644691f0446f1740f16d87b8b1bd4ecdd0cf2a6e032a7dfc5",
+    "scan-2012-20261018.json": "cf1bece486e8759af6a5858fad3cdaccd0854d35d95876bb4700cdb54e52753b",
+    "scan-2013-20261018.json": "c6deee849f98122a356fe4d5465692857ab847b70c5ffff673427540004e923d",
+    "tests-20261018.json": "6a7abe27ffccf6d7c946e97db6ed66e8f2a71ebd78a1960f4b7b91956f18cdf2"
+  },
+  "source_rows_updated": 0,
+  "legacy_identities_inferred": false,
+  "positive_labels_created": 0,
+  "models_trained": 0
+}

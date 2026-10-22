@@ -25,7 +25,8 @@ def test_field_statistics_rebuild_counts_legacy_anomalies_and_all_processed_cont
                 nombre_campo VARCHAR(100) NOT NULL UNIQUE,
                 contador_faltantes INTEGER NOT NULL,
                 porcentaje_total NUMERIC(5, 2),
-                updated_at DATETIME
+                updated_at DATETIME,
+                riesgo_desde_revision BIGINT NOT NULL DEFAULT 0
             )
         """))
         connection.execute(text(

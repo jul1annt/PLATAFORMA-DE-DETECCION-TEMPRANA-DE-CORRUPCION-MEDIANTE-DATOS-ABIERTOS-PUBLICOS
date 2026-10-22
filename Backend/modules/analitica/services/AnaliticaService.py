@@ -617,6 +617,8 @@ class AnaliticaService:
                 f"No se puede calcular el riesgo combinado: faltan ejecuciones de {nombres}."
             )
         ejecuciones = {nombre: ejecucion for nombre, ejecucion in ejecuciones.items() if ejecucion is not None}
+        if getattr(ejecuciones['outliers'], 'parametros', {}).get('campo', 'valor_total_normalizado') not in {'valor_total_normalizado','precio_base_normalizado'}:
+            raise EjecucionesAnaliticasIncompatiblesError('Una anomalía de calidad no puede convertirse en riesgo del proveedor.')
         no_exitosas = [nombre for nombre, ejecucion in ejecuciones.items() if ejecucion.estado != "EXITOSO"]
         if no_exitosas:
             raise FaltanEjecucionesAnaliticasError(
