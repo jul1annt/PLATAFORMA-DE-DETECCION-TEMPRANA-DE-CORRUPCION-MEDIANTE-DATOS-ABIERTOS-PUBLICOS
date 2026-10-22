@@ -1,0 +1,8 @@
+{
+  "scope": "Decisiones originales candidatas para revisar condena, alcance y vínculo SECOP. La adquisición no crea positivos.",
+  "sources": [
+    {"id":"csj-sep079-2023-00059","kind":"SENTENCIA_PENDIENTE_REVISION","url":"https://cortesuprema.gov.co/corte/wp-content/uploads/2023/08/SEP079-2023.pdf"},
+    {"id":"csj-sp1731-2025-60747","kind":"SENTENCIA_PENDIENTE_REVISION","url":"https://archivodigitalapi.cortesuprema.gov.co/share/2025/8/Documentos/SP1731-2025%2860747%29.pdf"},
+    {"id":"csj-sp1281-2024-57851","kind":"SENTENCIA_PENDIENTE_REVISION","url":"https://cortesuprema.gov.co/corte/wp-content/uploads/relatorias/pe/b1jun2024/SP1281-2024%2857851%29.pdf"}
+  ]
+}

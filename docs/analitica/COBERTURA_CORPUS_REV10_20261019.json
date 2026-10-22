@@ -1,0 +1,31 @@
+{
+  "date_bogota": "2026-10-19",
+  "inventory": "INVENTARIO_CASOS_REVISION10_20261019.json",
+  "registry_sha256_bytes": "8214cd0a96c5bc0439a00493bf636085feed0efa09f013b39238873195b2f503",
+  "registered_candidates": 11,
+  "eligible_training_cases": 0,
+  "eligible_independent_positive_groups": 0,
+  "accepted_label_temporal_coverage": [],
+  "candidate_procurement_years": {
+    "2006": 1,
+    "2007": 1,
+    "2009": 1,
+    "2010": 1,
+    "2012": 1,
+    "2013": 1,
+    "2020": 1,
+    "2021": 2,
+    "2022": 1
+  },
+  "candidate_years_not_recorded": [
+    "centros-poblados-andje-20240719",
+    "csj-sep097-2024",
+    "csj-sp968-2024-65559",
+    "necocli-covid-095-2020-discovery",
+    "centros-poblados-auto-victimas-20230217",
+    "antioquia-050016099150202000452-20230213"
+  ],
+  "year_count_unit": "Candidatos con año declarado, no positivos ni operaciones.",
+  "source_stage_observations_created_this_review": 0,
+  "training_performed": false
+}

@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from typing import Optional
 from datetime import datetime
 from shared.enums import TipoFormato
@@ -15,8 +15,7 @@ class FuenteDatosResponseDTO(BaseModel):
     ultima_sync: Optional[datetime]
     created_at: datetime
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 class ConexionTestResponseDTO(BaseModel):
     exitoso: bool
@@ -35,5 +34,31 @@ class SincronizacionHistorialResponseDTO(BaseModel):
     estado:               EstadoSync
     mensaje_error:        Optional[str]
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
+
+
+class SincronizacionHistorialResumenDTO(BaseModel):
+    total: int
+    exitoso: int
+    en_proceso: int
+    error: int
+    parcial: int
+
+
+class SincronizacionHistorialPaginaDTO(BaseModel):
+    total: int
+    page: int
+    size: int
+    items: list[SincronizacionHistorialResponseDTO]
+
+
+class ComparativaFuenteDTO(BaseModel):
+    fuente_id: int
+    nombre: str
+    endpoint: str
+    ultima_sync_estado: Optional[EstadoSync]
+    ultima_sync_error: Optional[str] = None
+    total_traidos: int
+    total_insertados: int
+    total_duplicados: int
+    tasa_duplicidad: float

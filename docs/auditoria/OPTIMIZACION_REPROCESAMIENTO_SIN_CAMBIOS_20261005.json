@@ -1,0 +1,47 @@
+{
+  "verified_at_utc": "2026-10-05T05:55:21.914788+00:00",
+  "scope": "PostgreSQL SQL-event observation: unchanged forced check avoids a timestamp-only contract update; newer raw synchronization timestamp is consumed and the next incremental run has zero candidates",
+  "database": "codex_plan_resume_test",
+  "port": 5433,
+  "migration": "d2804c8b39a1",
+  "suite": {
+    "passed": 248,
+    "failed": 0,
+    "skipped": 0,
+    "duration_seconds": "22.053"
+  },
+  "observations": [
+    {
+      "unchanged_forced_contract_updates": 0,
+      "new_source_watermark_contract_updates": 1,
+      "unchanged_projection_timestamp_preserved": true,
+      "new_source_watermark_consumed": true,
+      "incremental_candidates_after_consumption": 0,
+      "original_projection_timestamp": "2026-10-05T00:48:01.279243-05:00",
+      "refreshed_source_timestamp": "2026-10-05T00:48:01.361781-05:00",
+      "consumed_projection_timestamp": "2026-10-05T00:48:01.374713-05:00"
+    }
+  ],
+  "cleanup": {
+    "database_removed": true,
+    "database_size_before_removal_bytes": 25550183,
+    "temporary_row_counts_before_removal": {
+      "raw_secop": 0,
+      "contratos_procesados": 0,
+      "background_jobs": 0,
+      "procesamiento_logs": 0,
+      "fuentes_datos": 0
+    }
+  },
+  "operational_database_readonly_counts": {
+    "raw_secop": 18980,
+    "contratos_procesados": 18980
+  },
+  "limits": [
+    "Small regression test; the full 9,249,545-row recovery trial remains running separately",
+    "No full-scale speedup, deployment or production SLA claimed from this regression",
+    "Anomaly reconciliation and forced quality evaluation still run for unchanged contracts"
+  ],
+  "stage": "verified_and_cleaned",
+  "baseline_bug_reproduced": "The same assertion fails against the transformation method from 7a72c883: one timestamp-only UPDATE is emitted despite an unchanged normalized projection"
+}

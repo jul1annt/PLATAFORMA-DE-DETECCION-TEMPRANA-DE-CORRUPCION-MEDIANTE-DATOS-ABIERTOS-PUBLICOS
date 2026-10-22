@@ -1,0 +1,60 @@
+{
+  "checked_at_utc": "2026-10-03T18:42:45Z",
+  "old_database": "plataforma_secop_refresh_test",
+  "new_database": "plataforma_secop_refresh_20261001_test",
+  "method": "Se eligieron 2000 id_del_proceso aleatorios entre los distintos de TABLESAMPLE SYSTEM (0.5) de la generación antigua; luego se leyeron todas las filas de esos procesos por el índice id_del_proceso en ambas bases aisladas. Se compararon multiconjuntos de claves sin escribir en las bases.",
+  "sampled_processes": 2000,
+  "processes_present_in_both": 2000,
+  "old_rows": 11585,
+  "new_rows": 11585,
+  "socrata_row_id_overlap": 0,
+  "candidate_keys": {
+    "id_del_proceso": {
+      "old_duplicate_rows": 9585,
+      "new_duplicate_rows": 9585,
+      "max_multiplicity": 1225,
+      "overlap_rows_by_multiset": 11585
+    },
+    "id_del_proceso_id_adjudicacion": {
+      "old_duplicate_rows": 9535,
+      "new_duplicate_rows": 9535,
+      "max_multiplicity": 1225,
+      "overlap_rows_by_multiset": 11585
+    },
+    "id_del_proceso_id_adjudicacion_codigoproveedor": {
+      "old_duplicate_rows": 9153,
+      "new_duplicate_rows": 9153,
+      "max_multiplicity": 82,
+      "overlap_rows_by_multiset": 11585
+    },
+    "id_del_proceso_id_adjudicacion_nit_del_proveedor_adjudicado": {
+      "old_duplicate_rows": 9283,
+      "new_duplicate_rows": 9281,
+      "old_max_multiplicity": 1015,
+      "new_max_multiplicity": 1015,
+      "overlap_rows_by_multiset": 11515
+    },
+    "id_del_proceso_id_adjudicacion_codigoproveedor_nit_del_proveedor_adjudicado": {
+      "old_duplicate_rows": 9153,
+      "new_duplicate_rows": 9153,
+      "max_multiplicity": 82,
+      "overlap_rows_by_multiset": 11515
+    }
+  },
+  "conclusion": "Ninguna clave candidata de esta muestra es única por fila. La coincidencia de multiconjuntos de algunas claves no demuestra contenido idéntico ni identidad individual entre generaciones. No usar estas claves para un upsert o para reutilizar analíticas sin una reconciliación completa de contenido y multiplicidad.",
+  "limitations": "Muestra de procesos de la generación antigua, no prueba global de unicidad ni de cambios en todas las filas. TABLESAMPLE SYSTEM muestrea bloques físicos; la selección aleatoria posterior no elimina por completo el sesgo de bloques.",
+  "content_sample": {
+    "checked_at_utc": "2026-10-03T18:45:29Z",
+    "method": "Muestra separada de 500 procesos elegidos de TABLESAMPLE SYSTEM (0.2) de la generación antigua. Para todas sus filas en ambas generaciones se calculó MD5 del JSONB crudo excluyendo solo id, fuente_id, socrata_row_id y sincronizado_en; se compararon multiconjuntos de huellas.",
+    "sampled_processes": 500,
+    "old_rows": 2278,
+    "new_rows": 2278,
+    "identical_content_rows_by_multiset": 2272,
+    "old_content_rows_not_matched": 6,
+    "new_content_rows_not_matched": 6,
+    "old_distinct_content_hashes": 2115,
+    "new_distinct_content_hashes": 2115,
+    "duplicate_content_rows_per_generation": 163,
+    "note": "Son 2272 coincidencias de contenido en esta muestra, no identidades individuales ni tasa global garantizada. MD5 se usó solo para este cotejo exploratorio; una implementación de integridad usaría una huella robusta y verificaría multiplicidades y posibles colisiones."
+  }
+}

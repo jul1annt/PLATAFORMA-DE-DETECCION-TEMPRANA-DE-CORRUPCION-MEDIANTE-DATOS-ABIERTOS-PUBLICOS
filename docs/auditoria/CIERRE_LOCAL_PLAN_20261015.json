@@ -1,0 +1,1374 @@
+{
+  "stage": "verified_complete_local_plan_for_explicitly_agreed_scope",
+  "completed_at_utc": "2026-10-16T04:25:20.336341+00:00",
+  "client_date_bogota": "2026-10-15",
+  "checklist": {
+    "complete": 101,
+    "open": 0,
+    "phase_counts": {
+      "0": 8,
+      "1": 20,
+      "2": 8,
+      "3": 14,
+      "4": 10,
+      "5": 14,
+      "6": 9,
+      "7": 18
+    }
+  },
+  "requirements": [
+    {
+      "id": "F0.01",
+      "requirement": "Inventariar endpoints públicos y administrativos, incluyendo consultas de fuentes, logs e historiales; definir la política de acceso explícita.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/readiness-local-verified-20261012.json",
+        "Backend/.codex-integration-postgres/full-acceptance-20261011/local-gates.json",
+        "docs/auditoria/RESPALDO_Y_RESTAURACION_POSTGRESQL.md",
+        "docs/auditoria/RESPALDO_RESTAURACION_SECOP_20261003.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F0.02",
+      "requirement": "Declarar herramientas de pruebas Python e instalar el proyecto en un entorno limpio. Conservar las cuatro pruebas existentes.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/readiness-local-verified-20261012.json",
+        "Backend/.codex-integration-postgres/full-acceptance-20261011/local-gates.json",
+        "docs/auditoria/RESPALDO_Y_RESTAURACION_POSTGRESQL.md",
+        "docs/auditoria/RESPALDO_RESTAURACION_SECOP_20261003.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F0.03",
+      "requirement": "Preparar PostgreSQL desechable para integración, separado de los datos reales, y fuentes HTTP simuladas.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/readiness-local-verified-20261012.json",
+        "Backend/.codex-integration-postgres/full-acceptance-20261011/local-gates.json",
+        "docs/auditoria/RESPALDO_Y_RESTAURACION_POSTGRESQL.md",
+        "docs/auditoria/RESPALDO_RESTAURACION_SECOP_20261003.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F0.04",
+      "requirement": "Crear datos de prueba con más de 1000 contratos, proveedores homónimos con NIT distintos, registros incompletos, fechas futuras y contratos modificados.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/readiness-local-verified-20261012.json",
+        "Backend/.codex-integration-postgres/full-acceptance-20261011/local-gates.json",
+        "docs/auditoria/RESPALDO_Y_RESTAURACION_POSTGRESQL.md",
+        "docs/auditoria/RESPALDO_RESTAURACION_SECOP_20261003.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F0.05",
+      "requirement": "Registrar resultados iniciales de build, lint, pruebas y auditorías; configurar su ejecución en CI. Los controles inicialmente fallidos se conservan visibles hasta resolverlos.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/readiness-local-verified-20261012.json",
+        "Backend/.codex-integration-postgres/full-acceptance-20261011/local-gates.json",
+        "docs/auditoria/RESPALDO_Y_RESTAURACION_POSTGRESQL.md",
+        "docs/auditoria/RESPALDO_RESTAURACION_SECOP_20261003.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F0.06",
+      "requirement": "Documentar respaldo, verificación criptográfica, restauración aislada, conteos por fuente/estado y lista de comprobaciones operativas en `docs/auditoria/RESPALDO_Y_RESTAURACION_POSTGRESQL.md`.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/readiness-local-verified-20261012.json",
+        "Backend/.codex-integration-postgres/full-acceptance-20261011/local-gates.json",
+        "docs/auditoria/RESPALDO_Y_RESTAURACION_POSTGRESQL.md",
+        "docs/auditoria/RESPALDO_RESTAURACION_SECOP_20261003.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F0.07",
+      "requirement": "Ensayar `pg_dump`, lectura del manifiesto y `pg_restore` en PostgreSQL 15 con una base sintética aislada; los conteos antes/después coincidieron (2 fuentes, 4 filas crudas y 2 sincronizaciones).",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/readiness-local-verified-20261012.json",
+        "Backend/.codex-integration-postgres/full-acceptance-20261011/local-gates.json",
+        "docs/auditoria/RESPALDO_Y_RESTAURACION_POSTGRESQL.md",
+        "docs/auditoria/RESPALDO_RESTAURACION_SECOP_20261003.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F0.08",
+      "requirement": "Crear un respaldo del clúster local recuperado, completar restauración aislada y registrar conteos por fuente/estado sin exponer credenciales.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/readiness-local-verified-20261012.json",
+        "Backend/.codex-integration-postgres/full-acceptance-20261011/local-gates.json",
+        "docs/auditoria/RESPALDO_Y_RESTAURACION_POSTGRESQL.md",
+        "docs/auditoria/RESPALDO_RESTAURACION_SECOP_20261003.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F1.01",
+      "requirement": "Proteger las operaciones de gestión/procesamiento y las consultas administrativas con la dependencia común de administrador activo.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/readiness-local-verified-20261012.json",
+        "docs/auditoria/INTEGRACION_LOCAL_20261006.json",
+        "docs/operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.json",
+        "docs/operacion/EGRESO_LOCAL_VERIFICADO_20261015.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F1.02",
+      "requirement": "Eliminar el registro anónimo; crear el primer administrador mediante el comando controlado y restringir las altas posteriores a administradores.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/readiness-local-verified-20261012.json",
+        "docs/auditoria/INTEGRACION_LOCAL_20261006.json",
+        "docs/operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.json",
+        "docs/operacion/EGRESO_LOCAL_VERIFICADO_20261015.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F1.03",
+      "requirement": "Ejecutar y validar en PostgreSQL la concurrencia y el manejo de duplicados del bootstrap administrativo.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/readiness-local-verified-20261012.json",
+        "docs/auditoria/INTEGRACION_LOCAL_20261006.json",
+        "docs/operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.json",
+        "docs/operacion/EGRESO_LOCAL_VERIFICADO_20261015.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F1.04",
+      "requirement": "Comprobar `is_active` en cada petición autenticada.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/readiness-local-verified-20261012.json",
+        "docs/auditoria/INTEGRACION_LOCAL_20261006.json",
+        "docs/operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.json",
+        "docs/operacion/EGRESO_LOCAL_VERIFICADO_20261015.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F1.05",
+      "requirement": "Exigir los campos obligatorios del JWT y responder 401 a tokens malformados, sin provocar errores internos.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/readiness-local-verified-20261012.json",
+        "docs/auditoria/INTEGRACION_LOCAL_20261006.json",
+        "docs/operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.json",
+        "docs/operacion/EGRESO_LOCAL_VERIFICADO_20261015.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F1.06",
+      "requirement": "Implementar revocación de sesión en servidor: JWT ligado a sesión persistida, vencimiento, logout y desactivación de cuenta.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/readiness-local-verified-20261012.json",
+        "docs/auditoria/INTEGRACION_LOCAL_20261006.json",
+        "docs/operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.json",
+        "docs/operacion/EGRESO_LOCAL_VERIFICADO_20261015.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F1.07",
+      "requirement": "Limitar intentos de login con estado PostgreSQL compartido entre procesos; responder 429 y limpiar intentos tras login válido.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/readiness-local-verified-20261012.json",
+        "docs/auditoria/INTEGRACION_LOCAL_20261006.json",
+        "docs/operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.json",
+        "docs/operacion/EGRESO_LOCAL_VERIFICADO_20261015.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F1.08",
+      "requirement": "Validar longitud y política de contraseña también en servidor, sin truncamiento silencioso.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/readiness-local-verified-20261012.json",
+        "docs/auditoria/INTEGRACION_LOCAL_20261006.json",
+        "docs/operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.json",
+        "docs/operacion/EGRESO_LOCAL_VERIFICADO_20261015.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F1.09",
+      "requirement": "Centralizar cliente HTTP, URL configurada, bearer y manejo de 401/403; proteger el área administrativa y redirigir `/app` a la ruta vigente.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/readiness-local-verified-20261012.json",
+        "docs/auditoria/INTEGRACION_LOCAL_20261006.json",
+        "docs/operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.json",
+        "docs/operacion/EGRESO_LOCAL_VERIFICADO_20261015.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F1.10",
+      "requirement": "Validar fuentes por HTTPS, host, puerto y ruta; fijar IP públicas resueltas por operación, rechazar redes no públicas y redirecciones, y mantener TLS/SNI con el host original.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/readiness-local-verified-20261012.json",
+        "docs/auditoria/INTEGRACION_LOCAL_20261006.json",
+        "docs/operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.json",
+        "docs/operacion/EGRESO_LOCAL_VERIFICADO_20261015.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F1.11",
+      "requirement": "Verificar sesiones, limitador de login, flujo administrativo y carreras de autenticación mediante pruebas de integración con PostgreSQL.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/readiness-local-verified-20261012.json",
+        "docs/auditoria/INTEGRACION_LOCAL_20261006.json",
+        "docs/operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.json",
+        "docs/operacion/EGRESO_LOCAL_VERIFICADO_20261015.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F1.12",
+      "requirement": "Verificar el flujo contra la API desplegada e imponer controles de egreso de red en infraestructura. **P01 cerrado el 15/10/2026:** seis reglas autorizadas aplicadas/verificadas para ambos Python; 14 comprobaciones de tráfico, tres controles positivos y dos rutas HTTP pasaron, con SECOP/PostgreSQL/API accesibles, TCP/UDP externo no permitido bloqueado y perfiles globales iguales. Prefijos convertidos a rangos exactamente equivalentes; pruebas externas IPv4 y verificación estructural IPv6. [Evidencia y límites](../operacion/EGRESO_LOCAL_VERIFICADO_20261015.md).",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/readiness-local-verified-20261012.json",
+        "docs/auditoria/INTEGRACION_LOCAL_20261006.json",
+        "docs/operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.json",
+        "docs/operacion/EGRESO_LOCAL_VERIFICADO_20261015.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F1.13",
+      "requirement": "Cifrar las API keys nuevas con clave Fernet externa y formato versionado; no conservar ni reenviar automáticamente la clave si cambia el origen autorizado.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/readiness-local-verified-20261012.json",
+        "docs/auditoria/INTEGRACION_LOCAL_20261006.json",
+        "docs/operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.json",
+        "docs/operacion/EGRESO_LOCAL_VERIFICADO_20261015.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F1.14",
+      "requirement": "Incluir el migrador de claves legadas y documentar el procedimiento de rotación reanudable con lectura temporal de clave anterior.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/readiness-local-verified-20261012.json",
+        "docs/auditoria/INTEGRACION_LOCAL_20261006.json",
+        "docs/operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.json",
+        "docs/operacion/EGRESO_LOCAL_VERIFICADO_20261015.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F1.15",
+      "requirement": "Ensayar la migración y rotación sobre una restauración sintética; confirmar dry-run sin escrituras, dos claves legadas cifradas, ambas legibles con la clave nueva y cero valores en claro.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/readiness-local-verified-20261012.json",
+        "docs/auditoria/INTEGRACION_LOCAL_20261006.json",
+        "docs/operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.json",
+        "docs/operacion/EGRESO_LOCAL_VERIFICADO_20261015.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F1.16",
+      "requirement": "Migrar las API keys activas en la copia restaurada de los datos reales y confirmar conteos, lectura de cada clave y ausencia de valores en claro; no rotar credenciales del proveedor sin evidencia de exposición.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/readiness-local-verified-20261012.json",
+        "docs/auditoria/INTEGRACION_LOCAL_20261006.json",
+        "docs/operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.json",
+        "docs/operacion/EGRESO_LOCAL_VERIFICADO_20261015.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F1.17",
+      "requirement": "Sustituir mensajes públicos derivados de `str(e)` por errores estables con identificador de correlación.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/readiness-local-verified-20261012.json",
+        "docs/auditoria/INTEGRACION_LOCAL_20261006.json",
+        "docs/operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.json",
+        "docs/operacion/EGRESO_LOCAL_VERIFICADO_20261015.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F1.18",
+      "requirement": "Redactar secretos y detalles internos de los logs de aplicación con IDs de correlación.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/readiness-local-verified-20261012.json",
+        "docs/auditoria/INTEGRACION_LOCAL_20261006.json",
+        "docs/operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.json",
+        "docs/operacion/EGRESO_LOCAL_VERIFICADO_20261015.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F1.19",
+      "requirement": "Verificar permisos y acceso a logs de diagnóstico en el entorno de despliegue. La cuenta real de integración comprobó ACL y apertura efectiva de ocho rutas; solo usuario de despliegue, SYSTEM y Administradores. El cotejo de seis archivos no encontró contraseñas, claves utilizadas ni tokens con forma de JWT. Evidencia: `INTEGRACION_LOCAL_20261006.json` (P02).",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/readiness-local-verified-20261012.json",
+        "docs/auditoria/INTEGRACION_LOCAL_20261006.json",
+        "docs/operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.json",
+        "docs/operacion/EGRESO_LOCAL_VERIFICADO_20261015.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F1.20",
+      "requirement": "Configurar CORS por entorno y documentar el mecanismo de sesión. Si se adopta cookie en vez de bearer, añadir protección CSRF y atributos apropiados en esa misma entrega.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/readiness-local-verified-20261012.json",
+        "docs/auditoria/INTEGRACION_LOCAL_20261006.json",
+        "docs/operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.json",
+        "docs/operacion/EGRESO_LOCAL_VERIFICADO_20261015.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F2.01",
+      "requirement": "Resolver los ocho diagnósticos TypeScript; ajustar tipos de tooltips y símbolos sin uso.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/full-acceptance-20261011/local-gates.json",
+        "Backend/requirements.lock",
+        "Backend/requirements-dev.lock",
+        "frontend/package-lock.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F2.02",
+      "requirement": "Corregir los 54 errores y la advertencia ESLint. Llamar hooks incondicionalmente en `Input` y `Select`; revisar efectos, dependencias y errores de tipado sin desactivar reglas de manera global.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/full-acceptance-20261011/local-gates.json",
+        "Backend/requirements.lock",
+        "Backend/requirements-dev.lock",
+        "frontend/package-lock.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F2.03",
+      "requirement": "Revisar cada aviso de dependencias: versión instalada, dependencia directa/transitiva, superficie utilizada y corrección compatible. Volver a consultar avisos al ejecutar la actualización; no fijar versiones solo a partir de la foto de la auditoría.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/full-acceptance-20261011/local-gates.json",
+        "Backend/requirements.lock",
+        "Backend/requirements-dev.lock",
+        "frontend/package-lock.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F2.04",
+      "requirement": "Actualizar dependencias por grupos compatibles, especialmente FastAPI/Starlette, Pydantic y su configuración, así como React/router/gráficos/build. Ejecutar instalación limpia y pruebas después de cada grupo.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/full-acceptance-20261011/local-gates.json",
+        "Backend/requirements.lock",
+        "Backend/requirements-dev.lock",
+        "frontend/package-lock.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F2.05",
+      "requirement": "Separar dependencias Python de aplicación y desarrollo; generar un bloqueo reproducible con hashes. Conservar y validar `package-lock.json` mediante instalación con `npm ci`.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/full-acceptance-20261011/local-gates.json",
+        "Backend/requirements.lock",
+        "Backend/requirements-dev.lock",
+        "frontend/package-lock.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F2.06",
+      "requirement": "Retirar dependencias no utilizadas. Programar la eliminación de `xlsx`, `jspdf` y `jspdf-autotable` del cliente cuando sus exportaciones migren en fases 5 y 6; auditar también las bibliotecas que las sustituyan en el backend.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/full-acceptance-20261011/local-gates.json",
+        "Backend/requirements.lock",
+        "Backend/requirements-dev.lock",
+        "frontend/package-lock.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F2.07",
+      "requirement": "Registrar cualquier aviso sin corrección disponible con alcance, medida compensatoria, responsable y vencimiento. Una excepción aceptada se marca como riesgo pendiente, no como vulnerabilidad corregida.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/full-acceptance-20261011/local-gates.json",
+        "Backend/requirements.lock",
+        "Backend/requirements-dev.lock",
+        "frontend/package-lock.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F2.08",
+      "requirement": "Dejar en `requirements.in` solo dependencias directas, regenerar ambos locks con hashes y ejecutar una auditoría Python concluyente. `pip-audit` con OSV examinó 75 dependencias y no encontró vulnerabilidades conocidas después de actualizar `urllib3` a 2.8.0; `pip check` pasó.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/full-acceptance-20261011/local-gates.json",
+        "Backend/requirements.lock",
+        "Backend/requirements-dev.lock",
+        "frontend/package-lock.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F3.01",
+      "requirement": "Sustituir el límite de prueba fijo por configuración explícita; alcanzar un límite debe producir estado parcial y conservar el punto de reanudación.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/readiness-local-verified-20261012.json",
+        "docs/auditoria/COBERTURA_SECOP_20261002.json",
+        "docs/auditoria/VALIDACION_LOCAL_PENDIENTES_20261011.json",
+        "docs/auditoria/CIERRE_LEGADO_SECOP_ACEPTADO_20261015.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F3.02",
+      "requirement": "Verificar el identificador y el orden total para páginas dentro de una misma versión del conjunto; la ingesta pagina por `:id` y usa upsert por `(fuente_id, socrata_row_id)`.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/readiness-local-verified-20261012.json",
+        "docs/auditoria/COBERTURA_SECOP_20261002.json",
+        "docs/auditoria/VALIDACION_LOCAL_PENDIENTES_20261011.json",
+        "docs/auditoria/CIERRE_LEGADO_SECOP_ACEPTADO_20261015.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F3.03",
+      "requirement": "Detectar y reconciliar reemplazos completos del conjunto. El detector compara firma oficial e IDs locales aun cuando `:updated_at` queda antes del watermark; al detectar sustitución invalida el checkpoint, deja el historial `PARCIAL` y pausa la fuente para evitar reencolado. La recarga reanudable del corte sustituto de 9 249 545 terminó con `completed=full_window`, restauró los índices y pasó `secop_20261001_coverage.json`; los cortes de 9 232 809 y 9 235 206 quedan históricos. La transformación derivada y su respaldo se controlan por separado en fase 7.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/readiness-local-verified-20261012.json",
+        "docs/auditoria/COBERTURA_SECOP_20261002.json",
+        "docs/auditoria/VALIDACION_LOCAL_PENDIENTES_20261011.json",
+        "docs/auditoria/CIERRE_LEGADO_SECOP_ACEPTADO_20261015.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F3.04",
+      "requirement": "Confirmar lote, cursor, checkpoint e historial en la misma transacción; distinguir ejecución, éxito completo y posición leída sin inferir éxito desde la hora actual.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/readiness-local-verified-20261012.json",
+        "docs/auditoria/COBERTURA_SECOP_20261002.json",
+        "docs/auditoria/VALIDACION_LOCAL_PENDIENTES_20261011.json",
+        "docs/auditoria/CIERRE_LEGADO_SECOP_ACEPTADO_20261015.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F3.05",
+      "requirement": "Actualizar contratos existentes mediante upsert cuando SECOP informa cambios; usar `:updated_at` y una ventana de solapamiento documentada.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/readiness-local-verified-20261012.json",
+        "docs/auditoria/COBERTURA_SECOP_20261002.json",
+        "docs/auditoria/VALIDACION_LOCAL_PENDIENTES_20261011.json",
+        "docs/auditoria/CIERRE_LEGADO_SECOP_ACEPTADO_20261015.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F3.06",
+      "requirement": "Archivar en `raw_secop_historial` la instantánea JSONB anterior cuando un upsert cambia un proceso; el trigger y el upsert comparten transacción y las lecturas sin cambios no generan versiones.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/readiness-local-verified-20261012.json",
+        "docs/auditoria/COBERTURA_SECOP_20261002.json",
+        "docs/auditoria/VALIDACION_LOCAL_PENDIENTES_20261011.json",
+        "docs/auditoria/CIERRE_LEGADO_SECOP_ACEPTADO_20261015.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F3.07",
+      "requirement": "Verificar la migración y el trigger de historial con PostgreSQL; confirmar que un cambio archiva la versión anterior y una lectura idéntica no crea otra.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/readiness-local-verified-20261012.json",
+        "docs/auditoria/COBERTURA_SECOP_20261002.json",
+        "docs/auditoria/VALIDACION_LOCAL_PENDIENTES_20261011.json",
+        "docs/auditoria/CIERRE_LEGADO_SECOP_ACEPTADO_20261015.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F3.08",
+      "requirement": "Cerrar la investigación del historial anterior conservando el original, sus comparaciones y las causas no demostradas; mantener la medición de crecimiento y la política conservadora, y versionar solo cambios efectivamente observados. **P05 cerrado con limitación histórica aceptada por el usuario el 15/10/2026:** no se reconstruyó identidad ni historial anterior completo; las fuentes siguen pausadas. [Criterio original y sustitución aceptada](LIMITE_HISTORICO_SECOP_ACEPTADO_20261015.md), [verificación de cierre](CIERRE_LEGADO_SECOP_ACEPTADO_20261015.md).",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/readiness-local-verified-20261012.json",
+        "docs/auditoria/COBERTURA_SECOP_20261002.json",
+        "docs/auditoria/VALIDACION_LOCAL_PENDIENTES_20261011.json",
+        "docs/auditoria/CIERRE_LEGADO_SECOP_ACEPTADO_20261015.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F3.09",
+      "requirement": "Unificar la sincronización manual y programada en el mismo caso de uso con historial, conteos, estados y errores.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/readiness-local-verified-20261012.json",
+        "docs/auditoria/COBERTURA_SECOP_20261002.json",
+        "docs/auditoria/VALIDACION_LOCAL_PENDIENTES_20261011.json",
+        "docs/auditoria/CIERRE_LEGADO_SECOP_ACEPTADO_20261015.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F3.10",
+      "requirement": "Sacar el scheduler del arranque de cada worker HTTP y ejecutarlo desde el proceso dedicado `worker.py`.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/readiness-local-verified-20261012.json",
+        "docs/auditoria/COBERTURA_SECOP_20261002.json",
+        "docs/auditoria/VALIDACION_LOCAL_PENDIENTES_20261011.json",
+        "docs/auditoria/CIERRE_LEGADO_SECOP_ACEPTADO_20261015.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F3.11",
+      "requirement": "Persistir trabajos, deduplicar por recurso con exclusión compartida y recuperar trabajos cuyo worker perdió el lock.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/readiness-local-verified-20261012.json",
+        "docs/auditoria/COBERTURA_SECOP_20261002.json",
+        "docs/auditoria/VALIDACION_LOCAL_PENDIENTES_20261011.json",
+        "docs/auditoria/CIERRE_LEGADO_SECOP_ACEPTADO_20261015.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F3.12",
+      "requirement": "Hacer que ingesta, reprocesamiento, analítica y exportaciones largas creen trabajos consultables por identificador; limitar operaciones y conservar idempotencia antes de reintentar.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/readiness-local-verified-20261012.json",
+        "docs/auditoria/COBERTURA_SECOP_20261002.json",
+        "docs/auditoria/VALIDACION_LOCAL_PENDIENTES_20261011.json",
+        "docs/auditoria/CIERRE_LEGADO_SECOP_ACEPTADO_20261015.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F3.13",
+      "requirement": "Verificar persistencia, exclusión entre workers, recuperación tras caída y respuesta de API durante ingestas lentas en PostgreSQL aislado.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/readiness-local-verified-20261012.json",
+        "docs/auditoria/COBERTURA_SECOP_20261002.json",
+        "docs/auditoria/VALIDACION_LOCAL_PENDIENTES_20261011.json",
+        "docs/auditoria/CIERRE_LEGADO_SECOP_ACEPTADO_20261015.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F3.14",
+      "requirement": "Medir límites y reintentos de trabajos con carga representativa: un lote de datos SECOP reales procesó 100 000 filas en 255 s y quedó reanudable como `PARCIAL`.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/readiness-local-verified-20261012.json",
+        "docs/auditoria/COBERTURA_SECOP_20261002.json",
+        "docs/auditoria/VALIDACION_LOCAL_PENDIENTES_20261011.json",
+        "docs/auditoria/CIERRE_LEGADO_SECOP_ACEPTADO_20261015.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F4.01",
+      "requirement": "Separar normalización y detección de anomalías de los efectos de persistencia. La detección devuelve resultados sin incrementar estadísticas.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/readiness-local-verified-20261012.json",
+        "docs/auditoria/VALIDACION_LOCAL_PENDIENTES_20261011.json",
+        "docs/operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F4.02",
+      "requirement": "Reconciliar anomalías vigentes al insertar/actualizar contratos y archivar por separado las anomalías retiradas o corregidas.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/readiness-local-verified-20261012.json",
+        "docs/auditoria/VALIDACION_LOCAL_PENDIENTES_20261011.json",
+        "docs/operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F4.03",
+      "requirement": "Reconstruir estadísticas desde anomalías vigentes; definir conteos y porcentajes sobre el universo de contratos procesados.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/readiness-local-verified-20261012.json",
+        "docs/auditoria/VALIDACION_LOCAL_PENDIENTES_20261011.json",
+        "docs/operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F4.04",
+      "requirement": "Centralizar el manejo de sesiones y transacciones. Retirar commits ocultos de operaciones de repositorio que formen parte de una misma unidad de trabajo.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/readiness-local-verified-20261012.json",
+        "docs/auditoria/VALIDACION_LOCAL_PENDIENTES_20261011.json",
+        "docs/operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F4.05",
+      "requirement": "Establecer índices únicos para impedir duplicados de anomalías activas y conservar en historial los duplicados anteriores al índice.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/readiness-local-verified-20261012.json",
+        "docs/auditoria/VALIDACION_LOCAL_PENDIENTES_20261011.json",
+        "docs/operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F4.06",
+      "requirement": "Registrar versión de reglas, universo procesado, inicio/avance/fin y estado; los fallos parciales quedan como `ERROR` y no se publican como completos.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/readiness-local-verified-20261012.json",
+        "docs/auditoria/VALIDACION_LOCAL_PENDIENTES_20261011.json",
+        "docs/operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F4.07",
+      "requirement": "Crear un comando de reconciliación con diagnóstico predeterminado, lotes, checkpoint reanudable e informe antes/después.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/readiness-local-verified-20261012.json",
+        "docs/auditoria/VALIDACION_LOCAL_PENDIENTES_20261011.json",
+        "docs/operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F4.08",
+      "requirement": "Aplicar todas las migraciones desde una base PostgreSQL vacía y validar reconciliación de anomalías/estadísticas e idempotencia con integración PostgreSQL.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/readiness-local-verified-20261012.json",
+        "docs/auditoria/VALIDACION_LOCAL_PENDIENTES_20261011.json",
+        "docs/operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F4.09",
+      "requirement": "En PostgreSQL, aplicar `e13ad9c24780` y `f42b38e1a760` sobre filas sintéticas preexistentes: el backfill creó el NIT canónico, archivó una anomalía duplicada y conservó una activa; el comando de reconciliación se reanudó desde un checkpoint fallido y completó dos filas con lote de uno.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/readiness-local-verified-20261012.json",
+        "docs/auditoria/VALIDACION_LOCAL_PENDIENTES_20261011.json",
+        "docs/operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F4.10",
+      "requirement": "Auditar y reparar duplicados/anomalías en una copia restaurada de datos reales; revisar migración, reanudación y conteos resultantes.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/readiness-local-verified-20261012.json",
+        "docs/auditoria/VALIDACION_LOCAL_PENDIENTES_20261011.json",
+        "docs/operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F5.01",
+      "requirement": "Definir una identidad de proveedor basada en NIT validado cuando exista. Establecer una política explícita para registros sin NIT; no fusionar entidades distintas solo por nombre ni elegir su NIT con `MAX`.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/readiness-local-verified-20261012.json",
+        "docs/auditoria/CONSISTENCIA_PROVEEDORES_SECOP_20261015.json",
+        "Backend/openapi.json",
+        "frontend/src/types/api.generated.ts",
+        "docs/operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F5.02",
+      "requirement": "Verificar en todo el corte de la copia aislada existente la consistencia y procedencia de los identificadores reportados por SECOP, sus claves normalizadas y las agrupaciones de proveedores; cuantificar ausentes, formatos no aceptados y DV incoherentes, resolver discrepancias y declarar el contraste DIAN como no realizado. Alcance ajustado por aprobación explícita del usuario el 15/10/2026; [criterio original y sustitución aprobada](ALCANCE_P06_SOLO_SECOP_20261015.md). **P06 cerrado:** recorrido completo de 9.249.545 filas crudas y procesadas, cero discrepancias y todos los grupos cotejados. [Evidencia de cierre](CONSISTENCIA_PROVEEDORES_SECOP_20261015.md).",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/readiness-local-verified-20261012.json",
+        "docs/auditoria/CONSISTENCIA_PROVEEDORES_SECOP_20261015.json",
+        "Backend/openapi.json",
+        "frontend/src/types/api.generated.ts",
+        "docs/operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F5.03",
+      "requirement": "Separar riesgo de proveedor, señales de contrato y confianza/calidad del dato. No trasladar automáticamente una clasificación de proveedor a cada contrato sin una regla definida.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/readiness-local-verified-20261012.json",
+        "docs/auditoria/CONSISTENCIA_PROVEEDORES_SECOP_20261015.json",
+        "Backend/openapi.json",
+        "frontend/src/types/api.generated.ts",
+        "docs/operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F5.04",
+      "requirement": "Añadir `SIN_EVALUAR` y distinguir resultados vigentes, desactualizados y ejecuciones fallidas. Vincular riesgo combinado a ejecuciones compatibles del mismo universo, conservando sus identificadores y pesos efectivos.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/readiness-local-verified-20261012.json",
+        "docs/auditoria/CONSISTENCIA_PROVEEDORES_SECOP_20261015.json",
+        "Backend/openapi.json",
+        "frontend/src/types/api.generated.ts",
+        "docs/operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F5.05",
+      "requirement": "Definir si `datos_modificados` se soportará mediante versionado real. Hasta entonces, retirar del contrato y la interfaz la funcionalidad que presupone ese dato.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/readiness-local-verified-20261012.json",
+        "docs/auditoria/CONSISTENCIA_PROVEEDORES_SECOP_20261015.json",
+        "Backend/openapi.json",
+        "frontend/src/types/api.generated.ts",
+        "docs/operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F5.06",
+      "requirement": "Crear servicios de agregación SQL para KPIs, rankings, distribución de riesgo/anomalías, comparativas de sincronización, estados de trabajos y clasificación de calidad. Los cálculos deben usar el conjunto completo filtrado.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/readiness-local-verified-20261012.json",
+        "docs/auditoria/CONSISTENCIA_PROVEEDORES_SECOP_20261015.json",
+        "Backend/openapi.json",
+        "frontend/src/types/api.generated.ts",
+        "docs/operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F5.07",
+      "requirement": "Implementar búsqueda de texto, autocompletado y filtros de alto riesgo/cambios en backend cuando su semántica esté definida; filtrar antes de contar y paginar. Unificar nombres de parámetros y rechazar parámetros desconocidos en las APIs relevantes. La señal de cambios sigue retirada hasta contar con versionado real.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/readiness-local-verified-20261012.json",
+        "docs/auditoria/CONSISTENCIA_PROVEEDORES_SECOP_20261015.json",
+        "Backend/openapi.json",
+        "frontend/src/types/api.generated.ts",
+        "docs/operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F5.08",
+      "requirement": "Validar en servidor rangos de fechas, montos, confianza, pesos y paginación. Definir contratos explícitos de nulos, decimales, porcentajes, errores y ausencia de datos.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/readiness-local-verified-20261012.json",
+        "docs/auditoria/CONSISTENCIA_PROVEEDORES_SECOP_20261015.json",
+        "Backend/openapi.json",
+        "frontend/src/types/api.generated.ts",
+        "docs/operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F5.09",
+      "requirement": "Generar exportaciones CSV/XLSX/PDF en backend con los mismos filtros y permisos. Especificar si representan todo el resultado o una selección; no exportar silenciosamente solo la página cargada.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/readiness-local-verified-20261012.json",
+        "docs/auditoria/CONSISTENCIA_PROVEEDORES_SECOP_20261015.json",
+        "Backend/openapi.json",
+        "frontend/src/types/api.generated.ts",
+        "docs/operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F5.10",
+      "requirement": "Neutralizar fórmulas en CSV y escribir celdas textuales como texto en XLSX. Limitar volumen y tiempo; producir exportaciones grandes como trabajos con descarga autorizada y expiración.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/readiness-local-verified-20261012.json",
+        "docs/auditoria/CONSISTENCIA_PROVEEDORES_SECOP_20261015.json",
+        "Backend/openapi.json",
+        "frontend/src/types/api.generated.ts",
+        "docs/operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F5.11",
+      "requirement": "Publicar OpenAPI y generar o verificar los tipos TypeScript para detectar divergencias. Unificar las configuraciones y proveedores de sesión duplicados del backend.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/readiness-local-verified-20261012.json",
+        "docs/auditoria/CONSISTENCIA_PROVEEDORES_SECOP_20261015.json",
+        "Backend/openapi.json",
+        "frontend/src/types/api.generated.ts",
+        "docs/operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F5.12",
+      "requirement": "Trasladar la traducción de errores HTTP de los servicios de autenticación e ingesta al límite HTTP común, conservando códigos y mensajes públicos y probando llamadas desde API y worker.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/readiness-local-verified-20261012.json",
+        "docs/auditoria/CONSISTENCIA_PROVEEDORES_SECOP_20261015.json",
+        "Backend/openapi.json",
+        "frontend/src/types/api.generated.ts",
+        "docs/operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F5.13",
+      "requirement": "Sustituir los DTO de petición consumidos por el repositorio de transformación por filtros de dominio compartidos, sin cambiar los parámetros ni resultados de búsqueda/exportación.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/readiness-local-verified-20261012.json",
+        "docs/auditoria/CONSISTENCIA_PROVEEDORES_SECOP_20261015.json",
+        "Backend/openapi.json",
+        "frontend/src/types/api.generated.ts",
+        "docs/operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F5.14",
+      "requirement": "Aislar los ejecutores por tipo de trabajo para que un fallo de importación de un servicio no impida arrancar trabajos de otros tipos; conservar el despacho y las pruebas de inyección existentes.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/readiness-local-verified-20261012.json",
+        "docs/auditoria/CONSISTENCIA_PROVEEDORES_SECOP_20261015.json",
+        "Backend/openapi.json",
+        "frontend/src/types/api.generated.ts",
+        "docs/operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F6.01",
+      "requirement": "Reemplazar `fetchAllItems()` y las agregaciones de `procesadosService.ts` por endpoints de resumen.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/full-acceptance-20261011/local-gates.json",
+        "docs/auditoria/INTEGRACION_LOCAL_20261006.json",
+        "docs/operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F6.02",
+      "requirement": "Eliminar filtros locales de negocio en `PublicProcesados`; conectar autocompletado, búsqueda y paginación a resultados del servidor.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/full-acceptance-20261011/local-gates.json",
+        "docs/auditoria/INTEGRACION_LOCAL_20261006.json",
+        "docs/operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F6.03",
+      "requirement": "Retirar sumatorias de `ComparativaSincronizaciones`, conteos oficiales de `AdminSyncLogs` y umbrales de calidad en `PublicDashboard`; consumir resultados y clasificaciones de la API.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/full-acceptance-20261011/local-gates.json",
+        "docs/auditoria/INTEGRACION_LOCAL_20261006.json",
+        "docs/operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F6.04",
+      "requirement": "Mostrar `SIN_EVALUAR`, datos desactualizados, carga, vacío y error como estados diferentes; evitar presentar ceros o bajo riesgo ante fallos de red.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/full-acceptance-20261011/local-gates.json",
+        "docs/auditoria/INTEGRACION_LOCAL_20261006.json",
+        "docs/operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F6.05",
+      "requirement": "Descargar exportaciones generadas por backend y retirar bibliotecas cliente que ya no se utilicen.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/full-acceptance-20261011/local-gates.json",
+        "docs/auditoria/INTEGRACION_LOCAL_20261006.json",
+        "docs/operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F6.06",
+      "requirement": "Mantener un único cliente HTTP y tipos alineados con la API. Conservar solamente validaciones de UX que no sustituyan las del servidor.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/full-acceptance-20261011/local-gates.json",
+        "docs/auditoria/INTEGRACION_LOCAL_20261006.json",
+        "docs/operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F6.07",
+      "requirement": "Verificar el build de producción con `VITE_API_URL` distinto de localhost y confirmar que el bundle incluya esa URL y no el fallback local.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/full-acceptance-20261011/local-gates.json",
+        "docs/auditoria/INTEGRACION_LOCAL_20261006.json",
+        "docs/operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F6.08",
+      "requirement": "Evitar que un 401 de una petición con token sustituido borre una sesión nueva; el 401 del login tampoco debe expirar la sesión almacenada.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/full-acceptance-20261011/local-gates.json",
+        "docs/auditoria/INTEGRACION_LOCAL_20261006.json",
+        "docs/operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F6.09",
+      "requirement": "Verificar por extremo a extremo carreras de búsqueda, cancelación, recuperación de sesión y rutas públicas/administrativas contra una API de integración. El cliente compilado y la API real de este equipo comprobaron búsqueda de 2024, cancelación pendiente, vacío, error/reinicio, login, recarga, logout y protección de rutas sobre el corte conservado de 9 249 545. La supresión de respuestas tardías conserva su prueba frontend independiente. Evidencia y límites: `INTEGRACION_LOCAL_20261006.md` (P10).",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "Backend/.codex-integration-postgres/full-acceptance-20261011/local-gates.json",
+        "docs/auditoria/INTEGRACION_LOCAL_20261006.json",
+        "docs/operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F7.01",
+      "requirement": "Ensayar migraciones, reconciliación reanudable y restauración con datos sintéticos en PostgreSQL 15 antes de actuar sobre datos reales.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "docs/auditoria/VALIDACION_LOCAL_PENDIENTES_20261011.json",
+        "docs/auditoria/RESPALDO_RESTAURACION_SECOP_20261003.json",
+        "docs/auditoria/INTEGRACION_LOCAL_20261006.json",
+        "docs/operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.json",
+        "docs/operacion/CONSERVACION_APROBADA_Y_EGRESO_20261012.json",
+        "docs/auditoria/CIERRE_LEGADO_SECOP_ACEPTADO_20261015.json",
+        "docs/auditoria/GUIA_DESPLIEGUE_Y_REVERSA.md",
+        ".github/workflows/ci.yml",
+        "Backend/.codex-integration-postgres/security-retention-application-20261012/remote-control-readonly-20261015.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F7.02",
+      "requirement": "Repetir estos ensayos sobre una copia restaurada del clúster local recuperado.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "docs/auditoria/VALIDACION_LOCAL_PENDIENTES_20261011.json",
+        "docs/auditoria/RESPALDO_RESTAURACION_SECOP_20261003.json",
+        "docs/auditoria/INTEGRACION_LOCAL_20261006.json",
+        "docs/operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.json",
+        "docs/operacion/CONSERVACION_APROBADA_Y_EGRESO_20261012.json",
+        "docs/auditoria/CIERRE_LEGADO_SECOP_ACEPTADO_20261015.json",
+        "docs/auditoria/GUIA_DESPLIEGUE_Y_REVERSA.md",
+        ".github/workflows/ci.yml",
+        "Backend/.codex-integration-postgres/security-retention-application-20261012/remote-control-readonly-20261015.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F7.03",
+      "requirement": "Identificar fuentes cuyo cursor pudo avanzar tras alcanzar 10000 registros. El corte oficial del cotejo de 2026-10-02 quedó completo con 9 249 545 filas locales y oficiales, 0 IDs Socrata vacíos, índice único válido, 12/12 IDs muestreados presentes y coincidencia exacta de los 13 grupos por año de publicación; la firma oficial fue igual antes y después del cotejo. SECOP lo reemplazó posteriormente. La verificación no atribuye identidad entre generaciones distintas ni reconstruye IDs ausentes de las 18 980 filas heredadas. Evidencia: `docs/auditoria/COBERTURA_SECOP_20261002.json`.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "docs/auditoria/VALIDACION_LOCAL_PENDIENTES_20261011.json",
+        "docs/auditoria/RESPALDO_RESTAURACION_SECOP_20261003.json",
+        "docs/auditoria/INTEGRACION_LOCAL_20261006.json",
+        "docs/operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.json",
+        "docs/operacion/CONSERVACION_APROBADA_Y_EGRESO_20261012.json",
+        "docs/auditoria/CIERRE_LEGADO_SECOP_ACEPTADO_20261015.json",
+        "docs/auditoria/GUIA_DESPLIEGUE_Y_REVERSA.md",
+        ".github/workflows/ci.yml",
+        "Backend/.codex-integration-postgres/security-retention-application-20261012/remote-control-readonly-20261015.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F7.04",
+      "requirement": "**Cierre histórico de 9 232 809 filas:** reconstruir contratos/anomalías vigentes y estadísticas con el pipeline corregido: 7 214 809 candidatas procesadas en la ejecución final, 0 omitidas, 129 104 anomalías vigentes y una fila de estadísticas. Las diferencias de universo no se presentan como reconciliación individual.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "docs/auditoria/VALIDACION_LOCAL_PENDIENTES_20261011.json",
+        "docs/auditoria/RESPALDO_RESTAURACION_SECOP_20261003.json",
+        "docs/auditoria/INTEGRACION_LOCAL_20261006.json",
+        "docs/operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.json",
+        "docs/operacion/CONSERVACION_APROBADA_Y_EGRESO_20261012.json",
+        "docs/auditoria/CIERRE_LEGADO_SECOP_ACEPTADO_20261015.json",
+        "docs/auditoria/GUIA_DESPLIEGUE_Y_REVERSA.md",
+        ".github/workflows/ci.yml",
+        "Backend/.codex-integration-postgres/security-retention-application-20261012/remote-control-readonly-20261015.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F7.05",
+      "requirement": "**Comparación histórica:** comparar el subconjunto heredado con la carga de 9 232 809 filas mediante un procedimiento de solo lectura y sin usar `id_del_proceso` como identidad: los 18 980 procesos heredados están presentes, pero producen 105 640 filas de esa generación y 478 procesos tienen varias filas. Entre las 18 980 filas heredadas, 15 456 tienen coincidencia exacta y única en los 60 campos fuente; 119 coincidencias exactas son ambiguas por filas repetidas; 2 702 filas comparten la tupla de adjudicación de comparación pero difieren en otros campos; 703 no tienen una coincidencia de esa tupla. Entre los campos con más diferencias de valor en candidatos cercanos están `codigo_pci`, `ciudad_de_la_unidad_de` y `codigo_principal_de_categoria`; estos conteos admiten empates y son indicativos, no atribuyen por sí solos el cambio a la fuente o al pipeline. El informe agregado y el procedimiento están en `docs/auditoria/RECONCILIACION_SUBCONJUNTO_LEGACY.json` y `Backend/scripts/reconcile_legacy_raw_subset.py`.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "docs/auditoria/VALIDACION_LOCAL_PENDIENTES_20261011.json",
+        "docs/auditoria/RESPALDO_RESTAURACION_SECOP_20261003.json",
+        "docs/auditoria/INTEGRACION_LOCAL_20261006.json",
+        "docs/operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.json",
+        "docs/operacion/CONSERVACION_APROBADA_Y_EGRESO_20261012.json",
+        "docs/auditoria/CIERRE_LEGADO_SECOP_ACEPTADO_20261015.json",
+        "docs/auditoria/GUIA_DESPLIEGUE_Y_REVERSA.md",
+        ".github/workflows/ci.yml",
+        "Backend/.codex-integration-postgres/security-retention-application-20261012/remote-control-readonly-20261015.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F7.06",
+      "requirement": "Conservar las 18.980 filas antiguas y su detalle individual como legado no conciliado, con identidad anterior no demostrada, clasificaciones alternativas verificadas y cero IDs oficiales inferidos. **P12 cerrado con limitación histórica aceptada por el usuario el 15/10/2026; no se declara conciliación histórica total.** Los cortes del 30/09 y 01/10 conservan sus propios conteos. [Criterio original y sustitución aceptada](LIMITE_HISTORICO_SECOP_ACEPTADO_20261015.md), [verificación de cierre](CIERRE_LEGADO_SECOP_ACEPTADO_20261015.md).",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "docs/auditoria/VALIDACION_LOCAL_PENDIENTES_20261011.json",
+        "docs/auditoria/RESPALDO_RESTAURACION_SECOP_20261003.json",
+        "docs/auditoria/INTEGRACION_LOCAL_20261006.json",
+        "docs/operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.json",
+        "docs/operacion/CONSERVACION_APROBADA_Y_EGRESO_20261012.json",
+        "docs/auditoria/CIERRE_LEGADO_SECOP_ACEPTADO_20261015.json",
+        "docs/auditoria/GUIA_DESPLIEGUE_Y_REVERSA.md",
+        ".github/workflows/ci.yml",
+        "Backend/.codex-integration-postgres/security-retention-application-20261012/remote-control-readonly-20261015.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F7.07",
+      "requirement": "**Cierre analítico histórico de 9 232 809 filas:** recalcular outliers, duplicados, adjudicación directa y riesgo con ejecución durable completa y reglas versionadas. Los cinco trabajos durables y las cuatro filas de ejecución analítica cerraron `EXITOSO`; outliers: 870 856 resultados y 81 707 alertas; duplicados: 8 193 606 pares; adjudicación directa: 46 proveedores; riesgo: 31 593 proveedores.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "docs/auditoria/VALIDACION_LOCAL_PENDIENTES_20261011.json",
+        "docs/auditoria/RESPALDO_RESTAURACION_SECOP_20261003.json",
+        "docs/auditoria/INTEGRACION_LOCAL_20261006.json",
+        "docs/operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.json",
+        "docs/operacion/CONSERVACION_APROBADA_Y_EGRESO_20261012.json",
+        "docs/auditoria/CIERRE_LEGADO_SECOP_ACEPTADO_20261015.json",
+        "docs/auditoria/GUIA_DESPLIEGUE_Y_REVERSA.md",
+        ".github/workflows/ci.yml",
+        "Backend/.codex-integration-postgres/security-retention-application-20261012/remote-control-readonly-20261015.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F7.08",
+      "requirement": "**Analítica del corte de 9 235 206 filas, ahora histórico:** los cuatro trabajos y sus filas de ejecución cerraron `EXITOSO` para ese universo; el manifiesto de respaldo conserva sus estados. La ejecución de 9 232 809 corresponde a otro corte anterior.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "docs/auditoria/VALIDACION_LOCAL_PENDIENTES_20261011.json",
+        "docs/auditoria/RESPALDO_RESTAURACION_SECOP_20261003.json",
+        "docs/auditoria/INTEGRACION_LOCAL_20261006.json",
+        "docs/operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.json",
+        "docs/operacion/CONSERVACION_APROBADA_Y_EGRESO_20261012.json",
+        "docs/auditoria/CIERRE_LEGADO_SECOP_ACEPTADO_20261015.json",
+        "docs/auditoria/GUIA_DESPLIEGUE_Y_REVERSA.md",
+        ".github/workflows/ci.yml",
+        "Backend/.codex-integration-postgres/security-retention-application-20261012/remote-control-readonly-20261015.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F7.09",
+      "requirement": "**Respaldo del corte aceptado:** el usuario eligió el histórico del 01/10/2026. Su dump conserva SHA-256 y 196 entradas; la restauración independiente del 03/10 y la copia publicada en :5432 cotejaron conteos, revisión e índices. La copia operativa aplica los dos índices aditivos y las estadísticas, con 20 índices válidos y revisión `f4826b9d1c30`. El estado administrativo posterior se protege por checkpoint y se reconcilia por claves. Evidencia: `PUBLICACION_CORTE_HISTORICO_20261010.json` (P14).",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "docs/auditoria/VALIDACION_LOCAL_PENDIENTES_20261011.json",
+        "docs/auditoria/RESPALDO_RESTAURACION_SECOP_20261003.json",
+        "docs/auditoria/INTEGRACION_LOCAL_20261006.json",
+        "docs/operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.json",
+        "docs/operacion/CONSERVACION_APROBADA_Y_EGRESO_20261012.json",
+        "docs/auditoria/CIERRE_LEGADO_SECOP_ACEPTADO_20261015.json",
+        "docs/auditoria/GUIA_DESPLIEGUE_Y_REVERSA.md",
+        ".github/workflows/ci.yml",
+        "Backend/.codex-integration-postgres/security-retention-application-20261012/remote-control-readonly-20261015.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F7.10",
+      "requirement": "**Promoción operativa del histórico aceptado:** el corte del 01/10/2026 quedó en `plataformaanticorrupcion:5432`, OID 24577. Se conservó el original de 18 980 filas con OID 17930 bajo `plataformaanticorrupcion_pre_20261010`, su respaldo y la configuración anterior. API, frontend, worker y exportación nueva pasaron contra el destino canónico con fuentes pausadas y fecha visible. Evidencia: `PUBLICACION_CORTE_HISTORICO_20261010.md` (P19).",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "docs/auditoria/VALIDACION_LOCAL_PENDIENTES_20261011.json",
+        "docs/auditoria/RESPALDO_RESTAURACION_SECOP_20261003.json",
+        "docs/auditoria/INTEGRACION_LOCAL_20261006.json",
+        "docs/operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.json",
+        "docs/operacion/CONSERVACION_APROBADA_Y_EGRESO_20261012.json",
+        "docs/auditoria/CIERRE_LEGADO_SECOP_ACEPTADO_20261015.json",
+        "docs/auditoria/GUIA_DESPLIEGUE_Y_REVERSA.md",
+        ".github/workflows/ci.yml",
+        "Backend/.codex-integration-postgres/security-retention-application-20261012/remote-control-readonly-20261015.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F7.11",
+      "requirement": "Migrar API keys y verificar que el contenido en texto claro ya no forme parte de las columnas activas. Verificación de solo lectura: 0 claves en texto claro tanto en `plataformaanticorrupcion` (`:5432`) como en `plataforma_cutover_test` (`:5433`). No hubo evidencia que exija rotación adicional.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "docs/auditoria/VALIDACION_LOCAL_PENDIENTES_20261011.json",
+        "docs/auditoria/RESPALDO_RESTAURACION_SECOP_20261003.json",
+        "docs/auditoria/INTEGRACION_LOCAL_20261006.json",
+        "docs/operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.json",
+        "docs/operacion/CONSERVACION_APROBADA_Y_EGRESO_20261012.json",
+        "docs/auditoria/CIERRE_LEGADO_SECOP_ACEPTADO_20261015.json",
+        "docs/auditoria/GUIA_DESPLIEGUE_Y_REVERSA.md",
+        ".github/workflows/ci.yml",
+        "Backend/.codex-integration-postgres/security-retention-application-20261012/remote-control-readonly-20261015.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F7.12",
+      "requirement": "Definir y aplicar la política de retención de respaldos anteriores a la migración. **P15 cerrado el 12/10/2026:** el usuario aprobó conservación; inventario de 34 bases y ocho dumps preservado, historial y originales protegidos, paquetes actuales/anteriores conservados y checkpoint administrativo/esquema/exportación actual añadido. Cero bases, filas o archivos retirados; revisión manual registrada el 19/10, sin expiración ni borrado automático. La copia completa sigue usada para P06. Véase [constancia de aplicación](../operacion/CONSERVACION_APROBADA_Y_EGRESO_20261012.md).",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "docs/auditoria/VALIDACION_LOCAL_PENDIENTES_20261011.json",
+        "docs/auditoria/RESPALDO_RESTAURACION_SECOP_20261003.json",
+        "docs/auditoria/INTEGRACION_LOCAL_20261006.json",
+        "docs/operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.json",
+        "docs/operacion/CONSERVACION_APROBADA_Y_EGRESO_20261012.json",
+        "docs/auditoria/CIERRE_LEGADO_SECOP_ACEPTADO_20261015.json",
+        "docs/auditoria/GUIA_DESPLIEGUE_Y_REVERSA.md",
+        ".github/workflows/ci.yml",
+        "Backend/.codex-integration-postgres/security-retention-application-20261012/remote-control-readonly-20261015.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F7.13",
+      "requirement": "Ejecutar el flujo completo: login, gestión de fuente autorizada, ingesta, actualización, reprocesamiento, cálculo de riesgo, dashboard, búsqueda y exportación. Verificado en `Backend/tests/test_application_workflow_postgres.py` con API, worker y PostgreSQL 15; fuente HTTP simulada.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "docs/auditoria/VALIDACION_LOCAL_PENDIENTES_20261011.json",
+        "docs/auditoria/RESPALDO_RESTAURACION_SECOP_20261003.json",
+        "docs/auditoria/INTEGRACION_LOCAL_20261006.json",
+        "docs/operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.json",
+        "docs/operacion/CONSERVACION_APROBADA_Y_EGRESO_20261012.json",
+        "docs/auditoria/CIERRE_LEGADO_SECOP_ACEPTADO_20261015.json",
+        "docs/auditoria/GUIA_DESPLIEGUE_Y_REVERSA.md",
+        ".github/workflows/ci.yml",
+        "Backend/.codex-integration-postgres/security-retention-application-20261012/remote-control-readonly-20261015.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F7.14",
+      "requirement": "Probar concurrencia de trabajos, fallos de red/DB, recuperación y múltiples workers bajo carga del universo completo. **P16 cerrado para el perfil local aceptado el 12/10/2026:** recorrido completo, TLS/DB, exclusión y recuperación verificados en `ec9b5d2`; módulos/migraciones idénticos en `794d185`, con startup/pool comprobados por separado. El usuario aceptó ocho lectores, búsqueda p95 ≤1 s y calidad ≤3 s, con incidentes anteriores conservados. Activación y postflight publicados: 9.249.545 crudos/procesados, agregado independiente igual, 19 comprobaciones HTTP/worker y 9.083/9.083 respuestas correctas del perfil, búsqueda p95 0,283 s y calidad 0,0048 s. Se reutiliza explícitamente la evidencia de transformación/fallos; el perfil nuevo de lectura no es otro ensayo conjunto de nueve millones de escrituras. Véase [despliegue y límites](../operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.md).",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "docs/auditoria/VALIDACION_LOCAL_PENDIENTES_20261011.json",
+        "docs/auditoria/RESPALDO_RESTAURACION_SECOP_20261003.json",
+        "docs/auditoria/INTEGRACION_LOCAL_20261006.json",
+        "docs/operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.json",
+        "docs/operacion/CONSERVACION_APROBADA_Y_EGRESO_20261012.json",
+        "docs/auditoria/CIERRE_LEGADO_SECOP_ACEPTADO_20261015.json",
+        "docs/auditoria/GUIA_DESPLIEGUE_Y_REVERSA.md",
+        ".github/workflows/ci.yml",
+        "Backend/.codex-integration-postgres/security-retention-application-20261012/remote-control-readonly-20261015.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F7.15",
+      "requirement": "Convertir los controles CI en requisitos de integración: instalación limpia, migraciones sobre PostgreSQL vacío, pruebas relevantes, validación de contratos, build, lint y auditorías. `.github/workflows/ci.yml` se ejecutó en GitHub Actions: push `36988283914` y PR `36988288049` terminaron `success` para backend y frontend sobre `d31c4a3`. `main` quedó protegida con ambos checks de GitHub Actions (`app_id=15368`) obligatorios y actualizados, aplicables también a administradores; se bloquearon force pushes y eliminación. El PR #1 sigue en borrador y `main` conserva `e39f103`; esta casilla verifica el control remoto, no la integración del código ni el despliegue.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "docs/auditoria/VALIDACION_LOCAL_PENDIENTES_20261011.json",
+        "docs/auditoria/RESPALDO_RESTAURACION_SECOP_20261003.json",
+        "docs/auditoria/INTEGRACION_LOCAL_20261006.json",
+        "docs/operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.json",
+        "docs/operacion/CONSERVACION_APROBADA_Y_EGRESO_20261012.json",
+        "docs/auditoria/CIERRE_LEGADO_SECOP_ACEPTADO_20261015.json",
+        "docs/auditoria/GUIA_DESPLIEGUE_Y_REVERSA.md",
+        ".github/workflows/ci.yml",
+        "Backend/.codex-integration-postgres/security-retention-application-20261012/remote-control-readonly-20261015.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F7.16",
+      "requirement": "Documentar secuencia de despliegue coordinado, expansión/migración/retirada, pausas de worker e ingesta, criterios de abortar y límites de reversión en `docs/auditoria/GUIA_DESPLIEGUE_Y_REVERSA.md`.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "docs/auditoria/VALIDACION_LOCAL_PENDIENTES_20261011.json",
+        "docs/auditoria/RESPALDO_RESTAURACION_SECOP_20261003.json",
+        "docs/auditoria/INTEGRACION_LOCAL_20261006.json",
+        "docs/operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.json",
+        "docs/operacion/CONSERVACION_APROBADA_Y_EGRESO_20261012.json",
+        "docs/auditoria/CIERRE_LEGADO_SECOP_ACEPTADO_20261015.json",
+        "docs/auditoria/GUIA_DESPLIEGUE_Y_REVERSA.md",
+        ".github/workflows/ci.yml",
+        "Backend/.codex-integration-postgres/security-retention-application-20261012/remote-control-readonly-20261015.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F7.17",
+      "requirement": "Documentar configuración frontend/backend, gestión de claves, worker y comprobaciones operativas en README y guías del repositorio.",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "docs/auditoria/VALIDACION_LOCAL_PENDIENTES_20261011.json",
+        "docs/auditoria/RESPALDO_RESTAURACION_SECOP_20261003.json",
+        "docs/auditoria/INTEGRACION_LOCAL_20261006.json",
+        "docs/operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.json",
+        "docs/operacion/CONSERVACION_APROBADA_Y_EGRESO_20261012.json",
+        "docs/auditoria/CIERRE_LEGADO_SECOP_ACEPTADO_20261015.json",
+        "docs/auditoria/GUIA_DESPLIEGUE_Y_REVERSA.md",
+        ".github/workflows/ci.yml",
+        "Backend/.codex-integration-postgres/security-retention-application-20261012/remote-control-readonly-20261015.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    },
+    {
+      "id": "F7.18",
+      "requirement": "Ensayar despliegue, reversa y recuperación sobre los entornos autorizados; adjuntar evidencia de cierre por hallazgo. En este equipo se desplegó `9362d94`, se volvió a `0c065c4` y se recuperó la versión actual con smoke HTTP y exportación del worker. Se restauró independientemente el checkpoint local y se repuso un acceso desactivado desde esa copia, sin reescribir contratos. La capa histórica completa reutiliza su restauración verificada del 03/10. Alcance, secuencias, huellas y recuperación de escrituras posteriores: `INTEGRACION_LOCAL_20261006.md` (P18).",
+      "state": "verified_for_declared_scope",
+      "evidence": [
+        "docs/auditoria/VALIDACION_LOCAL_PENDIENTES_20261011.json",
+        "docs/auditoria/RESPALDO_RESTAURACION_SECOP_20261003.json",
+        "docs/auditoria/INTEGRACION_LOCAL_20261006.json",
+        "docs/operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.json",
+        "docs/operacion/CONSERVACION_APROBADA_Y_EGRESO_20261012.json",
+        "docs/auditoria/CIERRE_LEGADO_SECOP_ACEPTADO_20261015.json",
+        "docs/auditoria/GUIA_DESPLIEGUE_Y_REVERSA.md",
+        ".github/workflows/ci.yml",
+        "Backend/.codex-integration-postgres/security-retention-application-20261012/remote-control-readonly-20261015.json"
+      ],
+      "verification_scope": "Prior native/package/integration evidence inspected and reused where code/artifacts are unchanged; new direct evidence for P01/P06 and accepted legacy investigation closure. Not a rerun of all tests or a new full-cut rewrite."
+    }
+  ],
+  "evidence_sha256": {
+    ".github/workflows/ci.yml": "45828a10988cab5a2d8a357b35c6e8c7bfd547ecb8fd0545c5b1be7ad919a3de",
+    "Backend/.codex-integration-postgres/full-acceptance-20261011/local-gates.json": "ee60af151a2a3b9aae44295981ef89dacd677ba0dda714d87c7623c1d9a75348",
+    "Backend/.codex-integration-postgres/readiness-local-verified-20261012.json": "8973cf7340ada4acca0aa34c216be09b407c5e9b18adf7f63e171228cb5c4bdd",
+    "Backend/.codex-integration-postgres/security-retention-application-20261012/remote-control-readonly-20261015.json": "9a928afbbec4790de5d02ab1e5bd0ba9214687b3d696a1f5124d2a6b9ea7a01d",
+    "Backend/openapi.json": "7945179ae31552a7d57646494d92838bedec474236d3b22247f333fd503b24dc",
+    "Backend/requirements-dev.lock": "8b6baa3ac264fbeb0b38dc5c9f2c9bf5ff29b96f1a761e61949e92f8b8ee1ed9",
+    "Backend/requirements.lock": "c44702f3b7557a7ac3af07a8b6c878c5d8cacf6bb7e992c5050e03ef57a5a182",
+    "docs/auditoria/CIERRE_LEGADO_SECOP_ACEPTADO_20261015.json": "2afba80d6f2e5378d2f4b2c35a7a24448e026c4ddce23e8999722de5aa416c8e",
+    "docs/auditoria/COBERTURA_SECOP_20261002.json": "710786c1978b45d9b32afb7e41cdf4eb4d39f6d276dd6b2bcfef60bd198bb510",
+    "docs/auditoria/CONSISTENCIA_PROVEEDORES_SECOP_20261015.json": "7dc03a8662b403ce618f6d1d16f51725988f2be9e57308361441a3cbe9273a4b",
+    "docs/auditoria/GUIA_DESPLIEGUE_Y_REVERSA.md": "29bf170780653f92965351e6f24f62721fb51693f81c77f51468331d2d6c3e7c",
+    "docs/auditoria/INTEGRACION_LOCAL_20261006.json": "750c4731ea12c0d48d182646b0708d4dec69510d75c9cb84c04a478512acacd9",
+    "docs/auditoria/RESPALDO_RESTAURACION_SECOP_20261003.json": "13f9772e3158cbc0e8efe1aadd5531b748e7d7a26879e623ff4d285544aec268",
+    "docs/auditoria/RESPALDO_Y_RESTAURACION_POSTGRESQL.md": "821bb5ad680d202a6358627e425e7cda477db3504507e8db282efec41dabcf11",
+    "docs/auditoria/VALIDACION_LOCAL_PENDIENTES_20261011.json": "2afb516baa0bd9444a2a01f8b86c420b879c8a5050a13b0d8a9ca2ff4f226508",
+    "docs/operacion/ACTIVACION_LOCAL_VERIFICADA_20261012.json": "b84e08e33db69d6e168cf3b4a852cabdf153fb885960e97e88e16d6e4b5dd2c1",
+    "docs/operacion/CONSERVACION_APROBADA_Y_EGRESO_20261012.json": "757d16d8e591fd20158e08726a96e3b00b7e7bcb06baa7e4623cea12686aac25",
+    "docs/operacion/EGRESO_LOCAL_VERIFICADO_20261015.json": "32cc3f6b43cc9aeac8b5c16946f420a1b5deaf4ae325b9531f5ba6b223047bd0",
+    "frontend/package-lock.json": "e8ef61391ace41f517ca75e632194c54d5e1235958ec29abbd9a8c4d9f12d37d",
+    "frontend/src/types/api.generated.ts": "26c75221f65df9c62367e9b3ad560bee7ecc971695959f4c38a525887d82fec6"
+  },
+  "plan_sha256": "f0a24c63f9a1a0d96dd13c85d0cd15373fd65aa194d604eaf1d99f8442800044",
+  "code_tree_equivalence": {
+    "Backend/modules": "44b4e86a6a5841632e425402b6efde53e8cbfe1e",
+    "Backend/database": "0aa5f17c36991ede2aedf3d4c073b79675a3acc3",
+    "Backend/core": "7c5cee90217bb1332b38b1b2ee8eb8f1a3c6bd22",
+    "Backend/tests": "b6133308987dada65d69ee030fd36a259baa523d",
+    "frontend": "12c0a2ba900d1787d1a7ca6e60cf9ab3dbbd9cdf"
+  },
+  "backend_worker_ref": "794d185832c7c56ffa4d91ef08ca1f3d15128be5",
+  "frontend_ref": "9362d94f9dbfbdf352ae11585a2bfd44318b11e6",
+  "native_tests_reused": [
+    "395 passed in 36.34s"
+  ],
+  "backend_package_files_verified": 200,
+  "services": {
+    "supervisor_alive": true,
+    "api": true,
+    "frontend": true,
+    "worker": true,
+    "active_jobs": 0
+  },
+  "firewall_rules": 6,
+  "git_publication_performed": false,
+  "new_remote_ci_run_claimed": false,
+  "main_protection_rechecked_readonly": true,
+  "historical_cut": "2026-10-01",
+  "accepted_limits": [
+    "P06: SECOP internal consistency/provenance only; no DIAN identity confirmation.",
+    "P05/P12: 18980 legacy identities remain unproven and retained as unreconciled legacy; no claim of complete historical reconciliation.",
+    "Sources paused, published cut is historical and is not claimed current; no history invented for unobserved intervals.",
+    "Accepted local profile and full-cut fault evidence retain their documented earlier incidents and scope. No new joint 9-million-row rewrite/load/fault run.",
+    "Firewall HTTPS addresses are a DNS snapshot; future address changes require scoped maintenance and fresh verification. External IPv6 traffic not exercised.",
+    "Source changes remain local; CI configuration/protection checked, no new GitHub publication/merge/CI run."
+  ]
+}

@@ -1,0 +1,1150 @@
+{
+  "started_at_utc": "2026-10-05T04:55:48.956086+00:00",
+  "stage": "verified_and_cleaned",
+  "source_database": "plataforma_secop_refresh_20261001_test",
+  "temporary_database": "codex_secop_recovery_scale_20261005_test",
+  "port": 5433,
+  "expected_raw_rows": 9249545,
+  "source_kind": "Retained historical SECOP cut; not the current official generation",
+  "scope": "Full forced evaluation of 9,249,545 existing contracts with 10,000 controlled source-value changes; actual backend termination after a 26,000-row committed prefix; second process resumes the same durable job with concurrent local HTTP",
+  "limits": [
+    "Local measurement, not deployment or approved production SLA",
+    "No new SECOP download, analytics recalculation or promotion",
+    "Sampled process memory; summed working sets can double-count shared memory",
+    "No upstream HTTP packet-loss trial",
+    "The pilot observer missed expired ORM state; its first 26,000 rows have no batch/HTTP latency trace",
+    "Resource sampling paused while repairing the observer and testing the watermark optimization",
+    "The same durable job resumes its existing prefix; the optimized remainder has a distinct code digest",
+    "Final audit stopped on UUID-object versus JSON-string comparison; successful worker was not replayed, complete resource lines were salvaged before guarded cleanup"
+  ],
+  "events": [],
+  "updated_at_utc": "2026-10-05T06:22:58.855097+00:00",
+  "baseline": {
+    "counts": {
+      "raw_secop": 9249545,
+      "contratos_procesados": 9249545,
+      "contrato_anomalo_incompleto": 129062
+    },
+    "analytics": [
+      {
+        "run_id": "154b21cd-89dd-47b1-a45e-ec48dd8d9f86",
+        "tipo": "RIESGO",
+        "estado": "EXITOSO",
+        "total_contratos": 9249545,
+        "total_resultados": 31731
+      },
+      {
+        "run_id": "4ce36d30-b387-4f29-b4de-f068a2e3d296",
+        "tipo": "DUPLICADOS",
+        "estado": "EXITOSO",
+        "total_contratos": 9249545,
+        "total_resultados": 8206891
+      },
+      {
+        "run_id": "4e677b91-c0df-4a20-8f3a-b114b5beb382",
+        "tipo": "OUTLIERS",
+        "estado": "EXITOSO",
+        "total_contratos": 9249545,
+        "total_resultados": 872613
+      },
+      {
+        "run_id": "8c98b9d6-37fb-403c-805d-4cbf6f95ddd8",
+        "tipo": "ADJUDICACION_DIRECTA",
+        "estado": "EXITOSO",
+        "total_contratos": 9249545,
+        "total_resultados": 47
+      }
+    ],
+    "first_5000_raw_content_fingerprint": "c41852d1b34d622b428f259ade24d7c2"
+  },
+  "template_size_bytes": 22692707687,
+  "postmaster_pid": 36172,
+  "copy_seconds": 794.056654999993,
+  "job_id": 100,
+  "public_id": "f4413157-7a63-460d-b8ca-1c282ef5259f",
+  "controlled_source_changes": 10000,
+  "original_harness_and_api_pid": 964,
+  "instrumentation_repair": {
+    "reason": "Observer did not record expired log state; pause was not triggered. Preserve this committed prefix and repair the observer before resuming the same job.",
+    "pilot_terminated_backend": 35512,
+    "committed_prefix_rows": 26000,
+    "processed_prefix_rows": 5000,
+    "omitted_prefix_rows": 21000,
+    "pilot_resource_samples_recovered": 416,
+    "sampling_pause_without_live_executor": true,
+    "pilot_batch_and_http_latencies_not_recorded": true,
+    "current_transformation_sha256": "a5346a853a034f9c91a97311e7690676f26cd6796147ee6a590eb3e3edda70fd",
+    "change_after_pilot": "Avoid timestamp-only contract updates when raw source watermark and normalized quality are unchanged"
+  },
+  "resumed_controller_pid": 38372,
+  "additional_unvisited_source_changes": 5000,
+  "recovered_worker_wrapper_pid": 37956,
+  "latest_progress": {
+    "estado": "EN_PROCESO",
+    "total_evaluados": 9131000,
+    "procesados": 10161,
+    "omitidos": 9120839,
+    "universo": {
+      "tamano_lote": 1000,
+      "total_evaluados": 9131000,
+      "forzar_reproceso": true,
+      "max_raw_secop_id": 9249545,
+      "total_candidatos": 9249545,
+      "background_job_id": 100,
+      "version_checkpoint": 1,
+      "ultimo_raw_secop_id": 9131000,
+      "reanudado_desde_log_id": 4,
+      "candidatos_verificados_en": "2026-10-05T05:15:42.506415+00:00",
+      "fecha_referencia_anomalias": "2026-10-05"
+    }
+  },
+  "temporary_database_size_bytes": 22747258215,
+  "http_samples_so_far": 496,
+  "resource_samples_so_far": 830,
+  "api_stopped": true,
+  "http_errors": [],
+  "completed_job": {
+    "status": "EXITOSO",
+    "active": false,
+    "attempts": 2,
+    "result": {
+      "estado": "EXITOSO",
+      "omitidos": 9239383,
+      "procesados": 10162,
+      "fecha_hora_fin": "2026-10-05T06:20:06.640277+00:00",
+      "total_evaluados": 9249545,
+      "duracion_segundos": 1896,
+      "fecha_hora_inicio": "2026-10-05T05:48:29.786177+00:00",
+      "anomalias_registradas": 128900
+    }
+  },
+  "final_counts": {
+    "raw_secop": 9249545,
+    "contratos_procesados": 9249545,
+    "contrato_anomalo_incompleto": 128900
+  },
+  "processing_logs": [
+    {
+      "estado": "ERROR",
+      "total_evaluados": 26000,
+      "procesados": 5000,
+      "omitidos": 21000,
+      "universo": {
+        "tamano_lote": 1000,
+        "total_evaluados": 26000,
+        "forzar_reproceso": true,
+        "max_raw_secop_id": 9249545,
+        "total_candidatos": 9249545,
+        "background_job_id": 100,
+        "version_checkpoint": 1,
+        "ultimo_raw_secop_id": 26000,
+        "candidatos_verificados_en": "2026-10-05T05:15:42.506415+00:00",
+        "fecha_referencia_anomalias": "2026-10-05"
+      }
+    },
+    {
+      "estado": "EXITOSO",
+      "total_evaluados": 9249545,
+      "procesados": 10162,
+      "omitidos": 9239383,
+      "universo": {
+        "tamano_lote": 1000,
+        "total_evaluados": 9249545,
+        "forzar_reproceso": true,
+        "max_raw_secop_id": 9249545,
+        "total_candidatos": 9249545,
+        "background_job_id": 100,
+        "version_checkpoint": 1,
+        "ultimo_raw_secop_id": 9249545,
+        "reanudado_desde_log_id": 4,
+        "candidatos_verificados_en": "2026-10-05T05:15:42.506415+00:00",
+        "fecha_referencia_anomalias": "2026-10-05"
+      }
+    }
+  ],
+  "retained_source_after": {
+    "counts": {
+      "raw_secop": 9249545,
+      "contratos_procesados": 9249545,
+      "contrato_anomalo_incompleto": 129062
+    },
+    "analytics": [
+      {
+        "run_id": "154b21cd-89dd-47b1-a45e-ec48dd8d9f86",
+        "tipo": "RIESGO",
+        "estado": "EXITOSO",
+        "total_contratos": 9249545,
+        "total_resultados": 31731
+      },
+      {
+        "run_id": "4ce36d30-b387-4f29-b4de-f068a2e3d296",
+        "tipo": "DUPLICADOS",
+        "estado": "EXITOSO",
+        "total_contratos": 9249545,
+        "total_resultados": 8206891
+      },
+      {
+        "run_id": "4e677b91-c0df-4a20-8f3a-b114b5beb382",
+        "tipo": "OUTLIERS",
+        "estado": "EXITOSO",
+        "total_contratos": 9249545,
+        "total_resultados": 872613
+      },
+      {
+        "run_id": "8c98b9d6-37fb-403c-805d-4cbf6f95ddd8",
+        "tipo": "ADJUDICACION_DIRECTA",
+        "estado": "EXITOSO",
+        "total_contratos": 9249545,
+        "total_resultados": 47
+      }
+    ],
+    "first_5000_raw_content_fingerprint": "c41852d1b34d622b428f259ade24d7c2"
+  },
+  "cleanup": {
+    "temporary_database_removed": true,
+    "database_size_before_removal_bytes": 22747258215,
+    "free_disk_before_removal_bytes": 128251981824,
+    "free_disk_after_removal_bytes": 150999293952,
+    "isolated_cluster_stopped_cleanly": true,
+    "isolated_cluster_stop_verified_at_utc": "2026-10-05T06:26:28.648818+00:00"
+  },
+  "final_audit_repair": {
+    "reason": "Python UUID objects were compared to JSON strings in run_id; canonical JSON values match the retained baseline exactly",
+    "worker_not_restarted": true,
+    "resumed_resource_stream_complete_prefix_salvaged": true,
+    "original_interrupted_stream_preserved": true
+  },
+  "resumed_batch_seconds": {
+    "count": 9224,
+    "minimum": 0.10594520000449847,
+    "median": 0.16933060000883415,
+    "p95_nearest_rank": 0.24450790000264533,
+    "maximum": 50.04673629999161
+  },
+  "resumed_batch_count": 9224,
+  "traced_resumed_rows": 9223545,
+  "http_summaries": {
+    "status": {
+      "count": 252,
+      "minimum": 21.73130000301171,
+      "median": 164.64095000264933,
+      "p95_nearest_rank": 274.26289999857545,
+      "maximum": 654.9805999966338
+    },
+    "search_2024": {
+      "count": 252,
+      "minimum": 216.6845000028843,
+      "median": 313.2504000022891,
+      "p95_nearest_rank": 593.4176000009757,
+      "maximum": 931.5473999886308
+    }
+  },
+  "resource_sampling": {
+    "samples": 845,
+    "interval_seconds": 5,
+    "maximum_owned_private_bytes_sum": 298647552,
+    "maximum_owned_working_set_bytes_sum": 2183016448,
+    "minimum_available_physical_bytes": 4029902848,
+    "minimum_free_disk_bytes": 126935769088,
+    "observed_process_pids": [
+      964,
+      9376,
+      16464,
+      22248,
+      22844,
+      23548,
+      24460,
+      24636,
+      24780,
+      30556,
+      32212,
+      32452,
+      32988,
+      34524,
+      34808,
+      34944,
+      34968,
+      35004,
+      35160,
+      35296,
+      35308,
+      35484,
+      35512,
+      35528,
+      35588,
+      35648,
+      35772,
+      35808,
+      36008,
+      36012,
+      36108,
+      36124,
+      36152,
+      36172,
+      36300,
+      36400,
+      36404,
+      36416,
+      36484,
+      36552,
+      36580,
+      36616,
+      36624,
+      36688,
+      36732,
+      36988,
+      37132,
+      37244,
+      37348,
+      37392,
+      37404,
+      37472,
+      37528,
+      37600,
+      37616,
+      37664,
+      37700,
+      37900,
+      37956,
+      38012,
+      38128,
+      38188,
+      38236,
+      38332,
+      38344,
+      38356,
+      38372,
+      38736,
+      38744,
+      38756,
+      38808,
+      38820,
+      38828,
+      38840,
+      38872,
+      38940,
+      38960,
+      39008,
+      39084,
+      39088,
+      39168,
+      39188,
+      39192,
+      39272,
+      39356,
+      39364,
+      39400,
+      39416,
+      39532,
+      39800,
+      39840,
+      39904,
+      39960,
+      39964,
+      40212,
+      40312,
+      40368,
+      40572,
+      40584,
+      40688,
+      40756,
+      40952
+    ],
+    "per_process_observed_peaks": {
+      "35648": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 4464640,
+        "maximum_sampled_working_set_bytes": 118919168,
+        "maximum_reported_lifetime_working_set_bytes": 118923264,
+        "samples": 845
+      },
+      "36152": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 2674688,
+        "maximum_sampled_working_set_bytes": 10952704,
+        "maximum_reported_lifetime_working_set_bytes": 10993664,
+        "samples": 845
+      },
+      "964": {
+        "name": "python.exe",
+        "maximum_sampled_private_bytes": 126042112,
+        "maximum_sampled_working_set_bytes": 141230080,
+        "maximum_reported_lifetime_working_set_bytes": 142692352,
+        "samples": 416
+      },
+      "35588": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 1376256,
+        "maximum_sampled_working_set_bytes": 5226496,
+        "maximum_reported_lifetime_working_set_bytes": 5230592,
+        "samples": 1
+      },
+      "36616": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 3010560,
+        "maximum_sampled_working_set_bytes": 15548416,
+        "maximum_reported_lifetime_working_set_bytes": 15585280,
+        "samples": 845
+      },
+      "22248": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 3055616,
+        "maximum_sampled_working_set_bytes": 148111360,
+        "maximum_reported_lifetime_working_set_bytes": 148115456,
+        "samples": 845
+      },
+      "36172": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 3960832,
+        "maximum_sampled_working_set_bytes": 23863296,
+        "maximum_reported_lifetime_working_set_bytes": 23867392,
+        "samples": 845
+      },
+      "35160": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 3579904,
+        "maximum_sampled_working_set_bytes": 11784192,
+        "maximum_reported_lifetime_working_set_bytes": 11816960,
+        "samples": 845
+      },
+      "32988": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 3567616,
+        "maximum_sampled_working_set_bytes": 12001280,
+        "maximum_reported_lifetime_working_set_bytes": 12005376,
+        "samples": 845
+      },
+      "36484": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 5435392,
+        "maximum_sampled_working_set_bytes": 17563648,
+        "maximum_reported_lifetime_working_set_bytes": 17707008,
+        "samples": 415
+      },
+      "34968": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 3551232,
+        "maximum_sampled_working_set_bytes": 13922304,
+        "maximum_reported_lifetime_working_set_bytes": 13926400,
+        "samples": 151
+      },
+      "36688": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 3612672,
+        "maximum_sampled_working_set_bytes": 13983744,
+        "maximum_reported_lifetime_working_set_bytes": 13987840,
+        "samples": 139
+      },
+      "16464": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 3555328,
+        "maximum_sampled_working_set_bytes": 13926400,
+        "maximum_reported_lifetime_working_set_bytes": 13930496,
+        "samples": 128
+      },
+      "36624": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 4677632,
+        "maximum_sampled_working_set_bytes": 16797696,
+        "maximum_reported_lifetime_working_set_bytes": 16801792,
+        "samples": 1
+      },
+      "35512": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 11100160,
+        "maximum_sampled_working_set_bytes": 160034816,
+        "maximum_reported_lifetime_working_set_bytes": 160047104,
+        "samples": 246
+      },
+      "34944": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 5361664,
+        "maximum_sampled_working_set_bytes": 58949632,
+        "maximum_reported_lifetime_working_set_bytes": 59068416,
+        "samples": 191
+      },
+      "24780": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 4190208,
+        "maximum_sampled_working_set_bytes": 17686528,
+        "maximum_reported_lifetime_working_set_bytes": 17690624,
+        "samples": 1
+      },
+      "23548": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 5361664,
+        "maximum_sampled_working_set_bytes": 68841472,
+        "maximum_reported_lifetime_working_set_bytes": 68956160,
+        "samples": 191
+      },
+      "37392": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 5349376,
+        "maximum_sampled_working_set_bytes": 73814016,
+        "maximum_reported_lifetime_working_set_bytes": 73936896,
+        "samples": 191
+      },
+      "37528": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 5365760,
+        "maximum_sampled_working_set_bytes": 59383808,
+        "maximum_reported_lifetime_working_set_bytes": 59502592,
+        "samples": 191
+      },
+      "37404": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 5345280,
+        "maximum_sampled_working_set_bytes": 58228736,
+        "maximum_reported_lifetime_working_set_bytes": 58347520,
+        "samples": 191
+      },
+      "37664": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 5365760,
+        "maximum_sampled_working_set_bytes": 70086656,
+        "maximum_reported_lifetime_working_set_bytes": 70406144,
+        "samples": 191
+      },
+      "9376": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 4206592,
+        "maximum_sampled_working_set_bytes": 149794816,
+        "maximum_reported_lifetime_working_set_bytes": 149798912,
+        "samples": 13
+      },
+      "37600": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 5341184,
+        "maximum_sampled_working_set_bytes": 75395072,
+        "maximum_reported_lifetime_working_set_bytes": 75509760,
+        "samples": 191
+      },
+      "37348": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 4190208,
+        "maximum_sampled_working_set_bytes": 18300928,
+        "maximum_reported_lifetime_working_set_bytes": 18305024,
+        "samples": 1
+      },
+      "36732": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 4194304,
+        "maximum_sampled_working_set_bytes": 17874944,
+        "maximum_reported_lifetime_working_set_bytes": 17879040,
+        "samples": 1
+      },
+      "36404": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 5341184,
+        "maximum_sampled_working_set_bytes": 58871808,
+        "maximum_reported_lifetime_working_set_bytes": 58990592,
+        "samples": 191
+      },
+      "22844": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 4190208,
+        "maximum_sampled_working_set_bytes": 18436096,
+        "maximum_reported_lifetime_working_set_bytes": 18440192,
+        "samples": 1
+      },
+      "35004": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 4190208,
+        "maximum_sampled_working_set_bytes": 17793024,
+        "maximum_reported_lifetime_working_set_bytes": 17797120,
+        "samples": 1
+      },
+      "37244": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 4276224,
+        "maximum_sampled_working_set_bytes": 150122496,
+        "maximum_reported_lifetime_working_set_bytes": 150126592,
+        "samples": 13
+      },
+      "36108": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 6311936,
+        "maximum_sampled_working_set_bytes": 17338368,
+        "maximum_reported_lifetime_working_set_bytes": 17342464,
+        "samples": 1
+      },
+      "37700": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 2854912,
+        "maximum_sampled_working_set_bytes": 13524992,
+        "maximum_reported_lifetime_working_set_bytes": 13529088,
+        "samples": 1
+      },
+      "38344": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 2859008,
+        "maximum_sampled_working_set_bytes": 13586432,
+        "maximum_reported_lifetime_working_set_bytes": 13590528,
+        "samples": 1
+      },
+      "38840": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 2846720,
+        "maximum_sampled_working_set_bytes": 13533184,
+        "maximum_reported_lifetime_working_set_bytes": 13537280,
+        "samples": 1
+      },
+      "38808": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 11018240,
+        "maximum_sampled_working_set_bytes": 158687232,
+        "maximum_reported_lifetime_working_set_bytes": 165896192,
+        "samples": 430
+      },
+      "38744": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 3801088,
+        "maximum_sampled_working_set_bytes": 16277504,
+        "maximum_reported_lifetime_working_set_bytes": 16420864,
+        "samples": 1
+      },
+      "35296": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 2854912,
+        "maximum_sampled_working_set_bytes": 13586432,
+        "maximum_reported_lifetime_working_set_bytes": 13590528,
+        "samples": 1
+      },
+      "38756": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 2961408,
+        "maximum_sampled_working_set_bytes": 13680640,
+        "maximum_reported_lifetime_working_set_bytes": 13684736,
+        "samples": 1
+      },
+      "36300": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 671744,
+        "maximum_sampled_working_set_bytes": 5951488,
+        "maximum_reported_lifetime_working_set_bytes": 5955584,
+        "samples": 1
+      },
+      "38356": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 671744,
+        "maximum_sampled_working_set_bytes": 6443008,
+        "maximum_reported_lifetime_working_set_bytes": 6447104,
+        "samples": 1
+      },
+      "38872": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 671744,
+        "maximum_sampled_working_set_bytes": 6443008,
+        "maximum_reported_lifetime_working_set_bytes": 6447104,
+        "samples": 1
+      },
+      "38820": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 671744,
+        "maximum_sampled_working_set_bytes": 6443008,
+        "maximum_reported_lifetime_working_set_bytes": 6447104,
+        "samples": 1
+      },
+      "36008": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 671744,
+        "maximum_sampled_working_set_bytes": 6443008,
+        "maximum_reported_lifetime_working_set_bytes": 6447104,
+        "samples": 1
+      },
+      "36988": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 671744,
+        "maximum_sampled_working_set_bytes": 6443008,
+        "maximum_reported_lifetime_working_set_bytes": 6447104,
+        "samples": 1
+      },
+      "24636": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 671744,
+        "maximum_sampled_working_set_bytes": 6443008,
+        "maximum_reported_lifetime_working_set_bytes": 6447104,
+        "samples": 1
+      },
+      "38012": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 663552,
+        "maximum_sampled_working_set_bytes": 5943296,
+        "maximum_reported_lifetime_working_set_bytes": 5947392,
+        "samples": 1
+      },
+      "32212": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 4243456,
+        "maximum_sampled_working_set_bytes": 15724544,
+        "maximum_reported_lifetime_working_set_bytes": 15728640,
+        "samples": 8
+      },
+      "38372": {
+        "name": "python.exe",
+        "maximum_sampled_private_bytes": 111738880,
+        "maximum_sampled_working_set_bytes": 125132800,
+        "maximum_reported_lifetime_working_set_bytes": 126042112,
+        "samples": 429
+      },
+      "36400": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 2961408,
+        "maximum_sampled_working_set_bytes": 13623296,
+        "maximum_reported_lifetime_working_set_bytes": 13627392,
+        "samples": 2
+      },
+      "35528": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 5414912,
+        "maximum_sampled_working_set_bytes": 19775488,
+        "maximum_reported_lifetime_working_set_bytes": 19779584,
+        "samples": 1
+      },
+      "37956": {
+        "name": "python.exe",
+        "maximum_sampled_private_bytes": 880640,
+        "maximum_sampled_working_set_bytes": 3461120,
+        "maximum_reported_lifetime_working_set_bytes": 3465216,
+        "samples": 378
+      },
+      "37132": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 5349376,
+        "maximum_sampled_working_set_bytes": 152805376,
+        "maximum_reported_lifetime_working_set_bytes": 152834048,
+        "samples": 378
+      },
+      "38236": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 5349376,
+        "maximum_sampled_working_set_bytes": 152707072,
+        "maximum_reported_lifetime_working_set_bytes": 152768512,
+        "samples": 378
+      },
+      "36124": {
+        "name": "python.exe",
+        "maximum_sampled_private_bytes": 88035328,
+        "maximum_sampled_working_set_bytes": 103104512,
+        "maximum_reported_lifetime_working_set_bytes": 103276544,
+        "samples": 378
+      },
+      "38188": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 5332992,
+        "maximum_sampled_working_set_bytes": 152662016,
+        "maximum_reported_lifetime_working_set_bytes": 152780800,
+        "samples": 378
+      },
+      "36012": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 5357568,
+        "maximum_sampled_working_set_bytes": 152739840,
+        "maximum_reported_lifetime_working_set_bytes": 152764416,
+        "samples": 378
+      },
+      "38828": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 5345280,
+        "maximum_sampled_working_set_bytes": 152788992,
+        "maximum_reported_lifetime_working_set_bytes": 152834048,
+        "samples": 378
+      },
+      "37616": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 5337088,
+        "maximum_sampled_working_set_bytes": 152682496,
+        "maximum_reported_lifetime_working_set_bytes": 152698880,
+        "samples": 378
+      },
+      "38128": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 5316608,
+        "maximum_sampled_working_set_bytes": 149966848,
+        "maximum_reported_lifetime_working_set_bytes": 150069248,
+        "samples": 378
+      },
+      "34808": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 7393280,
+        "maximum_sampled_working_set_bytes": 159154176,
+        "maximum_reported_lifetime_working_set_bytes": 159416320,
+        "samples": 378
+      },
+      "38332": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 5357568,
+        "maximum_sampled_working_set_bytes": 152653824,
+        "maximum_reported_lifetime_working_set_bytes": 152743936,
+        "samples": 378
+      },
+      "39272": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 5496832,
+        "maximum_sampled_working_set_bytes": 20815872,
+        "maximum_reported_lifetime_working_set_bytes": 20914176,
+        "samples": 1
+      },
+      "39364": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 671744,
+        "maximum_sampled_working_set_bytes": 5885952,
+        "maximum_reported_lifetime_working_set_bytes": 5890048,
+        "samples": 1
+      },
+      "39168": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 2961408,
+        "maximum_sampled_working_set_bytes": 13619200,
+        "maximum_reported_lifetime_working_set_bytes": 13623296,
+        "samples": 1
+      },
+      "39192": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 2961408,
+        "maximum_sampled_working_set_bytes": 13623296,
+        "maximum_reported_lifetime_working_set_bytes": 13627392,
+        "samples": 1
+      },
+      "39084": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 2961408,
+        "maximum_sampled_working_set_bytes": 13619200,
+        "maximum_reported_lifetime_working_set_bytes": 13623296,
+        "samples": 1
+      },
+      "39800": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 1638400,
+        "maximum_sampled_working_set_bytes": 8769536,
+        "maximum_reported_lifetime_working_set_bytes": 8773632,
+        "samples": 1
+      },
+      "39356": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 2969600,
+        "maximum_sampled_working_set_bytes": 13627392,
+        "maximum_reported_lifetime_working_set_bytes": 13631488,
+        "samples": 1
+      },
+      "35808": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 2867200,
+        "maximum_sampled_working_set_bytes": 13565952,
+        "maximum_reported_lifetime_working_set_bytes": 13570048,
+        "samples": 1
+      },
+      "36416": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 671744,
+        "maximum_sampled_working_set_bytes": 6418432,
+        "maximum_reported_lifetime_working_set_bytes": 6422528,
+        "samples": 1
+      },
+      "36552": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 2535424,
+        "maximum_sampled_working_set_bytes": 13373440,
+        "maximum_reported_lifetime_working_set_bytes": 13377536,
+        "samples": 1
+      },
+      "38736": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 671744,
+        "maximum_sampled_working_set_bytes": 6418432,
+        "maximum_reported_lifetime_working_set_bytes": 6422528,
+        "samples": 1
+      },
+      "39904": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 1110016,
+        "maximum_sampled_working_set_bytes": 7274496,
+        "maximum_reported_lifetime_working_set_bytes": 7278592,
+        "samples": 1
+      },
+      "37472": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 3989504,
+        "maximum_sampled_working_set_bytes": 16371712,
+        "maximum_reported_lifetime_working_set_bytes": 16576512,
+        "samples": 1
+      },
+      "39400": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 671744,
+        "maximum_sampled_working_set_bytes": 6418432,
+        "maximum_reported_lifetime_working_set_bytes": 6422528,
+        "samples": 1
+      },
+      "39532": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 671744,
+        "maximum_sampled_working_set_bytes": 5926912,
+        "maximum_reported_lifetime_working_set_bytes": 5931008,
+        "samples": 1
+      },
+      "38940": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 671744,
+        "maximum_sampled_working_set_bytes": 5926912,
+        "maximum_reported_lifetime_working_set_bytes": 5931008,
+        "samples": 1
+      },
+      "32452": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 671744,
+        "maximum_sampled_working_set_bytes": 5926912,
+        "maximum_reported_lifetime_working_set_bytes": 5931008,
+        "samples": 1
+      },
+      "39840": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 4493312,
+        "maximum_sampled_working_set_bytes": 16904192,
+        "maximum_reported_lifetime_working_set_bytes": 16908288,
+        "samples": 1
+      },
+      "37900": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 671744,
+        "maximum_sampled_working_set_bytes": 5926912,
+        "maximum_reported_lifetime_working_set_bytes": 5931008,
+        "samples": 1
+      },
+      "39188": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 3649536,
+        "maximum_sampled_working_set_bytes": 14565376,
+        "maximum_reported_lifetime_working_set_bytes": 14569472,
+        "samples": 1
+      },
+      "39088": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 4063232,
+        "maximum_sampled_working_set_bytes": 15765504,
+        "maximum_reported_lifetime_working_set_bytes": 15769600,
+        "samples": 1
+      },
+      "35772": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 671744,
+        "maximum_sampled_working_set_bytes": 5926912,
+        "maximum_reported_lifetime_working_set_bytes": 5931008,
+        "samples": 1
+      },
+      "34524": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 4157440,
+        "maximum_sampled_working_set_bytes": 15994880,
+        "maximum_reported_lifetime_working_set_bytes": 15998976,
+        "samples": 1
+      },
+      "39008": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 4063232,
+        "maximum_sampled_working_set_bytes": 15630336,
+        "maximum_reported_lifetime_working_set_bytes": 15634432,
+        "samples": 1
+      },
+      "36580": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 4153344,
+        "maximum_sampled_working_set_bytes": 16052224,
+        "maximum_reported_lifetime_working_set_bytes": 16056320,
+        "samples": 1
+      },
+      "38960": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 671744,
+        "maximum_sampled_working_set_bytes": 5926912,
+        "maximum_reported_lifetime_working_set_bytes": 5931008,
+        "samples": 1
+      },
+      "40212": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 2850816,
+        "maximum_sampled_working_set_bytes": 40288256,
+        "maximum_reported_lifetime_working_set_bytes": 41693184,
+        "samples": 1
+      },
+      "39960": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 671744,
+        "maximum_sampled_working_set_bytes": 5926912,
+        "maximum_reported_lifetime_working_set_bytes": 5931008,
+        "samples": 1
+      },
+      "39416": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 3887104,
+        "maximum_sampled_working_set_bytes": 17854464,
+        "maximum_reported_lifetime_working_set_bytes": 17981440,
+        "samples": 1
+      },
+      "40756": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 3891200,
+        "maximum_sampled_working_set_bytes": 17571840,
+        "maximum_reported_lifetime_working_set_bytes": 17690624,
+        "samples": 1
+      },
+      "40952": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 671744,
+        "maximum_sampled_working_set_bytes": 5943296,
+        "maximum_reported_lifetime_working_set_bytes": 5947392,
+        "samples": 1
+      },
+      "40312": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 61440,
+        "maximum_sampled_working_set_bytes": 20480,
+        "maximum_reported_lifetime_working_set_bytes": 30539776,
+        "samples": 1
+      },
+      "40584": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 671744,
+        "maximum_sampled_working_set_bytes": 5926912,
+        "maximum_reported_lifetime_working_set_bytes": 5931008,
+        "samples": 1
+      },
+      "24460": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 671744,
+        "maximum_sampled_working_set_bytes": 5926912,
+        "maximum_reported_lifetime_working_set_bytes": 5931008,
+        "samples": 1
+      },
+      "40688": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 2854912,
+        "maximum_sampled_working_set_bytes": 13586432,
+        "maximum_reported_lifetime_working_set_bytes": 13590528,
+        "samples": 1
+      },
+      "40572": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 671744,
+        "maximum_sampled_working_set_bytes": 5926912,
+        "maximum_reported_lifetime_working_set_bytes": 5931008,
+        "samples": 1
+      },
+      "39964": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 4239360,
+        "maximum_sampled_working_set_bytes": 26546176,
+        "maximum_reported_lifetime_working_set_bytes": 26550272,
+        "samples": 1
+      },
+      "30556": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 4210688,
+        "maximum_sampled_working_set_bytes": 26456064,
+        "maximum_reported_lifetime_working_set_bytes": 26460160,
+        "samples": 1
+      },
+      "35308": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 5459968,
+        "maximum_sampled_working_set_bytes": 148672512,
+        "maximum_reported_lifetime_working_set_bytes": 148676608,
+        "samples": 9
+      },
+      "40368": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 4231168,
+        "maximum_sampled_working_set_bytes": 147812352,
+        "maximum_reported_lifetime_working_set_bytes": 147816448,
+        "samples": 9
+      },
+      "35484": {
+        "name": "postgres.exe",
+        "maximum_sampled_private_bytes": 4227072,
+        "maximum_sampled_working_set_bytes": 147599360,
+        "maximum_reported_lifetime_working_set_bytes": 147603456,
+        "samples": 9
+      }
+    }
+  },
+  "raw_artifacts": [
+    {
+      "path": "C:\\PLATAFORMA-DE-DETECCION-TEMPRANA-DE-CORRUPCION-MEDIANTE-DATOS-ABIERTOS-PUBLICOS\\Backend\\.codex-e2e-postgres\\worker_scale_20261005_resumed_resources_closed.jsonl.gz",
+      "bytes": 38147,
+      "sha256": "8103ad40db090d24e11fdac8c7df97d0584fb7a6545323b9a5aeb95bbd7dfa57"
+    },
+    {
+      "path": "C:\\PLATAFORMA-DE-DETECCION-TEMPRANA-DE-CORRUPCION-MEDIANTE-DATOS-ABIERTOS-PUBLICOS\\Backend\\.codex-e2e-postgres\\worker_scale_20261005_resumed_http.jsonl.gz",
+      "bytes": 10444,
+      "sha256": "f2ec2b261cea9f37c8b4126ec3bfe1e23ab89cea48c519c38a7e0c7b17466ce0"
+    },
+    {
+      "path": "C:\\PLATAFORMA-DE-DETECCION-TEMPRANA-DE-CORRUPCION-MEDIANTE-DATOS-ABIERTOS-PUBLICOS\\Backend\\.codex-e2e-postgres\\worker_scale_20261005_pilot_resources_salvaged.jsonl.gz",
+      "bytes": 29622,
+      "sha256": "8dc1927e7d499a67f7149da98b6b8f124e7f6e21caae88c52602ac2322c47ef6"
+    },
+    {
+      "path": "C:\\PLATAFORMA-DE-DETECCION-TEMPRANA-DE-CORRUPCION-MEDIANTE-DATOS-ABIERTOS-PUBLICOS\\Backend\\.codex-e2e-postgres\\worker_scale_20261005_pilot_manifest.json",
+      "bytes": 2319,
+      "sha256": "80820daebc41651f446586e9a95996c653ad46a555f0cb17c5ccae906ba3c1fa"
+    },
+    {
+      "path": "C:\\PLATAFORMA-DE-DETECCION-TEMPRANA-DE-CORRUPCION-MEDIANTE-DATOS-ABIERTOS-PUBLICOS\\Backend\\.codex-e2e-postgres\\worker_scale_20261005_pilot_interruption.json",
+      "bytes": 840,
+      "sha256": "b764a123e6dbae3046b266a6963dbafb352e3892dc904d1bceec2af06461a596"
+    },
+    {
+      "path": "C:\\PLATAFORMA-DE-DETECCION-TEMPRANA-DE-CORRUPCION-MEDIANTE-DATOS-ABIERTOS-PUBLICOS\\Backend\\.codex-e2e-postgres\\worker_scale_20261005_recovered_batches.jsonl",
+      "bytes": 1839954,
+      "sha256": "b239284d99eb867ba17bf457f3b66ddea604e4f52550e270d0ec4c8929ecd632"
+    }
+  ],
+  "initial_requested_scope": "Full forced transformation over 9,249,545 existing contracts with 5,000 controlled source-value changes, real backend loss after the first committed batch, two worker processes and concurrent loopback HTTP",
+  "post_trial_independent_audit": {
+    "at_utc": "2026-10-05T06:23:18.249487+00:00",
+    "temporary_database_absent": true,
+    "source_and_temporary_sessions": 0,
+    "operational_readonly_counts": {
+      "raw_secop": 18980,
+      "contratos_procesados": 18980
+    },
+    "free_disk_bytes_after_cleanup": 150998806528,
+    "raw_artifact_hashes_verified": true,
+    "batch_trace_contiguous": true
+  },
+  "resumed_measurement": {
+    "anchor_at_utc": "2026-10-05T05:48:29.856618+00:00",
+    "last_batch_at_utc": "2026-10-05T06:20:04.497538+00:00",
+    "anchor_to_last_batch_seconds": 1894.64092,
+    "observed_rows_per_second": 4868.228540107748,
+    "includes_changed_and_unchanged_batches": true,
+    "excludes_pilot_copy_sampling_pause_and_final_reconciliation": true
+  },
+  "published_artifacts": [
+    {
+      "path": "docs/auditoria/RECUPERACION_ESCRITURAS_ESCALA_20261005/worker_scale_20261005_pilot_interruption.json",
+      "bytes": 840,
+      "sha256": "b764a123e6dbae3046b266a6963dbafb352e3892dc904d1bceec2af06461a596"
+    },
+    {
+      "path": "docs/auditoria/RECUPERACION_ESCRITURAS_ESCALA_20261005/worker_scale_20261005_pilot_resources_salvaged.jsonl.gz",
+      "bytes": 29622,
+      "sha256": "8dc1927e7d499a67f7149da98b6b8f124e7f6e21caae88c52602ac2322c47ef6"
+    },
+    {
+      "path": "docs/auditoria/RECUPERACION_ESCRITURAS_ESCALA_20261005/worker_scale_20261005_recovered_batches.jsonl.gz",
+      "bytes": 197538,
+      "sha256": "2131dcc1bf9f6ebd1b667c757d225006fbbe977a5ed07a1bb1e99268bf16a70e"
+    },
+    {
+      "path": "docs/auditoria/RECUPERACION_ESCRITURAS_ESCALA_20261005/worker_scale_20261005_resumed_http.jsonl.gz",
+      "bytes": 10444,
+      "sha256": "f2ec2b261cea9f37c8b4126ec3bfe1e23ab89cea48c519c38a7e0c7b17466ce0"
+    },
+    {
+      "path": "docs/auditoria/RECUPERACION_ESCRITURAS_ESCALA_20261005/worker_scale_20261005_resumed_resources.jsonl.gz",
+      "bytes": 38147,
+      "sha256": "8103ad40db090d24e11fdac8c7df97d0584fb7a6545323b9a5aeb95bbd7dfa57"
+    }
+  ]
+}

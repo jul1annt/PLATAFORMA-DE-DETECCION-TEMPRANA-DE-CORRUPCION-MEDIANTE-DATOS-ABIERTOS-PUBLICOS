@@ -1,0 +1,36 @@
+{
+  "acquired_at": "2026-10-19T16:35:16.953325+00:00",
+  "case": "25000234100020170008302",
+  "internal_number": "64048",
+  "act_index": 166,
+  "act_date": "2020-12-04",
+  "source_url": "https://samai.consejodeestado.gov.co/Vistas/Casos/list_procesos.aspx?guid=250002341000201700083021100103",
+  "documents": [
+    {
+      "attachment": 402,
+      "filename": "402_250002341000201700083021RECIBEMEMORIAL202012784456.PDF",
+      "sha256": "2decb9c210a9a4c162104a21e8cf6b2b4cb9ca7f3eb176554ec6670a1e98791b",
+      "bytes": 8818600,
+      "pages": 158,
+      "publicity": "Publica",
+      "registered_at_portal": "2020-12-07T08:45:18",
+      "download_method": "public SAMAI browser download after user-authorized CAPTCHA",
+      "visual_review_pages": [],
+      "training_label": null
+    },
+    {
+      "attachment": 401,
+      "filename": "401_250002341000201700083021RECIBEMEMORIAL202012784439.PDF",
+      "sha256": "0df7e88632d18e3625bdcd21aa3e7c911644eec8cadcf018e5209a7ab40c0624",
+      "bytes": 710549,
+      "pages": 62,
+      "publicity": "Publica",
+      "registered_at_portal": "2020-12-07T08:45:18",
+      "download_method": "public SAMAI browser download after user-authorized CAPTCHA",
+      "visual_review_pages": [],
+      "training_label": null
+    }
+  ],
+  "training_labels_created": 0,
+  "scope": "Original instance documents located; identity, operative scope, finality and SECOP linkage still require review."
+}

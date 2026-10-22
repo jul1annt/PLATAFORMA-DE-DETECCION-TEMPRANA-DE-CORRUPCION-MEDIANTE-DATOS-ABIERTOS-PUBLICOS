@@ -7,6 +7,7 @@ class EstadoSync(str, enum.Enum):
     EN_PROCESO = "EN_PROCESO"
     EXITOSO    = "EXITOSO"
     ERROR      = "ERROR"
+    PARCIAL    = "PARCIAL"
 
 class SincronizacionHistorial(Base):
     __tablename__ = "sincronizacion_historial"

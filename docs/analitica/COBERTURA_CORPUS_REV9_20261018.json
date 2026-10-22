@@ -1,0 +1,29 @@
+{
+  "date_bogota": "2026-10-18",
+  "inventory": "INVENTARIO_CASOS_REVISION9_20261018.json",
+  "registry_sha256_bytes": "24705a370e6e0e86168305731fdd05fd5128065fb395ef53be9d2ef787c93bf2",
+  "registered_candidates": 11,
+  "eligible_training_cases": 0,
+  "eligible_independent_positive_groups": 0,
+  "accepted_label_temporal_coverage": [],
+  "candidate_procurement_years": {
+    "2000": 1,
+    "2002": 1,
+    "2006": 1,
+    "2007": 1,
+    "2009": 1,
+    "2010": 1,
+    "2012": 1,
+    "2013": 1,
+    "2020": 4,
+    "2021": 2,
+    "2022": 1
+  },
+  "candidate_years_not_recorded": [
+    "centros-poblados-andje-20240719"
+  ],
+  "year_count_unit": "Registros candidatos con año declarado, no operaciones ni expedientes independientes positivos. Un expediente puede aparecer en varios años.",
+  "source_stage_observations_created_this_review": 0,
+  "training_performed": false,
+  "scope": "La cobertura de candidatos orienta la búsqueda. No equivale a cobertura temporal de entrenamiento ni población colombiana."
+}

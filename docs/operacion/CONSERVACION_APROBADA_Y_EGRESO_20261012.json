@@ -1,0 +1,612 @@
+{
+  "retention": {
+    "stage": "verified_approved_conservative_retention_applied",
+    "completed_at_utc": "2026-10-12T20:12:31.574551+00:00",
+    "policy_approved": true,
+    "protected_databases": [
+      {
+        "name": "plataforma_restricted_test",
+        "oid": 17620,
+        "owner": "codex_app_test",
+        "bytes": 11092483,
+        "port": 5432,
+        "decision": "Preserve; no approved expiry or proven unused scope"
+      },
+      {
+        "name": "plataforma_test",
+        "oid": 16384,
+        "owner": "codex_plan",
+        "bytes": 10936835,
+        "port": 5432,
+        "decision": "Preserve; no approved expiry or proven unused scope"
+      },
+      {
+        "name": "plataformaanticorrupcion",
+        "oid": 24577,
+        "owner": "plataforma_operacion",
+        "bytes": 22805257575,
+        "port": 5432,
+        "decision": "Preserve; no approved expiry or proven unused scope"
+      },
+      {
+        "name": "plataformaanticorrupcion_pre_20261010",
+        "oid": 17930,
+        "owner": "postgres",
+        "bytes": 48143719,
+        "port": 5432,
+        "decision": "Preserve; no approved expiry or proven unused scope"
+      },
+      {
+        "name": "BDEOS",
+        "oid": 35141,
+        "owner": "postgres",
+        "bytes": 7545347,
+        "port": 5433,
+        "decision": "Preserve; no approved expiry or proven unused scope"
+      },
+      {
+        "name": "HearTech",
+        "oid": 16512,
+        "owner": "postgres",
+        "bytes": 8004099,
+        "port": 5433,
+        "decision": "Preserve; no approved expiry or proven unused scope"
+      },
+      {
+        "name": "HearTech_tets",
+        "oid": 16707,
+        "owner": "postgres",
+        "bytes": 7799299,
+        "port": 5433,
+        "decision": "Preserve; no approved expiry or proven unused scope"
+      },
+      {
+        "name": "QuickCourier_Back_Test",
+        "oid": 16778,
+        "owner": "postgres",
+        "bytes": 7700995,
+        "port": 5433,
+        "decision": "Preserve; no approved expiry or proven unused scope"
+      },
+      {
+        "name": "accionesbosque",
+        "oid": 36796,
+        "owner": "postgres",
+        "bytes": 8774147,
+        "port": 5433,
+        "decision": "Preserve; no approved expiry or proven unused scope"
+      },
+      {
+        "name": "antigravity_test",
+        "oid": 34068,
+        "owner": "postgres",
+        "bytes": 7627267,
+        "port": 5433,
+        "decision": "Preserve; no approved expiry or proven unused scope"
+      },
+      {
+        "name": "bd_test_api",
+        "oid": 16471,
+        "owner": "postgres",
+        "bytes": 39649795,
+        "port": 5433,
+        "decision": "Preserve; no approved expiry or proven unused scope"
+      },
+      {
+        "name": "codex_plan_full_acceptance_20261011_test",
+        "oid": 75045,
+        "owner": "plataforma_integracion",
+        "bytes": 23077412199,
+        "port": 5433,
+        "decision": "Preserve; no approved expiry or proven unused scope"
+      },
+      {
+        "name": "codex_plan_test_validation",
+        "oid": 52438,
+        "owner": "postgres",
+        "bytes": 11747843,
+        "port": 5433,
+        "decision": "Preserve; no approved expiry or proven unused scope"
+      },
+      {
+        "name": "codex_plan_validation",
+        "oid": 52163,
+        "owner": "postgres",
+        "bytes": 8995331,
+        "port": 5433,
+        "decision": "Preserve; no approved expiry or proven unused scope"
+      },
+      {
+        "name": "db_springboot_jsf",
+        "oid": 33326,
+        "owner": "postgres",
+        "bytes": 7545347,
+        "port": 5433,
+        "decision": "Preserve; no approved expiry or proven unused scope"
+      },
+      {
+        "name": "demo_db",
+        "oid": 16428,
+        "owner": "postgres",
+        "bytes": 7619075,
+        "port": 5433,
+        "decision": "Preserve; no approved expiry or proven unused scope"
+      },
+      {
+        "name": "heartech",
+        "oid": 28659,
+        "owner": "postgres",
+        "bytes": 7545347,
+        "port": 5433,
+        "decision": "Preserve; no approved expiry or proven unused scope"
+      },
+      {
+        "name": "heartech_bd",
+        "oid": 28660,
+        "owner": "postgres",
+        "bytes": 8946179,
+        "port": 5433,
+        "decision": "Preserve; no approved expiry or proven unused scope"
+      },
+      {
+        "name": "plataforma_backfill_rows_test",
+        "oid": 54362,
+        "owner": "postgres",
+        "bytes": 12312781315,
+        "port": 5433,
+        "decision": "Preserve; no approved expiry or proven unused scope"
+      },
+      {
+        "name": "plataforma_backfill_test",
+        "oid": 48526,
+        "owner": "postgres",
+        "bytes": 2839716355,
+        "port": 5433,
+        "decision": "Preserve; no approved expiry or proven unused scope"
+      },
+      {
+        "name": "plataforma_cutover_restore_check",
+        "oid": 55922,
+        "owner": "postgres",
+        "bytes": 55550467,
+        "port": 5433,
+        "decision": "Preserve; no approved expiry or proven unused scope"
+      },
+      {
+        "name": "plataforma_cutover_test",
+        "oid": 55273,
+        "owner": "postgres",
+        "bytes": 22923248131,
+        "port": 5433,
+        "decision": "Preserve; no approved expiry or proven unused scope"
+      },
+      {
+        "name": "plataforma_integracion_local",
+        "oid": 74053,
+        "owner": "plataforma_integracion",
+        "bytes": 23158209895,
+        "port": 5433,
+        "decision": "Preserve; no approved expiry or proven unused scope"
+      },
+      {
+        "name": "plataforma_pre_migration_audit_test",
+        "oid": 48182,
+        "owner": "postgres",
+        "bytes": 67576323,
+        "port": 5433,
+        "decision": "Preserve; no approved expiry or proven unused scope"
+      },
+      {
+        "name": "plataforma_real_restore_test",
+        "oid": 47832,
+        "owner": "postgres",
+        "bytes": 70918659,
+        "port": 5433,
+        "decision": "Preserve; no approved expiry or proven unused scope"
+      },
+      {
+        "name": "plataforma_secop_refresh_20261001_test",
+        "oid": 64225,
+        "owner": "postgres",
+        "bytes": 22692707687,
+        "port": 5433,
+        "decision": "Preserve; no approved expiry or proven unused scope"
+      },
+      {
+        "name": "plataforma_secop_refresh_test",
+        "oid": 57048,
+        "owner": "postgres",
+        "bytes": 22653493763,
+        "port": 5433,
+        "decision": "Preserve; no approved expiry or proven unused scope"
+      },
+      {
+        "name": "plataformaanticorrupcion",
+        "oid": 37886,
+        "owner": "postgres",
+        "bytes": 67281411,
+        "port": 5433,
+        "decision": "Preserve; no approved expiry or proven unused scope"
+      },
+      {
+        "name": "quickcourier_bd",
+        "oid": 27784,
+        "owner": "postgres",
+        "bytes": 8495619,
+        "port": 5433,
+        "decision": "Preserve; no approved expiry or proven unused scope"
+      },
+      {
+        "name": "rappi_prueba_tecnica",
+        "oid": 35142,
+        "owner": "postgres",
+        "bytes": 18637315,
+        "port": 5433,
+        "decision": "Preserve; no approved expiry or proven unused scope"
+      },
+      {
+        "name": "sample_git",
+        "oid": 34160,
+        "owner": "postgres",
+        "bytes": 8028675,
+        "port": 5433,
+        "decision": "Preserve; no approved expiry or proven unused scope"
+      },
+      {
+        "name": "secop",
+        "oid": 35489,
+        "owner": "postgres",
+        "bytes": 7545347,
+        "port": 5433,
+        "decision": "Preserve; no approved expiry or proven unused scope"
+      },
+      {
+        "name": "test_claude",
+        "oid": 34080,
+        "owner": "postgres",
+        "bytes": 7922179,
+        "port": 5433,
+        "decision": "Preserve; no approved expiry or proven unused scope"
+      },
+      {
+        "name": "test_jwt",
+        "oid": 24576,
+        "owner": "postgres",
+        "bytes": 8897027,
+        "port": 5433,
+        "decision": "Preserve; no approved expiry or proven unused scope"
+      }
+    ],
+    "protected_backup_files": [
+      {
+        "path": "Backend/.codex-e2e-postgres/plataforma_cutover_final.dump",
+        "bytes": 3428333830,
+        "decision": "Preserve approved unique backup",
+        "cryptographic_reverification_performed": false
+      },
+      {
+        "path": "Backend/.codex-e2e-postgres/plataforma_cutover_pre_backfill.dump",
+        "bytes": 6383897,
+        "decision": "Preserve approved unique backup",
+        "cryptographic_reverification_performed": false
+      },
+      {
+        "path": "Backend/.codex-e2e-postgres/plataforma_cutover_pre_full_load.dump",
+        "bytes": 7714032,
+        "decision": "Preserve approved unique backup",
+        "cryptographic_reverification_performed": false
+      },
+      {
+        "path": "Backend/.codex-e2e-postgres/plataforma_raw_secop_cutover.dump",
+        "bytes": 2659255472,
+        "decision": "Preserve approved unique backup",
+        "cryptographic_reverification_performed": false
+      },
+      {
+        "path": "Backend/.codex-e2e-postgres/plataforma_secop_refresh_final.dump",
+        "bytes": 3429788315,
+        "decision": "Preserve approved unique backup",
+        "cryptographic_reverification_performed": false
+      },
+      {
+        "path": "Backend/.codex-e2e-postgres/plataformaanticorrupcion-cutover.dump",
+        "bytes": 6382052,
+        "decision": "Preserve approved unique backup",
+        "cryptographic_reverification_performed": false
+      },
+      {
+        "path": "Backend/.codex-e2e-postgres/plataformaanticorrupcion-preserved-2026-10-01.dump",
+        "bytes": 6374617,
+        "decision": "Preserve approved unique backup",
+        "cryptographic_reverification_performed": false
+      },
+      {
+        "path": "Backend/.codex-e2e-postgres/secop_20261001_final.dump",
+        "bytes": 3434770306,
+        "decision": "Preserve approved unique backup",
+        "cryptographic_reverification_performed": false
+      }
+    ],
+    "protected_recovery_checkpoints": [
+      {
+        "path": "Backend/.codex-integration-postgres/activation-execution-20261012/frozen-checkpoint/control-state.dump",
+        "bytes": 25816,
+        "decision_proposed": "Preserve original/current recovery checkpoint",
+        "sha256": "32c881f868f72128ef727b095e839adbf9c2e1337bda41192bdffad5b444e791"
+      },
+      {
+        "path": "Backend/.codex-integration-postgres/activation-execution-20261012/frozen-checkpoint/schema-before.dump",
+        "bytes": 72502,
+        "decision_proposed": "Preserve original/current recovery checkpoint",
+        "sha256": "1d40d760a86b25ef6cf62bbc8b350ed63e964dbffda45c3d7b1cf208852f2ffe"
+      },
+      {
+        "path": "Backend/.codex-integration-postgres/activation-preparation-20261012/control-state.dump",
+        "bytes": 25816,
+        "decision_proposed": "Preserve original/current recovery checkpoint",
+        "sha256": "8c57b6f61119a36ff1a333529630ad0e410e642469dd19175eac324eca2ce36a"
+      },
+      {
+        "path": "Backend/.codex-integration-postgres/activation-preparation-20261012/schema-before.dump",
+        "bytes": 72502,
+        "decision_proposed": "Preserve original/current recovery checkpoint",
+        "sha256": "fb9e0e1b5de8d33e71a0acf86fb37d86c095e74c5675da601c4cd93a4f945f51"
+      },
+      {
+        "path": "Backend/.codex-integration-postgres/publication-20261010/operational-before.dump",
+        "bytes": 6374617,
+        "decision_proposed": "Preserve original/current recovery checkpoint",
+        "sha256": "2d775be9bdb6f768dbd96d0a99d3368dee166d566095ab6c6d9e8894931981f8"
+      }
+    ],
+    "protected_packages": [
+      "794d185832c7c56ffa4d91ef08ca1f3d15128be5",
+      "915e863cc7492e619888506f59a04c6dbbfa5552"
+    ],
+    "current_control_counts": {
+      "admins": 1,
+      "fuentes_datos": 1,
+      "admin_sessions": 12,
+      "background_jobs": 103
+    },
+    "current_checkpoint_backups": [
+      {
+        "name": "control-state.dump",
+        "bytes": 26053,
+        "sha256": "338026c60e49aa696a485c973afe75dfb01b6c78363d3566b7f3584b394b8b8c"
+      },
+      {
+        "name": "schema-current.dump",
+        "bytes": 83103,
+        "sha256": "985127ceba5fb93e392edef49346dfd257362d7aa6b24e607c0fb804eec2ec69"
+      }
+    ],
+    "history_table_present_and_preserved": true,
+    "control_snapshot_matches_after_copy": true,
+    "current_snapshot_while_running": true,
+    "snapshot_is_not_a_write_freeze": true,
+    "backup_schema_dependencies": [
+      "public.secop_source_locale",
+      "public.tipoformato"
+    ],
+    "reused_restore_evidence": "Verified four-table restoration including dependencies before activation; control table definitions unchanged; no duplicate restoration performed",
+    "policy_sha256": "854bbfcd4f40c4776d46c5e93384bfc58b60512d0326af662d89a0e0a8df899b",
+    "next_manual_review_at_utc": "2026-10-19T20:11:05.962820+00:00",
+    "services_running": true,
+    "databases_removed": 0,
+    "rows_deleted": 0,
+    "files_removed": 0,
+    "full_historical_backups_repeated": false,
+    "full_restore_repeated": false,
+    "P15": "closed_approved_and_applied_preserve_policy",
+    "P05_retention_decision": "approved_preserve_until_identity_resolved",
+    "P05_identity_pending": true
+  },
+  "current_export_backup": {
+    "count": 1,
+    "bytes": 275
+  },
+  "firewall_elevation": {
+    "at_utc": "2026-10-12T20:12:42.240226+00:00",
+    "stage": "elevation_cancelled_before_helper_start",
+    "authorization_for_six_rules_received": true,
+    "native_windows_result": "Windows reported that the elevation operation was cancelled",
+    "elevated_helper_started": false,
+    "rules_applied": false,
+    "global_profiles_changed": false,
+    "auto_review_rejection_this_attempt": false
+  },
+  "network_baseline": [
+    {
+      "at_utc": "2026-10-12T20:07:15.206214+00:00",
+      "mode": "before",
+      "program_index": "0",
+      "invoked_python": "C:\\PLATAFORMA-DE-DETECCION-TEMPRANA-DE-CORRUPCION-MEDIANTE-DATOS-ABIERTOS-PUBLICOS\\Backend\\.codex-integration-postgres\\runtime\\venv\\Scripts\\python.exe",
+      "base_python": "C:\\PLATAFORMA-DE-DETECCION-TEMPRANA-DE-CORRUPCION-MEDIANTE-DATOS-ABIERTOS-PUBLICOS\\Backend\\.codex-integration-postgres\\runtime\\python\\python.exe",
+      "tls_certificate_required": true,
+      "tls_hostname_check": true,
+      "proxy_environment_used": false,
+      "checks": [
+        {
+          "name": "loopback_postgresql",
+          "host": "127.0.0.1",
+          "port": 5432,
+          "transport": "TCP",
+          "success": true,
+          "seconds": 0.004198000067844987
+        },
+        {
+          "name": "loopback_api",
+          "host": "127.0.0.1",
+          "port": 8000,
+          "status": 200,
+          "success": true,
+          "seconds": 0.02537410007789731
+        },
+        {
+          "name": "official_https_www.datos.gov.co",
+          "host": "www.datos.gov.co",
+          "port": 443,
+          "status": 200,
+          "json_rows": 1,
+          "response_values_recorded": false,
+          "success": true,
+          "seconds": 0.5619603999657556
+        },
+        {
+          "name": "official_https_datos.gov.co",
+          "host": "datos.gov.co",
+          "port": 443,
+          "status": 200,
+          "json_rows": 1,
+          "response_values_recorded": false,
+          "success": true,
+          "seconds": 0.6238215001067147
+        },
+        {
+          "name": "unapproved_external_tcp_443",
+          "host": "104.20.23.154",
+          "port": 443,
+          "transport": "TCP",
+          "success": true,
+          "seconds": 0.07028560002800077
+        },
+        {
+          "name": "unapproved_external_tcp_80",
+          "host": "104.20.23.154",
+          "port": 80,
+          "transport": "TCP",
+          "success": true,
+          "seconds": 0.07757340010721236
+        },
+        {
+          "name": "unapproved_external_udp_dns",
+          "host": "1.1.1.1",
+          "port": 53,
+          "transport": "UDP",
+          "dns_response_verified": true,
+          "success": true,
+          "seconds": 0.056998100015334785
+        }
+      ]
+    },
+    {
+      "at_utc": "2026-10-12T20:07:16.771068+00:00",
+      "mode": "before",
+      "program_index": "1",
+      "invoked_python": "C:\\PLATAFORMA-DE-DETECCION-TEMPRANA-DE-CORRUPCION-MEDIANTE-DATOS-ABIERTOS-PUBLICOS\\Backend\\.codex-integration-postgres\\runtime\\python\\python.exe",
+      "base_python": "C:\\PLATAFORMA-DE-DETECCION-TEMPRANA-DE-CORRUPCION-MEDIANTE-DATOS-ABIERTOS-PUBLICOS\\Backend\\.codex-integration-postgres\\runtime\\python\\python.exe",
+      "tls_certificate_required": true,
+      "tls_hostname_check": true,
+      "proxy_environment_used": false,
+      "checks": [
+        {
+          "name": "loopback_postgresql",
+          "host": "127.0.0.1",
+          "port": 5432,
+          "transport": "TCP",
+          "success": true,
+          "seconds": 0.004227000055834651
+        },
+        {
+          "name": "loopback_api",
+          "host": "127.0.0.1",
+          "port": 8000,
+          "status": 200,
+          "success": true,
+          "seconds": 0.024934899993240833
+        },
+        {
+          "name": "official_https_www.datos.gov.co",
+          "host": "www.datos.gov.co",
+          "port": 443,
+          "status": 200,
+          "json_rows": 1,
+          "response_values_recorded": false,
+          "success": true,
+          "seconds": 0.5246714999666438
+        },
+        {
+          "name": "official_https_datos.gov.co",
+          "host": "datos.gov.co",
+          "port": 443,
+          "status": 200,
+          "json_rows": 1,
+          "response_values_recorded": false,
+          "success": true,
+          "seconds": 0.4389051999896765
+        },
+        {
+          "name": "unapproved_external_tcp_443",
+          "host": "104.20.23.154",
+          "port": 443,
+          "transport": "TCP",
+          "success": true,
+          "seconds": 0.06934669998008758
+        },
+        {
+          "name": "unapproved_external_tcp_80",
+          "host": "104.20.23.154",
+          "port": 80,
+          "transport": "TCP",
+          "success": true,
+          "seconds": 0.077820900012739
+        },
+        {
+          "name": "unapproved_external_udp_dns",
+          "host": "1.1.1.1",
+          "port": 53,
+          "transport": "UDP",
+          "dns_response_verified": true,
+          "success": true,
+          "seconds": 0.058808499947190285
+        }
+      ]
+    }
+  ],
+  "firewall_post_application_probe_performed": false,
+  "checklist": {
+    "complete": 97,
+    "open": 4,
+    "ids": [
+      "P01",
+      "P05",
+      "P06",
+      "P12"
+    ]
+  },
+  "prior_preparations_are_historical_snapshots": true,
+  "private_evidence_sha256": {
+    "retention-applied.json": "3ddb13da5b9b5df048da48803c8f6c59d20920b66c72f09a8580a64b12c84922",
+    "elevation-attempt.json": "fb5e69a00e3669f008fdc882ad910a386d84e9466ea27a4142e5c5fb0bb921d4",
+    "authorization.json": "42427ac4de77178f6f51d04af93d5bcbb1fc8066d221d2ffc6756685d9e81bef",
+    "elevation-attempt-2.json": "f03ea384973f8e22180829fc30d366006a5ec18d4f8054c9441a05c5e0955582",
+    "windows-execution-context.json": "4c51c5d4e7ffb17de7ca25569341c8fe10994f9245b76d425fb86239566c24a7"
+  },
+  "firewall_retry": {
+    "at_utc": "2026-10-13T00:58:29.4105512+00:00",
+    "stage": "elevation_retry_failed_before_helper",
+    "error_type": "System.InvalidOperationException",
+    "native_message": "This command cannot be run due to the error: An error occurred trying to start process 'C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe' with working directory 'C:\\PLATAFORMA-DE-DETECCION-TEMPRANA-DE-CORRUPCION-MEDIANTE-DATOS-ABIERTOS-PUBLICOS'. El usuario ha cancelado la operaciÃ³n.",
+    "approved_rules": 6,
+    "rules_applied": false
+  },
+  "windows_execution_context": {
+    "at_utc": "2026-10-13T01:00:41.1387565+00:00",
+    "user_interactive": true,
+    "session_id": 1,
+    "administrator_group_in_execution_token": false,
+    "elevated": false,
+    "named_scoped_rules": [],
+    "administrative_execution_started": false,
+    "interpretation": "Execution token lacks administrator privilege; Windows cancelled the second RunAs attempt before helper startup. Human administrative shell execution is required."
+  },
+  "manual_install_and_verification_entrypoint": "Backend/.codex-e2e-postgres/install_and_verify_approved_egress_20261012.ps1",
+  "entrypoint_syntax_checked_without_execution": true,
+  "inventory_interpretation_correction_20261015": {
+    "prior_empty_inventory_proves_absence": false,
+    "current_rule_presence": "unknown_due_to_access_denied",
+    "evidence": "docs/operacion/RECUPERACION_LOCAL_20261015.json",
+    "historical_private_snapshots_modified": false
+  }
+}

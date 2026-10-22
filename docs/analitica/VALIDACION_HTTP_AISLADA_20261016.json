@@ -1,0 +1,272 @@
+{
+  "time": "2026-10-16T23:36:49.056550+00:00",
+  "state": "COMPLETE",
+  "database_oid": 82244,
+  "scope": "Native candidate API on isolated DB: authentication, administrative reads, refusals with absent approval, and unauthenticated/invalid-token boundaries. Temporary owned admin/session removed. No approved-model workflows, final release, UI or Windows task activation.",
+  "source_mutations": false,
+  "publication_performed": false,
+  "authenticated_checks": [
+    {
+      "method": "GET",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/riesgo/admin/inventario",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/riesgo/admin/modelos",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/riesgo/admin/evidencias-variables",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/riesgo/admin/entrenar",
+      "status": 422
+    },
+    {
+      "method": "POST",
+      "path": "/api/riesgo/admin/activar",
+      "status": 409
+    },
+    {
+      "method": "POST",
+      "path": "/api/riesgo/admin/actualizar",
+      "status": 409
+    },
+    {
+      "method": "POST",
+      "path": "/api/riesgo/admin/revertir/00000000-0000-0000-0000-000000000001",
+      "status": 409
+    },
+    {
+      "method": "POST",
+      "path": "/api/riesgo/admin/casos",
+      "status": 422
+    }
+  ],
+  "logout_revokes_admin_access": true,
+  "public_checks": [
+    {
+      "method": "GET",
+      "path": "/api/riesgo/estado",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/riesgo/metodologia",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/riesgo/resultados",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/riesgo/resultados?stage=INVALID",
+      "status": 422
+    }
+  ],
+  "administrative_denials": [
+    {
+      "method": "POST",
+      "path": "/api/riesgo/admin/casos",
+      "credentials": "absent",
+      "status": 401
+    },
+    {
+      "method": "POST",
+      "path": "/api/riesgo/admin/casos",
+      "credentials": "invalid",
+      "status": 401
+    },
+    {
+      "method": "POST",
+      "path": "/api/riesgo/admin/casos",
+      "credentials": "malformed",
+      "status": 401
+    },
+    {
+      "method": "GET",
+      "path": "/api/riesgo/admin/inventario",
+      "credentials": "absent",
+      "status": 401
+    },
+    {
+      "method": "GET",
+      "path": "/api/riesgo/admin/inventario",
+      "credentials": "invalid",
+      "status": 401
+    },
+    {
+      "method": "GET",
+      "path": "/api/riesgo/admin/inventario",
+      "credentials": "malformed",
+      "status": 401
+    },
+    {
+      "method": "GET",
+      "path": "/api/riesgo/admin/modelos",
+      "credentials": "absent",
+      "status": 401
+    },
+    {
+      "method": "GET",
+      "path": "/api/riesgo/admin/modelos",
+      "credentials": "invalid",
+      "status": 401
+    },
+    {
+      "method": "GET",
+      "path": "/api/riesgo/admin/modelos",
+      "credentials": "malformed",
+      "status": 401
+    },
+    {
+      "method": "POST",
+      "path": "/api/riesgo/admin/evidencias-variables",
+      "credentials": "absent",
+      "status": 401
+    },
+    {
+      "method": "POST",
+      "path": "/api/riesgo/admin/evidencias-variables",
+      "credentials": "invalid",
+      "status": 401
+    },
+    {
+      "method": "POST",
+      "path": "/api/riesgo/admin/evidencias-variables",
+      "credentials": "malformed",
+      "status": 401
+    },
+    {
+      "method": "GET",
+      "path": "/api/riesgo/admin/evidencias-variables",
+      "credentials": "absent",
+      "status": 401
+    },
+    {
+      "method": "GET",
+      "path": "/api/riesgo/admin/evidencias-variables",
+      "credentials": "invalid",
+      "status": 401
+    },
+    {
+      "method": "GET",
+      "path": "/api/riesgo/admin/evidencias-variables",
+      "credentials": "malformed",
+      "status": 401
+    },
+    {
+      "method": "POST",
+      "path": "/api/riesgo/admin/entrenar",
+      "credentials": "absent",
+      "status": 401
+    },
+    {
+      "method": "POST",
+      "path": "/api/riesgo/admin/entrenar",
+      "credentials": "invalid",
+      "status": 401
+    },
+    {
+      "method": "POST",
+      "path": "/api/riesgo/admin/entrenar",
+      "credentials": "malformed",
+      "status": 401
+    },
+    {
+      "method": "POST",
+      "path": "/api/riesgo/admin/activar",
+      "credentials": "absent",
+      "status": 401
+    },
+    {
+      "method": "POST",
+      "path": "/api/riesgo/admin/activar",
+      "credentials": "invalid",
+      "status": 401
+    },
+    {
+      "method": "POST",
+      "path": "/api/riesgo/admin/activar",
+      "credentials": "malformed",
+      "status": 401
+    },
+    {
+      "method": "POST",
+      "path": "/api/riesgo/admin/preparar-base",
+      "credentials": "absent",
+      "status": 401
+    },
+    {
+      "method": "POST",
+      "path": "/api/riesgo/admin/preparar-base",
+      "credentials": "invalid",
+      "status": 401
+    },
+    {
+      "method": "POST",
+      "path": "/api/riesgo/admin/preparar-base",
+      "credentials": "malformed",
+      "status": 401
+    },
+    {
+      "method": "POST",
+      "path": "/api/riesgo/admin/actualizar",
+      "credentials": "absent",
+      "status": 401
+    },
+    {
+      "method": "POST",
+      "path": "/api/riesgo/admin/actualizar",
+      "credentials": "invalid",
+      "status": 401
+    },
+    {
+      "method": "POST",
+      "path": "/api/riesgo/admin/actualizar",
+      "credentials": "malformed",
+      "status": 401
+    },
+    {
+      "method": "POST",
+      "path": "/api/riesgo/admin/revertir/{cut_id}",
+      "credentials": "absent",
+      "status": 401
+    },
+    {
+      "method": "POST",
+      "path": "/api/riesgo/admin/revertir/{cut_id}",
+      "credentials": "invalid",
+      "status": 401
+    },
+    {
+      "method": "POST",
+      "path": "/api/riesgo/admin/revertir/{cut_id}",
+      "credentials": "malformed",
+      "status": 401
+    }
+  ],
+  "administrative_operations": 10,
+  "read_only_permission_check_passed": true,
+  "code_sha256": {
+    "main.py": "64ec8089b40610f4390d62e46cb7a0c0144acbcc3f540110ac131234bd4e608b",
+    "modules/motor_riesgo/controller.py": "bd256ae883bf21b1c89801bb9f6fb03766289638ca34f317b4c07937a9a17c15",
+    "gateway/middlewares/auth_middleware.py": "dea6bc036741a283bef0beb00d4d4fe37424be54e3b4dcc1f31cf09d8b13b1cb",
+    "modules/motor_riesgo/runtime_permissions.py": "417ee1fa592315204f99e88edfa66dcef0841bbb0898a694d07094b94345f4d2"
+  },
+  "owned_server_stopped": true,
+  "temporary_admin_and_session_removed": true,
+  "source_jobs_evidence_models_and_publication_unchanged": true,
+  "auth_sequence_restore_attempted": false
+}

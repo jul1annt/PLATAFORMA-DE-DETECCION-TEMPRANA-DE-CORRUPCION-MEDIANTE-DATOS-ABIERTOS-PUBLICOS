@@ -1,0 +1,7 @@
+{
+  "scope": "Caminos documentales localizados en búsqueda de ANI y comprobados en su portal histórico público; la adquisición requiere contrastar cada documento",
+  "sources": [
+    {"id":"ani-prepliego-ruta-sol-20090309","kind":"DOCUMENTO_ETAPA_PENDIENTE","url":"https://wwwold.ani.gov.co/sites/default/files/contratos_anteriores/file_doc_procesos11684.pdf","discovered_url":"https://www.ani.gov.co/sites/default/files/contratos_anteriores/file_doc_procesos11684.pdf"},
+    {"id":"ani-adenda12-ruta-sol","kind":"DOCUMENTO_ETAPA_PENDIENTE","url":"https://wwwold.ani.gov.co/sites/default/files/contratos_anteriores/file_doc_procesos14530.pdf","discovered_url":"https://www.ani.gov.co/sites/default/files/contratos_anteriores/file_doc_procesos14530.pdf"}
+  ]
+}

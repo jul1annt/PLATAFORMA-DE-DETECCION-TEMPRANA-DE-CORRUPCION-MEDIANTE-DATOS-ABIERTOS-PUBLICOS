@@ -1,7 +1,7 @@
 from datetime import date
 from decimal import Decimal
 from typing import Optional
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, model_validator
 
 
 class OutlierCalculoRequest(BaseModel):
@@ -32,6 +32,12 @@ class OutlierCalculoRequest(BaseModel):
         description="Modalidad de contratación única a incluir. Null = todas."
     )
 
+    @model_validator(mode="after")
+    def validar_rango_fechas(self):
+        if self.fecha_desde and self.fecha_hasta and self.fecha_desde > self.fecha_hasta:
+            raise ValueError("fecha_desde no puede ser posterior a fecha_hasta")
+        return self
+
 
 class OutlierFiltroRequest(BaseModel):
     """
@@ -57,6 +63,7 @@ class OutlierFiltroRequest(BaseModel):
     score_minimo: Optional[float] = Field(
         default=None,
         ge=0,
+        allow_inf_nan=False,
         description="Retorna solo outliers con score >= este valor."
     )
     page: int = Field(default=1, ge=1)
@@ -76,6 +83,12 @@ class DuplicadoCalculoRequest(BaseModel):
         description="Filtro por fecha_publicacion_normalizada (inclusive)."
     )
 
+    @model_validator(mode="after")
+    def validar_rango_fechas(self):
+        if self.fecha_desde and self.fecha_hasta and self.fecha_desde > self.fecha_hasta:
+            raise ValueError("fecha_desde no puede ser posterior a fecha_hasta")
+        return self
+
 class DuplicadoFiltroRequest(BaseModel):
     """
     Parámetros de consulta para listar duplicados ya calculados.
@@ -92,6 +105,7 @@ class DuplicadoFiltroRequest(BaseModel):
     score_minimo: Optional[float] = Field(
         default=None,
         ge=0,
+        allow_inf_nan=False,
         description="Retorna solo duplicados con score >= este valor."
     )
     page: int = Field(default=1, ge=1)
@@ -122,6 +136,12 @@ class AdjudicacionDirectaCalculoRequest(BaseModel):
         description="Ventana de días para analizar la concentración de directas."
     )
 
+    @model_validator(mode="after")
+    def validar_rango_fechas(self):
+        if self.fecha_desde and self.fecha_hasta and self.fecha_desde > self.fecha_hasta:
+            raise ValueError("fecha_desde no puede ser posterior a fecha_hasta")
+        return self
+
 
 class AdjudicacionDirectaFiltroRequest(BaseModel):
     """
@@ -139,23 +159,27 @@ class AdjudicacionDirectaFiltroRequest(BaseModel):
     score_minimo: Optional[float] = Field(
         default=None,
         ge=0,
+        allow_inf_nan=False,
         description="Retorna solo proveedores con score >= este valor."
     )
     score_maximo: Optional[float] = Field(
         default=None,
         ge=0,
+        allow_inf_nan=False,
         description="Retorna solo proveedores con score <= este valor."
     )
     porcentaje_minimo: Optional[float] = Field(
         default=None,
         ge=0,
         le=100,
+        allow_inf_nan=False,
         description="Retorna solo proveedores con porcentaje_directos >= este valor."
     )
     porcentaje_maximo: Optional[float] = Field(
         default=None,
         ge=0,
         le=100,
+        allow_inf_nan=False,
         description="Retorna solo proveedores con porcentaje_directos <= este valor."
     )
     solo_abuso_directas: bool = Field(
@@ -169,7 +193,12 @@ class PesoActualizarRequest(BaseModel):
     """
     Petición para actualizar el peso de una anomalía.
     """
-    peso: Decimal = Field(..., ge=Decimal("0.0"), description="Nuevo peso para la anomalía")
+    peso: Decimal = Field(
+        ...,
+        ge=Decimal("0.0"),
+        le=Decimal("999.99"),
+        description="Nuevo peso para la anomalía (máximo compatible con Numeric(5, 2)).",
+    )
 
 class RiesgoFiltroRequest(BaseModel):
     """
@@ -191,7 +220,8 @@ class RiesgoFiltroRequest(BaseModel):
     score_minimo: Optional[float] = Field(
         default=None,
         ge=0,
+        allow_inf_nan=False,
         description="Retorna solo proveedores con score final >= este valor."
     )
     page: int = Field(default=1, ge=1)
-    page_size: int = Field(default=50, ge=1, le=200)
+    page_size: int = Field(default=50, ge=1, le=200)

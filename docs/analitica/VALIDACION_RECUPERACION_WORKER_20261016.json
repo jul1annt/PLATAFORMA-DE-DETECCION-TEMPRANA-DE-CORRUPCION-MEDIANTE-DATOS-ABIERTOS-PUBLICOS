@@ -1,0 +1,19 @@
+{
+  "time": "2026-10-16T23:25:09.744968+00:00",
+  "state": "COMPLETE",
+  "source_oid": 82244,
+  "scope": "Real durable worker + synthetic model task under forced API-like owner exit; no HTTP/auth or full release activation test",
+  "real_models_trained": 0,
+  "publication_performed": false,
+  "owner_exit_code": 97,
+  "actual_descendant_pids": [
+    64452,
+    70388
+  ],
+  "descendants_stopped": true,
+  "recovered_same_public_id": true,
+  "attempts": 2,
+  "deduplicated_before_and_after_recovery": true,
+  "source_versions_unchanged": true,
+  "synthetic_job_removed": true
+}

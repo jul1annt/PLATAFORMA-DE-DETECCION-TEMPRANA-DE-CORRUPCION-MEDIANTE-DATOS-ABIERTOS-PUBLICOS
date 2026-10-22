@@ -1,0 +1,32 @@
+{
+  "date_bogota": "2026-10-19",
+  "status": "COUNT_AND_QUALITY_REFERENCE_PARITY_VALIDATED",
+  "focused_tests": {
+    "run_id": "b67ad523d02a4c53ae38fe8ca9eace15",
+    "count": 120,
+    "sql_test_cases": 32,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "junit_sha256": "fdf44b7c2e839dd8217ebc0b54a18af570d12433c2a2eb1e81326c184b38f7d0"
+  },
+  "seeded_mixed_frames": 100,
+  "fixed_sql_frames": 31,
+  "real_secop_frames": 13,
+  "real_frames_all_match": true,
+  "real_frames_validation_database_oid": 82244,
+  "real_frames_rows_written": 0,
+  "comparison_report_sha256": "64d5878f5c351708adde48b5faf6aeca422518a9577a14bb7b89a2017825f068",
+  "implementation_sha256": {
+    "modules/motor_riesgo/rolling_sql_check.py": "f97f54e9fecaa38f89d26abbed5a261b161f360c1dc0b0dff43e53e534c6975a",
+    "modules/motor_riesgo/rolling_evidence.py": "2447d56b12e071ec71b63d3771ba798ba2ce3d874ca0309b5cbb17360161523d",
+    "tests/test_rolling_sql_postgres.py": "4acddc8797afcb866d39964d80fd9bc346401dcc09fad3698b3db514e191edbd"
+  },
+  "monetary_parity_checked": false,
+  "legacy_history_parity_checked": false,
+  "training_eligible": false,
+  "publication_authorized": false,
+  "new_dependencies": false,
+  "original_database_access_in_this_step": false,
+  "external_contact": false
+}

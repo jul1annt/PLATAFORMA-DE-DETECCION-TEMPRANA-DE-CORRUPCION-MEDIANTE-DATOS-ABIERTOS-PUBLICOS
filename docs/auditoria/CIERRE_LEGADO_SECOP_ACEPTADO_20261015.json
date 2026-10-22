@@ -1,0 +1,139 @@
+{
+  "started_at_utc": "2026-10-16T04:06:18.538429+00:00",
+  "authorization": "Aceptar la limitación histórica",
+  "accepted_scope": "Preserve 18980 legacy rows as unreconciled legacy; no inferred official IDs and no claim of complete historical reconciliation. Published 2026-10-01 cut and backups preserved.",
+  "database_writes": 0,
+  "official_identity_assignments": 0,
+  "full_historical_reconciliation_proven": false,
+  "historical_reload_performed": false,
+  "backup_files_deleted": 0,
+  "accepted_scope_document_sha256": "d7b1d80197683c418ea626f06c033c8aae24bd6f0f947a2165b5b2704e882608",
+  "ledger": {
+    "rows": 18980,
+    "sha256": "4cb38055eecad6453659c4e1d9cc193202236dcd139538f025107fbfa7c8f0d3",
+    "bytes": 10145604,
+    "exact_match_cardinality": {
+      "unique": 15392,
+      "missing": 3470,
+      "ambiguous": 118
+    },
+    "award_match_cardinality": {
+      "unique": 18115,
+      "missing": 708,
+      "ambiguous": 157
+    },
+    "statuses": {
+      "unproven_missing_prior_source_row_identity": 18980
+    },
+    "maximum_candidate_list_observed": 20,
+    "candidate_lists_bounded_at": 20,
+    "classifications_are_alternatives_not_additive": true
+  },
+  "original_identity": [
+    "plataformaanticorrupcion_pre_20261010",
+    5432,
+    17930,
+    "c7e3a91b5d24"
+  ],
+  "original_prefix_md5": "dccfdf8a6405c3d37ebdc4ab2019292b",
+  "original_current_full_raw_md5": "e5006fcdfd34a1abcc1f180aadac8eba",
+  "original_rows": 18980,
+  "ledger_covers_exact_original_id_set": true,
+  "original_official_id_column_absent": true,
+  "published_identity": [
+    "plataformaanticorrupcion",
+    5432,
+    24577,
+    "3c19a8f7e2d0"
+  ],
+  "published_history_trigger_enabled": true,
+  "published_trigger_definition_sha256": "a2e143d693809d5da5c96b5e824ba0efb256f1e67840dea93091a4a9a2d35b14",
+  "published_history_function_sha256": "3157c7b1c5604fb970301765674fd5732e3cf2d5ebde6afbdd045fd01c0e714f",
+  "published_prefix_md5": "7faea8375c6e3e4faba1c23f71dc6b5e",
+  "active_sources": 0,
+  "active_jobs": 0,
+  "protected_historical_backups": [
+    {
+      "path": "Backend/.codex-e2e-postgres/plataforma_cutover_final.dump",
+      "bytes": 3428333830,
+      "present_and_size_equal": true,
+      "full_hash_repeated": false
+    },
+    {
+      "path": "Backend/.codex-e2e-postgres/plataforma_cutover_pre_backfill.dump",
+      "bytes": 6383897,
+      "present_and_size_equal": true,
+      "full_hash_repeated": false
+    },
+    {
+      "path": "Backend/.codex-e2e-postgres/plataforma_cutover_pre_full_load.dump",
+      "bytes": 7714032,
+      "present_and_size_equal": true,
+      "full_hash_repeated": false
+    },
+    {
+      "path": "Backend/.codex-e2e-postgres/plataforma_raw_secop_cutover.dump",
+      "bytes": 2659255472,
+      "present_and_size_equal": true,
+      "full_hash_repeated": false
+    },
+    {
+      "path": "Backend/.codex-e2e-postgres/plataforma_secop_refresh_final.dump",
+      "bytes": 3429788315,
+      "present_and_size_equal": true,
+      "full_hash_repeated": false
+    },
+    {
+      "path": "Backend/.codex-e2e-postgres/plataformaanticorrupcion-cutover.dump",
+      "bytes": 6382052,
+      "present_and_size_equal": true,
+      "full_hash_repeated": false
+    },
+    {
+      "path": "Backend/.codex-e2e-postgres/plataformaanticorrupcion-preserved-2026-10-01.dump",
+      "bytes": 6374617,
+      "present_and_size_equal": true,
+      "full_hash_repeated": false
+    },
+    {
+      "path": "Backend/.codex-e2e-postgres/secop_20261001_final.dump",
+      "bytes": 3434770306,
+      "present_and_size_equal": true,
+      "full_hash_repeated": false
+    }
+  ],
+  "original_backup": {
+    "path": "Backend/.codex-integration-postgres/publication-20261010/operational-before.dump",
+    "bytes": 6374617,
+    "sha256": "2d775be9bdb6f768dbd96d0a99d3368dee166d566095ab6c6d9e8894931981f8"
+  },
+  "reused_history_capacity_evidence": {
+    "path": "docs/auditoria/HISTORIAL_CAPACIDAD_SECOP_20261006.json",
+    "sha256": "4bf8be7145332d017c4f9c7a35b73c9bad928c69be930f00eccc4255576d4182",
+    "versions": 6000,
+    "growth_bytes": 12730368,
+    "bytes_per_version": 2121.728,
+    "new_mutation_performed": false
+  },
+  "completed_at_utc": "2026-10-16T04:06:24.662705+00:00",
+  "stage": "verified_accepted_legacy_investigation_limit",
+  "elapsed_seconds": 6.1242883000013535,
+  "private_evidence_sha256": "bc10e6f99c35017aed89eb63ddf6560341cb119a8108d6359a78110d534acb8c",
+  "checklist": {
+    "complete": 100,
+    "open": 1,
+    "ids": [
+      "P01"
+    ]
+  },
+  "P05": "closed_with_explicitly_accepted_unreconciled_legacy_limit",
+  "P12": "closed_with_explicitly_accepted_unreconciled_legacy_limit",
+  "limits": [
+    "Historical identities remain unproven for all 18980 legacy rows; zero inferred official IDs.",
+    "Current full raw MD5 is a new preservation reference, not a recovered historical identity or proof that all old content equals an earlier snapshot.",
+    "Eight large dumps checked for presence/size; earlier cryptographic/restore evidence reused, not repeated.",
+    "Published raw prefix is a bounded 2000-row preservation check, not a new complete-cut reconciliation.",
+    "2026-10-01 is the accepted published baseline; no claim of continuously captured history from that date, and sources remain paused.",
+    "Visible anonymous public changelog had no archived changes; private/hidden publisher archives were not examined."
+  ]
+}

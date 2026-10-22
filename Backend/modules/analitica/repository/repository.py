@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, datetime, timezone
 from typing import Optional
 from uuid import UUID
 
@@ -10,6 +10,7 @@ from modules.analitica.model.contrato_duplicado_periodo import ContratoDuplicado
 from modules.analitica.model.proveedor_adjudicacion_directa import ProveedorAdjudicacionDirecta
 from modules.analitica.model.peso_anomalia import PesoAnomalia
 from modules.analitica.model.riesgo_proveedor import RiesgoProveedor
+from modules.analitica.model.AnaliticaEjecucion import AnaliticaEjecucion
 
 
 
@@ -17,6 +18,128 @@ class AnaliticaRepository:
 
     def __init__(self, db: Session):
         self.db = db
+
+    @staticmethod
+    def _universo_iqr(campo: str) -> str:
+        """Use verified procurement units before filters or cohort counts.
+
+        The adapter has no lot identity. Budget belongs to a process, awarded
+        value to its official award. Aliases are ambiguous, not extra samples;
+        exclude all aliases instead of choosing an arbitrary representative.
+        Data-quality measurements retain their per-row meaning.
+        """
+        def official(column):
+            return f"CASE WHEN upper(trim({column})) NOT IN ('','N/A','NA','NULL','NONE','NO DEFINIDO','NO ADJUDICADO','SIN DATO','NO APLICA') THEN trim({column}) END"
+        process = official('r.id_del_proceso')
+        award = official('r.id_adjudicacion')
+        monetary = campo in {'valor_total_normalizado', 'precio_base_normalizado'}
+        award_unit = campo == 'valor_total_normalizado'
+        identity = f'r.fuente_id,{process}' + (f',{award}' if award_unit else '')
+        window = f'count(*) OVER (PARTITION BY {identity})' if monetary else '1'
+        requirements = 'unit_rows=1'
+        if monetary:
+            requirements += ' AND proceso_oficial IS NOT NULL'
+            if award_unit:
+                requirements += ' AND adjudicacion_oficial IS NOT NULL'
+        return f"""identidades_iqr AS (
+            SELECT c.*, NULLIF(TRIM(r.codigo_principal_de_categoria),'') AS categoria_secop,
+                   {process} AS proceso_oficial, {award} AS adjudicacion_oficial,
+                   {window} AS unit_rows
+            FROM contratos_procesados c JOIN raw_secop r ON r.id=c.raw_secop_id
+        ), universo_iqr AS (SELECT * FROM identidades_iqr WHERE {requirements})"""
+
+    def _configure_large_query_memory(self) -> None:
+        """Give large PostgreSQL sorts/hashes more room for this transaction only."""
+        if self.db.get_bind().dialect.name == "postgresql":
+            self.db.execute(text("SELECT set_config('work_mem', '32MB', true)"))
+
+    def obtener_firma_universo(self) -> dict:
+        row = self.db.execute(text("""
+            SELECT COUNT(*) AS total_contratos,
+                   COALESCE(MAX(id), 0) AS id_maximo,
+                   MAX(procesado_en) AS ultimo_procesado_en
+            FROM contratos_procesados
+        """)).one()
+        return {
+            "total_contratos": int(row.total_contratos),
+            "id_maximo": int(row.id_maximo),
+            "ultimo_procesado_en": (
+                row.ultimo_procesado_en.isoformat()
+                if row.ultimo_procesado_en is not None else None
+            ),
+        }
+
+    def iniciar_ejecucion_analitica(
+        self,
+        *,
+        run_id: UUID,
+        tipo: str,
+        parametros: dict,
+        universo: dict,
+        firma_universo: dict,
+    ) -> AnaliticaEjecucion:
+        run = AnaliticaEjecucion(
+            run_id=run_id,
+            tipo=tipo,
+            estado="EN_PROCESO",
+            parametros=parametros,
+            universo=universo,
+            firma_universo=firma_universo,
+            total_contratos=firma_universo["total_contratos"],
+        )
+        self.db.add(run)
+        self.db.commit()
+        return run
+
+    def actualizar_contexto_ejecucion(
+        self,
+        run_id: UUID,
+        *,
+        parametros: dict | None = None,
+        universo: dict | None = None,
+    ) -> None:
+        run = self.db.query(AnaliticaEjecucion).filter_by(run_id=run_id).one()
+        if parametros is not None:
+            run.parametros = {**(run.parametros or {}), **parametros}
+        if universo is not None:
+            run.universo = universo
+        self.db.commit()
+
+    def finalizar_ejecucion_analitica(
+        self,
+        run_id: UUID,
+        *,
+        estado: str,
+        total_resultados: int | None = None,
+        error_id: UUID | None = None,
+        mensaje_error: str | None = None,
+    ) -> None:
+        run = self.db.query(AnaliticaEjecucion).filter_by(run_id=run_id).one()
+        run.estado = estado
+        run.fecha_fin = datetime.now(timezone.utc)
+        run.total_resultados = total_resultados
+        run.error_id = error_id
+        run.mensaje_error = mensaje_error
+        self.db.commit()
+
+    def obtener_ejecucion_analitica(self, run_id: UUID) -> Optional[AnaliticaEjecucion]:
+        return self.db.query(AnaliticaEjecucion).filter_by(run_id=run_id).first()
+
+    def obtener_estado_ejecucion_analitica(self, run_id: UUID) -> str:
+        ejecucion = self.obtener_ejecucion_analitica(run_id)
+        if not ejecucion:
+            return "DESCONOCIDO"
+        if (
+            ejecucion.estado == "EXITOSO"
+            and ejecucion.firma_universo != self.obtener_firma_universo()
+        ):
+            return "DESACTUALIZADO"
+        return ejecucion.estado
+
+    def obtener_ultima_ejecucion_analitica(self, tipo: str) -> Optional[AnaliticaEjecucion]:
+        return self.db.query(AnaliticaEjecucion).filter_by(tipo=tipo).order_by(
+            AnaliticaEjecucion.fecha_inicio.desc(), AnaliticaEjecucion.run_id.desc()
+        ).first()
 
     def obtener_estadisticas_por_grupo(
         self,
@@ -42,16 +165,15 @@ class AnaliticaRepository:
         )
 
         query = text(f"""
-            WITH contratos_validos AS (
+            WITH {self._universo_iqr(campo)}, contratos_validos AS (
                 SELECT
-                    COALESCE(
-                        NULLIF(TRIM(modalidad_contratacion), ''),
-                        NULLIF(TRIM(tipo_contrato_normalizado), '')
-                    ) AS grupo,
+                    CASE WHEN NULLIF(TRIM(modalidad_contratacion), '') IS NOT NULL
+                         AND categoria_secop IS NOT NULL AND fecha_publicacion_normalizada IS NOT NULL
+                    THEN concat(left(categoria_secop,100),'|',left(upper(trim(modalidad_contratacion)),100),'|',
+                                extract(year FROM fecha_publicacion_normalizada)::text) END AS grupo,
                     {campo} AS valor
-                FROM contratos_procesados
-                WHERE es_incompleto = false
-                  AND {campo} IS NOT NULL
+                FROM universo_iqr
+                WHERE {campo} IS NOT NULL
                   AND {campo} > 0
                   {filtros_base['where_extra']}
             ),
@@ -65,7 +187,7 @@ class AnaliticaRepository:
                         - percentile_cont(0.25) WITHIN GROUP (ORDER BY valor)         AS iqr
                 FROM contratos_validos
                 WHERE grupo IS NOT NULL
-                GROUP BY grupo
+                GROUP BY grupo HAVING COUNT(*) >= 30
             )
             SELECT
                 grupo,
@@ -106,16 +228,15 @@ class AnaliticaRepository:
         )
 
         query = text(f"""
-            SELECT
+            WITH {self._universo_iqr(campo)} SELECT
                 id,
                 {campo} AS valor,
-                COALESCE(
-                    NULLIF(TRIM(modalidad_contratacion), ''),
-                    NULLIF(TRIM(tipo_contrato_normalizado), '')
-                ) AS grupo
-            FROM contratos_procesados
-            WHERE es_incompleto = false
-              AND {campo} IS NOT NULL
+                CASE WHEN NULLIF(TRIM(modalidad_contratacion), '') IS NOT NULL
+                         AND categoria_secop IS NOT NULL AND fecha_publicacion_normalizada IS NOT NULL
+                    THEN concat(left(categoria_secop,100),'|',left(upper(trim(modalidad_contratacion)),100),'|',
+                                extract(year FROM fecha_publicacion_normalizada)::text) END AS grupo
+            FROM universo_iqr
+            WHERE {campo} IS NOT NULL
               AND {campo} > 0
               {filtros_base['where_extra']}
         """)
@@ -127,16 +248,103 @@ class AnaliticaRepository:
         self.db.add_all(registros)
         self.db.flush()
 
+    def guardar_resultados_outliers_sql(
+        self,
+        *,
+        run_id: UUID,
+        campo: str,
+        estadisticas_por_grupo: dict[str, dict],
+        fecha_calculo: datetime,
+        fecha_campo: Optional[str] = None,
+        fecha_desde: Optional[date] = None,
+        fecha_hasta: Optional[date] = None,
+        modalidad: Optional[str] = None,
+    ) -> tuple[int, int]:
+        """Clasifica e inserta resultados dentro de PostgreSQL, sin cargar el universo en Python."""
+        campos_numericos_validos = {
+            "valor_total_normalizado", "precio_base_normalizado",
+            "nivel_confianza", "cantidad_campos_faltantes",
+        }
+        if campo not in campos_numericos_validos:
+            raise ValueError(f"Campo numérico no válido: {campo}")
+        if not estadisticas_por_grupo:
+            return 0, 0
+
+        filtros = self._construir_filtros_base(
+            campo=campo,
+            fecha_campo=fecha_campo,
+            fecha_desde=fecha_desde,
+            fecha_hasta=fecha_hasta,
+            modalidad=modalidad,
+        )
+        valores_stats = []
+        params = dict(filtros["params"])
+        for index, (grupo, stats) in enumerate(estadisticas_por_grupo.items()):
+            names = [f"{field}_{index}" for field in ("grupo", "q1", "q3", "iqr", "limite_inferior", "limite_superior")]
+            params.update({
+                names[0]: grupo,
+                names[1]: stats["q1"],
+                names[2]: stats["q3"],
+                names[3]: stats["iqr"],
+                names[4]: stats["limite_inferior"],
+                names[5]: stats["limite_superior"],
+            })
+            valores_stats.append("(" + ", ".join(f":{name}" for name in names) + ")")
+
+        params.update({"run_id": str(run_id), "campo_analizado": campo, "fecha_calculo": fecha_calculo})
+        query = text(f"""
+            WITH {self._universo_iqr(campo)}, estadisticas(
+                grupo, q1, q3, iqr, limite_inferior, limite_superior
+            ) AS (VALUES {", ".join(valores_stats)}),
+            contratos AS (
+                SELECT id, {campo} AS valor,
+                    CASE WHEN NULLIF(TRIM(modalidad_contratacion), '') IS NOT NULL
+                         AND categoria_secop IS NOT NULL AND fecha_publicacion_normalizada IS NOT NULL
+                    THEN concat(left(categoria_secop,100),'|',left(upper(trim(modalidad_contratacion)),100),'|',
+                                extract(year FROM fecha_publicacion_normalizada)::text) END AS grupo
+                FROM universo_iqr
+                WHERE {campo} IS NOT NULL
+                  AND {campo} > 0
+                  {filtros['where_extra']}
+            ),
+            insertados AS (
+                INSERT INTO contrato_outlier (
+                    id, contrato_id, run_id, grupo, campo_analizado, valor,
+                    q1, q3, iqr, limite_inferior, limite_superior,
+                    es_outlier, direccion_outlier, score, fecha_calculo
+                )
+                SELECT
+                    gen_random_uuid(), c.id, :run_id, c.grupo, :campo_analizado,
+                    c.valor, s.q1, s.q3, s.iqr, s.limite_inferior,
+                    s.limite_superior,
+                    c.valor > s.limite_superior OR c.valor < s.limite_inferior,
+                    CASE
+                        WHEN c.valor > s.limite_superior THEN 'ALTO'
+                        WHEN c.valor < s.limite_inferior THEN 'BAJO'
+                        ELSE NULL
+                    END,
+                    CASE
+                        WHEN c.valor > s.limite_superior
+                            THEN round(((c.valor - s.limite_superior) / s.iqr)::numeric, 4)
+                        WHEN c.valor < s.limite_inferior
+                            THEN round(((s.limite_inferior - c.valor) / s.iqr)::numeric, 4)
+                        ELSE 0
+                    END,
+                    :fecha_calculo
+                FROM contratos c
+                JOIN estadisticas s ON s.grupo = c.grupo
+                RETURNING es_outlier
+            )
+            SELECT count(*)::integer AS total_analizados,
+                   count(*) FILTER (WHERE es_outlier)::integer AS total_outliers
+            FROM insertados
+        """)
+        row = self.db.execute(query, params).one()
+        return row.total_analizados, row.total_outliers
+
     def obtener_ultimo_run_id(self) -> Optional[UUID]:
-        resultado = self.db.execute(
-            text("""
-                SELECT run_id
-                FROM contrato_outlier
-                ORDER BY fecha_calculo DESC
-                LIMIT 1
-            """)
-        ).fetchone()
-        return resultado.run_id if resultado else None
+        ejecucion = self.obtener_ultima_ejecucion_analitica("OUTLIERS")
+        return ejecucion.run_id if ejecucion and ejecucion.estado == "EXITOSO" else None
 
     def obtener_outliers(
         self,
@@ -276,26 +484,35 @@ class AnaliticaRepository:
             params["fecha_hasta"] = fecha_hasta
 
         query = text(f"""
-            WITH Ventana AS (
+            WITH procesos AS (
+                SELECT DISTINCT ON (nit_proveedor_clave,nit_entidad,id_del_proceso) *
+                FROM contratos_procesados
+                WHERE nit_proveedor_clave IS NOT NULL AND NULLIF(TRIM(nit_entidad),'') IS NOT NULL
+                  AND id_del_proceso IS NOT NULL AND fecha_publicacion_normalizada IS NOT NULL
+                  {where_extra}
+                ORDER BY nit_proveedor_clave,nit_entidad,id_del_proceso,fecha_publicacion_normalizada,id
+            ), Ventana AS (
                 SELECT 
-                    id, 
+                    id, id_del_proceso, nit_proveedor_clave, nit_entidad,
                     proveedor_normalizado, 
                     entidad_normalizada, 
                     tipo_contrato_normalizado, 
                     modalidad_contratacion, 
                     fecha_publicacion_normalizada,
                     LAG(id) OVER w AS prev_id,
+                    LAG(id_del_proceso) OVER w AS prev_process,
                     LAG(fecha_publicacion_normalizada) OVER w AS prev_fecha
-                FROM contratos_procesados
-                WHERE proveedor_normalizado IS NOT NULL 
+                FROM procesos
+                WHERE nit_proveedor_clave IS NOT NULL AND NULLIF(TRIM(nit_entidad),'') IS NOT NULL AND id_del_proceso IS NOT NULL
+                  AND proveedor_normalizado IS NOT NULL
                   AND entidad_normalizada IS NOT NULL
                   AND fecha_publicacion_normalizada IS NOT NULL
-                  AND es_incompleto = false
+
                   {where_extra}
                 WINDOW w AS (
-                    PARTITION BY proveedor_normalizado, entidad_normalizada, 
+                    PARTITION BY nit_proveedor_clave, nit_entidad,
                                  COALESCE(tipo_contrato_normalizado, modalidad_contratacion)
-                    ORDER BY fecha_publicacion_normalizada
+                    ORDER BY fecha_publicacion_normalizada, id
                 )
             )
             SELECT 
@@ -309,11 +526,87 @@ class AnaliticaRepository:
                 prev_fecha AS fecha_relacionada,
                 (fecha_publicacion_normalizada - prev_fecha) AS diferencia_dias
             FROM Ventana
-            WHERE prev_fecha IS NOT NULL 
+            WHERE prev_fecha IS NOT NULL AND prev_process <> id_del_proceso
               AND (fecha_publicacion_normalizada - prev_fecha) <= 30
         """)
         resultado = self.db.execute(query, params)
         return [dict(row._mapping) for row in resultado]
+
+    def guardar_duplicados_sql(
+        self,
+        *,
+        run_id: UUID,
+        fecha_calculo: datetime,
+        fecha_desde: Optional[date] = None,
+        fecha_hasta: Optional[date] = None,
+    ) -> int:
+        """Detecta e inserta pares en SQL para mantener acotado el uso de memoria del worker."""
+        self._configure_large_query_memory()
+        where_extra = ""
+        params = {"run_id": str(run_id), "fecha_calculo": fecha_calculo}
+        if fecha_desde:
+            where_extra += " AND fecha_publicacion_normalizada >= :fecha_desde"
+            params["fecha_desde"] = fecha_desde
+        if fecha_hasta:
+            where_extra += " AND fecha_publicacion_normalizada <= :fecha_hasta"
+            params["fecha_hasta"] = fecha_hasta
+
+        query = text(f"""
+            WITH procesos AS (
+                SELECT DISTINCT ON (nit_proveedor_clave,nit_entidad,id_del_proceso) *
+                FROM contratos_procesados
+                WHERE nit_proveedor_clave IS NOT NULL AND NULLIF(TRIM(nit_entidad),'') IS NOT NULL
+                  AND id_del_proceso IS NOT NULL AND fecha_publicacion_normalizada IS NOT NULL
+                  {where_extra}
+                ORDER BY nit_proveedor_clave,nit_entidad,id_del_proceso,fecha_publicacion_normalizada,id
+            ), ventana AS (
+                SELECT
+                    id, id_del_proceso, nit_proveedor_clave, nit_entidad,
+                    proveedor_normalizado,
+                    entidad_normalizada,
+                    tipo_contrato_normalizado,
+                    modalidad_contratacion,
+                    fecha_publicacion_normalizada,
+                    LAG(id) OVER w AS prev_id,
+                    LAG(id_del_proceso) OVER w AS prev_process,
+                    LAG(fecha_publicacion_normalizada) OVER w AS prev_fecha
+                FROM procesos
+                WHERE nit_proveedor_clave IS NOT NULL AND NULLIF(TRIM(nit_entidad),'') IS NOT NULL AND id_del_proceso IS NOT NULL
+                  AND proveedor_normalizado IS NOT NULL
+                  AND entidad_normalizada IS NOT NULL
+                  AND fecha_publicacion_normalizada IS NOT NULL
+
+                  {where_extra}
+                WINDOW w AS (
+                    PARTITION BY nit_proveedor_clave, nit_entidad,
+                        COALESCE(tipo_contrato_normalizado, modalidad_contratacion)
+                    ORDER BY fecha_publicacion_normalizada, id
+                )
+            )
+            INSERT INTO contrato_duplicado_periodo (
+                id, run_id, contrato_id, contrato_relacionado_id, proveedor,
+                entidad, tipo_contrato, modalidad_contratacion,
+                fecha_contrato, fecha_relacionada, diferencia_dias,
+                duplicado_score, clasificacion_riesgo, fecha_calculo
+            )
+            SELECT
+                gen_random_uuid(), :run_id, id, prev_id, proveedor_normalizado,
+                entidad_normalizada, tipo_contrato_normalizado,
+                modalidad_contratacion, fecha_publicacion_normalizada, prev_fecha,
+                fecha_publicacion_normalizada - prev_fecha,
+                round((10.0 - ((fecha_publicacion_normalizada - prev_fecha) * (10.0 / 30.0)))::numeric, 2),
+                CASE
+                    WHEN fecha_publicacion_normalizada - prev_fecha <= 5 THEN 'ALTO'
+                    WHEN fecha_publicacion_normalizada - prev_fecha <= 15 THEN 'MEDIO'
+                    ELSE 'BAJO'
+                END,
+                :fecha_calculo
+            FROM ventana
+            WHERE prev_fecha IS NOT NULL AND prev_process <> id_del_proceso
+              AND fecha_publicacion_normalizada - prev_fecha <= 30
+        """)
+        result = self.db.execute(query, params)
+        return max(result.rowcount or 0, 0)
 
     # ------------------------------------------------------------------
     # ESCRITURA/LECTURA: contrato_duplicado_periodo
@@ -323,15 +616,8 @@ class AnaliticaRepository:
         self.db.flush()
 
     def obtener_ultimo_run_id_duplicados(self) -> Optional[UUID]:
-        resultado = self.db.execute(
-            text("""
-                SELECT run_id
-                FROM contrato_duplicado_periodo
-                ORDER BY fecha_calculo DESC
-                LIMIT 1
-            """)
-        ).fetchone()
-        return resultado.run_id if resultado else None
+        ejecucion = self.obtener_ultima_ejecucion_analitica("DUPLICADOS")
+        return ejecucion.run_id if ejecucion and ejecucion.estado == "EXITOSO" else None
 
     def obtener_duplicados_periodo(
         self,
@@ -423,66 +709,31 @@ class AnaliticaRepository:
             params["fecha_hasta"] = fecha_hasta
 
         query = text(f"""
-            WITH contratos_filtrados AS (
-                SELECT
-                    cp.id,
-                    cp.proveedor_normalizado,
-                    cp.nit_proveedor,
-                    cp.entidad_normalizada,
-                    cp.tipo_contrato_normalizado,
-                    cp.modalidad_contratacion,
-                    cp.fecha_publicacion_normalizada,
-                    CASE 
-                        WHEN (
-                            LOWER(cp.modalidad_contratacion) LIKE '%directa%' 
-                            OR LOWER(cp.modalidad_contratacion) LIKE '%contrataci_n_directa%'
-                            OR LOWER(cp.modalidad_contratacion) LIKE '%contratacion_directa%'
-                        )
-                        THEN 1 ELSE 0 
-                    END as es_directa
+            WITH procesos AS (
+                SELECT DISTINCT ON (cp.nit_proveedor_clave,cp.nit_entidad,cp.id_del_proceso)
+                    cp.id,cp.nit_proveedor_clave AS nit_proveedor,cp.nit_entidad,
+                    cp.proveedor_normalizado,cp.entidad_normalizada,cp.tipo_contrato_normalizado,
+                    cp.modalidad_contratacion,cp.fecha_publicacion_normalizada,
+                    CASE WHEN LOWER(cp.modalidad_contratacion) LIKE '%directa%' THEN 1 ELSE 0 END AS es_directa
                 FROM contratos_procesados cp
-                WHERE cp.proveedor_normalizado IS NOT NULL
-                  AND TRIM(cp.proveedor_normalizado) <> ''
-                  AND UPPER(TRIM(cp.proveedor_normalizado)) NOT IN ('NO DEFINIDO', 'N/A', 'SIN INFORMACION', 'SIN INFORMACIÓN', 'SIN REGISTRO')
-                  AND cp.fecha_publicacion_normalizada IS NOT NULL
-                  {where_extra}
-            ),
-
-            resumen_proveedor AS (
-                SELECT
-                    proveedor_normalizado,
-                    nit_proveedor,
-                    COUNT(*)                                                   AS total_contratos,
-                    SUM(es_directa)                                            AS contratos_directos,
-                    MIN(fecha_publicacion_normalizada) FILTER (WHERE es_directa = 1) AS fecha_primera_directa,
-                    MAX(fecha_publicacion_normalizada) FILTER (WHERE es_directa = 1) AS fecha_ultima_directa,
-                    MAX(entidad_normalizada)                                   AS entidad,
-                    MAX(tipo_contrato_normalizado)                             AS tipo_contrato,
-                    MAX(modalidad_contratacion)                                AS modalidad_contratacion,
-                    MAX(fecha_publicacion_normalizada)                         AS fecha_contrato,
-                    MAX(id)                                                    AS contrato_id
-                FROM contratos_filtrados
-                GROUP BY proveedor_normalizado, nit_proveedor
+                WHERE cp.nit_proveedor_clave IS NOT NULL AND NULLIF(TRIM(cp.nit_entidad),'') IS NOT NULL
+                  AND cp.id_del_proceso IS NOT NULL AND cp.proveedor_normalizado IS NOT NULL
+                  AND cp.fecha_publicacion_normalizada IS NOT NULL {where_extra}
+                ORDER BY cp.nit_proveedor_clave,cp.nit_entidad,cp.id_del_proceso,
+                         cp.fecha_publicacion_normalizada,cp.id
+            ), ventanas AS (
+                SELECT *,count(*) OVER w AS total_contratos,sum(es_directa) OVER w AS contratos_directos
+                FROM procesos
+                WINDOW w AS (PARTITION BY nit_proveedor,nit_entidad ORDER BY fecha_publicacion_normalizada::timestamp
+                    RANGE BETWEEN make_interval(days => :dias_ventana) PRECEDING AND CURRENT ROW)
             )
-
-            SELECT
-                proveedor_normalizado   AS proveedor,
-                nit_proveedor,
-                total_contratos,
-                contratos_directos,
-                ROUND(
-                    (contratos_directos::numeric / NULLIF(total_contratos, 0)) * 100,
-                    2
-                )                       AS porcentaje_directos,
-                entidad,
-                tipo_contrato,
-                modalidad_contratacion,
-                fecha_contrato,
-                contrato_id
-            FROM resumen_proveedor
-            WHERE contratos_directos >= :minimo_directas
-              AND (fecha_ultima_directa - fecha_primera_directa) <= :dias_ventana
-            ORDER BY contratos_directos DESC, porcentaje_directos DESC
+            SELECT DISTINCT ON (nit_proveedor) proveedor_normalizado AS proveedor,nit_proveedor,
+                total_contratos,contratos_directos,
+                round(100.0*contratos_directos/nullif(total_contratos,0),2) AS porcentaje_directos,
+                entidad_normalizada AS entidad,tipo_contrato_normalizado AS tipo_contrato,
+                modalidad_contratacion,fecha_publicacion_normalizada AS fecha_contrato,id AS contrato_id
+            FROM ventanas WHERE contratos_directos>=:minimo_directas
+            ORDER BY nit_proveedor,contratos_directos DESC,fecha_publicacion_normalizada DESC,id DESC
         """)
 
         resultado = self.db.execute(query, params)
@@ -499,15 +750,8 @@ class AnaliticaRepository:
         self.db.flush()
 
     def obtener_ultimo_run_id_directas(self) -> Optional[UUID]:
-        resultado = self.db.execute(
-            text("""
-                SELECT run_id
-                FROM proveedor_adjudicacion_directa
-                ORDER BY fecha_calculo DESC
-                LIMIT 1
-            """)
-        ).fetchone()
-        return resultado.run_id if resultado else None
+        ejecucion = self.obtener_ultima_ejecucion_analitica("ADJUDICACION_DIRECTA")
+        return ejecucion.run_id if ejecucion and ejecucion.estado == "EXITOSO" else None
 
     def obtener_proveedores_directas(
         self,
@@ -618,73 +862,83 @@ class AnaliticaRepository:
             return obj
         return None
 
-    def obtener_scores_combinados_por_proveedor(self) -> list[dict]:
-        """
-        Cruza los datos de las tres tablas de analítica usando el ÚLTIMO run_id de cada una,
-        para obtener el score máximo de cada anomalía por proveedor.
-        """
-        run_outlier = self.obtener_ultimo_run_id()
-        run_duplicado = self.obtener_ultimo_run_id_duplicados()
-        run_directa = self.obtener_ultimo_run_id_directas()
+    def obtener_ejecuciones_componentes_riesgo(self) -> dict[str, Optional[AnaliticaEjecucion]]:
+        """Return the latest durable run, including empty or failed runs."""
+        return {
+            "outliers": self.obtener_ultima_ejecucion_analitica("OUTLIERS"),
+            "duplicados": self.obtener_ultima_ejecucion_analitica("DUPLICADOS"),
+            "adjudicacion_directa": self.obtener_ultima_ejecucion_analitica("ADJUDICACION_DIRECTA"),
+        }
 
-        # Usar gen_random_uuid o 0 si no hay run_id para que el query no falle
-        ro = f"'{run_outlier}'" if run_outlier else 'NULL'
-        rd = f"'{run_duplicado}'" if run_duplicado else 'NULL'
-        ra = f"'{run_directa}'" if run_directa else 'NULL'
-
-        query = text(f"""
+    def obtener_scores_combinados_por_proveedor(
+        self,
+        ejecuciones: dict[str, UUID],
+    ) -> list[dict]:
+        """
+        Cross all three explicitly selected component runs by supplier NIT.
+        Missing findings within a completed run contribute zero; a missing run
+        is rejected by the service before this query is called.
+        """
+        self._configure_large_query_memory()
+        query = text("""
             WITH outliers AS (
                 SELECT 
-                    cp.proveedor_normalizado AS proveedor,
-                    cp.nit_proveedor,
+                    cp.nit_proveedor_clave AS nit_proveedor,
+                    MAX(cp.proveedor_normalizado) AS proveedor,
                     MAX(co.score) AS max_score_outlier
                 FROM contrato_outlier co
                 JOIN contratos_procesados cp ON co.contrato_id = cp.id
-                WHERE co.run_id = {ro} AND cp.proveedor_normalizado IS NOT NULL
-                GROUP BY cp.proveedor_normalizado, cp.nit_proveedor
+                WHERE co.run_id = :run_outlier
+                  AND cp.nit_proveedor_clave IS NOT NULL
+                GROUP BY cp.nit_proveedor_clave
             ),
             duplicados AS (
                 SELECT 
-                    proveedor,
-                    NULL AS nit_proveedor, -- En duplicados a veces no tenemos el nit guardado, usamos proveedor
-                    MAX(duplicado_score) AS max_score_duplicado
-                FROM contrato_duplicado_periodo
-                WHERE run_id = {rd} AND proveedor IS NOT NULL
-                GROUP BY proveedor
+                    cp.nit_proveedor_clave AS nit_proveedor,
+                    MAX(cp.proveedor_normalizado) AS proveedor,
+                    MAX(cd.duplicado_score) AS max_score_duplicado
+                FROM contrato_duplicado_periodo cd
+                JOIN contratos_procesados cp ON cd.contrato_id = cp.id
+                WHERE cd.run_id = :run_duplicado
+                  AND cp.nit_proveedor_clave IS NOT NULL
+                GROUP BY cp.nit_proveedor_clave
             ),
             directas AS (
                 SELECT 
-                    proveedor,
-                    nit_proveedor,
+                    UPPER(TRIM(nit_proveedor)) AS nit_proveedor,
+                    MAX(proveedor) AS proveedor,
                     MAX(score_riesgo) AS score_directo
                 FROM proveedor_adjudicacion_directa
-                WHERE run_id = {ra} AND proveedor IS NOT NULL
-                GROUP BY proveedor, nit_proveedor
+                WHERE run_id = :run_directa
+                  AND nit_proveedor IS NOT NULL
+                  AND TRIM(nit_proveedor) <> ''
+                  AND UPPER(TRIM(nit_proveedor)) NOT IN ('-', 'N/A', 'N.A.', 'NA', 'NO APLICA', 'NO DEFINIDO', 'NONE', 'NULL', 'SIN INFORMACION', 'SIN INFORMACIÓN', 'SIN REGISTRO', 'SIN NIT')
+                GROUP BY UPPER(TRIM(nit_proveedor))
             ),
             proveedores AS (
-                SELECT proveedor, nit_proveedor FROM outliers
+                SELECT nit_proveedor FROM outliers
                 UNION
-                SELECT proveedor, nit_proveedor FROM duplicados WHERE nit_proveedor IS NOT NULL
+                SELECT nit_proveedor FROM duplicados
                 UNION
-                SELECT proveedor, NULL FROM duplicados WHERE nit_proveedor IS NULL
-                UNION
-                SELECT proveedor, nit_proveedor FROM directas
+                SELECT nit_proveedor FROM directas
             )
             SELECT 
-                p.proveedor,
-                MAX(p.nit_proveedor) AS nit_proveedor,
-                COALESCE(MAX(o.max_score_outlier), 0) AS max_score_outlier,
-                COALESCE(MAX(d.max_score_duplicado), 0) AS max_score_duplicado,
-                COALESCE(MAX(a.score_directo), 0) AS score_directo
+                COALESCE(o.proveedor, d.proveedor, a.proveedor) AS proveedor,
+                p.nit_proveedor,
+                COALESCE(o.max_score_outlier, 0) AS max_score_outlier,
+                COALESCE(d.max_score_duplicado, 0) AS max_score_duplicado,
+                COALESCE(a.score_directo, 0) AS score_directo
             FROM proveedores p
-            LEFT JOIN outliers o ON p.proveedor = o.proveedor
-            LEFT JOIN duplicados d ON p.proveedor = d.proveedor
-            LEFT JOIN directas a ON p.proveedor = a.proveedor
-            WHERE p.proveedor IS NOT NULL AND p.proveedor <> ''
-            GROUP BY p.proveedor
+            LEFT JOIN outliers o USING (nit_proveedor)
+            LEFT JOIN duplicados d USING (nit_proveedor)
+            LEFT JOIN directas a USING (nit_proveedor)
         """)
 
-        resultado = self.db.execute(query)
+        resultado = self.db.execute(query, {
+            "run_outlier": ejecuciones["outliers"],
+            "run_duplicado": ejecuciones["duplicados"],
+            "run_directa": ejecuciones["adjudicacion_directa"],
+        })
         return [dict(row._mapping) for row in resultado]
 
     def guardar_riesgo_proveedores(self, registros: list[RiesgoProveedor]) -> None:
@@ -692,15 +946,10 @@ class AnaliticaRepository:
         self.db.flush()
 
     def obtener_ultimo_run_id_riesgo(self) -> Optional[UUID]:
-        resultado = self.db.execute(
-            text("""
-                SELECT run_id
-                FROM riesgo_proveedor
-                ORDER BY fecha_calculo DESC
-                LIMIT 1
-            """)
-        ).fetchone()
-        return resultado.run_id if resultado else None
+        ejecucion = self.obtener_ultima_ejecucion_analitica("RIESGO")
+        if not ejecucion or ejecucion.estado != "EXITOSO":
+            return None
+        return ejecucion.run_id
 
     def obtener_riesgos(
         self,

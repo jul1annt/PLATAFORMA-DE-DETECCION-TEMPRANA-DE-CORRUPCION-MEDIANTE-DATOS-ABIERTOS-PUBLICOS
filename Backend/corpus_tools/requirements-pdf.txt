@@ -1,0 +1,2 @@
+# Optional discovery tooling only. Never install into API, training or inference.
+pypdf==6.10.0

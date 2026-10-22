@@ -1,0 +1,1294 @@
+{
+  "exported_at_utc": "2026-10-12T02:21:05.309727+00:00",
+  "stage": "data_verified_http_errors_preserved",
+  "plan": {
+    "complete": 95,
+    "open": 6,
+    "total": 101
+  },
+  "scope": "Local continuation requested by the user; candidate remains inactive until deployment is verified",
+  "candidate": {
+    "ref": "ec9b5d2297cbb0ed4f7a0cff58038333e8ee110d",
+    "backend_git_tree": "c6ff8956319ed3f2cc3660c2a27fcbf7436f4d2a",
+    "target_schema": "3c19a8f7e2d0",
+    "source_archive_sha256": "f8e169db08d3545d595cf0dd33aab264e90fb9f05e931134ee057b38747becb3",
+    "source_archive_bytes": 371530,
+    "python_sources_compiled": 185,
+    "native_test_summary": [
+      "366 passed in 38.22s"
+    ],
+    "native_test_report_sha256": "023c6b08098dba7bac9f788a3ddb9804e879fc9628eb5aa9b7f6dac01af9acbb",
+    "runtime_lock_sha256": "c44702f3b7557a7ac3af07a8b6c878c5d8cacf6bb7e992c5050e03ef57a5a182",
+    "frontend_git_tree": "12c0a2ba900d1787d1a7ca6e60cf9ab3dbbd9cdf",
+    "import_connections_forbidden": true
+  },
+  "native_gates": {
+    "source_sha256": {
+      "database/migrations/env.py": "d375b21946c95d014e0d9ad988a3c579bacf65f76f6ea339c34416c32e464a39",
+      "database/migrations/versions/2ab7c4e8d910_transactional_quality_metrics.py": "b5d59c91f21221eb3056644b0c30c6a7be5be2aa07ebcf7473cc4fea190871ee",
+      "modules/transformacion/model/ContratoMetricasCalidad.py": "7511676cdcb78a87f98571436db03a96681549d2e3d406f2f40ee38d4c8e8269",
+      "modules/transformacion/repository/transformacion.py": "1264a3942c43456a4bddb2180a72e62150a2e2e268612fa3748a84ba983c99b5",
+      "tests/test_transactional_quality_metrics_postgres.py": "255c83ed220edd0b824f49cbad03874fbf314b7b0da4d5194f0a9499b0875688",
+      "tests/test_transactional_quality_migration.py": "30405698701abed05a56210ffd568cd9bc8fd42768dcf18dbc0a52880c0cb388",
+      "tests/test_contract_search_sqlite.py": "3c0b6d877ab58ecd4ed979311b494f00314477ee35e27b3e50530fe7fe693de4",
+      "modules/transformacion/model/ContratoProcesado.py": "05c628f4df2e7588382d096c9ae5a83069123b4368a432842950315f1cbfa121",
+      "database/migrations/versions/3c19a8f7e2d0_stable_contract_pagination.py": "e1aeec3fc9a8b646fa1a64569497a82e7be8f5d7c1f1627d273300117a69a32b",
+      "tests/test_stable_pagination_migration.py": "3e142c434b7f7de97b62818e31e5a43e79ac6332a5b9192d1cceba7b25038dd3"
+    },
+    "steps": [
+      {
+        "label": "upgrade_index",
+        "exit_code": 0,
+        "log_sha256": "9ef0cad149af11b0930ff811e150c02f55d653649161e34dbf1aabec7a7784fe"
+      },
+      {
+        "label": "downgrade_index",
+        "exit_code": 0,
+        "log_sha256": "814d99165cc42f02921a1cce86de70e06160aee330c07fc8440dc734a0a498f4"
+      },
+      {
+        "label": "upgrade_index_again",
+        "exit_code": 0,
+        "log_sha256": "9ef0cad149af11b0930ff811e150c02f55d653649161e34dbf1aabec7a7784fe"
+      },
+      {
+        "label": "tests",
+        "exit_code": 0,
+        "log_sha256": "3a1000dc61e5d5f402201d8e2b95fdd47f0672e4264da8a0fd5c5a12e77920a9"
+      }
+    ],
+    "dependency_and_frontend_steps_reused": [
+      {
+        "label": "pip_check",
+        "exit_code": 0,
+        "log_sha256": "672aec65a45bed50e70229c70934a7eebf0462595c459b83023027645d57cccf"
+      },
+      {
+        "label": "openapi",
+        "exit_code": 0,
+        "log_sha256": "5a43c3fe3b249ab436ba2ccee730147a63049401d0a538d7c9b379d25c6b0291"
+      },
+      {
+        "label": "access_matrix",
+        "exit_code": 0,
+        "log_sha256": "88d5dc04d491593b19172dd5e023c715ed12b8b76630d6cb929d9e7cd0768fdc"
+      },
+      {
+        "label": "python_audit",
+        "exit_code": 0,
+        "log_sha256": "dd9e8b175acc90323be17a933d0ed1c521f8d3ee7a447d2865696326d0b2bd31"
+      },
+      {
+        "label": "api_types",
+        "exit_code": 0,
+        "log_sha256": "35ccbcb911c1933d2663db80497ed46a9fe3fc979332b7bbb681177b7f4c2ac4"
+      },
+      {
+        "label": "frontend_tests",
+        "exit_code": 0,
+        "log_sha256": "5b496a545c84532e44b1276cc2c8838149d58717b81ceff27fa7c6602d260116"
+      },
+      {
+        "label": "frontend_lint",
+        "exit_code": 0,
+        "log_sha256": "0d4695f4da2780a75fa8d28ae5fabe88093b7de3774417c514e2ecd90774e01f"
+      },
+      {
+        "label": "frontend_audit",
+        "exit_code": 0,
+        "log_sha256": "9bd4b47318cbeee931d45ab67865df06d1e3daaae34230bcb354018420c6dc0f"
+      },
+      {
+        "label": "frontend_external_build",
+        "exit_code": 0,
+        "log_sha256": "dfcd181d6a775e9b9ff43ef7c5206982d8a0be262ba689bb012e2c4d1fe0b135"
+      }
+    ],
+    "reuse_reason": "Dependency locks, frontend and API contract unchanged; full native backend suite rerun for the changed repository"
+  },
+  "full_copy": {
+    "target_database": "codex_plan_full_acceptance_20261011_test",
+    "target_oid": 75045,
+    "source_database": "plataforma_integracion_local",
+    "source_oid": 74053,
+    "copied_counts": {
+      "raw_secop": 9249545,
+      "contratos_procesados": 9249545,
+      "contrato_anomalo_incompleto": 129062,
+      "analitica_ejecuciones": 4
+    },
+    "copy_seconds": 706.4283946000505,
+    "summary_reference_equal": true
+  },
+  "read_pilot": {
+    "candidate_ref": "6a5cb4697a140dd68a6d030b10eb6e1070f5f920",
+    "backend_git_tree": "12be9663c762830ed62a64308deb96af206e41f7",
+    "profile": {
+      "clients": 8,
+      "seconds": 120,
+      "think_time_seconds": 0,
+      "routes": 4
+    },
+    "elapsed_seconds": 120.06823600002099,
+    "mode": "serial_routes",
+    "route_summary": {
+      "search_2024": {
+        "count": 2511,
+        "p95_seconds": 0.27914940007030964,
+        "max_seconds": 0.5406619999557734
+      },
+      "empty_2099": {
+        "count": 2510,
+        "p95_seconds": 0.00662249990273267,
+        "max_seconds": 0.4543747999705374
+      },
+      "quality": {
+        "count": 2512,
+        "p95_seconds": 0.0049724000273272395,
+        "max_seconds": 0.3310214999364689
+      },
+      "providers": {
+        "count": 2514,
+        "p95_seconds": 0.2598958999151364,
+        "max_seconds": 0.3610977999633178
+      }
+    },
+    "resource_summary": {
+      "valid_samples": 25,
+      "max_same_capture_private_bytes": 237510656,
+      "min_physical_available_bytes": 5204975616,
+      "min_free_disk_bytes": 81975832576
+    },
+    "proposed_read_limits_met": true,
+    "limits": [
+      "Read-only pilot before combined write/fault acceptance; thresholds still subject to owner approval",
+      "Native counters are sampled, not atomic or continuous peaks",
+      "Entire :5433 cluster included; application :5432 excluded, though it shares host resources"
+    ]
+  },
+  "pagination_index": {
+    "candidate_ref": "ec9b5d2297cbb0ed4f7a0cff58038333e8ee110d",
+    "database": "codex_plan_full_acceptance_20261011_test",
+    "oid": 75045,
+    "migration_seconds": 121.07723799999803,
+    "index": {
+      "valid": true,
+      "ready": true,
+      "indnatts": 2,
+      "indnkeyatts": 2,
+      "bytes": 291766272
+    },
+    "before": {
+      "raw_count": 9249545,
+      "raw_first_2000_md5": "7faea8375c6e3e4faba1c23f71dc6b5e",
+      "processed_first_2000_md5": "bba9270113ffe83ae4b9db9303dccbd9",
+      "heap_file": 64385
+    },
+    "after": {
+      "raw_count": 9249545,
+      "raw_first_2000_md5": "7faea8375c6e3e4faba1c23f71dc6b5e",
+      "processed_first_2000_md5": "bba9270113ffe83ae4b9db9303dccbd9",
+      "heap_file": 64385
+    },
+    "bindings_unchanged": true
+  },
+  "pagination_index_plan": [
+    {
+      "Plan": {
+        "Node Type": "Limit",
+        "Parallel Aware": false,
+        "Async Capable": false,
+        "Startup Cost": 0.43,
+        "Total Cost": 1.17,
+        "Plan Rows": 20,
+        "Plan Width": 12,
+        "Actual Startup Time": 47.772,
+        "Actual Total Time": 48.83,
+        "Actual Rows": 20,
+        "Actual Loops": 1,
+        "Shared Hit Blocks": 0,
+        "Shared Read Blocks": 5,
+        "Shared Dirtied Blocks": 0,
+        "Shared Written Blocks": 0,
+        "Local Hit Blocks": 0,
+        "Local Read Blocks": 0,
+        "Local Dirtied Blocks": 0,
+        "Local Written Blocks": 0,
+        "Temp Read Blocks": 0,
+        "Temp Written Blocks": 0,
+        "Plans": [
+          {
+            "Node Type": "Index Only Scan",
+            "Parent Relationship": "Outer",
+            "Parallel Aware": false,
+            "Async Capable": false,
+            "Scan Direction": "Backward",
+            "Index Name": "ix_cp_fecha_publicacion_id",
+            "Relation Name": "contratos_procesados",
+            "Alias": "contratos_procesados",
+            "Startup Cost": 0.43,
+            "Total Cost": 61322.12,
+            "Plan Rows": 1658886,
+            "Plan Width": 12,
+            "Actual Startup Time": 47.771,
+            "Actual Total Time": 48.812,
+            "Actual Rows": 20,
+            "Actual Loops": 1,
+            "Index Cond": "((fecha_publicacion_normalizada >= '2024-01-01'::date) AND (fecha_publicacion_normalizada <= '2024-12-31'::date))",
+            "Rows Removed by Index Recheck": 0,
+            "Heap Fetches": 0,
+            "Shared Hit Blocks": 0,
+            "Shared Read Blocks": 5,
+            "Shared Dirtied Blocks": 0,
+            "Shared Written Blocks": 0,
+            "Local Hit Blocks": 0,
+            "Local Read Blocks": 0,
+            "Local Dirtied Blocks": 0,
+            "Local Written Blocks": 0,
+            "Temp Read Blocks": 0,
+            "Temp Written Blocks": 0
+          }
+        ]
+      },
+      "Planning": {
+        "Shared Hit Blocks": 14,
+        "Shared Read Blocks": 6,
+        "Shared Dirtied Blocks": 0,
+        "Shared Written Blocks": 0,
+        "Local Hit Blocks": 0,
+        "Local Read Blocks": 0,
+        "Local Dirtied Blocks": 0,
+        "Local Written Blocks": 0,
+        "Temp Read Blocks": 0,
+        "Temp Written Blocks": 0
+      },
+      "Planning Time": 0.33,
+      "Triggers": [],
+      "Execution Time": 48.859
+    }
+  ],
+  "tls_during_http_and_live_worker": {
+    "ref": "ec9b5d2297cbb0ed4f7a0cff58038333e8ee110d",
+    "before": {
+      "raw_count": 9249545,
+      "processed_count": 9249545,
+      "raw_first_2000_md5": "7faea8375c6e3e4faba1c23f71dc6b5e"
+    },
+    "after": {
+      "raw_count": 9249545,
+      "processed_count": 9249545,
+      "raw_first_2000_md5": "7faea8375c6e3e4faba1c23f71dc6b5e"
+    },
+    "evidence": {
+      "api_during_cut": {
+        "http": 200,
+        "status": "EN_PROCESO"
+      },
+      "total_rows": 10001,
+      "committed_before_cut": 5000,
+      "resumed_rows": 5001,
+      "failed_https_attempts": 6,
+      "total_https_requests": 9,
+      "resumed_cursor": "wire-04999",
+      "window_preserved": true,
+      "duplicate_active_job": false,
+      "abandoned_recovery_while_live": 0,
+      "terminal_states": [
+        "ERROR",
+        "EXITOSO"
+      ],
+      "history_duplicates": 0,
+      "certificate_and_hostname_verified": true
+    },
+    "scope": "Real local TLS truncation through the production adapter/worker on the full-cut copy; synthetic source of 10001 rows; no pytest/conftest setup or table-wide cleanup"
+  },
+  "failed_prefix": {
+    "started_at_utc": "2026-10-11T18:04:27.871073+00:00",
+    "updated_at_utc": "2026-10-11T18:21:51.561419+00:00",
+    "profile": {
+      "clients": 8,
+      "think_time_seconds": 0,
+      "routes": 4,
+      "bound_seconds": 7200
+    },
+    "scope": "Full forced transformation with 10000 changed confidence projections, eight continuous HTTP readers, real local TLS truncation and narrowly scoped PostgreSQL backend loss, two worker processes",
+    "limits": [
+      "Local proposed profile, owner thresholds remain unapproved",
+      "TLS source is synthetic; transport destination alone redirects to loopback with certificate and hostname verification",
+      "Native process counters are sampled; :5433 entire cluster included and :5432 excluded; both share the host"
+    ],
+    "job_id": 106,
+    "evaluated": 793000,
+    "latest_progress": {
+      "estado": "EN_PROCESO",
+      "total_evaluados": 793000,
+      "procesados": 9061,
+      "omitidos": 783939,
+      "universo": {
+        "tamano_lote": 1000,
+        "total_evaluados": 793000,
+        "forzar_reproceso": true,
+        "max_raw_secop_id": 9249545,
+        "total_candidatos": 9249545,
+        "background_job_id": 106,
+        "version_checkpoint": 1,
+        "ultimo_raw_secop_id": 793000,
+        "reanudado_desde_log_id": 5,
+        "candidatos_verificados_en": "2026-10-11T17:54:39.537621+00:00",
+        "fecha_referencia_anomalias": "2026-10-11"
+      }
+    },
+    "http_requests": 81861,
+    "resource_samples": 203,
+    "resource_errors": [],
+    "http_errors": [
+      {
+        "client": 1,
+        "route": "empty_2099",
+        "at_utc": "2026-10-11T18:21:19.424617+00:00",
+        "stage": "full_reprocessing_running",
+        "seconds": 30.00484830001369,
+        "error_type": "ReadTimeout",
+        "valid": false
+      }
+    ],
+    "first_checkpoint": {
+      "tamano_lote": 1000,
+      "total_evaluados": 1000,
+      "forzar_reproceso": true,
+      "max_raw_secop_id": 9249545,
+      "total_candidatos": 9249545,
+      "background_job_id": 106,
+      "version_checkpoint": 1,
+      "ultimo_raw_secop_id": 1000,
+      "reanudado_desde_log_id": 4,
+      "candidatos_verificados_en": "2026-10-11T17:54:39.537621+00:00",
+      "fecha_referencia_anomalias": "2026-10-11"
+    },
+    "recovered_live_lease_check": {
+      "recovery_count": 0,
+      "competing_worker_claimed": false
+    },
+    "terminated_backend": {
+      "pid": 103204,
+      "stamp": "134362154678724048"
+    },
+    "resource_summary": {
+      "samples": 206,
+      "max_same_capture_private_bytes": 480903168,
+      "minimum_physical_bytes": 4541222912,
+      "minimum_free_disk_bytes": 82522914816,
+      "max_interval_seconds": 6.077406900003552
+    },
+    "http_summaries": {
+      "search_2024": {
+        "count": 20465,
+        "p95_seconds": 0.29620850004721433,
+        "maximum_seconds": 0.522374700056389
+      },
+      "empty_2099": {
+        "count": 20464,
+        "p95_seconds": 0.006438500015065074,
+        "maximum_seconds": 30.00484830001369
+      },
+      "quality": {
+        "count": 20465,
+        "p95_seconds": 0.004634700017049909,
+        "maximum_seconds": 0.8520094000268728
+      },
+      "providers": {
+        "count": 20467,
+        "p95_seconds": 0.2856291000498459,
+        "maximum_seconds": 1.3925766999600455
+      }
+    },
+    "api_terminal": true,
+    "http_terminal": true,
+    "resources_terminal": true,
+    "recovered_worker_terminal": true
+  },
+  "failed_prefix_confirmed_checkpoint": {
+    "id": 6,
+    "evaluated": 828000,
+    "processed": 9066,
+    "omitted": 818934,
+    "evidence": "Confirmed by a read-only inspection of job 106, then checked transactionally before the explicit local retry; the preceding report snapshot was 793000"
+  },
+  "combined_profile": {
+    "started_at_utc": "2026-10-11T18:43:13.630496+00:00",
+    "updated_at_utc": "2026-10-11T19:55:26.349906+00:00",
+    "profile": {
+      "clients": 8,
+      "think_time_seconds": 0,
+      "routes": 4,
+      "bound_seconds": 7200
+    },
+    "scope": "Resume the remaining range from authoritative checkpoint 828000 with eight continuous readers and request/SQL diagnostics; the verified TLS and PostgreSQL backend-loss phase is retained in combined6-full.json",
+    "limits": [
+      "Local proposed profile, owner thresholds remain unapproved",
+      "TLS source is synthetic; transport destination alone redirects to loopback with certificate and hostname verification",
+      "Native process counters are sampled; :5433 entire cluster included and :5432 excluded; both share the host"
+    ],
+    "job_id": 106,
+    "evaluated": 9222000,
+    "latest_progress": {
+      "estado": "EN_PROCESO",
+      "total_evaluados": 9222000,
+      "procesados": 9667,
+      "omitidos": 9212333,
+      "universo": {
+        "tamano_lote": 1000,
+        "total_evaluados": 9222000,
+        "forzar_reproceso": true,
+        "max_raw_secop_id": 9249545,
+        "total_candidatos": 9249545,
+        "background_job_id": 106,
+        "version_checkpoint": 1,
+        "ultimo_raw_secop_id": 9222000,
+        "reanudado_desde_log_id": 6,
+        "candidatos_verificados_en": "2026-10-11T17:54:39.537621+00:00",
+        "fecha_referencia_anomalias": "2026-10-11"
+      }
+    },
+    "http_requests": 308044,
+    "resource_samples": 805,
+    "resource_errors": [],
+    "http_errors": [
+      {
+        "request_id": "826b43d772d84ca2a404fbbbb744c8cd",
+        "client": 7,
+        "route": "providers",
+        "at_utc": "2026-10-11T18:55:29.446955+00:00",
+        "stage": "full_reprocessing_running",
+        "seconds": 30.008031499921344,
+        "error_type": "ReadTimeout",
+        "valid": false
+      }
+    ],
+    "resume_from_persisted_log": {
+      "id": 6,
+      "evaluated": 828000,
+      "reason": "Explicit operator retry of the owned trial after the harness aborted on one HTTP read timeout. Preserve attempt history and the three-attempt automatic recovery limit; run the existing worker claim normally from checkpoint 828000."
+    },
+    "preverified_fault_phase": {
+      "report": "combined6-full.json",
+      "sha256": "4283d689be139b30794195988bb46f4890e8707895c4bc7d9dd4517680f2ce3b",
+      "tls_report_sha256": "c6e68d05c4ac3f4be5f2184b5cbb41a6117d3835002a79ef76236a8e996f3bb0"
+    },
+    "result": {
+      "estado": "EXITOSO",
+      "omitidos": 9239878,
+      "procesados": 9667,
+      "fecha_hora_fin": "2026-10-11T19:53:18.183760+00:00",
+      "total_evaluados": 9249545,
+      "duracion_segundos": 4081,
+      "fecha_hora_inicio": "2026-10-11T18:45:17.017159+00:00",
+      "anomalias_registradas": 128395
+    },
+    "processing_logs": [
+      {
+        "id": 4,
+        "estado": "ERROR",
+        "evaluated": 0,
+        "processed": 0,
+        "omitted": 0,
+        "universe": {
+          "tamano_lote": 1000,
+          "total_evaluados": 0,
+          "forzar_reproceso": true,
+          "max_raw_secop_id": 9249545,
+          "total_candidatos": 9249545,
+          "background_job_id": 106,
+          "version_checkpoint": 1,
+          "ultimo_raw_secop_id": 0,
+          "candidatos_verificados_en": "2026-10-11T17:54:39.537621+00:00",
+          "fecha_referencia_anomalias": "2026-10-11"
+        }
+      },
+      {
+        "id": 5,
+        "estado": "ERROR",
+        "evaluated": 1000,
+        "processed": 0,
+        "omitted": 1000,
+        "universe": {
+          "tamano_lote": 1000,
+          "total_evaluados": 1000,
+          "forzar_reproceso": true,
+          "max_raw_secop_id": 9249545,
+          "total_candidatos": 9249545,
+          "background_job_id": 106,
+          "version_checkpoint": 1,
+          "ultimo_raw_secop_id": 1000,
+          "reanudado_desde_log_id": 4,
+          "candidatos_verificados_en": "2026-10-11T17:54:39.537621+00:00",
+          "fecha_referencia_anomalias": "2026-10-11"
+        }
+      },
+      {
+        "id": 6,
+        "estado": "ERROR",
+        "evaluated": 828000,
+        "processed": 9066,
+        "omitted": 818934,
+        "universe": {
+          "tamano_lote": 1000,
+          "total_evaluados": 828000,
+          "forzar_reproceso": true,
+          "max_raw_secop_id": 9249545,
+          "total_candidatos": 9249545,
+          "background_job_id": 106,
+          "version_checkpoint": 1,
+          "ultimo_raw_secop_id": 828000,
+          "reanudado_desde_log_id": 5,
+          "candidatos_verificados_en": "2026-10-11T17:54:39.537621+00:00",
+          "fecha_referencia_anomalias": "2026-10-11"
+        }
+      },
+      {
+        "id": 7,
+        "estado": "EXITOSO",
+        "evaluated": 9249545,
+        "processed": 9667,
+        "omitted": 9239878,
+        "universe": {
+          "tamano_lote": 1000,
+          "total_evaluados": 9249545,
+          "forzar_reproceso": true,
+          "max_raw_secop_id": 9249545,
+          "total_candidatos": 9249545,
+          "background_job_id": 106,
+          "version_checkpoint": 1,
+          "ultimo_raw_secop_id": 9249545,
+          "reanudado_desde_log_id": 6,
+          "candidatos_verificados_en": "2026-10-11T17:54:39.537621+00:00",
+          "fecha_referencia_anomalias": "2026-10-11"
+        }
+      }
+    ],
+    "raw_source_unchanged": true,
+    "retained_source_unchanged": true,
+    "summary_reference_equal": true,
+    "active_binding_files_unchanged": true,
+    "resource_summary": {
+      "samples": 835,
+      "max_same_capture_private_bytes": 386949120,
+      "minimum_physical_bytes": 4272939008,
+      "minimum_free_disk_bytes": 82837897216,
+      "max_interval_seconds": 8.43058539996855
+    },
+    "http_summaries": {
+      "empty_2099": {
+        "count": 77009,
+        "p95_seconds": 0.007410999969579279,
+        "maximum_seconds": 22.160073300008662
+      },
+      "search_2024": {
+        "count": 77011,
+        "p95_seconds": 0.32472140004392713,
+        "maximum_seconds": 2.4556155999889597
+      },
+      "quality": {
+        "count": 77011,
+        "p95_seconds": 0.005419500055722892,
+        "maximum_seconds": 2.6432166999438778
+      },
+      "providers": {
+        "count": 77013,
+        "p95_seconds": 0.30962249997537583,
+        "maximum_seconds": 30.008031499921344
+      }
+    },
+    "committed_delta_rows": 8421545,
+    "batch_count": 8422,
+    "batch_seconds": {
+      "count": 8422,
+      "p95_seconds": 0.6720966000575572,
+      "maximum_seconds": 7.3785443000961095
+    },
+    "proposed_limits_met": true,
+    "api_terminal": true,
+    "http_terminal": true,
+    "resources_terminal": true,
+    "recovered_worker_terminal": true,
+    "confirmed_terminal_evaluated": 9249545
+  },
+  "unused_fixture_removed": {
+    "stage": "verified_removed_unused_synthetic_fixture",
+    "at_utc": "2026-10-11T17:56:33.995711+00:00",
+    "database": "codex_plan_pagination_20261011_test",
+    "oid": 26186,
+    "port": 5432,
+    "bytes_before": 26918247,
+    "counts_before": {
+      "raw_secop": 0,
+      "contratos_procesados": 0
+    },
+    "all_test_reports_and_candidate_retained": true,
+    "full_cut_copy_and_originals_preserved": true
+  },
+  "pending": [
+    "Explicit approval to apply scoped persistent firewall rules, required by automatic approval review",
+    "Retention approval and application record",
+    "Authorized DIAN registry input",
+    "Prior source-row identity/extraction evidence",
+    "Owner workload/limits acceptance, incident review and compatible local deployment/postflight; prepared-pool read pilot is verified separately"
+  ],
+  "private_report_hashes": {
+    "pagination-candidate.json": "abd0f564daafb0ed074837d4b7326c8ee788b3c34be22ae07d7b1bfbe81a6d4e",
+    "indexed-pagination-local-tests-20261011.json": "023c6b08098dba7bac9f788a3ddb9804e879fc9628eb5aa9b7f6dac01af9acbb",
+    "preparation.json": "f0c82867e3b166ad8182fb6f5cdc3099f27c4855900b2a32ecda08ac295a50ab",
+    "pagination-index-full-copy.json": "7011648ee15af062e3190f2e6611ee51b22f39598444abcceac8d19e16542e41",
+    "http-serial_routes.json": "78898ed4a10b19b99bb900386cba9ec77804cd39ca0d77b761b2be8e4794e2f2",
+    "tls-combined-full.json": "c6e68d05c4ac3f4be5f2184b5cbb41a6117d3835002a79ef76236a8e996f3bb0",
+    "combined6-full.json": "4283d689be139b30794195988bb46f4890e8707895c4bc7d9dd4517680f2ce3b",
+    "combined7-full.json": "ac72cba89ed8c725be14c41b12383fbce86e12d4210a5b42529b4b29fe3020bf",
+    "combined7-http-diagnostic.json": "cd3f5bae89bbdb708759fd1c7253bba1c793a03ada8428bec42c083eb874ce95",
+    "legacy-case-ledger.json": "53aebee3a16c5f16f6453f2f9bb1746203b454b268573370c9f6348af2b3a7c1",
+    "native-cold-connections.json": "3d7d74054ae3379c2b4e4ace5af226731b2ba81a0cca20f41ba384f5b4e63fe3",
+    "missing-statistics-terminal.json": "46b4ec3a99f3bb0af482990925e5652ff967bd3d68934defc1bfe6e8b0075aae",
+    "readiness-candidate.json": "7d15a094b98f92ed6cd3f2426ec8929c3b4f7cedd3d9d05dece44cfaf74d3656",
+    "readiness-local-verified-20261012.json": "8973cf7340ada4acca0aa34c216be09b407c5e9b18adf7f63e171228cb5c4bdd",
+    "http-readiness-20261012.json": "4025e8833a92d9e15104152e343e611910b4fdc2d4ff2087e8bd50e75401d68a",
+    "readiness-fixture-cleanup-20261012.json": "2486b3318a0559c1e64ac0fa262159a5934aa01ffc47db8d37ea7745255c0d96",
+    "published-postflight-20261012.json": "c870f85a419e19bcd374f0b878e3c44ebc9df8b13d15d1e420d945bda8ca6eb3"
+  },
+  "confirmed_terminal_evaluated": 9249545,
+  "terminal_api_phase_trace": {
+    "name": "api-transport-sql-combined7.jsonl.gz",
+    "bytes": 75659988,
+    "sha256": "a5897a2ea1fc87febf862df3babecf8b72fed7fc379b475291f108ce3b41d97e"
+  },
+  "shared_host_auxiliary_activity": {
+    "scope": "Read-only filename search in Downloads, Documents and Desktop; separate tool process excluded from the generator/API private process group",
+    "ended_at_utc": "2026-10-11T18:56:04+00:00",
+    "causal_relationship_with_timeout": "not_demonstrated"
+  },
+  "http_timeout_diagnostic": {
+    "stage": "live_diagnostic_not_terminal",
+    "observed_at_utc": "2026-10-11T19:07:18.577842+00:00",
+    "errors": [
+      {
+        "request_id": "826b43d772d84ca2a404fbbbb744c8cd",
+        "client": 7,
+        "route": "providers",
+        "at_utc": "2026-10-11T18:55:29.446955+00:00",
+        "stage": "full_reprocessing_running",
+        "seconds": 30.008031499921344,
+        "error_type": "ReadTimeout",
+        "valid": false
+      }
+    ],
+    "events": [
+      {
+        "at_utc": "2026-10-11T18:55:29.447729+00:00",
+        "monotonic_seconds": 634636.2463778,
+        "kind": "request_begin",
+        "request_id": "826b43d772d84ca2a404fbbbb744c8cd",
+        "path": "/api/procesados/metricas/top-proveedores"
+      },
+      {
+        "at_utc": "2026-10-11T18:56:24.975363+00:00",
+        "monotonic_seconds": 634691.7740138,
+        "kind": "sql_begin",
+        "request_id": "826b43d772d84ca2a404fbbbb744c8cd",
+        "backend_pid": 97532,
+        "verb": "SELECT"
+      },
+      {
+        "at_utc": "2026-10-11T18:56:24.975712+00:00",
+        "monotonic_seconds": 634691.77436,
+        "kind": "sql_end",
+        "request_id": "826b43d772d84ca2a404fbbbb744c8cd",
+        "backend_pid": 97532,
+        "seconds": 0.00035340001340955496
+      },
+      {
+        "at_utc": "2026-10-11T18:56:24.976648+00:00",
+        "monotonic_seconds": 634691.7752964,
+        "kind": "sql_begin",
+        "request_id": "826b43d772d84ca2a404fbbbb744c8cd",
+        "backend_pid": 97532,
+        "verb": "SELECT"
+      },
+      {
+        "at_utc": "2026-10-11T18:56:25.807806+00:00",
+        "monotonic_seconds": 634692.6064535,
+        "kind": "sql_end",
+        "request_id": "826b43d772d84ca2a404fbbbb744c8cd",
+        "backend_pid": 97532,
+        "seconds": 0.8311640000902116
+      },
+      {
+        "at_utc": "2026-10-11T18:56:25.809277+00:00",
+        "monotonic_seconds": 634692.607926,
+        "kind": "response_start",
+        "request_id": "826b43d772d84ca2a404fbbbb744c8cd",
+        "status": 200
+      },
+      {
+        "at_utc": "2026-10-11T18:56:25.809300+00:00",
+        "monotonic_seconds": 634692.6079454,
+        "kind": "response_body_end",
+        "request_id": "826b43d772d84ca2a404fbbbb744c8cd",
+        "seconds": 56.36157210008241
+      },
+      {
+        "at_utc": "2026-10-11T18:56:25.810038+00:00",
+        "monotonic_seconds": 634692.6086862,
+        "kind": "request_end",
+        "request_id": "826b43d772d84ca2a404fbbbb744c8cd",
+        "seconds": 56.36230920010712
+      }
+    ],
+    "live_trace_incomplete": true
+  },
+  "legacy_case_ledger": {
+    "stage": "verified_readonly_case_ledger_identity_unresolved",
+    "started_at_utc": "2026-10-11T19:58:37.937166+00:00",
+    "completed_at_utc": "2026-10-11T20:08:37.307021+00:00",
+    "legacy": {
+      "database": "plataformaanticorrupcion_pre_20261010",
+      "port": 5432,
+      "oid": 17930,
+      "rows": 18980,
+      "source_ids_missing": 18980,
+      "prefix_md5": "dccfdf8a6405c3d37ebdc4ab2019292b"
+    },
+    "source": {
+      "database": "plataforma_integracion_local",
+      "port": 5433,
+      "oid": 74053,
+      "published_cut_date": "2026-10-01",
+      "prefix_md5": "7faea8375c6e3e4faba1c23f71dc6b5e"
+    },
+    "fields": [
+      "fuente_id",
+      "entidad",
+      "nit_entidad",
+      "departamento_entidad",
+      "ciudad_entidad",
+      "ordenentidad",
+      "codigo_pci",
+      "codigo_entidad",
+      "id_del_proceso",
+      "referencia_del_proceso",
+      "ppi",
+      "id_del_portafolio",
+      "nombre_del_procedimiento",
+      "descripci_n_del_procedimiento",
+      "fase",
+      "estado_del_procedimiento",
+      "id_estado_del_procedimiento",
+      "estado_de_apertura_del_proceso",
+      "estado_resumen",
+      "fecha_de_publicacion_del",
+      "fecha_de_ultima_publicaci",
+      "fecha_de_publicacion_fase",
+      "fecha_de_publicacion_fase_1",
+      "fecha_de_publicacion",
+      "fecha_de_publicacion_fase_2",
+      "fecha_de_publicacion_fase_3",
+      "fecha_de_recepcion_de",
+      "fecha_de_apertura_de_respuesta",
+      "fecha_de_apertura_efectiva",
+      "fecha_adjudicacion",
+      "precio_base",
+      "modalidad_de_contratacion",
+      "justificaci_n_modalidad_de",
+      "duracion",
+      "unidad_de_duracion",
+      "tipo_de_contrato",
+      "subtipo_de_contrato",
+      "categorias_adicionales",
+      "codigo_principal_de_categoria",
+      "ciudad_de_la_unidad_de",
+      "nombre_de_la_unidad_de",
+      "proveedores_invitados",
+      "proveedores_con_invitacion",
+      "visualizaciones_del",
+      "proveedores_que_manifestaron",
+      "respuestas_al_procedimiento",
+      "respuestas_externas",
+      "conteo_de_respuestas_a_ofertas",
+      "proveedores_unicos_con",
+      "numero_de_lotes",
+      "adjudicado",
+      "id_adjudicacion",
+      "codigoproveedor",
+      "departamento_proveedor",
+      "ciudad_proveedor",
+      "valor_total_adjudicacion",
+      "nombre_del_adjudicador",
+      "nombre_del_proveedor",
+      "nit_del_proveedor_adjudicado",
+      "urlproceso"
+    ],
+    "award_fields": [
+      "fuente_id",
+      "id_del_proceso",
+      "id_adjudicacion",
+      "codigoproveedor",
+      "nit_del_proveedor_adjudicado",
+      "valor_total_adjudicacion"
+    ],
+    "candidate_rows_read": 105640,
+    "exact_match_cardinality": {
+      "unique": 15392,
+      "missing": 3470,
+      "ambiguous": 118
+    },
+    "award_match_cardinality": {
+      "unique": 18115,
+      "missing": 708,
+      "ambiguous": 157
+    },
+    "source_identity_assignments": 0,
+    "database_rows_written": 0,
+    "case_file": {
+      "name": "legacy-cases.jsonl",
+      "bytes": 10145604,
+      "sha256": "4cb38055eecad6453659c4e1d9cc193202236dcd139538f025107fbfa7c8f0d3"
+    },
+    "limits": [
+      "Content equivalence does not prove prior official row identity",
+      "This comparison uses the accepted 01/10/2026 cut; the aggregate 30/09 report is preserved separately",
+      "Exact and award classifications are alternatives and must not be added together",
+      "Private candidate lists are bounded at twenty; cardinalities include all candidates"
+    ]
+  },
+  "native_connection_probe": {
+    "stage": "readonly_connection_probe_complete",
+    "completed_at_utc": "2026-10-11T19:56:30.106473+00:00",
+    "scope": "Three fresh connections after the full-cut trial; no HTTP load, SSL/GSS override or data mutation. Connection timing alone does not prove an internal cause.",
+    "results": [
+      {
+        "attempt": 1,
+        "at_utc": "2026-10-11T19:56:23.823212+00:00",
+        "backend_pid": 40128,
+        "connection_ready_seconds": 0.1467169999377802,
+        "metadata_sql_seconds": 0.004625600064173341,
+        "phases": [
+          {
+            "phase": "driver_connect_begin",
+            "monotonic_seconds": 638290.6218802
+          },
+          {
+            "phase": "connection_initialized",
+            "monotonic_seconds": 638290.7684021,
+            "backend_pid": 40128
+          }
+        ]
+      },
+      {
+        "attempt": 2,
+        "at_utc": "2026-10-11T19:56:25.978436+00:00",
+        "backend_pid": 43012,
+        "connection_ready_seconds": 0.04748369997832924,
+        "metadata_sql_seconds": 0.0034772000508382916,
+        "phases": [
+          {
+            "phase": "driver_connect_begin",
+            "monotonic_seconds": 638292.7771006
+          },
+          {
+            "phase": "connection_initialized",
+            "monotonic_seconds": 638292.8245189,
+            "backend_pid": 43012
+          }
+        ]
+      },
+      {
+        "attempt": 3,
+        "at_utc": "2026-10-11T19:56:28.040631+00:00",
+        "backend_pid": 100112,
+        "connection_ready_seconds": 0.04698310000821948,
+        "metadata_sql_seconds": 0.003115299972705543,
+        "phases": [
+          {
+            "phase": "driver_connect_begin",
+            "monotonic_seconds": 638294.8392906
+          },
+          {
+            "phase": "connection_initialized",
+            "monotonic_seconds": 638294.8862266,
+            "backend_pid": 100112
+          }
+        ]
+      }
+    ],
+    "database_rows_written": 0
+  },
+  "independent_missing_statistics": {
+    "stage": "verified_independent_missing_statistics",
+    "completed_at_utc": "2026-10-11T19:57:22.481051+00:00",
+    "database": "codex_plan_full_acceptance_20261011_test",
+    "port": 5433,
+    "oid": 75045,
+    "denominator_contracts": 9249545,
+    "fields_compared": 1,
+    "counts_reference_equal": true,
+    "percentages_reference_equal": true,
+    "mismatching_fields": [],
+    "anomalies_without_processed_reference": 0,
+    "database_rows_written": 0
+  },
+  "prepared_pool_validation": {
+    "candidate": {
+      "ref": "794d185832c7c56ffa4d91ef08ca1f3d15128be5",
+      "backend_git_tree": "27e41c98bd4fabbab35e429104a6feff680d2ae9",
+      "source_archive_sha256": "9423438b9c38657f127e751666c153df44c25276f9d31a1bd70561ffb89ec613",
+      "source_archive_bytes": 375513,
+      "python_sources_compiled": 187,
+      "native_test_summary": [
+        "395 passed in 36.34s"
+      ],
+      "native_test_report_sha256": "8973cf7340ada4acca0aa34c216be09b407c5e9b18adf7f63e171228cb5c4bdd",
+      "runtime_lock_sha256": "c44702f3b7557a7ac3af07a8b6c878c5d8cacf6bb7e992c5050e03ef57a5a182",
+      "package_gates": [
+        {
+          "label": "pip_check",
+          "exit_code": 0,
+          "log_sha256": "672aec65a45bed50e70229c70934a7eebf0462595c459b83023027645d57cccf"
+        },
+        {
+          "label": "openapi",
+          "exit_code": 0,
+          "log_sha256": "5a43c3fe3b249ab436ba2ccee730147a63049401d0a538d7c9b379d25c6b0291"
+        },
+        {
+          "label": "access_matrix",
+          "exit_code": 0,
+          "log_sha256": "88d5dc04d491593b19172dd5e023c715ed12b8b76630d6cb929d9e7cd0768fdc"
+        }
+      ],
+      "full_cut_domain_equivalence": {
+        "previous_ref": "ec9b5d2297cbb0ed4f7a0cff58038333e8ee110d",
+        "modules_git_tree": "44b4e86a6a5841632e425402b6efde53e8cbfe1e",
+        "database_git_tree": "0aa5f17c36991ede2aedf3d4c073b79675a3acc3",
+        "reason": "Domain repositories, worker, ingestion and migrations unchanged; previous complete-cut processing is reused. Readiness/pool/connection timeout changes require their own HTTP validation."
+      },
+      "import_connections_forbidden": true,
+      "activation_allowed": false
+    },
+    "native_source_equivalence": {
+      "database/migrations/env.py": {
+        "tested_sha256": "d375b21946c95d014e0d9ad988a3c579bacf65f76f6ea339c34416c32e464a39",
+        "archive_sha256": "6ded19c1a971dd55e211384344e60df2c2689a943763a3b916a9ebbbf5f1047d",
+        "normalized_lf_sha256": "f419c56d26d9911bf20787f89608b506ebd0eef6eb3d81965c4e6c989495c22d"
+      },
+      "database/migrations/versions/2ab7c4e8d910_transactional_quality_metrics.py": {
+        "tested_sha256": "b5d59c91f21221eb3056644b0c30c6a7be5be2aa07ebcf7473cc4fea190871ee",
+        "archive_sha256": "ad692f9817e92fdf8b72a0a9ffedc84494fbe8f6c796663266f71b64f688fb94",
+        "normalized_lf_sha256": "b5d59c91f21221eb3056644b0c30c6a7be5be2aa07ebcf7473cc4fea190871ee"
+      },
+      "modules/transformacion/model/ContratoMetricasCalidad.py": {
+        "tested_sha256": "7511676cdcb78a87f98571436db03a96681549d2e3d406f2f40ee38d4c8e8269",
+        "archive_sha256": "0a6e012cda556e26e4a9e9283145a95451de2705bca427dcf26ee1a8333e94e3",
+        "normalized_lf_sha256": "7511676cdcb78a87f98571436db03a96681549d2e3d406f2f40ee38d4c8e8269"
+      },
+      "modules/transformacion/repository/transformacion.py": {
+        "tested_sha256": "1264a3942c43456a4bddb2180a72e62150a2e2e268612fa3748a84ba983c99b5",
+        "archive_sha256": "3503b0037f22f289b538143ce8f55ccabce182d24be3ea867b52498c1c885ef2",
+        "normalized_lf_sha256": "bb1f7c2e9b23116cd558b9af5a2c47bdfc3adefce6d63e6569267ad507b2fb09"
+      },
+      "tests/test_transactional_quality_metrics_postgres.py": {
+        "tested_sha256": "255c83ed220edd0b824f49cbad03874fbf314b7b0da4d5194f0a9499b0875688",
+        "archive_sha256": "1c9092df49bb5a994a2360dc9d5df80c1123beb73a3f39e69ae0900b5e495087",
+        "normalized_lf_sha256": "255c83ed220edd0b824f49cbad03874fbf314b7b0da4d5194f0a9499b0875688"
+      },
+      "tests/test_transactional_quality_migration.py": {
+        "tested_sha256": "30405698701abed05a56210ffd568cd9bc8fd42768dcf18dbc0a52880c0cb388",
+        "archive_sha256": "9fe25fe1025c390fee612ba9f39e69d66fae61142b08e050f4e7163b4d096021",
+        "normalized_lf_sha256": "30405698701abed05a56210ffd568cd9bc8fd42768dcf18dbc0a52880c0cb388"
+      },
+      "tests/test_contract_search_sqlite.py": {
+        "tested_sha256": "3c0b6d877ab58ecd4ed979311b494f00314477ee35e27b3e50530fe7fe693de4",
+        "archive_sha256": "c1d035793a76fd818bcef1e17048c1a632556d6cef41146e2a13bf51aeef75a7",
+        "normalized_lf_sha256": "3c0b6d877ab58ecd4ed979311b494f00314477ee35e27b3e50530fe7fe693de4"
+      },
+      "modules/transformacion/model/ContratoProcesado.py": {
+        "tested_sha256": "05c628f4df2e7588382d096c9ae5a83069123b4368a432842950315f1cbfa121",
+        "archive_sha256": "a754b3d4efa8c436b4225fb3783a812e205c853dc3833e956853fa7d56c85f04",
+        "normalized_lf_sha256": "76eff92a6e7128b09e6a8239546b010f9b9510d5dd9c27f23db92d59ba6ffb94"
+      },
+      "database/migrations/versions/3c19a8f7e2d0_stable_contract_pagination.py": {
+        "tested_sha256": "e1aeec3fc9a8b646fa1a64569497a82e7be8f5d7c1f1627d273300117a69a32b",
+        "archive_sha256": "94fbf33fe9d5422fa220703742c3298196672852ed36df823b1ab3a506ed8db9",
+        "normalized_lf_sha256": "e1aeec3fc9a8b646fa1a64569497a82e7be8f5d7c1f1627d273300117a69a32b"
+      },
+      "tests/test_stable_pagination_migration.py": {
+        "tested_sha256": "3e142c434b7f7de97b62818e31e5a43e79ac6332a5b9192d1cceba7b25038dd3",
+        "archive_sha256": "6f15b4bfa5b2d282eebce46467a066eba8c8e79e9d05474a829cf6122e62b8aa",
+        "normalized_lf_sha256": "3e142c434b7f7de97b62818e31e5a43e79ac6332a5b9192d1cceba7b25038dd3"
+      },
+      "core/config.py": {
+        "tested_sha256": "21d05c283cfb23dfb25c1345a13f59bb8ce38ee6517ef98f78d7778f386f0ab2",
+        "archive_sha256": "42e06a66ef7599c2148bd772092c31e1a14e71b1c27ccd3bfc7b42b7fcfd574d",
+        "normalized_lf_sha256": "3644060d83a0a546a064c83f2a9c54e72ba96afa943d13ec2fd57d2cf4ad05ef"
+      },
+      "core/database.py": {
+        "tested_sha256": "615642e047856418c29b7650cac61f851fbd00150a210fb3cad513677f43f18f",
+        "archive_sha256": "5235ea30b319584eba720cc227e0bac6d87cdaba17832b1dc37ff230fb6de9c0",
+        "normalized_lf_sha256": "f47cb2ebee81edb9a3ddf99851804a4000c3bc2f77813840302514a7126ee453"
+      },
+      "core/database_readiness.py": {
+        "tested_sha256": "11f25186b04ba5640e2abede1beb665114b6a7f1272c7459a667b8ead9d0f4c8",
+        "archive_sha256": "af1771c46c0a615577c26814770cafc870e6813771b61818b564a84ccc99bf71",
+        "normalized_lf_sha256": "11f25186b04ba5640e2abede1beb665114b6a7f1272c7459a667b8ead9d0f4c8"
+      },
+      "main.py": {
+        "tested_sha256": "09060310394ab7e21de8b54b299e719dd4140e515b74bb7b2726bf90010afae9",
+        "archive_sha256": "fdda1fd06d4fd24165e4e5e2eb80d8b00ad2fee60b9f18ae356bfff1ae234ae7",
+        "normalized_lf_sha256": "e11f0e708aa4fb8a047c19e4d21e5c798a1fcfaa5874921044d3f55b6698c0a6"
+      },
+      "scripts/local_integration.py": {
+        "tested_sha256": "31709c6f76ffe64a707ec835f93f404250e2911ac856078b9f31f99a3544f068",
+        "archive_sha256": "de6f5c82a83cbee73ffb608f1a45a18d3dd69804de7897e4bee86492e717b920",
+        "normalized_lf_sha256": "31709c6f76ffe64a707ec835f93f404250e2911ac856078b9f31f99a3544f068"
+      },
+      "tests/test_database_readiness.py": {
+        "tested_sha256": "acb5c21c5a22454062584d97b3257e0ac6fce280912b064aa7cf4ac2f32d11fb",
+        "archive_sha256": "f12e52fd2c9198cc30936016349f05eafb08724a28fe576aaa658ea89989ec22",
+        "normalized_lf_sha256": "acb5c21c5a22454062584d97b3257e0ac6fce280912b064aa7cf4ac2f32d11fb"
+      }
+    },
+    "native_pool": {
+      "prepared_connections": 10,
+      "seconds": 0.26362530002370477,
+      "distinct_slots_verified": true,
+      "transaction_settings_reset": true,
+      "ordinary_role_verified": true,
+      "fixture_has_no_contract_rows": true
+    },
+    "http": {
+      "started_at_utc": "2026-10-12T02:02:41.398441+00:00",
+      "updated_at_utc": "2026-10-12T02:05:11.968507+00:00",
+      "profile": {
+        "clients": 8,
+        "seconds": 120,
+        "think_time_seconds": 0,
+        "routes": 4
+      },
+      "elapsed_seconds": 120.10365499998443,
+      "route_summary": {
+        "search_2024": {
+          "count": 2471,
+          "p95_seconds": 0.26934689993504435,
+          "max_seconds": 0.33645429997704923
+        },
+        "empty_2099": {
+          "count": 2469,
+          "p95_seconds": 0.006406300002709031,
+          "max_seconds": 0.47221819998230785
+        },
+        "quality": {
+          "count": 2471,
+          "p95_seconds": 0.00477199989836663,
+          "max_seconds": 0.1213879999704659
+        },
+        "providers": {
+          "count": 2473,
+          "p95_seconds": 0.2645313000539318,
+          "max_seconds": 0.40680409991182387
+        }
+      },
+      "resource_summary": {
+        "valid_samples": 25,
+        "max_same_capture_private_bytes": 235188224,
+        "min_physical_available_bytes": 4965335040,
+        "min_free_disk_bytes": 82987192320,
+        "max_interval_seconds": 5.156303900061175
+      },
+      "proposed_read_limits_met": true,
+      "before": {
+        "raw": "7faea8375c6e3e4faba1c23f71dc6b5e",
+        "processed": "454418121fcc4b4830a409174319a6e1",
+        "max_job": 106,
+        "summary": {
+          "id": 1,
+          "total": 9249545,
+          "incompletos": 127626,
+          "sospechosos": 757,
+          "alto_riesgo": 0,
+          "con_confianza": 9249545,
+          "suma_confianza": "922371460"
+        }
+      },
+      "after": {
+        "raw": "7faea8375c6e3e4faba1c23f71dc6b5e",
+        "processed": "454418121fcc4b4830a409174319a6e1",
+        "max_job": 106,
+        "summary": {
+          "id": 1,
+          "total": 9249545,
+          "incompletos": 127626,
+          "sospechosos": 757,
+          "alto_riesgo": 0,
+          "con_confianza": 9249545,
+          "suma_confianza": "922371460"
+        }
+      },
+      "reference_sha256": {
+        "search_2024": "2b5dff697698db9e9517bdb4ae39c1f9e591eb90bcacd202bc9f9c949aa44b8f",
+        "empty_2099": "748a15323cc1a2b16490f59aba8c10cedbe68ddaf8c393bd6f2914e171ceb635",
+        "quality": "672ae1749ac64ab32fd44849107056d1b2205697aebab5bb28fdd03bf7b9254d",
+        "providers": "1aa1c0800944092164d7488fa20cffe066294b21f3897e1289469d64c65f7a92"
+      },
+      "sampler_errors": [],
+      "api_terminal": true,
+      "api_connections_created_after_readiness": 0,
+      "pool_ready": {
+        "prepared_connections": 10,
+        "connection_events": [
+          {
+            "pid": 46316,
+            "at_utc": "2026-10-12T02:02:58.876794+00:00"
+          },
+          {
+            "pid": 93292,
+            "at_utc": "2026-10-12T02:02:58.877286+00:00"
+          },
+          {
+            "pid": 101884,
+            "at_utc": "2026-10-12T02:02:58.877415+00:00"
+          },
+          {
+            "pid": 12612,
+            "at_utc": "2026-10-12T02:02:58.877686+00:00"
+          },
+          {
+            "pid": 34888,
+            "at_utc": "2026-10-12T02:02:58.877795+00:00"
+          },
+          {
+            "pid": 16604,
+            "at_utc": "2026-10-12T02:02:58.878016+00:00"
+          },
+          {
+            "pid": 51992,
+            "at_utc": "2026-10-12T02:02:58.884777+00:00"
+          },
+          {
+            "pid": 62432,
+            "at_utc": "2026-10-12T02:02:58.891956+00:00"
+          },
+          {
+            "pid": 35984,
+            "at_utc": "2026-10-12T02:02:58.892454+00:00"
+          },
+          {
+            "pid": 83408,
+            "at_utc": "2026-10-12T02:02:58.892851+00:00"
+          }
+        ],
+        "checked_in": 10,
+        "overflow": 0,
+        "at_utc": "2026-10-12T02:02:59.068183+00:00"
+      },
+      "pool_final": {
+        "connection_events": [
+          {
+            "pid": 46316,
+            "at_utc": "2026-10-12T02:02:58.876794+00:00"
+          },
+          {
+            "pid": 93292,
+            "at_utc": "2026-10-12T02:02:58.877286+00:00"
+          },
+          {
+            "pid": 101884,
+            "at_utc": "2026-10-12T02:02:58.877415+00:00"
+          },
+          {
+            "pid": 12612,
+            "at_utc": "2026-10-12T02:02:58.877686+00:00"
+          },
+          {
+            "pid": 34888,
+            "at_utc": "2026-10-12T02:02:58.877795+00:00"
+          },
+          {
+            "pid": 16604,
+            "at_utc": "2026-10-12T02:02:58.878016+00:00"
+          },
+          {
+            "pid": 51992,
+            "at_utc": "2026-10-12T02:02:58.884777+00:00"
+          },
+          {
+            "pid": 62432,
+            "at_utc": "2026-10-12T02:02:58.891956+00:00"
+          },
+          {
+            "pid": 35984,
+            "at_utc": "2026-10-12T02:02:58.892454+00:00"
+          },
+          {
+            "pid": 83408,
+            "at_utc": "2026-10-12T02:02:58.892851+00:00"
+          }
+        ],
+        "checked_in": 10,
+        "overflow": 0,
+        "at_utc": "2026-10-12T02:05:11.280665+00:00"
+      },
+      "limits": [
+        "Read-only prepared-pool validation after complete-cut processing; no normalization or reprocessing repeated. Owner workload/limits remain unapproved",
+        "Native counters are sampled, not atomic or continuous peaks",
+        "Entire :5433 cluster included; application :5432 excluded, though it shares host resources"
+      ],
+      "writes": 0
+    },
+    "requests": 9884,
+    "correct_responses": 9884,
+    "unused_fixture_removed": {
+      "stage": "verified_unused_synthetic_fixture_removed",
+      "at_utc": "2026-10-12T02:16:11.907585+00:00",
+      "database": "codex_plan_readiness_20261012_test",
+      "oid": 26620,
+      "port": 5432,
+      "bytes": 26615143,
+      "raw_rows": 0,
+      "processed_rows": 0,
+      "active_jobs": 0,
+      "sessions_before_drop": 0,
+      "scope": "Only this empty owned fixture; original generations, full-cut copy, archives and backups preserved"
+    },
+    "scope": "Prepared pool tested separately on the existing complete cut; earlier complete processing and worker/TLS/DB failure proofs reused with unchanged domain trees, not represented as a repeated long joint run"
+  },
+  "published_destination_postflight": {
+    "stage": "verified_published_destination_unchanged",
+    "at_utc": "2026-10-12T02:18:05.290624+00:00",
+    "identity": [
+      "plataformaanticorrupcion",
+      5432,
+      "plataforma_operacion",
+      24577,
+      "f4826b9d1c30"
+    ],
+    "server_version": "15.19",
+    "backend_worker_ref": "915e863cc7492e619888506f59a04c6dbbfa5552",
+    "frontend_ref": "9362d94f9dbfbdf352ae11585a2bfd44318b11e6",
+    "live_components_verified": true,
+    "raw_first_2000_md5": "7faea8375c6e3e4faba1c23f71dc6b5e",
+    "processed_first_2000_md5": "b43af927328ccadd38889f9665916189",
+    "active_jobs": 0,
+    "active_sources": 0,
+    "valid_indices": 21,
+    "quality_summary_present": false,
+    "http_checks": [
+      {
+        "url": "http://127.0.0.1:8000/openapi.json",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:4173/index.html",
+        "status": 200
+      }
+    ],
+    "active_bindings_unchanged": true,
+    "candidate_activation_performed": false,
+    "database_rows_written": 0
+  }
+}

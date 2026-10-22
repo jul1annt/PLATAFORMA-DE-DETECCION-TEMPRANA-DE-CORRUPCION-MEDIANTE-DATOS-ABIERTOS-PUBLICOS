@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { 
   Brain, 
   TrendingUp, 
@@ -14,9 +15,50 @@ import {
   RefreshCw
 } from 'lucide-react';
 import { analiticaService } from '../../services/analiticaService';
-import type { PesoAnomaliaResponse } from '../../services/analiticaService';
+import { JobContinuesError } from '../../services/jobsService';
+import type {
+  DuplicadoResumenResponse,
+  EjecucionAnaliticaEstadoResponse,
+  OutlierCalculoRequest,
+  PesoAnomaliaResponse,
+  ProveedorDirectaResumenResponse,
+  RiesgoGlobalResumenResponse,
+  RunResumenResponse,
+} from '../../services/analiticaService';
 import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/Card';
 import { cn } from '../../utils/utils';
+import { getErrorMessage } from '../../utils/errors';
+
+interface AnaliticaResults {
+  outliers?: RunResumenResponse;
+  duplicados?: DuplicadoResumenResponse;
+  directas?: ProveedorDirectaResumenResponse;
+  riesgo?: RiesgoGlobalResumenResponse;
+}
+
+const estadoEjecucion = (estado?: string) => {
+  switch (estado) {
+    case 'EXITOSO':
+      return { texto: 'Datos vigentes', clase: 'bg-emerald-100 text-emerald-800' };
+    case 'DESACTUALIZADO':
+      return { texto: 'Datos desactualizados', clase: 'bg-amber-100 text-amber-900' };
+    case 'EN_PROCESO':
+      return { texto: 'En proceso', clase: 'bg-blue-100 text-blue-800' };
+    case 'ERROR':
+      return { texto: 'Ejecución fallida', clase: 'bg-red-100 text-red-800' };
+    default:
+      return { texto: 'Estado desconocido', clase: 'bg-slate-100 text-slate-700' };
+  }
+};
+
+const EstadoEjecucion: React.FC<{ estado?: string }> = ({ estado }) => {
+  const estadoUi = estadoEjecucion(estado);
+  return (
+    <div className={`inline-flex rounded-full px-2 py-1 text-[10px] font-semibold ${estadoUi.clase}`}>
+      {estadoUi.texto}
+    </div>
+  );
+};
 
 export const AdminAnalitica: React.FC = () => {
   // Loading states
@@ -25,6 +67,7 @@ export const AdminAnalitica: React.FC = () => {
   const [loadingDirectas, setLoadingDirectas] = useState(false);
   const [loadingRiesgo, setLoadingRiesgo] = useState(false);
   const [loadingPesos, setLoadingPesos] = useState(false);
+  const [errorPesos, setErrorPesos] = useState(false);
 
   // MODALIDADES list
   const MODALIDADES = [
@@ -69,38 +112,51 @@ export const AdminAnalitica: React.FC = () => {
   const [directaDiasVentana, setDirectaDiasVentana] = useState(90);
 
   // Toast / Results
-  const [toast, setToast] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
-  const [results, setResults] = useState<Record<string, any>>({});
+  const [toast, setToast] = useState<{ type: 'success' | 'error' | 'info'; message: string } | null>(null);
+  const [results, setResults] = useState<AnaliticaResults>({});
+  const [ultimasEjecuciones, setUltimasEjecuciones] = useState<EjecucionAnaliticaEstadoResponse[]>([]);
+  const [cargandoEstadoEjecuciones, setCargandoEstadoEjecuciones] = useState(true);
+  const [errorEstadoEjecuciones, setErrorEstadoEjecuciones] = useState(false);
 
-  // Fetch weights on mount
-  useEffect(() => {
-    fetchWeights();
-  }, []);
+  async function fetchExecutionStatuses() {
+    setCargandoEstadoEjecuciones(true);
+    try {
+      setUltimasEjecuciones(await analiticaService.getUltimasEjecuciones());
+      setErrorEstadoEjecuciones(false);
+    } catch {
+      setErrorEstadoEjecuciones(true);
+    } finally {
+      setCargandoEstadoEjecuciones(false);
+    }
+  }
 
-  const fetchWeights = async () => {
+  async function fetchWeights() {
     setLoadingPesos(true);
     try {
       const data = await analiticaService.getPesos();
       setPesos(data);
+      setErrorPesos(false);
       const editing: Record<string, string> = {};
       data.forEach((p) => {
         editing[p.tipo_anomalia] = p.peso.toString();
       });
       setEditingPesos(editing);
-    } catch (error) {
-      console.error('Error fetching weights:', error);
-      // Set some fallback defaults in case backend weights are empty/errored
-      const fallbacks = [
-        { tipo_anomalia: 'OUTLIER', peso: 1.0 },
-        { tipo_anomalia: 'DUPLICADO_CORTO', peso: 1.5 },
-        { tipo_anomalia: 'ABUSO_DIRECTO', peso: 2.0 }
-      ];
-      setPesos(fallbacks);
-      setEditingPesos({ OUTLIER: '1.0', DUPLICADO_CORTO: '1.5', ABUSO_DIRECTO: '2.0' });
+    } catch (error: unknown) {
+      console.error('Error fetching weights:', getErrorMessage(error, 'Error desconocido'));
+      setErrorPesos(true);
     } finally {
       setLoadingPesos(false);
     }
-  };
+  }
+
+  // Fetch weights on mount
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      void fetchWeights();
+      void fetchExecutionStatuses();
+    }, 0);
+    return () => window.clearTimeout(timer);
+  }, []);
 
   const showToast = (type: 'success' | 'error', message: string) => {
     setToast({ type, message });
@@ -109,13 +165,21 @@ export const AdminAnalitica: React.FC = () => {
     }, 6000);
   };
 
+  const showCalculationError = (err: unknown, fallback: string) => {
+    if (err instanceof JobContinuesError) {
+      setToast({ type: 'info', message: err.message });
+      return;
+    }
+    showToast('error', getErrorMessage(err, fallback));
+  };
+
   // Run calculation: Outliers
   const handleCalcularOutliers = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoadingOutliers(true);
     setToast(null);
     try {
-      const payload: any = {
+      const payload: OutlierCalculoRequest = {
         campo: outlierCampo,
       };
       
@@ -138,11 +202,12 @@ export const AdminAnalitica: React.FC = () => {
         'success',
         `Análisis IQR finalizado. Se procesaron ${res.total_contratos_analizados.toLocaleString()} contratos. Outliers detectados: ${res.total_outliers.toLocaleString()} (${(res.porcentaje_outliers * 100).toFixed(2)}%)`
       );
-    } catch (err: any) {
-      console.error(err);
-      showToast('error', err.response?.data?.detail || 'Error al ejecutar análisis de outliers.');
+    } catch (err: unknown) {
+      console.error(getErrorMessage(err, 'Error desconocido'));
+      showCalculationError(err, 'Error al ejecutar análisis de outliers.');
     } finally {
       setLoadingOutliers(false);
+      void fetchExecutionStatuses();
     }
   };
 
@@ -159,13 +224,14 @@ export const AdminAnalitica: React.FC = () => {
       setResults((prev) => ({ ...prev, duplicados: res }));
       showToast(
         'success',
-        `Análisis de duplicados finalizado. Se detectaron ${res.total_duplicados.toLocaleString()} contratos duplicados en período corto. Score promedio: ${res.promedio_score.toFixed(2)}`
+        `Análisis de reiteración de compras finalizado. Se detectaron ${res.total_duplicados.toLocaleString()} reiteraciones de procesos en período corto. Score promedio: ${res.promedio_score.toFixed(2)}`
       );
-    } catch (err: any) {
-      console.error(err);
-      showToast('error', err.response?.data?.detail || 'Error al ejecutar análisis de duplicados.');
+    } catch (err: unknown) {
+      console.error(getErrorMessage(err, 'Error desconocido'));
+      showCalculationError(err, 'Error al ejecutar análisis de reiteración de compras.');
     } finally {
       setLoadingDuplicados(false);
+      void fetchExecutionStatuses();
     }
   };
 
@@ -184,13 +250,14 @@ export const AdminAnalitica: React.FC = () => {
       setResults((prev) => ({ ...prev, directas: res }));
       showToast(
         'success',
-        `Análisis de adjudicaciones directas finalizado. Se identificaron ${res.total_proveedores_detectados.toLocaleString()} proveedores con posible abuso de adjudicación directa.`
+        `Análisis de adjudicaciones directas finalizado. Se identificaron ${res.total_proveedores_detectados.toLocaleString()} proveedores con concentración de contratación directa.`
       );
-    } catch (err: any) {
-      console.error(err);
-      showToast('error', err.response?.data?.detail || 'Error al ejecutar análisis de adjudicaciones directas.');
+    } catch (err: unknown) {
+      console.error(getErrorMessage(err, 'Error desconocido'));
+      showCalculationError(err, 'Error al ejecutar análisis de adjudicaciones directas.');
     } finally {
       setLoadingDirectas(false);
+      void fetchExecutionStatuses();
     }
   };
 
@@ -205,11 +272,12 @@ export const AdminAnalitica: React.FC = () => {
         'success',
         `Riesgo global recalculado con éxito para ${res.total_proveedores_evaluados.toLocaleString()} proveedores. Score final promedio: ${res.promedio_score_final.toFixed(2)}`
       );
-    } catch (err: any) {
-      console.error(err);
-      showToast('error', err.response?.data?.detail || 'Error al calcular riesgo global.');
+    } catch (err: unknown) {
+      console.error(getErrorMessage(err, 'Error desconocido'));
+      showCalculationError(err, 'Error al calcular riesgo global.');
     } finally {
       setLoadingRiesgo(false);
+      void fetchExecutionStatuses();
     }
   };
 
@@ -227,9 +295,9 @@ export const AdminAnalitica: React.FC = () => {
       await analiticaService.actualizarPeso(tipo, val);
       showToast('success', `Peso para ${tipo} actualizado a ${val} con éxito.`);
       fetchWeights();
-    } catch (err: any) {
-      console.error(err);
-      showToast('error', err.response?.data?.detail || `Error al actualizar peso para ${tipo}.`);
+    } catch (err: unknown) {
+      console.error(getErrorMessage(err, 'Error desconocido'));
+      showToast('error', getErrorMessage(err, `Error al actualizar peso para ${tipo}.`));
     } finally {
       setSavingPeso((prev) => ({ ...prev, [tipo]: false }));
     }
@@ -257,16 +325,48 @@ export const AdminAnalitica: React.FC = () => {
         </div>
       </div>
 
+      <section aria-label="Revisión de señales del corte local" className="flex flex-col gap-3 rounded-xl border border-indigo-200 bg-indigo-50 p-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h2 className="font-semibold text-indigo-950">Señales por contrato del corte local</h2>
+          <p className="mt-1 max-w-3xl text-sm leading-6 text-indigo-900">Abre el corte reproducible, revisa las reglas y consulta la evidencia y la cobertura por operación. Las señales no son conclusiones de corrupción.</p>
+        </div>
+        <Link to="/public/indicios" className="inline-flex w-fit shrink-0 items-center justify-center rounded-lg bg-indigo-700 px-4 py-2.5 text-sm font-semibold text-white hover:bg-indigo-800 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2">Revisar señales</Link>
+      </section>
+
+      <section aria-label="Últimas ejecuciones analíticas" className="rounded-xl border border-slate-200 bg-white p-4">
+        <h2 className="text-sm font-semibold text-slate-800">Estado de las últimas ejecuciones</h2>
+        {cargandoEstadoEjecuciones ? (
+          <p role="status" className="mt-2 text-sm text-slate-500">Consultando ejecuciones…</p>
+        ) : errorEstadoEjecuciones ? (
+          <p role="alert" className="mt-2 text-sm text-red-700">No se pudo consultar el estado de las ejecuciones.</p>
+        ) : ultimasEjecuciones.length === 0 ? (
+          <p className="mt-2 text-sm text-slate-500">No hay ejecuciones registradas.</p>
+        ) : (
+          <ul className="mt-3 flex flex-wrap gap-3">
+            {ultimasEjecuciones.map((ejecucion) => (
+              <li key={ejecucion.tipo} className="flex items-center gap-2 rounded-lg bg-slate-50 px-3 py-2 text-xs">
+                <span className="font-medium text-slate-700">{{ OUTLIERS: 'Outliers', DUPLICADOS: 'Duplicados', ADJUDICACION_DIRECTA: 'Adjudicaciones directas', RIESGO: 'Riesgo global' }[ejecucion.tipo] ?? ejecucion.tipo}</span>
+                <EstadoEjecucion estado={ejecucion.estado} />
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
+
       {/* Global alert / Toast status */}
       {toast && (
         <div className={cn(
           "p-4 rounded-xl flex items-start gap-3 border shadow-sm transition-all",
-          toast.type === 'success' 
-            ? "bg-indigo-50 border-indigo-200 text-indigo-800" 
-            : "bg-red-50 border-red-200 text-red-800"
+          toast.type === 'success'
+            ? "bg-indigo-50 border-indigo-200 text-indigo-800"
+            : toast.type === 'info'
+              ? "bg-amber-50 border-amber-200 text-amber-900"
+              : "bg-red-50 border-red-200 text-red-800"
         )}>
           {toast.type === 'success' ? (
             <CheckCircle size={20} className="mt-0.5 text-indigo-600 flex-shrink-0" />
+          ) : toast.type === 'info' ? (
+            <Activity size={20} className="mt-0.5 text-amber-600 flex-shrink-0" />
           ) : (
             <AlertCircle size={20} className="mt-0.5 text-red-600 flex-shrink-0" />
           )}
@@ -297,6 +397,15 @@ export const AdminAnalitica: React.FC = () => {
                   <Loader2 className="animate-spin" size={18} />
                   <span>Cargando pesos de base de datos...</span>
                 </div>
+              ) : errorPesos ? (
+                <div role="alert" className="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-800">
+                  <span>No se pudieron cargar los pesos guardados.</span>
+                  <button onClick={() => void fetchWeights()} className="rounded-md border border-red-300 px-3 py-1.5 font-semibold hover:bg-red-100">
+                    Reintentar
+                  </button>
+                </div>
+              ) : pesos.length === 0 ? (
+                <p className="rounded-lg border border-slate-200 bg-slate-50 p-4 text-sm text-slate-600">No hay pesos configurados.</p>
               ) : (
                 <div className="space-y-4">
                   {pesos.map((p) => {
@@ -315,7 +424,7 @@ export const AdminAnalitica: React.FC = () => {
                           <h4 className="text-sm font-semibold text-slate-800 mt-1">
                             {p.tipo_anomalia === 'OUTLIER' && 'Outliers / Precios Atípicos (IQR)'}
                             {(p.tipo_anomalia === 'DUPLICADO' || p.tipo_anomalia === 'DUPLICADO_CORTO') && 'Duplicados en Período Corto'}
-                            {(p.tipo_anomalia === 'DIRECTA' || p.tipo_anomalia === 'ABUSO_DIRECTO') && 'Abuso de Contratación Directa'}
+                            {(p.tipo_anomalia === 'DIRECTA' || p.tipo_anomalia === 'ABUSO_DIRECTO') && 'Concentración de contratación directa'}
                           </h4>
                           {p.updated_at && (
                             <p className="text-xxs text-slate-400">
@@ -380,7 +489,7 @@ export const AdminAnalitica: React.FC = () => {
                 <ul className="list-disc pl-5 space-y-1 text-xs text-slate-500 font-medium">
                   <li>Outliers (IQR)</li>
                   <li>Duplicados en período corto</li>
-                  <li>Abuso de adjudicación directa</li>
+                  <li>Concentración de contratación directa</li>
                 </ul>
                 <p className="text-xs text-slate-400 italic">
                   Actualiza el score combinado por proveedor y detecta anomalías complejas.
@@ -389,6 +498,7 @@ export const AdminAnalitica: React.FC = () => {
 
               {results.riesgo && (
                 <div className="bg-indigo-50 border border-indigo-100 p-3 rounded-lg text-xs text-indigo-950 space-y-1.5 font-medium">
+                  <EstadoEjecucion estado={results.riesgo.estado_ejecucion} />
                   <div className="flex items-center justify-between text-indigo-900">
                     <span>Proveedores Evaluados:</span>
                     <strong className="text-indigo-950">{results.riesgo.total_proveedores_evaluados.toLocaleString()}</strong>
@@ -457,7 +567,7 @@ export const AdminAnalitica: React.FC = () => {
                 <label className="text-slate-700">Campo Numérico a Analizar</label>
                 <select
                   value={outlierCampo}
-                  onChange={(e: any) => setOutlierCampo(e.target.value)}
+                  onChange={(e) => setOutlierCampo(e.target.value as typeof outlierCampo)}
                   className="w-full rounded-lg border-slate-200 text-xs py-1.5 focus:ring-indigo-500 focus:border-indigo-500 font-medium"
                 >
                   <option value="valor_total_normalizado">Valor Total Normalizado</option>
@@ -487,7 +597,7 @@ export const AdminAnalitica: React.FC = () => {
                 <label className="text-slate-700">Campo de Fecha a Filtrar (Opcional)</label>
                 <select
                   value={outlierFechaCampo}
-                  onChange={(e: any) => setOutlierFechaCampo(e.target.value)}
+                  onChange={(e) => setOutlierFechaCampo(e.target.value as typeof outlierFechaCampo)}
                   className="w-full rounded-lg border-slate-200 text-xs py-1.5 focus:ring-indigo-500 focus:border-indigo-500 font-medium"
                 >
                   <option value="">Sin filtro de fecha</option>
@@ -528,6 +638,7 @@ export const AdminAnalitica: React.FC = () => {
 
               {results.outliers && (
                 <div className="bg-indigo-50/50 p-2.5 rounded-lg border border-indigo-100 text-xxs space-y-1 text-slate-600">
+                  <EstadoEjecucion estado={results.outliers.estado_ejecucion} />
                   <div className="flex justify-between">
                     <span>Analizados:</span>
                     <strong>{results.outliers.total_contratos_analizados.toLocaleString()}</strong>
@@ -606,6 +717,7 @@ export const AdminAnalitica: React.FC = () => {
 
               {results.duplicados && (
                 <div className="bg-indigo-50/50 p-2.5 rounded-lg border border-indigo-100 text-xxs space-y-1 text-slate-600">
+                  <EstadoEjecucion estado={results.duplicados.estado_ejecucion} />
                   <div className="flex justify-between">
                     <span>Duplicados Detectados:</span>
                     <strong>{results.duplicados.total_duplicados.toLocaleString()}</strong>
@@ -628,7 +740,7 @@ export const AdminAnalitica: React.FC = () => {
                     <span>Calculando...</span>
                   </>
                 ) : (
-                  <span>Ejecutar análisis de duplicados</span>
+                  <span>Ejecutar análisis de reiteración de compras</span>
                 )}
               </button>
             </form>
@@ -645,7 +757,7 @@ export const AdminAnalitica: React.FC = () => {
               <CardTitle className="text-base font-bold text-slate-800">
                 Adjudicación Directa
               </CardTitle>
-              <span className="text-slate-400 text-xxs block">Algoritmo Abuso</span>
+              <span className="text-slate-400 text-xxs block">Ventanas móviles</span>
             </div>
           </CardHeader>
           <CardContent className="p-6 flex-1 flex flex-col justify-between space-y-6">
@@ -708,6 +820,7 @@ export const AdminAnalitica: React.FC = () => {
 
               {results.directas && (
                 <div className="bg-indigo-50/50 p-2.5 rounded-lg border border-indigo-100 text-xxs space-y-1 text-slate-600">
+                  <EstadoEjecucion estado={results.directas.estado_ejecucion} />
                   <div className="flex justify-between">
                     <span>Proveedores Detectados:</span>
                     <strong>{results.directas.total_proveedores_detectados.toLocaleString()}</strong>

@@ -1,0 +1,30 @@
+{
+  "time": "2026-10-16T23:26:19.649997+00:00",
+  "scope": "Synthetic owned Windows venv trees; forced API-like supervisor death, not full HTTP/deployment recovery",
+  "code_sha256": {
+    "process_runner.py": "cd76a2c930d1e6f0ba3082d76451a5f5bc121e76cf72ddd1e1462fee1bac239a",
+    "windows_job.py": "3eff06af4c2709e4e8be54902bf76cab21beef8624392a8992a9efd0521aff21"
+  },
+  "trials": [
+    {
+      "kind": "TIMEOUT",
+      "seconds": 5.13297180000518,
+      "actual_pids": [
+        74148,
+        74304
+      ],
+      "all_descendants_stopped": true
+    },
+    {
+      "kind": "OWNER_FORCED_EXIT",
+      "seconds": 1.8274734000005992,
+      "owner_exit_code": 97,
+      "actual_pids": [
+        66384,
+        61744
+      ],
+      "all_descendants_stopped": true
+    }
+  ],
+  "status": "COMPLETE"
+}

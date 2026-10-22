@@ -2,7 +2,7 @@ from datetime import datetime, date
 from decimal import Decimal
 from typing import Optional
 from uuid import UUID
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class EstadisticasGrupoResponse(BaseModel):
@@ -18,8 +18,7 @@ class EstadisticasGrupoResponse(BaseModel):
     total_outliers_alto: int
     total_outliers_bajo: int
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class OutlierDetalleResponse(BaseModel):
@@ -44,8 +43,7 @@ class OutlierDetalleResponse(BaseModel):
 
     fecha_calculo: datetime
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class OutlierListaResponse(BaseModel):
@@ -69,6 +67,16 @@ class RunResumenResponse(BaseModel):
     grupos_procesados: int
     estadisticas_por_grupo: list[EstadisticasGrupoResponse]
     fecha_calculo: datetime
+    estado_ejecucion: str = "EXITOSO"
+
+
+class EjecucionAnaliticaEstadoResponse(BaseModel):
+    """Estado más reciente de un tipo de análisis, incluso si no produjo resumen."""
+    tipo: str
+    run_id: UUID
+    estado: str
+    fecha_inicio: datetime
+    fecha_fin: Optional[datetime] = None
 
 
 class DuplicadoDetalleResponse(BaseModel):
@@ -88,8 +96,7 @@ class DuplicadoDetalleResponse(BaseModel):
     clasificacion_riesgo: str
     fecha_calculo: datetime
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 class DuplicadoListaResponse(BaseModel):
     """Respuesta paginada del listado de duplicados."""
@@ -112,6 +119,7 @@ class DuplicadoResumenResponse(BaseModel):
     promedio_score: float
     resumen_por_riesgo: list[RiesgoResumenResponse]
     fecha_calculo: datetime
+    estado_ejecucion: str = "EXITOSO"
 
 
 # ============================================================
@@ -136,8 +144,7 @@ class ProveedorDirectaDetalleResponse(BaseModel):
     clasificacion_riesgo: str
     fecha_calculo: datetime
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class ProveedorDirectaListaResponse(BaseModel):
@@ -157,6 +164,7 @@ class ProveedorDirectaResumenResponse(BaseModel):
     promedio_score: float
     resumen_por_riesgo: list[RiesgoResumenResponse]
     fecha_calculo: datetime
+    estado_ejecucion: str = "EXITOSO"
 
 
 # ============================================================
@@ -168,8 +176,7 @@ class PesoAnomaliaResponse(BaseModel):
     peso: Decimal
     updated_at: Optional[datetime]
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 class RiesgoProveedorResponse(BaseModel):
     id: UUID
@@ -181,11 +188,13 @@ class RiesgoProveedorResponse(BaseModel):
     score_directo: float
     score_final: float
     clasificacion_riesgo: str
-    pesos_aplicados: dict
+    pesos_aplicados: dict = Field(
+        ...,
+        description="Pesos usados y run_ids de los análisis componentes que sustentan el riesgo.",
+    )
     fecha_calculo: datetime
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 class RiesgoProveedorListaResponse(BaseModel):
     items: list[RiesgoProveedorResponse]
@@ -200,3 +209,4 @@ class RiesgoGlobalResumenResponse(BaseModel):
     promedio_score_final: float
     resumen_por_riesgo: list[RiesgoResumenResponse]
     fecha_calculo: datetime
+    estado_ejecucion: str = "EXITOSO"

@@ -1,0 +1,128 @@
+{
+  "assessment_version": "legacy-weight-descriptive-v1",
+  "scope": {
+    "database_oid": 24577,
+    "selection": "ORDER BY id LIMIT 2000",
+    "read_only": true,
+    "date_bogota": "2026-10-19"
+  },
+  "rows": 2000,
+  "configured_weights": {
+    "OUTLIER": "1.00",
+    "DUPLICADO_CORTO": "1.50",
+    "ABUSO_DIRECTO": "2.00"
+  },
+  "classification_recomputed_with_current_weights": {
+    "ALTO": 778,
+    "BAJO": 1149,
+    "MEDIO": 73
+  },
+  "stored_result_mismatches_at_applied_weights": 0,
+  "rows_with_applied_weights_different_from_current": 0,
+  "weighted_contribution_share": {
+    "OUTLIER": 0.9999990971468949,
+    "DUPLICADO_CORTO": 9.00984938563784e-07,
+    "ABUSO_DIRECTO": 1.868166488480382e-09
+  },
+  "observed_component_ranges": {
+    "OUTLIER": {
+      "min": "0.0",
+      "max": "10705640607.6512"
+    },
+    "DUPLICADO_CORTO": {
+      "min": "0.0",
+      "max": "10.0"
+    },
+    "ABUSO_DIRECTO": {
+      "min": "0.0",
+      "max": "10.0"
+    }
+  },
+  "one_factor_sensitivity": [
+    {
+      "component": "OUTLIER",
+      "factor": "0.8",
+      "classification_changes": 34,
+      "fraction": 0.017,
+      "transitions": {
+        "ALTO->ALTO": 762,
+        "ALTO->MEDIO": 16,
+        "BAJO->BAJO": 1149,
+        "MEDIO->BAJO": 18,
+        "MEDIO->MEDIO": 55
+      }
+    },
+    {
+      "component": "OUTLIER",
+      "factor": "1.2",
+      "classification_changes": 28,
+      "fraction": 0.014,
+      "transitions": {
+        "ALTO->ALTO": 778,
+        "BAJO->BAJO": 1134,
+        "BAJO->MEDIO": 15,
+        "MEDIO->ALTO": 13,
+        "MEDIO->MEDIO": 60
+      }
+    },
+    {
+      "component": "DUPLICADO_CORTO",
+      "factor": "0.8",
+      "classification_changes": 7,
+      "fraction": 0.0035,
+      "transitions": {
+        "ALTO->ALTO": 771,
+        "ALTO->MEDIO": 7,
+        "BAJO->BAJO": 1149,
+        "MEDIO->MEDIO": 73
+      }
+    },
+    {
+      "component": "DUPLICADO_CORTO",
+      "factor": "1.2",
+      "classification_changes": 10,
+      "fraction": 0.005,
+      "transitions": {
+        "ALTO->ALTO": 778,
+        "BAJO->BAJO": 1146,
+        "BAJO->MEDIO": 3,
+        "MEDIO->ALTO": 7,
+        "MEDIO->MEDIO": 66
+      }
+    },
+    {
+      "component": "ABUSO_DIRECTO",
+      "factor": "0.8",
+      "classification_changes": 0,
+      "fraction": 0.0,
+      "transitions": {
+        "ALTO->ALTO": 778,
+        "BAJO->BAJO": 1149,
+        "MEDIO->MEDIO": 73
+      }
+    },
+    {
+      "component": "ABUSO_DIRECTO",
+      "factor": "1.2",
+      "classification_changes": 0,
+      "fraction": 0.0,
+      "transitions": {
+        "ALTO->ALTO": 778,
+        "BAJO->BAJO": 1149,
+        "MEDIO->MEDIO": 73
+      }
+    }
+  ],
+  "limitations": [
+    "Muestra por clave primaria, no aleatoria ni representativa.",
+    "Puede incluir varios cortes y ejecuciones; no es prevalencia poblacional.",
+    "Sensibilidad descriptiva; no mide precisión, causalidad o detección de corrupción.",
+    "Los ceros históricos no prueban cobertura completa de cada indicador.",
+    "No recomienda pesos óptimos ni calibra umbrales."
+  ],
+  "database_writes": false,
+  "training_performed": false,
+  "publication_changed": false,
+  "input_sha256": "3a380f4035c4550348474ffedb1cae19c1b02919b64b46674193342a66efa4ff",
+  "assessment_code_sha256": "a9a3bb3da085188d7d24e955fa6809fa763f6c7eea1c9d9586c7003acea80e21"
+}

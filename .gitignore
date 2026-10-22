@@ -20,3 +20,8 @@ env/
 .DS_Store
 
 test/
+
+# Local PostgreSQL clusters used for isolated verification
+Backend/.codex-*-postgres/
+Backend/var/risk/
+Backend/tmp/

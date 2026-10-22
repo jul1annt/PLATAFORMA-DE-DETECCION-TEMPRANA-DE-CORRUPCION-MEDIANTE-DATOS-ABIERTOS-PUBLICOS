@@ -1,0 +1,12 @@
+{
+  "scope": "Actuaciones posteriores e investigación de una sentencia de casación; sin admisión automática de positivos",
+  "sources": [
+    {"id":"spi-traslados-index","kind":"INDICE","url":"https://cortesuprema.gov.co/notificaciones-sala-especial-de-primera-instancia-traslados/"},
+    {"id":"00904-recurrentes-20260407","kind":"TRASLADO_RECURSO","url":"https://archivodigitalapi.cortesuprema.gov.co/share/2026/4/Traslados/00904Recurrentes20260407.pdf"},
+    {"id":"00904-noapelantes-20260413","kind":"TRASLADO_RECURSO","url":"https://archivodigitalapi.cortesuprema.gov.co/share/2026/4/Traslados/00904NoApelantes20260413.pdf"},
+    {"id":"00641-recurrentes-20250516","kind":"TRASLADO_RECURSO","url":"https://archivodigitalapi.cortesuprema.gov.co/share/2025/5/Traslados/00641TrasladoRecurrentes20250516.pdf"},
+    {"id":"00641-norecurrentes-20250530","kind":"TRASLADO_RECURSO","url":"https://archivodigitalapi.cortesuprema.gov.co/share/2025/5/Traslados/00641NoRecurrentes20250530.pdf"},
+    {"id":"csj-melo-casacion-comunicado","kind":"COMUNICADO","url":"https://cortesuprema.gov.co/sala-de-casacion-penal-ratifica-condena-por-cohecho-e-interes-indebido-en-contratacion-contra-exdirectivo-vinculado-al-caso-odebrech/"},
+    {"id":"csj-sp1919-2025-58953","kind":"PROVIDENCIA_PENDIENTE","url":"https://archivodigitalapi.cortesuprema.gov.co/share/2025/9/Sentencias/SP1919-2025%20(58953).pdf"}
+  ]
+}

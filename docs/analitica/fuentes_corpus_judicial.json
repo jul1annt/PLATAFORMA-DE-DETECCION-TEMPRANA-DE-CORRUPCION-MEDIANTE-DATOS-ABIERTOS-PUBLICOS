@@ -1,0 +1,40 @@
+{
+  "scope": "Fuentes de descubrimiento observadas en páginas oficiales, no casos etiquetados",
+  "sources": [
+    {
+      "id": "bogota-relatoria-2024",
+      "kind": "INDICE",
+      "url": "https://www.ramajudicial.gov.co/web/relatoria-tribunal-superior-de-bogota/53"
+    },
+    {
+      "id": "bogota-boletin-enero-2024",
+      "kind": "BOLETIN",
+      "url": "https://www.ramajudicial.gov.co/documents/14918784/148775425/BOLET%C3%8DN%2BENERO%2B2024%2B%281%29.pdf/e2071c2f-afc0-117d-d334-7ba9311e3454"
+    },
+    {
+      "id": "bogota-boletin-febrero-2024",
+      "kind": "BOLETIN",
+      "url": "https://www.ramajudicial.gov.co/documents/14918784/148775425/BOLET%C3%8DN%2BFEBRERO%2BGENERAL%2BFINAL%2BOKK.pdf/1a8d9741-ccf6-9b1e-89b4-e653c92dbf0b"
+    },
+    {
+      "id": "bogota-boletin-marzo-2024",
+      "kind": "BOLETIN",
+      "url": "https://www.ramajudicial.gov.co/documents/14918784/148775425/BOLET%C3%8DN%2BMARZO%2B2024.pdf/33631627-5e6e-2011-6982-e5b67fbef2ea"
+    },
+    {
+      "id": "bogota-boletin-abril-2024",
+      "kind": "BOLETIN",
+      "url": "https://www.ramajudicial.gov.co/documents/14918784/148775425/Bolet%C3%ADn%2Babril%2B2024%2B.pdf/54cd7526-c986-ded5-c0f0-b3608f386bf2"
+    },
+    {
+      "id": "bogota-boletin-mayo-2024",
+      "kind": "BOLETIN",
+      "url": "https://www.ramajudicial.gov.co/documents/183018895/184653935/Bolet%C3%ADn%2BMayo%2B2024.pdf/ad90293b-820f-cc18-7ecc-471387a1e2b7?t=1744036183004"
+    },
+    {
+      "id": "andje-centros-poblados-20240719",
+      "kind": "COMUNICADO",
+      "url": "https://www.defensajuridica.gov.co/2024/07/19/condenado-por-corrupcion-exrepresentante-legal-de-centros-poblados/"
+    }
+  ]
+}

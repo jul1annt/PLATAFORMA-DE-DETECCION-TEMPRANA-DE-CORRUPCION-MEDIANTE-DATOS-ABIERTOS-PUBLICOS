@@ -1,0 +1,783 @@
+{
+  "result": "verified",
+  "cut_date": "2026-10-01",
+  "completed_at_utc": "2026-10-10T06:26:32.831166+00:00",
+  "publication_authorization": "Human selected publish verified historical 2026-10-01 cut with visible date; continue action plan",
+  "canonical_database": "plataformaanticorrupcion",
+  "port": 5432,
+  "published_oid": 24577,
+  "backend_release": "915e863cc7492e619888506f59a04c6dbbfa5552",
+  "frontend_source_ref": "9362d94f9dbfbdf352ae11585a2bfd44318b11e6",
+  "counts": {
+    "raw_secop": 9249545,
+    "contratos_procesados": 9249545,
+    "contrato_anomalo_incompleto": 129062,
+    "analitica_ejecuciones": 4
+  },
+  "revision": "f4826b9d1c30",
+  "valid_contract_indexes": 20,
+  "app_role_flags": {
+    "rolsuper": false,
+    "rolcreatedb": false,
+    "rolcreaterole": false,
+    "rolreplication": false
+  },
+  "backup": {
+    "historical_dump_sha256": "c0e885928126013d87c234320392d18e5d4d441c9e1d520b97557e447d8be02f",
+    "historical_dump_bytes": 3434770306,
+    "historical_dump_entries": 196,
+    "operational_backup_sha256": "2d775be9bdb6f768dbd96d0a99d3368dee166d566095ab6c6d9e8894931981f8",
+    "operational_backup_bytes": 6374617
+  },
+  "historical_restore_completed_at_utc": "2026-10-10T04:22:32.810887+00:00",
+  "prior_full_restore": "RESPALDO_RESTAURACION_SECOP_20261003.json",
+  "raw_first_5000_utc_md5": "d77c0e7b7fc67a9b2a473ebc663c1404",
+  "fingerprint_serialization_diagnosis": {
+    "stage": {
+      "identity": [
+        "plataforma_publicacion_20261001_stage",
+        5432,
+        "plataforma_operacion"
+      ],
+      "settings": {
+        "DateStyle": "ISO, MDY",
+        "extra_float_digits": "1",
+        "lc_monetary": "C",
+        "lc_numeric": "C",
+        "TimeZone": "UTC"
+      },
+      "fingerprint": "d77c0e7b7fc67a9b2a473ebc663c1404",
+      "legacy_default_serialization": {
+        "timezone": "America/Bogota",
+        "fingerprint": "c41852d1b34d622b428f259ade24d7c2"
+      }
+    },
+    "integration": {
+      "identity": [
+        "plataforma_integracion_local",
+        5433,
+        "plataforma_integracion"
+      ],
+      "settings": {
+        "DateStyle": "ISO, DMY",
+        "extra_float_digits": "1",
+        "lc_monetary": "Spanish_Argentina.1252",
+        "lc_numeric": "Spanish_Argentina.1252",
+        "TimeZone": "UTC"
+      },
+      "fingerprint": "d77c0e7b7fc67a9b2a473ebc663c1404",
+      "legacy_default_serialization": {
+        "timezone": "America/Bogota",
+        "fingerprint": "c41852d1b34d622b428f259ade24d7c2"
+      }
+    },
+    "historical": {
+      "identity": [
+        "plataforma_secop_refresh_20261001_test",
+        5433,
+        "postgres"
+      ],
+      "settings": {
+        "DateStyle": "ISO, DMY",
+        "extra_float_digits": "1",
+        "lc_monetary": "Spanish_Argentina.1252",
+        "lc_numeric": "Spanish_Argentina.1252",
+        "TimeZone": "UTC"
+      },
+      "fingerprint": "d77c0e7b7fc67a9b2a473ebc663c1404",
+      "legacy_default_serialization": {
+        "timezone": "America/Bogota",
+        "fingerprint": "c41852d1b34d622b428f259ade24d7c2"
+      }
+    },
+    "stage_vs_integration": {
+      "stage_rows": 5000,
+      "other_rows": 5000,
+      "shared_ids": 5000,
+      "different_columns": {}
+    },
+    "stage_vs_historical": {
+      "stage_rows": 5000,
+      "other_rows": 5000,
+      "shared_ids": 5000,
+      "different_columns": {}
+    }
+  },
+  "source_control_state": {
+    "admins": {
+      "count": 1,
+      "fingerprint": "da1d0081fdd2a3ca619508065eae49ab"
+    },
+    "fuentes_datos": {
+      "count": 1,
+      "fingerprint": "5fc210764a7eb3f7bff97af26b37ce91"
+    },
+    "admin_sessions": {
+      "count": 10,
+      "fingerprint": "5bf689ca3897a3c351d7846482304cc0"
+    },
+    "background_jobs": {
+      "count": 101,
+      "fingerprint": "6a47a2f9b2736afda73197cb54f13bb9"
+    }
+  },
+  "control_state_matches": true,
+  "control_dump_bytes": 14496,
+  "control_dump_sha256": "911bfe07af85d2bb21188dfc64a817129e314083f0f1758942b0d2d14150f234",
+  "control_tables_replayed": [
+    "admins",
+    "fuentes_datos",
+    "admin_sessions",
+    "background_jobs"
+  ],
+  "expired_backup_sessions_removed": 0,
+  "restored_sequences": {
+    "admins": {
+      "maximum": 2
+    },
+    "fuentes_datos": {
+      "maximum": 1
+    },
+    "background_jobs": {
+      "maximum": 102
+    }
+  },
+  "original_database_preserved": "plataformaanticorrupcion_pre_20261010",
+  "original_oid": 17930,
+  "original_counts": {
+    "raw_secop": 18980,
+    "contratos_procesados": 18980
+  },
+  "integration_database_preserved": true,
+  "source_control_state_unchanged": true,
+  "contract_rows_rewritten": 0,
+  "normalization_runs": 0,
+  "rollback_configuration_preserved": true,
+  "restore_statistics_verified": true,
+  "paired_rename_rehearsal": {
+    "scope": "Fresh empty databases only; neither canonical, stage nor historical data renamed",
+    "started_at_utc": "2026-10-10T02:00:08.876908+00:00",
+    "paired_rename_inside_transaction": true,
+    "rollback_preserves_names_and_oids": true,
+    "temporary_empty_databases_removed": true,
+    "result": "success",
+    "completed_at_utc": "2026-10-10T02:02:20.049212+00:00"
+  },
+  "text_locale": {
+    "started_at_utc": "2026-10-10T02:29:23.082618+00:00",
+    "stage": "verified",
+    "database_default_matches": false,
+    "source_locale": {
+      "encoding": "UTF8",
+      "datlocprovider": "c",
+      "datcollate": "Spanish_Argentina.1252",
+      "datctype": "Spanish_Argentina.1252",
+      "daticulocale": null,
+      "datcollversion": null
+    },
+    "target_database_default": {
+      "encoding": "UTF8",
+      "datlocprovider": "c",
+      "datcollate": "C",
+      "datctype": "C",
+      "daticulocale": null,
+      "datcollversion": null
+    },
+    "strategy": "Explicit source collation on restored text columns; same types and heap relfilenodes required; no second data copy",
+    "tables": [
+      {
+        "table": "contratos_procesados",
+        "columns": 14,
+        "heap_relfilenode_unchanged": true
+      },
+      {
+        "table": "admin_sessions",
+        "columns": 1,
+        "heap_relfilenode_unchanged": true
+      },
+      {
+        "table": "admins",
+        "columns": 3,
+        "heap_relfilenode_unchanged": true
+      },
+      {
+        "table": "alembic_version",
+        "columns": 1,
+        "heap_relfilenode_unchanged": true
+      },
+      {
+        "table": "analitica_ejecuciones",
+        "columns": 3,
+        "heap_relfilenode_unchanged": true
+      },
+      {
+        "table": "background_jobs",
+        "columns": 4,
+        "heap_relfilenode_unchanged": true
+      },
+      {
+        "table": "contrato_anomalo_incompleto",
+        "columns": 6,
+        "heap_relfilenode_unchanged": true
+      },
+      {
+        "table": "contrato_anomalo_incompleto_historial",
+        "columns": 6,
+        "heap_relfilenode_unchanged": true
+      },
+      {
+        "table": "contrato_duplicado_periodo",
+        "columns": 5,
+        "heap_relfilenode_unchanged": true
+      },
+      {
+        "table": "contrato_outlier",
+        "columns": 3,
+        "heap_relfilenode_unchanged": true
+      },
+      {
+        "table": "estadistica_campos_faltantes",
+        "columns": 1,
+        "heap_relfilenode_unchanged": true
+      },
+      {
+        "table": "fuentes_datos",
+        "columns": 4,
+        "heap_relfilenode_unchanged": true
+      },
+      {
+        "table": "login_attempts",
+        "columns": 1,
+        "heap_relfilenode_unchanged": true
+      },
+      {
+        "table": "peso_anomalia",
+        "columns": 1,
+        "heap_relfilenode_unchanged": true
+      },
+      {
+        "table": "procesamiento_logs",
+        "columns": 3,
+        "heap_relfilenode_unchanged": true
+      },
+      {
+        "table": "proveedor_adjudicacion_directa",
+        "columns": 6,
+        "heap_relfilenode_unchanged": true
+      },
+      {
+        "table": "raw_secop_historial",
+        "columns": 1,
+        "heap_relfilenode_unchanged": true
+      },
+      {
+        "table": "riesgo_proveedor",
+        "columns": 3,
+        "heap_relfilenode_unchanged": true
+      },
+      {
+        "table": "sincronizacion_historial",
+        "columns": 1,
+        "heap_relfilenode_unchanged": true
+      },
+      {
+        "table": "raw_secop",
+        "columns": 35,
+        "heap_relfilenode_unchanged": true
+      }
+    ],
+    "collatable_columns": 102,
+    "source_semantic_probe": [
+      [
+        "álvaro",
+        "ÁLVARO",
+        false
+      ],
+      [
+        "álvaro",
+        "ÁLVARO",
+        false
+      ],
+      [
+        "bogotá",
+        "BOGOTÁ",
+        true
+      ],
+      [
+        "niño",
+        "NIÑO",
+        false
+      ],
+      [
+        "niño",
+        "NIÑO",
+        false
+      ],
+      [
+        "züñiga",
+        "ZÜÑIGA",
+        false
+      ]
+    ],
+    "same_type_changes_preserve_heap_verified": true,
+    "semantic_probe_matches": true,
+    "current_table": "raw_secop",
+    "columns_semantics_verified": true,
+    "heap_rows_rewritten": 0,
+    "completed_at_utc": "2026-10-10T02:41:18.567065+00:00"
+  },
+  "text_comparisons": {
+    "integration": [
+      {
+        "pattern": "%bogotá%",
+        "sequential_ids": [
+          1
+        ],
+        "indexed_ids": [
+          1
+        ],
+        "matches": true
+      },
+      {
+        "pattern": "%álvaro%",
+        "sequential_ids": [
+          2
+        ],
+        "indexed_ids": [
+          2
+        ],
+        "matches": true
+      },
+      {
+        "pattern": "%niño%",
+        "sequential_ids": [
+          3
+        ],
+        "indexed_ids": [
+          3
+        ],
+        "matches": true
+      },
+      {
+        "pattern": "%züñiga%",
+        "sequential_ids": [
+          4
+        ],
+        "indexed_ids": [
+          4
+        ],
+        "matches": true
+      },
+      {
+        "pattern": "%istanbul%",
+        "sequential_ids": [],
+        "indexed_ids": [],
+        "matches": true
+      },
+      {
+        "pattern": "%kelvin%",
+        "sequential_ids": [],
+        "indexed_ids": [],
+        "matches": true
+      },
+      {
+        "pattern": "%ß%",
+        "sequential_ids": [],
+        "indexed_ids": [],
+        "matches": true
+      },
+      {
+        "pattern": "%strasse%",
+        "sequential_ids": [
+          8
+        ],
+        "indexed_ids": [
+          8
+        ],
+        "matches": true
+      },
+      {
+        "pattern": "%σχολη%",
+        "sequential_ids": [
+          9
+        ],
+        "indexed_ids": [
+          9
+        ],
+        "matches": true
+      },
+      {
+        "pattern": "%corporación indígena%",
+        "sequential_ids": [
+          10
+        ],
+        "indexed_ids": [
+          10
+        ],
+        "matches": true
+      }
+    ],
+    "stage": [
+      {
+        "pattern": "%bogotá%",
+        "sequential_ids": [
+          1
+        ],
+        "indexed_ids": [
+          1
+        ],
+        "matches": true
+      },
+      {
+        "pattern": "%álvaro%",
+        "sequential_ids": [
+          2
+        ],
+        "indexed_ids": [
+          2
+        ],
+        "matches": true
+      },
+      {
+        "pattern": "%niño%",
+        "sequential_ids": [
+          3
+        ],
+        "indexed_ids": [
+          3
+        ],
+        "matches": true
+      },
+      {
+        "pattern": "%züñiga%",
+        "sequential_ids": [
+          4
+        ],
+        "indexed_ids": [
+          4
+        ],
+        "matches": true
+      },
+      {
+        "pattern": "%istanbul%",
+        "sequential_ids": [],
+        "indexed_ids": [],
+        "matches": true
+      },
+      {
+        "pattern": "%kelvin%",
+        "sequential_ids": [],
+        "indexed_ids": [],
+        "matches": true
+      },
+      {
+        "pattern": "%ß%",
+        "sequential_ids": [],
+        "indexed_ids": [],
+        "matches": true
+      },
+      {
+        "pattern": "%strasse%",
+        "sequential_ids": [
+          8
+        ],
+        "indexed_ids": [
+          8
+        ],
+        "matches": true
+      },
+      {
+        "pattern": "%σχολη%",
+        "sequential_ids": [
+          9
+        ],
+        "indexed_ids": [
+          9
+        ],
+        "matches": true
+      },
+      {
+        "pattern": "%corporación indígena%",
+        "sequential_ids": [
+          10
+        ],
+        "indexed_ids": [
+          10
+        ],
+        "matches": true
+      }
+    ],
+    "all_index_results_match": true,
+    "source_and_target_match": true
+  },
+  "index_methods": {
+    "integration": {
+      "extensions": [
+        {
+          "extname": "plpgsql",
+          "nspname": "pg_catalog"
+        }
+      ],
+      "trigram_classes": [],
+      "index_methods": [
+        {
+          "amname": "btree"
+        }
+      ]
+    },
+    "stage": {
+      "extensions": [
+        {
+          "extname": "plpgsql",
+          "nspname": "pg_catalog"
+        }
+      ],
+      "trigram_classes": [],
+      "index_methods": [
+        {
+          "amname": "btree"
+        }
+      ]
+    }
+  },
+  "temporary_tuning": {
+    "started_at_utc": "2026-10-10T02:17:11.585078+00:00",
+    "stage": "reverted",
+    "port": 5432,
+    "scope": "Temporary restore maintenance only; default query parallelism and durability retained",
+    "before": {
+      "autovacuum_work_mem": {
+        "name": "autovacuum_work_mem",
+        "setting": "-1",
+        "unit": "kB",
+        "source": "default"
+      },
+      "maintenance_work_mem": {
+        "name": "maintenance_work_mem",
+        "setting": "65536",
+        "unit": "kB",
+        "source": "default"
+      },
+      "max_parallel_maintenance_workers": {
+        "name": "max_parallel_maintenance_workers",
+        "setting": "2",
+        "unit": null,
+        "source": "default"
+      }
+    },
+    "temporary_settings": {
+      "maintenance_work_mem": "512MB",
+      "max_parallel_maintenance_workers": "0",
+      "autovacuum_work_mem": "64MB"
+    },
+    "max_foreground_maintenance_memory_bytes": 1073741824,
+    "source": "https://www.postgresql.org/docs/15/runtime-config-resource.html",
+    "inference": "Mechanical disk and observed data-file I/O waits motivated fewer competing maintenance readers; no comparative speedup is asserted",
+    "after": {
+      "autovacuum_work_mem": {
+        "name": "autovacuum_work_mem",
+        "setting": "-1",
+        "unit": "kB",
+        "source": "default"
+      },
+      "maintenance_work_mem": {
+        "name": "maintenance_work_mem",
+        "setting": "65536",
+        "unit": "kB",
+        "source": "default"
+      },
+      "max_parallel_maintenance_workers": {
+        "name": "max_parallel_maintenance_workers",
+        "setting": "2",
+        "unit": null,
+        "source": "default"
+      }
+    },
+    "reverted_at_utc": "2026-10-10T04:22:49.392481+00:00"
+  },
+  "automatic_vacuum_restored": true,
+  "smoke": {
+    "label": "publication",
+    "at_utc": "2026-10-10T06:26:27.714109+00:00",
+    "release": "915e863cc7492e619888506f59a04c6dbbfa5552",
+    "checks": [
+      {
+        "method": "GET",
+        "path": "/openapi.json",
+        "status": 200,
+        "seconds": 0.02584199997363612
+      },
+      {
+        "method": "GET",
+        "path": "/api/auth/me",
+        "status": 401,
+        "seconds": 0.001732099975924939
+      },
+      {
+        "method": "GET",
+        "path": "/api/ingesta/fuentes/",
+        "status": 401,
+        "seconds": 0.0014720999752171338
+      },
+      {
+        "method": "POST",
+        "path": "/api/auth/login",
+        "status": 200,
+        "seconds": 0.49983690003864467
+      },
+      {
+        "method": "GET",
+        "path": "/api/auth/me",
+        "status": 200,
+        "seconds": 0.007509299961384386
+      },
+      {
+        "method": "GET",
+        "path": "/api/ingesta/fuentes/",
+        "status": 200,
+        "seconds": 0.0156252000015229
+      },
+      {
+        "method": "GET",
+        "path": "/api/ingesta/fuentes/sincronizaciones/pagina",
+        "status": 200,
+        "seconds": 0.04322429996682331
+      },
+      {
+        "method": "GET",
+        "path": "/api/procesados/search",
+        "status": 200,
+        "seconds": 0.5453720999648795
+      },
+      {
+        "method": "GET",
+        "path": "/api/procesados/9238198",
+        "status": 200,
+        "seconds": 0.031206300016492605
+      },
+      {
+        "method": "GET",
+        "path": "/api/procesados/metricas/calidad",
+        "status": 200,
+        "seconds": 8.596970699960366
+      },
+      {
+        "method": "GET",
+        "path": "/api/procesados/search",
+        "status": 200,
+        "seconds": 0.03327079996233806
+      },
+      {
+        "method": "GET",
+        "path": "/api/procesados/search",
+        "status": 422,
+        "seconds": 0.030881799990311265
+      },
+      {
+        "method": "POST",
+        "path": "/api/procesados/export/csv/jobs",
+        "status": 202,
+        "seconds": 35.58394909999333
+      },
+      {
+        "method": "GET",
+        "path": "/api/exports/24b3fb6f-3327-4491-a6fa-326dba57d531",
+        "status": 200,
+        "seconds": 0.03727699996670708
+      },
+      {
+        "method": "GET",
+        "path": "/api/exports/24b3fb6f-3327-4491-a6fa-326dba57d531",
+        "status": 200,
+        "seconds": 0.0030337999924086034
+      },
+      {
+        "method": "GET",
+        "path": "/api/exports/24b3fb6f-3327-4491-a6fa-326dba57d531",
+        "status": 200,
+        "seconds": 0.002839999971911311
+      },
+      {
+        "method": "GET",
+        "path": "/api/exports/24b3fb6f-3327-4491-a6fa-326dba57d531",
+        "status": 200,
+        "seconds": 0.0031988000264391303
+      },
+      {
+        "method": "GET",
+        "path": "/api/exports/24b3fb6f-3327-4491-a6fa-326dba57d531/download",
+        "status": 200,
+        "seconds": 0.026714300038293004
+      },
+      {
+        "method": "POST",
+        "path": "/api/auth/logout",
+        "status": 200,
+        "seconds": 0.061773399997036904
+      },
+      {
+        "method": "GET",
+        "path": "/api/auth/me",
+        "status": 401,
+        "seconds": 0.0059914999874308705
+      }
+    ],
+    "search_total_2024": 1670370,
+    "search_page_items": 20,
+    "enabled_sources": 0,
+    "export": {
+      "status": "EXITOSO",
+      "bytes": 262,
+      "sha256": "bf43e24ec805c43e98dfbbdbc9039f6f96a06a4cc1a01b0ff3f49e5d01160905"
+    },
+    "result": "success",
+    "frontend_status": 200,
+    "cut_date_visible": "01/10/2026",
+    "quality": {
+      "total_contratos": 9249545,
+      "completos": 9121919,
+      "incompletos": 127626,
+      "sospechosos": 1424,
+      "porcentaje_completos": 98.62,
+      "porcentaje_incompletos": 1.38,
+      "porcentaje_sospechosos": 0.02,
+      "promedio_confianza": 99.72,
+      "calificacion_confianza": "EXCELENTE"
+    }
+  },
+  "deployed_logs_audit": {
+    "at_utc": "2026-10-10T06:27:39.189778+00:00",
+    "release": "915e863cc7492e619888506f59a04c6dbbfa5552",
+    "scanned_files": 7,
+    "plaintext_secret_matches": 0,
+    "jwt_shaped_matches": 0,
+    "scope": "Known current and checkpoint secrets, admin access password, export capabilities and JWT-shaped strings in deployed and publication logs; matching content is never exported"
+  },
+  "ci": {
+    "head": "915e863cc7492e619888506f59a04c6dbbfa5552",
+    "runs": [
+      {
+        "id": 38015014967,
+        "status": "completed",
+        "conclusion": "success",
+        "event": "pull_request",
+        "html_url": "https://github.com/jul1annt/PLATAFORMA-DE-DETECCION-TEMPRANA-DE-CORRUPCION-MEDIANTE-DATOS-ABIERTOS-PUBLICOS/actions/runs/38015014967"
+      },
+      {
+        "id": 38015011865,
+        "status": "completed",
+        "conclusion": "success",
+        "event": "push",
+        "html_url": "https://github.com/jul1annt/PLATAFORMA-DE-DETECCION-TEMPRANA-DE-CORRUPCION-MEDIANTE-DATOS-ABIERTOS-PUBLICOS/actions/runs/38015011865"
+      }
+    ]
+  },
+  "recovery_sql_sha256": "44641ff13cefcb3961c66b508506a87ae8a0fc84c8d5aa7b401af82baef3c0b3",
+  "limits": [
+    "Historical fixed cut, not a certification of current official SECOP data",
+    "Four control tables reconciled by primary key; base restored from verified historical archive",
+    "Text fixtures do not exhaust every Unicode character",
+    "No performance SLA or retention policy accepted by this publication",
+    "Windows egress and remaining action-plan dependencies stay open"
+  ]
+}

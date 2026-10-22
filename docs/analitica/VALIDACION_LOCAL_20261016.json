@@ -1,0 +1,2935 @@
+{
+  "time": "2026-10-16T23:37:17.610503+00:00",
+  "real_models_trained": 0,
+  "real_models_activated": 0,
+  "daily_runtime_enabled": false,
+  "windows_task_installed": false,
+  "test_database": {
+    "name": "codex_risk_engine_20261016_test",
+    "oid": 82244,
+    "role": "plataforma_integracion"
+  },
+  "empty_risk_schema_roundtrip": [
+    {
+      "action": "downgrade",
+      "target": "3c19a8f7e2d0",
+      "exit_code": 0,
+      "log_sha256": "7b30a6f2fa4101f14123d88e74e90c28b2691c32260a2f87bc115885b03f16a9"
+    },
+    {
+      "action": "upgrade",
+      "target": "f67b120ce841",
+      "exit_code": 0,
+      "log_sha256": "0579bb5d7b03a22944add4ea561bff9a273cec9b8f74a34639da376f5b89e6dd"
+    }
+  ],
+  "nonempty_downgrade_guard": {
+    "refused": true,
+    "transactional_ddl_rollback": true,
+    "schema": "f67b120ce841",
+    "source_triggers_preserved": 8,
+    "citizen_triggers_preserved": 8,
+    "synthetic_marker_removed": true,
+    "log_sha256": "d5a95ebad39464425e6f0d6793a5bc560ca05263396968e40071e053c1595d22"
+  },
+  "backend_tests": {
+    "total": 581,
+    "failures": 0,
+    "errors": 0,
+    "report_sha256": "83a7bae0cc79084e63eed94bf731b56860971e6521e09998b6e65520faf7276f"
+  },
+  "published_state": {
+    "database": "plataformaanticorrupcion",
+    "oid": 24577,
+    "schema": "3c19a8f7e2d0",
+    "new_risk_tables_absent": true,
+    "active_sources": 0,
+    "active_jobs": 0,
+    "read_only": true,
+    "source_table_owners": {
+      "contratos_procesados": "plataforma_operacion",
+      "raw_secop": "plataforma_operacion"
+    }
+  },
+  "published_release": "794d185832c7c56ffa4d91ef08ca1f3d15128be5",
+  "published_health": {
+    "8000": 200,
+    "4173": 200
+  },
+  "inference_benchmark": {
+    "scope": "synthetic CPU-only portable inference; excludes database, file I/O, full-cut load and concurrent readers",
+    "rows": 100000,
+    "elapsed_seconds": 3.904,
+    "rows_per_second": 25616.5,
+    "sklearn_installed": false,
+    "numpy_installed": false,
+    "synthetic_only": true,
+    "real_model_validated": false
+  },
+  "candidate_inventory": {
+    "candidates": 9,
+    "eligible_cases": 0,
+    "exclusions": [
+      {
+        "case_id": "centros-poblados-andje-20240719",
+        "reasons": [
+          "conducta_fuera_del_objetivo",
+          "decision_no_verificada",
+          "documento_local_ausente:finality",
+          "documento_local_ausente:judgment",
+          "evidencia_finality_incompleta",
+          "evidencia_judgment_incompleta",
+          "falta_corte_temporal_preinvestigacion",
+          "falta_docket",
+          "falta_final_at",
+          "falta_published_at",
+          "falta_sentencia_condenatoria_identificada",
+          "falta_verified_by",
+          "firmeza_no_vinculada_a_sentencia_condenatoria",
+          "vinculo_secop_no_exacto"
+        ]
+      },
+      {
+        "case_id": "csj-sep097-2024",
+        "reasons": [
+          "conducta_fuera_del_objetivo",
+          "decision_no_verificada",
+          "documento_local_ausente:finality",
+          "evidencia_finality_incompleta",
+          "falta_final_at",
+          "falta_published_at",
+          "falta_sentencia_condenatoria_identificada",
+          "falta_verified_by",
+          "firmeza_no_vinculada_a_sentencia_condenatoria",
+          "vinculo_secop_no_exacto"
+        ]
+      },
+      {
+        "case_id": "csj-sp968-2024-65559",
+        "reasons": [
+          "conducta_fuera_del_objetivo",
+          "decision_no_verificada",
+          "documento_local_ausente:finality",
+          "evidencia_finality_incompleta",
+          "falta_final_at",
+          "falta_published_at",
+          "falta_sentencia_condenatoria_identificada",
+          "falta_verified_by",
+          "firmeza_no_vinculada_a_sentencia_condenatoria",
+          "vinculo_secop_no_exacto"
+        ]
+      },
+      {
+        "case_id": "csj-sep060-2025-00641",
+        "reasons": [
+          "conducta_fuera_del_objetivo",
+          "decision_no_verificada",
+          "documento_local_ausente:finality",
+          "evidencia_finality_incompleta",
+          "falta_corte_temporal_preinvestigacion",
+          "falta_final_at",
+          "falta_published_at",
+          "falta_sentencia_condenatoria_identificada",
+          "falta_verified_by",
+          "firmeza_no_vinculada_a_sentencia_condenatoria",
+          "vinculo_secop_no_exacto"
+        ]
+      },
+      {
+        "case_id": "csj-sep027-2026-00158",
+        "reasons": [
+          "conducta_fuera_del_objetivo",
+          "decision_no_verificada",
+          "documento_local_ausente:finality",
+          "evidencia_finality_incompleta",
+          "falta_corte_temporal_preinvestigacion",
+          "falta_final_at",
+          "falta_published_at",
+          "falta_sentencia_condenatoria_identificada",
+          "falta_verified_by",
+          "firmeza_no_vinculada_a_sentencia_condenatoria",
+          "vinculo_secop_no_exacto"
+        ]
+      },
+      {
+        "case_id": "necocli-covid-095-2020-discovery",
+        "reasons": [
+          "conducta_fuera_del_objetivo",
+          "decision_no_verificada",
+          "documento_local_ausente:finality",
+          "documento_local_ausente:judgment",
+          "evidencia_finality_incompleta",
+          "evidencia_judgment_incompleta",
+          "falta_corte_temporal_preinvestigacion",
+          "falta_docket",
+          "falta_final_at",
+          "falta_published_at",
+          "falta_sentencia_condenatoria_identificada",
+          "falta_verified_by",
+          "firmeza_no_vinculada_a_sentencia_condenatoria",
+          "vinculo_secop_no_exacto"
+        ]
+      },
+      {
+        "case_id": "centros-poblados-auto-victimas-20230217",
+        "reasons": [
+          "conducta_fuera_del_objetivo",
+          "decision_no_verificada",
+          "documento_local_ausente:finality",
+          "evidencia_finality_incompleta",
+          "falta_corte_temporal_preinvestigacion",
+          "falta_final_at",
+          "falta_published_at",
+          "falta_sentencia_condenatoria_identificada",
+          "falta_verified_by",
+          "firmeza_no_vinculada_a_sentencia_condenatoria",
+          "vinculo_secop_no_exacto"
+        ]
+      },
+      {
+        "case_id": "csj-sep077-2023-00542",
+        "reasons": [
+          "conducta_fuera_del_objetivo",
+          "decision_no_verificada",
+          "documento_local_ausente:finality",
+          "evidencia_finality_incompleta",
+          "falta_corte_temporal_preinvestigacion",
+          "falta_final_at",
+          "falta_published_at",
+          "falta_verified_by",
+          "firmeza_no_vinculada_a_sentencia_condenatoria",
+          "vinculo_secop_no_exacto"
+        ]
+      },
+      {
+        "case_id": "antioquia-050016099150202000452-20230213",
+        "reasons": [
+          "conducta_fuera_del_objetivo",
+          "decision_no_verificada",
+          "documento_local_ausente:finality",
+          "evidencia_finality_incompleta",
+          "falta_corte_temporal_preinvestigacion",
+          "falta_final_at",
+          "falta_published_at",
+          "falta_sentencia_condenatoria_identificada",
+          "falta_verified_by",
+          "firmeza_no_vinculada_a_sentencia_condenatoria",
+          "vinculo_secop_no_exacto"
+        ]
+      }
+    ],
+    "training_target": "CORRUPCION",
+    "registry_by_conduct": {
+      "POR_CLASIFICAR": 9
+    },
+    "independent_case_groups": 0,
+    "temporal_coverage": [],
+    "case_registry_sha256": "31bb93441a522f44d49fb71ef37ef759751aea2e498d5dd930021cb9af166103",
+    "judicial_identity_inferred": false,
+    "scope": "Inventario inicial de descubrimiento, no bÃºsqueda exhaustiva de todas las sentencias colombianas.",
+    "training_performed": false,
+    "judicial_labels_invented": false,
+    "publication_authorized": false
+  },
+  "capture_benchmark": {
+    "time": "2026-10-16T07:50:28.673203+00:00",
+    "status": "COMPLETE",
+    "scope": "HistÃ³ricos sobre copia completa; cinco lotes de variables y un lector SQL concurrente.",
+    "database": "codex_plan_full_acceptance_20261011_test",
+    "oid": 75045,
+    "role": "plataforma_integracion",
+    "source_rows": 9249545,
+    "normalized_rows": 9249545,
+    "source_tables_unchanged": true,
+    "non_temp_writes_blocked": true,
+    "projection_rows": 9249545,
+    "postgres_parallel_workers_per_gather": 0,
+    "work_mem": "32MB",
+    "preparation_seconds": 602.6542824999997,
+    "phases": [
+      {
+        "sql": "CREATE TEMP TABLE risk_capture_base AS SELECT r.id,r.fuente_id,r.socrata_row_id,r.id_del_proceso,r.id_adjudicacion,",
+        "seconds": 0.049
+      },
+      {
+        "sql": "CREATE TEMP TABLE risk_row_units AS",
+        "seconds": 209.498
+      },
+      {
+        "sql": "CREATE UNIQUE INDEX ON risk_row_units(id)",
+        "seconds": 2.426
+      },
+      {
+        "sql": "ANALYZE pg_temp.risk_row_units",
+        "seconds": 0.707
+      },
+      {
+        "sql": "CREATE UNIQUE INDEX ON risk_capture_rows(id)",
+        "seconds": 26.268
+      },
+      {
+        "sql": "ANALYZE pg_temp.risk_capture_rows",
+        "seconds": 1.8
+      },
+      {
+        "sql": "CREATE TEMP TABLE risk_history AS",
+        "seconds": 31.871
+      },
+      {
+        "sql": "CREATE INDEX ON risk_history(buyer,supplier,category,source,process)",
+        "seconds": 16.31
+      },
+      {
+        "sql": "CREATE TEMP TABLE risk_supplier_memberships AS",
+        "seconds": 0.9
+      },
+      {
+        "sql": "CREATE UNIQUE INDEX ON risk_supplier_memberships(buyer,supplier,category,source,process)",
+        "seconds": 0.044
+      },
+      {
+        "sql": "CREATE TEMP TABLE risk_supplier_context AS",
+        "seconds": 0.043
+      },
+      {
+        "sql": "CREATE UNIQUE INDEX ON risk_supplier_context(buyer,supplier,category)",
+        "seconds": 0.202
+      },
+      {
+        "sql": "CREATE TEMP TABLE risk_direct_memberships AS",
+        "seconds": 1.156
+      },
+      {
+        "sql": "CREATE UNIQUE INDEX ON risk_direct_memberships(buyer,supplier,source,process)",
+        "seconds": 0.074
+      },
+      {
+        "sql": "CREATE TEMP TABLE risk_supplier_direct_context AS",
+        "seconds": 0.319
+      },
+      {
+        "sql": "CREATE UNIQUE INDEX ON risk_supplier_direct_context(buyer,supplier)",
+        "seconds": 0.145
+      },
+      {
+        "sql": "CREATE TEMP TABLE risk_buyer_context AS",
+        "seconds": 34.003
+      },
+      {
+        "sql": "CREATE UNIQUE INDEX ON risk_buyer_context(buyer)",
+        "seconds": 0.013
+      },
+      {
+        "sql": "ANALYZE pg_temp.risk_history",
+        "seconds": 0.562
+      },
+      {
+        "sql": "ANALYZE pg_temp.risk_supplier_context",
+        "seconds": 0.294
+      },
+      {
+        "sql": "ANALYZE pg_temp.risk_supplier_memberships",
+        "seconds": 0.354
+      },
+      {
+        "sql": "ANALYZE pg_temp.risk_supplier_direct_context",
+        "seconds": 0.201
+      },
+      {
+        "sql": "ANALYZE pg_temp.risk_direct_memberships",
+        "seconds": 0.277
+      },
+      {
+        "sql": "ANALYZE pg_temp.risk_buyer_context",
+        "seconds": 0.035
+      }
+    ],
+    "sample_rows_read": 5000,
+    "sample_stage_counts": {
+      "CONVOCATORIA": 1788,
+      "ADJUDICACION": 528
+    },
+    "sample_exclusions": {
+      "etapa_sin_confirmar": 2575,
+      "estado_fuera_del_alcance": 109
+    },
+    "sample_identity_abstentions": {
+      "identidad_operacion_ambigua": 237
+    },
+    "sample_missing_features": {
+      "CONVOCATORIA:plazo_dias": 1788,
+      "CONVOCATORIA:concentracion_previa": 1659,
+      "CONVOCATORIA:log_presupuesto": 111,
+      "CONVOCATORIA:duracion_dias": 602,
+      "ADJUDICACION:plazo_dias": 528,
+      "ADJUDICACION:duracion_dias": 239,
+      "ADJUDICACION:concentracion_previa": 525,
+      "ADJUDICACION:oferentes": 528,
+      "ADJUDICACION:reiteraciones_30d": 467,
+      "ADJUDICACION:directas_90d": 404,
+      "CONVOCATORIA:procesos_previos": 23,
+      "ADJUDICACION:log_presupuesto": 20,
+      "ADJUDICACION:log_adjudicado": 3,
+      "ADJUDICACION:procesos_previos": 4
+    },
+    "sample_sha256": "f17da9cebdc99f21ce7a576a95f3d94602cb7aafe51f063add5ab5ec116dbdb2",
+    "batch_fetch_seconds": [
+      0.1549068000022089,
+      0.09694129999843426,
+      0.09806920000119135,
+      0.09596890000102576,
+      0.08953900000051362
+    ],
+    "baseline_reader": {
+      "requests": 30,
+      "median_ms": 0.40874999831430614,
+      "p95_ms": 0.5482999986270443,
+      "max_ms": 60.06399999751011
+    },
+    "batch_query_plans": [
+      [
+        {
+          "Plan": {
+            "Node Type": "Sort",
+            "Parallel Aware": false,
+            "Async Capable": false,
+            "Startup Cost": 15477.64,
+            "Total Cost": 15480.14,
+            "Plan Rows": 1000,
+            "Plan Width": 2830,
+            "Sort Key": [
+              "r.id"
+            ],
+            "Plans": [
+              {
+                "Node Type": "Limit",
+                "Parent Relationship": "InitPlan",
+                "Subplan Name": "CTE batch",
+                "Parallel Aware": false,
+                "Async Capable": false,
+                "Startup Cost": 0.43,
+                "Total Cost": 84.45,
+                "Plan Rows": 1000,
+                "Plan Width": 394,
+                "Plans": [
+                  {
+                    "Node Type": "Index Scan",
+                    "Parent Relationship": "Outer",
+                    "Parallel Aware": false,
+                    "Async Capable": false,
+                    "Scan Direction": "Forward",
+                    "Index Name": "risk_capture_rows_id_idx",
+                    "Relation Name": "risk_capture_rows",
+                    "Alias": "r_1",
+                    "Startup Cost": 0.43,
+                    "Total Cost": 777014.37,
+                    "Plan Rows": 9248903,
+                    "Plan Width": 394,
+                    "Index Cond": "(id > 0)",
+                    "Filter": "(fuente_id = ANY ('{1}'::integer[]))"
+                  }
+                ]
+              },
+              {
+                "Node Type": "Hash Join",
+                "Parent Relationship": "Outer",
+                "Parallel Aware": false,
+                "Async Capable": false,
+                "Join Type": "Left",
+                "Startup Cost": 6943.42,
+                "Total Cost": 15343.36,
+                "Plan Rows": 1000,
+                "Plan Width": 2830,
+                "Inner Unique": true,
+                "Hash Cond": "(((r.nit_entidad)::text = (dm.buyer)::text) AND ((r.nit_proveedor_clave)::text = (dm.supplier)::text) AND (r.fuente_id = dm.source) AND ((r.id_del_proceso)::text = (dm.process)::text))",
+                "Plans": [
+                  {
+                    "Node Type": "Hash Join",
+                    "Parent Relationship": "Outer",
+                    "Parallel Aware": false,
+                    "Async Capable": false,
+                    "Join Type": "Left",
+                    "Startup Cost": 5035.71,
+                    "Total Cost": 13425.15,
+                    "Plan Rows": 1000,
+                    "Plan Width": 2822,
+                    "Inner Unique": true,
+                    "Hash Cond": "(((r.nit_entidad)::text = (sm.buyer)::text) AND ((r.nit_proveedor_clave)::text = (sm.supplier)::text) AND (NULLIF(TRIM(BOTH FROM r.codigo_principal_de_categoria), ''::text) = sm.category) AND (r.fuente_id = sm.source) AND ((r.id_del_proceso)::text = (sm.process)::text))",
+                    "Plans": [
+                      {
+                        "Node Type": "Hash Join",
+                        "Parent Relationship": "Outer",
+                        "Parallel Aware": false,
+                        "Async Capable": false,
+                        "Join Type": "Left",
+                        "Startup Cost": 2954.86,
+                        "Total Cost": 11330.92,
+                        "Plan Rows": 1000,
+                        "Plan Width": 2821,
+                        "Inner Unique": true,
+                        "Hash Cond": "(((r.nit_entidad)::text = (dc.buyer)::text) AND ((r.nit_proveedor_clave)::text = (dc.supplier)::text))",
+                        "Plans": [
+                          {
+                            "Node Type": "Hash Join",
+                            "Parent Relationship": "Outer",
+                            "Parallel Aware": false,
+                            "Async Capable": false,
+                            "Join Type": "Left",
+                            "Startup Cost": 1893.31,
+                            "Total Cost": 10264.12,
+                            "Plan Rows": 1000,
+                            "Plan Width": 2806,
+                            "Inner Unique": true,
+                            "Hash Cond": "(((r.nit_entidad)::text = (sc.buyer)::text) AND ((r.nit_proveedor_clave)::text = (sc.supplier)::text) AND (NULLIF(TRIM(BOTH FROM r.codigo_principal_de_categoria), ''::text) = sc.category))",
+                            "Plans": [
+                              {
+                                "Node Type": "Hash Join",
+                                "Parent Relationship": "Outer",
+                                "Parallel Aware": false,
+                                "Async Capable": false,
+                                "Join Type": "Left",
+                                "Startup Cost": 314.55,
+                                "Total Cost": 8677.24,
+                                "Plan Rows": 1000,
+                                "Plan Width": 2798,
+                                "Inner Unique": true,
+                                "Hash Cond": "((r.nit_entidad)::text = (bc.buyer)::text)",
+                                "Plans": [
+                                  {
+                                    "Node Type": "Nested Loop",
+                                    "Parent Relationship": "Outer",
+                                    "Parallel Aware": false,
+                                    "Async Capable": false,
+                                    "Join Type": "Left",
+                                    "Startup Cost": 0.43,
+                                    "Total Cost": 8360.5,
+                                    "Plan Rows": 1000,
+                                    "Plan Width": 2772,
+                                    "Inner Unique": true,
+                                    "Plans": [
+                                      {
+                                        "Node Type": "CTE Scan",
+                                        "Parent Relationship": "Outer",
+                                        "Parallel Aware": false,
+                                        "Async Capable": false,
+                                        "CTE Name": "batch",
+                                        "Alias": "r",
+                                        "Startup Cost": 0.0,
+                                        "Total Cost": 20.0,
+                                        "Plan Rows": 1000,
+                                        "Plan Width": 2764
+                                      },
+                                      {
+                                        "Node Type": "Index Scan",
+                                        "Parent Relationship": "Inner",
+                                        "Parallel Aware": false,
+                                        "Async Capable": false,
+                                        "Scan Direction": "Forward",
+                                        "Index Name": "risk_row_units_id_idx",
+                                        "Relation Name": "risk_row_units",
+                                        "Alias": "u",
+                                        "Startup Cost": 0.43,
+                                        "Total Cost": 8.34,
+                                        "Plan Rows": 1,
+                                        "Plan Width": 16,
+                                        "Index Cond": "(id = r.id)"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "Node Type": "Hash",
+                                    "Parent Relationship": "Inner",
+                                    "Parallel Aware": false,
+                                    "Async Capable": false,
+                                    "Startup Cost": 181.83,
+                                    "Total Cost": 181.83,
+                                    "Plan Rows": 10583,
+                                    "Plan Width": 36,
+                                    "Plans": [
+                                      {
+                                        "Node Type": "Seq Scan",
+                                        "Parent Relationship": "Outer",
+                                        "Parallel Aware": false,
+                                        "Async Capable": false,
+                                        "Relation Name": "risk_buyer_context",
+                                        "Alias": "bc",
+                                        "Startup Cost": 0.0,
+                                        "Total Cost": 181.83,
+                                        "Plan Rows": 10583,
+                                        "Plan Width": 36
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "Node Type": "Hash",
+                                "Parent Relationship": "Inner",
+                                "Parallel Aware": false,
+                                "Async Capable": false,
+                                "Startup Cost": 810.82,
+                                "Total Cost": 810.82,
+                                "Plan Rows": 43882,
+                                "Plan Width": 40,
+                                "Plans": [
+                                  {
+                                    "Node Type": "Seq Scan",
+                                    "Parent Relationship": "Outer",
+                                    "Parallel Aware": false,
+                                    "Async Capable": false,
+                                    "Relation Name": "risk_supplier_context",
+                                    "Alias": "sc",
+                                    "Startup Cost": 0.0,
+                                    "Total Cost": 810.82,
+                                    "Plan Rows": 43882,
+                                    "Plan Width": 40
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "Node Type": "Hash",
+                            "Parent Relationship": "Inner",
+                            "Parallel Aware": false,
+                            "Async Capable": false,
+                            "Startup Cost": 570.42,
+                            "Total Cost": 570.42,
+                            "Plan Rows": 32742,
+                            "Plan Width": 35,
+                            "Plans": [
+                              {
+                                "Node Type": "Seq Scan",
+                                "Parent Relationship": "Outer",
+                                "Parallel Aware": false,
+                                "Async Capable": false,
+                                "Relation Name": "risk_supplier_direct_context",
+                                "Alias": "dc",
+                                "Startup Cost": 0.0,
+                                "Total Cost": 570.42,
+                                "Plan Rows": 32742,
+                                "Plan Width": 35
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "Node Type": "Hash",
+                        "Parent Relationship": "Inner",
+                        "Parallel Aware": false,
+                        "Async Capable": false,
+                        "Startup Cost": 990.57,
+                        "Total Cost": 990.57,
+                        "Plan Rows": 48457,
+                        "Plan Width": 53,
+                        "Plans": [
+                          {
+                            "Node Type": "Seq Scan",
+                            "Parent Relationship": "Outer",
+                            "Parallel Aware": false,
+                            "Async Capable": false,
+                            "Relation Name": "risk_supplier_memberships",
+                            "Alias": "sm",
+                            "Startup Cost": 0.0,
+                            "Total Cost": 990.57,
+                            "Plan Rows": 48457,
+                            "Plan Width": 53
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "Node Type": "Hash",
+                    "Parent Relationship": "Inner",
+                    "Parallel Aware": false,
+                    "Async Capable": false,
+                    "Startup Cost": 938.57,
+                    "Total Cost": 938.57,
+                    "Plan Rows": 48457,
+                    "Plan Width": 48,
+                    "Plans": [
+                      {
+                        "Node Type": "Seq Scan",
+                        "Parent Relationship": "Outer",
+                        "Parallel Aware": false,
+                        "Async Capable": false,
+                        "Relation Name": "risk_direct_memberships",
+                        "Alias": "dm",
+                        "Startup Cost": 0.0,
+                        "Total Cost": 938.57,
+                        "Plan Rows": 48457,
+                        "Plan Width": 48
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      [
+        {
+          "Plan": {
+            "Node Type": "Sort",
+            "Parallel Aware": false,
+            "Async Capable": false,
+            "Startup Cost": 15477.64,
+            "Total Cost": 15480.14,
+            "Plan Rows": 1000,
+            "Plan Width": 2830,
+            "Sort Key": [
+              "r.id"
+            ],
+            "Plans": [
+              {
+                "Node Type": "Limit",
+                "Parent Relationship": "InitPlan",
+                "Subplan Name": "CTE batch",
+                "Parallel Aware": false,
+                "Async Capable": false,
+                "Startup Cost": 0.43,
+                "Total Cost": 84.45,
+                "Plan Rows": 1000,
+                "Plan Width": 394,
+                "Plans": [
+                  {
+                    "Node Type": "Index Scan",
+                    "Parent Relationship": "Outer",
+                    "Parallel Aware": false,
+                    "Async Capable": false,
+                    "Scan Direction": "Forward",
+                    "Index Name": "risk_capture_rows_id_idx",
+                    "Relation Name": "risk_capture_rows",
+                    "Alias": "r_1",
+                    "Startup Cost": 0.43,
+                    "Total Cost": 585436.64,
+                    "Plan Rows": 6968491,
+                    "Plan Width": 394,
+                    "Index Cond": "(id > 2312386)",
+                    "Filter": "(fuente_id = ANY ('{1}'::integer[]))"
+                  }
+                ]
+              },
+              {
+                "Node Type": "Hash Join",
+                "Parent Relationship": "Outer",
+                "Parallel Aware": false,
+                "Async Capable": false,
+                "Join Type": "Left",
+                "Startup Cost": 6943.42,
+                "Total Cost": 15343.36,
+                "Plan Rows": 1000,
+                "Plan Width": 2830,
+                "Inner Unique": true,
+                "Hash Cond": "(((r.nit_entidad)::text = (dm.buyer)::text) AND ((r.nit_proveedor_clave)::text = (dm.supplier)::text) AND (r.fuente_id = dm.source) AND ((r.id_del_proceso)::text = (dm.process)::text))",
+                "Plans": [
+                  {
+                    "Node Type": "Hash Join",
+                    "Parent Relationship": "Outer",
+                    "Parallel Aware": false,
+                    "Async Capable": false,
+                    "Join Type": "Left",
+                    "Startup Cost": 5035.71,
+                    "Total Cost": 13425.15,
+                    "Plan Rows": 1000,
+                    "Plan Width": 2822,
+                    "Inner Unique": true,
+                    "Hash Cond": "(((r.nit_entidad)::text = (sm.buyer)::text) AND ((r.nit_proveedor_clave)::text = (sm.supplier)::text) AND (NULLIF(TRIM(BOTH FROM r.codigo_principal_de_categoria), ''::text) = sm.category) AND (r.fuente_id = sm.source) AND ((r.id_del_proceso)::text = (sm.process)::text))",
+                    "Plans": [
+                      {
+                        "Node Type": "Hash Join",
+                        "Parent Relationship": "Outer",
+                        "Parallel Aware": false,
+                        "Async Capable": false,
+                        "Join Type": "Left",
+                        "Startup Cost": 2954.86,
+                        "Total Cost": 11330.92,
+                        "Plan Rows": 1000,
+                        "Plan Width": 2821,
+                        "Inner Unique": true,
+                        "Hash Cond": "(((r.nit_entidad)::text = (dc.buyer)::text) AND ((r.nit_proveedor_clave)::text = (dc.supplier)::text))",
+                        "Plans": [
+                          {
+                            "Node Type": "Hash Join",
+                            "Parent Relationship": "Outer",
+                            "Parallel Aware": false,
+                            "Async Capable": false,
+                            "Join Type": "Left",
+                            "Startup Cost": 1893.31,
+                            "Total Cost": 10264.12,
+                            "Plan Rows": 1000,
+                            "Plan Width": 2806,
+                            "Inner Unique": true,
+                            "Hash Cond": "(((r.nit_entidad)::text = (sc.buyer)::text) AND ((r.nit_proveedor_clave)::text = (sc.supplier)::text) AND (NULLIF(TRIM(BOTH FROM r.codigo_principal_de_categoria), ''::text) = sc.category))",
+                            "Plans": [
+                              {
+                                "Node Type": "Hash Join",
+                                "Parent Relationship": "Outer",
+                                "Parallel Aware": false,
+                                "Async Capable": false,
+                                "Join Type": "Left",
+                                "Startup Cost": 314.55,
+                                "Total Cost": 8677.24,
+                                "Plan Rows": 1000,
+                                "Plan Width": 2798,
+                                "Inner Unique": true,
+                                "Hash Cond": "((r.nit_entidad)::text = (bc.buyer)::text)",
+                                "Plans": [
+                                  {
+                                    "Node Type": "Nested Loop",
+                                    "Parent Relationship": "Outer",
+                                    "Parallel Aware": false,
+                                    "Async Capable": false,
+                                    "Join Type": "Left",
+                                    "Startup Cost": 0.43,
+                                    "Total Cost": 8360.5,
+                                    "Plan Rows": 1000,
+                                    "Plan Width": 2772,
+                                    "Inner Unique": true,
+                                    "Plans": [
+                                      {
+                                        "Node Type": "CTE Scan",
+                                        "Parent Relationship": "Outer",
+                                        "Parallel Aware": false,
+                                        "Async Capable": false,
+                                        "CTE Name": "batch",
+                                        "Alias": "r",
+                                        "Startup Cost": 0.0,
+                                        "Total Cost": 20.0,
+                                        "Plan Rows": 1000,
+                                        "Plan Width": 2764
+                                      },
+                                      {
+                                        "Node Type": "Index Scan",
+                                        "Parent Relationship": "Inner",
+                                        "Parallel Aware": false,
+                                        "Async Capable": false,
+                                        "Scan Direction": "Forward",
+                                        "Index Name": "risk_row_units_id_idx",
+                                        "Relation Name": "risk_row_units",
+                                        "Alias": "u",
+                                        "Startup Cost": 0.43,
+                                        "Total Cost": 8.34,
+                                        "Plan Rows": 1,
+                                        "Plan Width": 16,
+                                        "Index Cond": "(id = r.id)"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "Node Type": "Hash",
+                                    "Parent Relationship": "Inner",
+                                    "Parallel Aware": false,
+                                    "Async Capable": false,
+                                    "Startup Cost": 181.83,
+                                    "Total Cost": 181.83,
+                                    "Plan Rows": 10583,
+                                    "Plan Width": 36,
+                                    "Plans": [
+                                      {
+                                        "Node Type": "Seq Scan",
+                                        "Parent Relationship": "Outer",
+                                        "Parallel Aware": false,
+                                        "Async Capable": false,
+                                        "Relation Name": "risk_buyer_context",
+                                        "Alias": "bc",
+                                        "Startup Cost": 0.0,
+                                        "Total Cost": 181.83,
+                                        "Plan Rows": 10583,
+                                        "Plan Width": 36
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "Node Type": "Hash",
+                                "Parent Relationship": "Inner",
+                                "Parallel Aware": false,
+                                "Async Capable": false,
+                                "Startup Cost": 810.82,
+                                "Total Cost": 810.82,
+                                "Plan Rows": 43882,
+                                "Plan Width": 40,
+                                "Plans": [
+                                  {
+                                    "Node Type": "Seq Scan",
+                                    "Parent Relationship": "Outer",
+                                    "Parallel Aware": false,
+                                    "Async Capable": false,
+                                    "Relation Name": "risk_supplier_context",
+                                    "Alias": "sc",
+                                    "Startup Cost": 0.0,
+                                    "Total Cost": 810.82,
+                                    "Plan Rows": 43882,
+                                    "Plan Width": 40
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "Node Type": "Hash",
+                            "Parent Relationship": "Inner",
+                            "Parallel Aware": false,
+                            "Async Capable": false,
+                            "Startup Cost": 570.42,
+                            "Total Cost": 570.42,
+                            "Plan Rows": 32742,
+                            "Plan Width": 35,
+                            "Plans": [
+                              {
+                                "Node Type": "Seq Scan",
+                                "Parent Relationship": "Outer",
+                                "Parallel Aware": false,
+                                "Async Capable": false,
+                                "Relation Name": "risk_supplier_direct_context",
+                                "Alias": "dc",
+                                "Startup Cost": 0.0,
+                                "Total Cost": 570.42,
+                                "Plan Rows": 32742,
+                                "Plan Width": 35
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "Node Type": "Hash",
+                        "Parent Relationship": "Inner",
+                        "Parallel Aware": false,
+                        "Async Capable": false,
+                        "Startup Cost": 990.57,
+                        "Total Cost": 990.57,
+                        "Plan Rows": 48457,
+                        "Plan Width": 53,
+                        "Plans": [
+                          {
+                            "Node Type": "Seq Scan",
+                            "Parent Relationship": "Outer",
+                            "Parallel Aware": false,
+                            "Async Capable": false,
+                            "Relation Name": "risk_supplier_memberships",
+                            "Alias": "sm",
+                            "Startup Cost": 0.0,
+                            "Total Cost": 990.57,
+                            "Plan Rows": 48457,
+                            "Plan Width": 53
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "Node Type": "Hash",
+                    "Parent Relationship": "Inner",
+                    "Parallel Aware": false,
+                    "Async Capable": false,
+                    "Startup Cost": 938.57,
+                    "Total Cost": 938.57,
+                    "Plan Rows": 48457,
+                    "Plan Width": 48,
+                    "Plans": [
+                      {
+                        "Node Type": "Seq Scan",
+                        "Parent Relationship": "Outer",
+                        "Parallel Aware": false,
+                        "Async Capable": false,
+                        "Relation Name": "risk_direct_memberships",
+                        "Alias": "dm",
+                        "Startup Cost": 0.0,
+                        "Total Cost": 938.57,
+                        "Plan Rows": 48457,
+                        "Plan Width": 48
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      [
+        {
+          "Plan": {
+            "Node Type": "Sort",
+            "Parallel Aware": false,
+            "Async Capable": false,
+            "Startup Cost": 15477.64,
+            "Total Cost": 15480.14,
+            "Plan Rows": 1000,
+            "Plan Width": 2830,
+            "Sort Key": [
+              "r.id"
+            ],
+            "Plans": [
+              {
+                "Node Type": "Limit",
+                "Parent Relationship": "InitPlan",
+                "Subplan Name": "CTE batch",
+                "Parallel Aware": false,
+                "Async Capable": false,
+                "Startup Cost": 0.43,
+                "Total Cost": 84.45,
+                "Plan Rows": 1000,
+                "Plan Width": 394,
+                "Plans": [
+                  {
+                    "Node Type": "Index Scan",
+                    "Parent Relationship": "Outer",
+                    "Parallel Aware": false,
+                    "Async Capable": false,
+                    "Scan Direction": "Forward",
+                    "Index Name": "risk_capture_rows_id_idx",
+                    "Relation Name": "risk_capture_rows",
+                    "Alias": "r_1",
+                    "Startup Cost": 0.43,
+                    "Total Cost": 387252.83,
+                    "Plan Rows": 4609461,
+                    "Plan Width": 394,
+                    "Index Cond": "(id > 4624772)",
+                    "Filter": "(fuente_id = ANY ('{1}'::integer[]))"
+                  }
+                ]
+              },
+              {
+                "Node Type": "Hash Join",
+                "Parent Relationship": "Outer",
+                "Parallel Aware": false,
+                "Async Capable": false,
+                "Join Type": "Left",
+                "Startup Cost": 6943.42,
+                "Total Cost": 15343.36,
+                "Plan Rows": 1000,
+                "Plan Width": 2830,
+                "Inner Unique": true,
+                "Hash Cond": "(((r.nit_entidad)::text = (dm.buyer)::text) AND ((r.nit_proveedor_clave)::text = (dm.supplier)::text) AND (r.fuente_id = dm.source) AND ((r.id_del_proceso)::text = (dm.process)::text))",
+                "Plans": [
+                  {
+                    "Node Type": "Hash Join",
+                    "Parent Relationship": "Outer",
+                    "Parallel Aware": false,
+                    "Async Capable": false,
+                    "Join Type": "Left",
+                    "Startup Cost": 5035.71,
+                    "Total Cost": 13425.15,
+                    "Plan Rows": 1000,
+                    "Plan Width": 2822,
+                    "Inner Unique": true,
+                    "Hash Cond": "(((r.nit_entidad)::text = (sm.buyer)::text) AND ((r.nit_proveedor_clave)::text = (sm.supplier)::text) AND (NULLIF(TRIM(BOTH FROM r.codigo_principal_de_categoria), ''::text) = sm.category) AND (r.fuente_id = sm.source) AND ((r.id_del_proceso)::text = (sm.process)::text))",
+                    "Plans": [
+                      {
+                        "Node Type": "Hash Join",
+                        "Parent Relationship": "Outer",
+                        "Parallel Aware": false,
+                        "Async Capable": false,
+                        "Join Type": "Left",
+                        "Startup Cost": 2954.86,
+                        "Total Cost": 11330.92,
+                        "Plan Rows": 1000,
+                        "Plan Width": 2821,
+                        "Inner Unique": true,
+                        "Hash Cond": "(((r.nit_entidad)::text = (dc.buyer)::text) AND ((r.nit_proveedor_clave)::text = (dc.supplier)::text))",
+                        "Plans": [
+                          {
+                            "Node Type": "Hash Join",
+                            "Parent Relationship": "Outer",
+                            "Parallel Aware": false,
+                            "Async Capable": false,
+                            "Join Type": "Left",
+                            "Startup Cost": 1893.31,
+                            "Total Cost": 10264.12,
+                            "Plan Rows": 1000,
+                            "Plan Width": 2806,
+                            "Inner Unique": true,
+                            "Hash Cond": "(((r.nit_entidad)::text = (sc.buyer)::text) AND ((r.nit_proveedor_clave)::text = (sc.supplier)::text) AND (NULLIF(TRIM(BOTH FROM r.codigo_principal_de_categoria), ''::text) = sc.category))",
+                            "Plans": [
+                              {
+                                "Node Type": "Hash Join",
+                                "Parent Relationship": "Outer",
+                                "Parallel Aware": false,
+                                "Async Capable": false,
+                                "Join Type": "Left",
+                                "Startup Cost": 314.55,
+                                "Total Cost": 8677.24,
+                                "Plan Rows": 1000,
+                                "Plan Width": 2798,
+                                "Inner Unique": true,
+                                "Hash Cond": "((r.nit_entidad)::text = (bc.buyer)::text)",
+                                "Plans": [
+                                  {
+                                    "Node Type": "Nested Loop",
+                                    "Parent Relationship": "Outer",
+                                    "Parallel Aware": false,
+                                    "Async Capable": false,
+                                    "Join Type": "Left",
+                                    "Startup Cost": 0.43,
+                                    "Total Cost": 8360.5,
+                                    "Plan Rows": 1000,
+                                    "Plan Width": 2772,
+                                    "Inner Unique": true,
+                                    "Plans": [
+                                      {
+                                        "Node Type": "CTE Scan",
+                                        "Parent Relationship": "Outer",
+                                        "Parallel Aware": false,
+                                        "Async Capable": false,
+                                        "CTE Name": "batch",
+                                        "Alias": "r",
+                                        "Startup Cost": 0.0,
+                                        "Total Cost": 20.0,
+                                        "Plan Rows": 1000,
+                                        "Plan Width": 2764
+                                      },
+                                      {
+                                        "Node Type": "Index Scan",
+                                        "Parent Relationship": "Inner",
+                                        "Parallel Aware": false,
+                                        "Async Capable": false,
+                                        "Scan Direction": "Forward",
+                                        "Index Name": "risk_row_units_id_idx",
+                                        "Relation Name": "risk_row_units",
+                                        "Alias": "u",
+                                        "Startup Cost": 0.43,
+                                        "Total Cost": 8.34,
+                                        "Plan Rows": 1,
+                                        "Plan Width": 16,
+                                        "Index Cond": "(id = r.id)"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "Node Type": "Hash",
+                                    "Parent Relationship": "Inner",
+                                    "Parallel Aware": false,
+                                    "Async Capable": false,
+                                    "Startup Cost": 181.83,
+                                    "Total Cost": 181.83,
+                                    "Plan Rows": 10583,
+                                    "Plan Width": 36,
+                                    "Plans": [
+                                      {
+                                        "Node Type": "Seq Scan",
+                                        "Parent Relationship": "Outer",
+                                        "Parallel Aware": false,
+                                        "Async Capable": false,
+                                        "Relation Name": "risk_buyer_context",
+                                        "Alias": "bc",
+                                        "Startup Cost": 0.0,
+                                        "Total Cost": 181.83,
+                                        "Plan Rows": 10583,
+                                        "Plan Width": 36
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "Node Type": "Hash",
+                                "Parent Relationship": "Inner",
+                                "Parallel Aware": false,
+                                "Async Capable": false,
+                                "Startup Cost": 810.82,
+                                "Total Cost": 810.82,
+                                "Plan Rows": 43882,
+                                "Plan Width": 40,
+                                "Plans": [
+                                  {
+                                    "Node Type": "Seq Scan",
+                                    "Parent Relationship": "Outer",
+                                    "Parallel Aware": false,
+                                    "Async Capable": false,
+                                    "Relation Name": "risk_supplier_context",
+                                    "Alias": "sc",
+                                    "Startup Cost": 0.0,
+                                    "Total Cost": 810.82,
+                                    "Plan Rows": 43882,
+                                    "Plan Width": 40
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "Node Type": "Hash",
+                            "Parent Relationship": "Inner",
+                            "Parallel Aware": false,
+                            "Async Capable": false,
+                            "Startup Cost": 570.42,
+                            "Total Cost": 570.42,
+                            "Plan Rows": 32742,
+                            "Plan Width": 35,
+                            "Plans": [
+                              {
+                                "Node Type": "Seq Scan",
+                                "Parent Relationship": "Outer",
+                                "Parallel Aware": false,
+                                "Async Capable": false,
+                                "Relation Name": "risk_supplier_direct_context",
+                                "Alias": "dc",
+                                "Startup Cost": 0.0,
+                                "Total Cost": 570.42,
+                                "Plan Rows": 32742,
+                                "Plan Width": 35
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "Node Type": "Hash",
+                        "Parent Relationship": "Inner",
+                        "Parallel Aware": false,
+                        "Async Capable": false,
+                        "Startup Cost": 990.57,
+                        "Total Cost": 990.57,
+                        "Plan Rows": 48457,
+                        "Plan Width": 53,
+                        "Plans": [
+                          {
+                            "Node Type": "Seq Scan",
+                            "Parent Relationship": "Outer",
+                            "Parallel Aware": false,
+                            "Async Capable": false,
+                            "Relation Name": "risk_supplier_memberships",
+                            "Alias": "sm",
+                            "Startup Cost": 0.0,
+                            "Total Cost": 990.57,
+                            "Plan Rows": 48457,
+                            "Plan Width": 53
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "Node Type": "Hash",
+                    "Parent Relationship": "Inner",
+                    "Parallel Aware": false,
+                    "Async Capable": false,
+                    "Startup Cost": 938.57,
+                    "Total Cost": 938.57,
+                    "Plan Rows": 48457,
+                    "Plan Width": 48,
+                    "Plans": [
+                      {
+                        "Node Type": "Seq Scan",
+                        "Parent Relationship": "Outer",
+                        "Parallel Aware": false,
+                        "Async Capable": false,
+                        "Relation Name": "risk_direct_memberships",
+                        "Alias": "dm",
+                        "Startup Cost": 0.0,
+                        "Total Cost": 938.57,
+                        "Plan Rows": 48457,
+                        "Plan Width": 48
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      [
+        {
+          "Plan": {
+            "Node Type": "Sort",
+            "Parallel Aware": false,
+            "Async Capable": false,
+            "Startup Cost": 15477.64,
+            "Total Cost": 15480.14,
+            "Plan Rows": 1000,
+            "Plan Width": 2830,
+            "Sort Key": [
+              "r.id"
+            ],
+            "Plans": [
+              {
+                "Node Type": "Limit",
+                "Parent Relationship": "InitPlan",
+                "Subplan Name": "CTE batch",
+                "Parallel Aware": false,
+                "Async Capable": false,
+                "Startup Cost": 0.43,
+                "Total Cost": 84.45,
+                "Plan Rows": 1000,
+                "Plan Width": 394,
+                "Plans": [
+                  {
+                    "Node Type": "Index Scan",
+                    "Parent Relationship": "Outer",
+                    "Parallel Aware": false,
+                    "Async Capable": false,
+                    "Scan Direction": "Forward",
+                    "Index Name": "risk_capture_rows_id_idx",
+                    "Relation Name": "risk_capture_rows",
+                    "Alias": "r_1",
+                    "Startup Cost": 0.43,
+                    "Total Cost": 193732.24,
+                    "Plan Rows": 2305963,
+                    "Plan Width": 394,
+                    "Index Cond": "(id > 6937158)",
+                    "Filter": "(fuente_id = ANY ('{1}'::integer[]))"
+                  }
+                ]
+              },
+              {
+                "Node Type": "Hash Join",
+                "Parent Relationship": "Outer",
+                "Parallel Aware": false,
+                "Async Capable": false,
+                "Join Type": "Left",
+                "Startup Cost": 6943.42,
+                "Total Cost": 15343.36,
+                "Plan Rows": 1000,
+                "Plan Width": 2830,
+                "Inner Unique": true,
+                "Hash Cond": "(((r.nit_entidad)::text = (dm.buyer)::text) AND ((r.nit_proveedor_clave)::text = (dm.supplier)::text) AND (r.fuente_id = dm.source) AND ((r.id_del_proceso)::text = (dm.process)::text))",
+                "Plans": [
+                  {
+                    "Node Type": "Hash Join",
+                    "Parent Relationship": "Outer",
+                    "Parallel Aware": false,
+                    "Async Capable": false,
+                    "Join Type": "Left",
+                    "Startup Cost": 5035.71,
+                    "Total Cost": 13425.15,
+                    "Plan Rows": 1000,
+                    "Plan Width": 2822,
+                    "Inner Unique": true,
+                    "Hash Cond": "(((r.nit_entidad)::text = (sm.buyer)::text) AND ((r.nit_proveedor_clave)::text = (sm.supplier)::text) AND (NULLIF(TRIM(BOTH FROM r.codigo_principal_de_categoria), ''::text) = sm.category) AND (r.fuente_id = sm.source) AND ((r.id_del_proceso)::text = (sm.process)::text))",
+                    "Plans": [
+                      {
+                        "Node Type": "Hash Join",
+                        "Parent Relationship": "Outer",
+                        "Parallel Aware": false,
+                        "Async Capable": false,
+                        "Join Type": "Left",
+                        "Startup Cost": 2954.86,
+                        "Total Cost": 11330.92,
+                        "Plan Rows": 1000,
+                        "Plan Width": 2821,
+                        "Inner Unique": true,
+                        "Hash Cond": "(((r.nit_entidad)::text = (dc.buyer)::text) AND ((r.nit_proveedor_clave)::text = (dc.supplier)::text))",
+                        "Plans": [
+                          {
+                            "Node Type": "Hash Join",
+                            "Parent Relationship": "Outer",
+                            "Parallel Aware": false,
+                            "Async Capable": false,
+                            "Join Type": "Left",
+                            "Startup Cost": 1893.31,
+                            "Total Cost": 10264.12,
+                            "Plan Rows": 1000,
+                            "Plan Width": 2806,
+                            "Inner Unique": true,
+                            "Hash Cond": "(((r.nit_entidad)::text = (sc.buyer)::text) AND ((r.nit_proveedor_clave)::text = (sc.supplier)::text) AND (NULLIF(TRIM(BOTH FROM r.codigo_principal_de_categoria), ''::text) = sc.category))",
+                            "Plans": [
+                              {
+                                "Node Type": "Hash Join",
+                                "Parent Relationship": "Outer",
+                                "Parallel Aware": false,
+                                "Async Capable": false,
+                                "Join Type": "Left",
+                                "Startup Cost": 314.55,
+                                "Total Cost": 8677.24,
+                                "Plan Rows": 1000,
+                                "Plan Width": 2798,
+                                "Inner Unique": true,
+                                "Hash Cond": "((r.nit_entidad)::text = (bc.buyer)::text)",
+                                "Plans": [
+                                  {
+                                    "Node Type": "Nested Loop",
+                                    "Parent Relationship": "Outer",
+                                    "Parallel Aware": false,
+                                    "Async Capable": false,
+                                    "Join Type": "Left",
+                                    "Startup Cost": 0.43,
+                                    "Total Cost": 8360.5,
+                                    "Plan Rows": 1000,
+                                    "Plan Width": 2772,
+                                    "Inner Unique": true,
+                                    "Plans": [
+                                      {
+                                        "Node Type": "CTE Scan",
+                                        "Parent Relationship": "Outer",
+                                        "Parallel Aware": false,
+                                        "Async Capable": false,
+                                        "CTE Name": "batch",
+                                        "Alias": "r",
+                                        "Startup Cost": 0.0,
+                                        "Total Cost": 20.0,
+                                        "Plan Rows": 1000,
+                                        "Plan Width": 2764
+                                      },
+                                      {
+                                        "Node Type": "Index Scan",
+                                        "Parent Relationship": "Inner",
+                                        "Parallel Aware": false,
+                                        "Async Capable": false,
+                                        "Scan Direction": "Forward",
+                                        "Index Name": "risk_row_units_id_idx",
+                                        "Relation Name": "risk_row_units",
+                                        "Alias": "u",
+                                        "Startup Cost": 0.43,
+                                        "Total Cost": 8.34,
+                                        "Plan Rows": 1,
+                                        "Plan Width": 16,
+                                        "Index Cond": "(id = r.id)"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "Node Type": "Hash",
+                                    "Parent Relationship": "Inner",
+                                    "Parallel Aware": false,
+                                    "Async Capable": false,
+                                    "Startup Cost": 181.83,
+                                    "Total Cost": 181.83,
+                                    "Plan Rows": 10583,
+                                    "Plan Width": 36,
+                                    "Plans": [
+                                      {
+                                        "Node Type": "Seq Scan",
+                                        "Parent Relationship": "Outer",
+                                        "Parallel Aware": false,
+                                        "Async Capable": false,
+                                        "Relation Name": "risk_buyer_context",
+                                        "Alias": "bc",
+                                        "Startup Cost": 0.0,
+                                        "Total Cost": 181.83,
+                                        "Plan Rows": 10583,
+                                        "Plan Width": 36
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "Node Type": "Hash",
+                                "Parent Relationship": "Inner",
+                                "Parallel Aware": false,
+                                "Async Capable": false,
+                                "Startup Cost": 810.82,
+                                "Total Cost": 810.82,
+                                "Plan Rows": 43882,
+                                "Plan Width": 40,
+                                "Plans": [
+                                  {
+                                    "Node Type": "Seq Scan",
+                                    "Parent Relationship": "Outer",
+                                    "Parallel Aware": false,
+                                    "Async Capable": false,
+                                    "Relation Name": "risk_supplier_context",
+                                    "Alias": "sc",
+                                    "Startup Cost": 0.0,
+                                    "Total Cost": 810.82,
+                                    "Plan Rows": 43882,
+                                    "Plan Width": 40
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "Node Type": "Hash",
+                            "Parent Relationship": "Inner",
+                            "Parallel Aware": false,
+                            "Async Capable": false,
+                            "Startup Cost": 570.42,
+                            "Total Cost": 570.42,
+                            "Plan Rows": 32742,
+                            "Plan Width": 35,
+                            "Plans": [
+                              {
+                                "Node Type": "Seq Scan",
+                                "Parent Relationship": "Outer",
+                                "Parallel Aware": false,
+                                "Async Capable": false,
+                                "Relation Name": "risk_supplier_direct_context",
+                                "Alias": "dc",
+                                "Startup Cost": 0.0,
+                                "Total Cost": 570.42,
+                                "Plan Rows": 32742,
+                                "Plan Width": 35
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "Node Type": "Hash",
+                        "Parent Relationship": "Inner",
+                        "Parallel Aware": false,
+                        "Async Capable": false,
+                        "Startup Cost": 990.57,
+                        "Total Cost": 990.57,
+                        "Plan Rows": 48457,
+                        "Plan Width": 53,
+                        "Plans": [
+                          {
+                            "Node Type": "Seq Scan",
+                            "Parent Relationship": "Outer",
+                            "Parallel Aware": false,
+                            "Async Capable": false,
+                            "Relation Name": "risk_supplier_memberships",
+                            "Alias": "sm",
+                            "Startup Cost": 0.0,
+                            "Total Cost": 990.57,
+                            "Plan Rows": 48457,
+                            "Plan Width": 53
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "Node Type": "Hash",
+                    "Parent Relationship": "Inner",
+                    "Parallel Aware": false,
+                    "Async Capable": false,
+                    "Startup Cost": 938.57,
+                    "Total Cost": 938.57,
+                    "Plan Rows": 48457,
+                    "Plan Width": 48,
+                    "Plans": [
+                      {
+                        "Node Type": "Seq Scan",
+                        "Parent Relationship": "Outer",
+                        "Parallel Aware": false,
+                        "Async Capable": false,
+                        "Relation Name": "risk_direct_memberships",
+                        "Alias": "dm",
+                        "Startup Cost": 0.0,
+                        "Total Cost": 938.57,
+                        "Plan Rows": 48457,
+                        "Plan Width": 48
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      [
+        {
+          "Plan": {
+            "Node Type": "Sort",
+            "Parallel Aware": false,
+            "Async Capable": false,
+            "Startup Cost": 15477.71,
+            "Total Cost": 15480.21,
+            "Plan Rows": 1000,
+            "Plan Width": 2830,
+            "Sort Key": [
+              "r.id"
+            ],
+            "Plans": [
+              {
+                "Node Type": "Limit",
+                "Parent Relationship": "InitPlan",
+                "Subplan Name": "CTE batch",
+                "Parallel Aware": false,
+                "Async Capable": false,
+                "Startup Cost": 0.43,
+                "Total Cost": 84.52,
+                "Plan Rows": 1000,
+                "Plan Width": 394,
+                "Plans": [
+                  {
+                    "Node Type": "Index Scan",
+                    "Parent Relationship": "Outer",
+                    "Parallel Aware": false,
+                    "Async Capable": false,
+                    "Scan Direction": "Forward",
+                    "Index Name": "risk_capture_rows_id_idx",
+                    "Relation Name": "risk_capture_rows",
+                    "Alias": "r_1",
+                    "Startup Cost": 0.43,
+                    "Total Cost": 7426.4,
+                    "Plan Rows": 88318,
+                    "Plan Width": 394,
+                    "Index Cond": "(id > 9157049)",
+                    "Filter": "(fuente_id = ANY ('{1}'::integer[]))"
+                  }
+                ]
+              },
+              {
+                "Node Type": "Hash Join",
+                "Parent Relationship": "Outer",
+                "Parallel Aware": false,
+                "Async Capable": false,
+                "Join Type": "Left",
+                "Startup Cost": 6943.42,
+                "Total Cost": 15343.36,
+                "Plan Rows": 1000,
+                "Plan Width": 2830,
+                "Inner Unique": true,
+                "Hash Cond": "(((r.nit_entidad)::text = (dm.buyer)::text) AND ((r.nit_proveedor_clave)::text = (dm.supplier)::text) AND (r.fuente_id = dm.source) AND ((r.id_del_proceso)::text = (dm.process)::text))",
+                "Plans": [
+                  {
+                    "Node Type": "Hash Join",
+                    "Parent Relationship": "Outer",
+                    "Parallel Aware": false,
+                    "Async Capable": false,
+                    "Join Type": "Left",
+                    "Startup Cost": 5035.71,
+                    "Total Cost": 13425.15,
+                    "Plan Rows": 1000,
+                    "Plan Width": 2822,
+                    "Inner Unique": true,
+                    "Hash Cond": "(((r.nit_entidad)::text = (sm.buyer)::text) AND ((r.nit_proveedor_clave)::text = (sm.supplier)::text) AND (NULLIF(TRIM(BOTH FROM r.codigo_principal_de_categoria), ''::text) = sm.category) AND (r.fuente_id = sm.source) AND ((r.id_del_proceso)::text = (sm.process)::text))",
+                    "Plans": [
+                      {
+                        "Node Type": "Hash Join",
+                        "Parent Relationship": "Outer",
+                        "Parallel Aware": false,
+                        "Async Capable": false,
+                        "Join Type": "Left",
+                        "Startup Cost": 2954.86,
+                        "Total Cost": 11330.92,
+                        "Plan Rows": 1000,
+                        "Plan Width": 2821,
+                        "Inner Unique": true,
+                        "Hash Cond": "(((r.nit_entidad)::text = (dc.buyer)::text) AND ((r.nit_proveedor_clave)::text = (dc.supplier)::text))",
+                        "Plans": [
+                          {
+                            "Node Type": "Hash Join",
+                            "Parent Relationship": "Outer",
+                            "Parallel Aware": false,
+                            "Async Capable": false,
+                            "Join Type": "Left",
+                            "Startup Cost": 1893.31,
+                            "Total Cost": 10264.12,
+                            "Plan Rows": 1000,
+                            "Plan Width": 2806,
+                            "Inner Unique": true,
+                            "Hash Cond": "(((r.nit_entidad)::text = (sc.buyer)::text) AND ((r.nit_proveedor_clave)::text = (sc.supplier)::text) AND (NULLIF(TRIM(BOTH FROM r.codigo_principal_de_categoria), ''::text) = sc.category))",
+                            "Plans": [
+                              {
+                                "Node Type": "Hash Join",
+                                "Parent Relationship": "Outer",
+                                "Parallel Aware": false,
+                                "Async Capable": false,
+                                "Join Type": "Left",
+                                "Startup Cost": 314.55,
+                                "Total Cost": 8677.24,
+                                "Plan Rows": 1000,
+                                "Plan Width": 2798,
+                                "Inner Unique": true,
+                                "Hash Cond": "((r.nit_entidad)::text = (bc.buyer)::text)",
+                                "Plans": [
+                                  {
+                                    "Node Type": "Nested Loop",
+                                    "Parent Relationship": "Outer",
+                                    "Parallel Aware": false,
+                                    "Async Capable": false,
+                                    "Join Type": "Left",
+                                    "Startup Cost": 0.43,
+                                    "Total Cost": 8360.5,
+                                    "Plan Rows": 1000,
+                                    "Plan Width": 2772,
+                                    "Inner Unique": true,
+                                    "Plans": [
+                                      {
+                                        "Node Type": "CTE Scan",
+                                        "Parent Relationship": "Outer",
+                                        "Parallel Aware": false,
+                                        "Async Capable": false,
+                                        "CTE Name": "batch",
+                                        "Alias": "r",
+                                        "Startup Cost": 0.0,
+                                        "Total Cost": 20.0,
+                                        "Plan Rows": 1000,
+                                        "Plan Width": 2764
+                                      },
+                                      {
+                                        "Node Type": "Index Scan",
+                                        "Parent Relationship": "Inner",
+                                        "Parallel Aware": false,
+                                        "Async Capable": false,
+                                        "Scan Direction": "Forward",
+                                        "Index Name": "risk_row_units_id_idx",
+                                        "Relation Name": "risk_row_units",
+                                        "Alias": "u",
+                                        "Startup Cost": 0.43,
+                                        "Total Cost": 8.34,
+                                        "Plan Rows": 1,
+                                        "Plan Width": 16,
+                                        "Index Cond": "(id = r.id)"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "Node Type": "Hash",
+                                    "Parent Relationship": "Inner",
+                                    "Parallel Aware": false,
+                                    "Async Capable": false,
+                                    "Startup Cost": 181.83,
+                                    "Total Cost": 181.83,
+                                    "Plan Rows": 10583,
+                                    "Plan Width": 36,
+                                    "Plans": [
+                                      {
+                                        "Node Type": "Seq Scan",
+                                        "Parent Relationship": "Outer",
+                                        "Parallel Aware": false,
+                                        "Async Capable": false,
+                                        "Relation Name": "risk_buyer_context",
+                                        "Alias": "bc",
+                                        "Startup Cost": 0.0,
+                                        "Total Cost": 181.83,
+                                        "Plan Rows": 10583,
+                                        "Plan Width": 36
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "Node Type": "Hash",
+                                "Parent Relationship": "Inner",
+                                "Parallel Aware": false,
+                                "Async Capable": false,
+                                "Startup Cost": 810.82,
+                                "Total Cost": 810.82,
+                                "Plan Rows": 43882,
+                                "Plan Width": 40,
+                                "Plans": [
+                                  {
+                                    "Node Type": "Seq Scan",
+                                    "Parent Relationship": "Outer",
+                                    "Parallel Aware": false,
+                                    "Async Capable": false,
+                                    "Relation Name": "risk_supplier_context",
+                                    "Alias": "sc",
+                                    "Startup Cost": 0.0,
+                                    "Total Cost": 810.82,
+                                    "Plan Rows": 43882,
+                                    "Plan Width": 40
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "Node Type": "Hash",
+                            "Parent Relationship": "Inner",
+                            "Parallel Aware": false,
+                            "Async Capable": false,
+                            "Startup Cost": 570.42,
+                            "Total Cost": 570.42,
+                            "Plan Rows": 32742,
+                            "Plan Width": 35,
+                            "Plans": [
+                              {
+                                "Node Type": "Seq Scan",
+                                "Parent Relationship": "Outer",
+                                "Parallel Aware": false,
+                                "Async Capable": false,
+                                "Relation Name": "risk_supplier_direct_context",
+                                "Alias": "dc",
+                                "Startup Cost": 0.0,
+                                "Total Cost": 570.42,
+                                "Plan Rows": 32742,
+                                "Plan Width": 35
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "Node Type": "Hash",
+                        "Parent Relationship": "Inner",
+                        "Parallel Aware": false,
+                        "Async Capable": false,
+                        "Startup Cost": 990.57,
+                        "Total Cost": 990.57,
+                        "Plan Rows": 48457,
+                        "Plan Width": 53,
+                        "Plans": [
+                          {
+                            "Node Type": "Seq Scan",
+                            "Parent Relationship": "Outer",
+                            "Parallel Aware": false,
+                            "Async Capable": false,
+                            "Relation Name": "risk_supplier_memberships",
+                            "Alias": "sm",
+                            "Startup Cost": 0.0,
+                            "Total Cost": 990.57,
+                            "Plan Rows": 48457,
+                            "Plan Width": 53
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "Node Type": "Hash",
+                    "Parent Relationship": "Inner",
+                    "Parallel Aware": false,
+                    "Async Capable": false,
+                    "Startup Cost": 938.57,
+                    "Total Cost": 938.57,
+                    "Plan Rows": 48457,
+                    "Plan Width": 48,
+                    "Plans": [
+                      {
+                        "Node Type": "Seq Scan",
+                        "Parent Relationship": "Outer",
+                        "Parallel Aware": false,
+                        "Async Capable": false,
+                        "Relation Name": "risk_direct_memberships",
+                        "Alias": "dm",
+                        "Startup Cost": 0.0,
+                        "Total Cost": 938.57,
+                        "Plan Rows": 48457,
+                        "Plan Width": 48
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    ],
+    "implementation_sha256": {
+      "modules/motor_riesgo/history.py": "81e077c3f07b574bd9c0f7daf97f5d9f04709a7c878a5af237d53350b4c8f085",
+      "modules/motor_riesgo/feature_store.py": "012ea4e5928fdb74b5cf586b692cfa5b64603886035c89eb35f51b6fb0b1c018",
+      "modules/motor_riesgo/feature_builder.py": "18d4b0773fbb4918300031213fc2fab0674618dc86fda8f3a9399979ec9aa7fa",
+      "modules/motor_riesgo/domain.py": "1439f04fa2874cecf8a5d5ebfa875fd6892c61624943e22d0fef5247c88d8f5a",
+      "modules/motor_riesgo/materialize.py": "80339c3e28e4e172fce007af6106a689240b6caed2333c00735af6374e765a31"
+    },
+    "limitations": [
+      "No entrenamiento ni inferencia con modelos reales.",
+      "No es prueba completa de API/HTTP ni carga con muchos usuarios.",
+      "No se recorren ni escriben todos los resultados; no se extrapola el tiempo del corte."
+    ],
+    "real_models_activated": 0,
+    "publication_performed": false,
+    "concurrent_reader": {
+      "requests": 1174,
+      "median_ms": 0.7915499991213437,
+      "p95_ms": 0.888000002305489,
+      "max_ms": 524.3333999969764
+    },
+    "reader_errors": [],
+    "minimum_free_disk_bytes": 86347710464
+  },
+  "citizen_http_benchmark": {
+    "scope": "Frozen real-volume HTTP reads and aggregate preparation; no predictive validation or full inference/persistence",
+    "database_oid": 75045,
+    "source_rows": 9249545,
+    "published_database_touched": false,
+    "read_limits": {
+      "parallel_workers": 0,
+      "work_mem": "32MB",
+      "forced_read_only": true
+    },
+    "variants": [
+      "Union view before optimization",
+      "Bounded ordered branches",
+      "Bounded branches plus persisted chart aggregates"
+    ],
+    "cache_states_controlled": false,
+    "trials": [
+      {
+        "source_file": "citizen-http-benchmark-20261016.json",
+        "source_sha256": "6e89b1badebe582ce3f255691bc79504a1bd33e52ad3d6bfe00dadd460f1c763",
+        "report": {
+          "time": "2026-10-16T16:00:33.226003+00:00",
+          "database_oid": 75045,
+          "source_rows": 9249545,
+          "baseline_id": "99f05e23-fd13-44a5-bcf9-c931e6c40dcd",
+          "schema": "d42f8b6a901c",
+          "api_port": 8016,
+          "read_only_forced": true,
+          "read_parallel_workers": 0,
+          "work_mem": "32MB",
+          "scope": "Public HTTP reads of a frozen real-volume copy; no inference, persistence or predictive validation",
+          "requests": [
+            {
+              "path": "/api/riesgo/estado",
+              "status": 200,
+              "seconds": 0.27336590000777505,
+              "same_cut": true,
+              "bytes": 319,
+              "sha256": "e3c153fd2ba58447e9f680ff8ae8efd8cfee30c1f001f066cf66c86e44250232"
+            },
+            {
+              "path": "/api/procesados/search?limit=25&sort=fecha&order=desc",
+              "status": 200,
+              "seconds": 55.9991721999977,
+              "same_cut": true,
+              "bytes": 25478,
+              "sha256": "c1d2062db271f9f1c0fa5f21c60f94d61af3b22bbdb1da2b9a784acd327f1c98",
+              "total": 9249545
+            },
+            {
+              "path": "/api/procesados/9249499",
+              "status": 200,
+              "seconds": 0.0818033999967156,
+              "same_cut": true,
+              "bytes": 1000,
+              "sha256": "d3554c6b2530b3cb63c165c655a9adcbc0e38b07931c42e0ccdf6337420538cb"
+            },
+            {
+              "path": "/api/procesados/metricas/dashboard",
+              "status": 200,
+              "seconds": 0.022716999999829568,
+              "same_cut": true,
+              "bytes": 286,
+              "sha256": "67185ef64952fce6aaeb88e9b4ed71fa48b9aa6afb4004583ab658e04187fbae"
+            },
+            {
+              "path": "/api/procesados/metricas/calidad",
+              "status": 200,
+              "seconds": 0.006003599992254749,
+              "same_cut": true,
+              "bytes": 239,
+              "sha256": "e8aceb16cc02cebf3aeda1e6f78e43dfd0dfe148990d65ead35a7d10da3e0550"
+            },
+            {
+              "path": "/api/procesados/metricas/distribucion-anomalias",
+              "status": 200,
+              "seconds": 0.005949500002316199,
+              "same_cut": true,
+              "bytes": 110,
+              "sha256": "e0f2f040843e57d5743fcde7e552aedc431100737f54ee5c353ab0de3109bbb8"
+            },
+            {
+              "path": "/api/procesados/estadisticas/campos-faltantes",
+              "status": 200,
+              "seconds": 0.10748250001051929,
+              "same_cut": true,
+              "bytes": 154,
+              "sha256": "d5d2fab5c85e8505f4f5fd51a84c76e723592bd4b416a334cf94bdeef98db22b"
+            },
+            {
+              "path": "/api/procesados/metricas/distribucion-riesgo",
+              "status": 200,
+              "seconds": 9.586843899989617,
+              "same_cut": true,
+              "bytes": 58,
+              "sha256": "72ff517cf84e9ad7236a3d4b657cd77adbd8b6ad7126835ebe0707d8afc8609f"
+            },
+            {
+              "path": "/api/procesados/metricas/top-proveedores?limit=10",
+              "status": 200,
+              "seconds": 3.1119739999994636,
+              "same_cut": true,
+              "bytes": 788,
+              "sha256": "3c2df98d0f005f291dcbf7dcf6730ee1cdcaf7a247641bbbd8057f09044d7636"
+            }
+          ],
+          "concurrent_readers": {
+            "requests": 20,
+            "median_seconds": 6.1332299999921815,
+            "p95_seconds": 13.123218299995642,
+            "max_seconds": 15.778038600008585
+          },
+          "minimum_free_bytes": 89749172224,
+          "errors": [],
+          "real_models": 0,
+          "published_database_touched": false
+        }
+      },
+      {
+        "source_file": "citizen-http-benchmark-20261016-v2.json",
+        "source_sha256": "32c103da933667e86df0c16e3cc9a8b602639c09e667d833ad678f134f33bc5a",
+        "report": {
+          "time": "2026-10-16T16:07:46.281698+00:00",
+          "database_oid": 75045,
+          "source_rows": 9249545,
+          "baseline_id": "99f05e23-fd13-44a5-bcf9-c931e6c40dcd",
+          "schema": "d42f8b6a901c",
+          "api_port": 8016,
+          "read_only_forced": true,
+          "read_parallel_workers": 0,
+          "work_mem": "32MB",
+          "scope": "Public HTTP reads of a frozen real-volume copy; no inference, persistence or predictive validation",
+          "requests": [
+            {
+              "path": "/api/riesgo/estado",
+              "status": 200,
+              "seconds": 0.1688840999995591,
+              "same_cut": true,
+              "bytes": 319,
+              "sha256": "e3c153fd2ba58447e9f680ff8ae8efd8cfee30c1f001f066cf66c86e44250232"
+            },
+            {
+              "path": "/api/procesados/search?limit=25&sort=fecha&order=desc",
+              "status": 200,
+              "seconds": 0.09892669999680948,
+              "same_cut": true,
+              "bytes": 25478,
+              "sha256": "c1d2062db271f9f1c0fa5f21c60f94d61af3b22bbdb1da2b9a784acd327f1c98",
+              "total": 9249545
+            },
+            {
+              "path": "/api/procesados/9249499",
+              "status": 200,
+              "seconds": 0.033653200007393025,
+              "same_cut": true,
+              "bytes": 1000,
+              "sha256": "d3554c6b2530b3cb63c165c655a9adcbc0e38b07931c42e0ccdf6337420538cb"
+            },
+            {
+              "path": "/api/procesados/metricas/dashboard",
+              "status": 200,
+              "seconds": 0.006393700008629821,
+              "same_cut": true,
+              "bytes": 286,
+              "sha256": "67185ef64952fce6aaeb88e9b4ed71fa48b9aa6afb4004583ab658e04187fbae"
+            },
+            {
+              "path": "/api/procesados/metricas/calidad",
+              "status": 200,
+              "seconds": 0.006376100005581975,
+              "same_cut": true,
+              "bytes": 239,
+              "sha256": "e8aceb16cc02cebf3aeda1e6f78e43dfd0dfe148990d65ead35a7d10da3e0550"
+            },
+            {
+              "path": "/api/procesados/metricas/distribucion-anomalias",
+              "status": 200,
+              "seconds": 0.005113799998071045,
+              "same_cut": true,
+              "bytes": 110,
+              "sha256": "e0f2f040843e57d5743fcde7e552aedc431100737f54ee5c353ab0de3109bbb8"
+            },
+            {
+              "path": "/api/procesados/estadisticas/campos-faltantes",
+              "status": 200,
+              "seconds": 0.010323599999537691,
+              "same_cut": true,
+              "bytes": 154,
+              "sha256": "d5d2fab5c85e8505f4f5fd51a84c76e723592bd4b416a334cf94bdeef98db22b"
+            },
+            {
+              "path": "/api/procesados/metricas/distribucion-riesgo",
+              "status": 200,
+              "seconds": 36.882268199988175,
+              "same_cut": true,
+              "bytes": 58,
+              "sha256": "72ff517cf84e9ad7236a3d4b657cd77adbd8b6ad7126835ebe0707d8afc8609f"
+            },
+            {
+              "path": "/api/procesados/metricas/top-proveedores?limit=10",
+              "status": 200,
+              "seconds": 5.453484799989383,
+              "same_cut": true,
+              "bytes": 788,
+              "sha256": "3c2df98d0f005f291dcbf7dcf6730ee1cdcaf7a247641bbbd8057f09044d7636"
+            }
+          ],
+          "concurrent_readers": {
+            "requests": 23,
+            "median_seconds": 0.019511300008161925,
+            "p95_seconds": 0.1354567000089446,
+            "max_seconds": 0.816907699991134
+          },
+          "minimum_free_bytes": 89748336640,
+          "errors": [],
+          "real_models": 0,
+          "published_database_touched": false
+        }
+      },
+      {
+        "source_file": "citizen-http-benchmark-20261016-v3.json",
+        "source_sha256": "662de764bdcdd3eb84bba4c7831390ad9116ee77cdfcc9c522e46d9018eafb0a",
+        "report": {
+          "time": "2026-10-16T16:19:45.685462+00:00",
+          "database_oid": 75045,
+          "source_rows": 9249545,
+          "baseline_id": "99f05e23-fd13-44a5-bcf9-c931e6c40dcd",
+          "schema": "e56a990bd730",
+          "api_port": 8016,
+          "read_only_forced": true,
+          "read_parallel_workers": 0,
+          "work_mem": "32MB",
+          "scope": "Public HTTP reads of a frozen real-volume copy; no inference, persistence or predictive validation",
+          "requests": [
+            {
+              "path": "/api/riesgo/estado",
+              "status": 200,
+              "seconds": 0.44818799999484327,
+              "same_cut": true,
+              "bytes": 319,
+              "sha256": "e3c153fd2ba58447e9f680ff8ae8efd8cfee30c1f001f066cf66c86e44250232"
+            },
+            {
+              "path": "/api/procesados/search?limit=25&sort=fecha&order=desc",
+              "status": 200,
+              "seconds": 0.47856509999837726,
+              "same_cut": true,
+              "bytes": 25478,
+              "sha256": "c1d2062db271f9f1c0fa5f21c60f94d61af3b22bbdb1da2b9a784acd327f1c98",
+              "total": 9249545
+            },
+            {
+              "path": "/api/procesados/9249499",
+              "status": 200,
+              "seconds": 0.06099879999237601,
+              "same_cut": true,
+              "bytes": 1000,
+              "sha256": "d3554c6b2530b3cb63c165c655a9adcbc0e38b07931c42e0ccdf6337420538cb"
+            },
+            {
+              "path": "/api/procesados/metricas/dashboard",
+              "status": 200,
+              "seconds": 0.02274770000076387,
+              "same_cut": true,
+              "bytes": 286,
+              "sha256": "67185ef64952fce6aaeb88e9b4ed71fa48b9aa6afb4004583ab658e04187fbae"
+            },
+            {
+              "path": "/api/procesados/metricas/calidad",
+              "status": 200,
+              "seconds": 0.022320300005958416,
+              "same_cut": true,
+              "bytes": 239,
+              "sha256": "e8aceb16cc02cebf3aeda1e6f78e43dfd0dfe148990d65ead35a7d10da3e0550"
+            },
+            {
+              "path": "/api/procesados/metricas/distribucion-anomalias",
+              "status": 200,
+              "seconds": 0.014785499995923601,
+              "same_cut": true,
+              "bytes": 110,
+              "sha256": "e0f2f040843e57d5743fcde7e552aedc431100737f54ee5c353ab0de3109bbb8"
+            },
+            {
+              "path": "/api/procesados/estadisticas/campos-faltantes",
+              "status": 200,
+              "seconds": 0.048829099992872216,
+              "same_cut": true,
+              "bytes": 154,
+              "sha256": "d5d2fab5c85e8505f4f5fd51a84c76e723592bd4b416a334cf94bdeef98db22b"
+            },
+            {
+              "path": "/api/procesados/metricas/distribucion-riesgo",
+              "status": 200,
+              "seconds": 0.0051423000113572925,
+              "same_cut": true,
+              "bytes": 58,
+              "sha256": "72ff517cf84e9ad7236a3d4b657cd77adbd8b6ad7126835ebe0707d8afc8609f"
+            },
+            {
+              "path": "/api/procesados/metricas/top-proveedores?limit=10",
+              "status": 200,
+              "seconds": 0.008650599993416108,
+              "same_cut": true,
+              "bytes": 788,
+              "sha256": "3c2df98d0f005f291dcbf7dcf6730ee1cdcaf7a247641bbbd8057f09044d7636"
+            }
+          ],
+          "concurrent_readers": {
+            "requests": 20,
+            "median_seconds": 0.026420349997351877,
+            "p95_seconds": 0.03379020000284072,
+            "max_seconds": 0.08179309999104589
+          },
+          "minimum_free_bytes": 89760538624,
+          "errors": [],
+          "real_models": 0,
+          "published_database_touched": false
+        }
+      }
+    ],
+    "aggregate_preparation": {
+      "source_sha256": "0e3eb6d1b6ba15fddb327558b7da4494319d2ede91a6004ba341786879442d0b",
+      "report": {
+        "time": "2026-10-16T16:16:02.383170+00:00",
+        "test_oid": 75045,
+        "seconds": 39.79305540000496,
+        "result": {
+          "public_cut_id": "99f05e23-fd13-44a5-bcf9-c931e6c40dcd",
+          "aggregates_ready": true,
+          "data_cut_at": "2026-10-01"
+        },
+        "source_revisions_before": [
+          [
+            "contratos_procesados",
+            0,
+            9249545
+          ],
+          [
+            "raw_secop",
+            0,
+            9249545
+          ]
+        ],
+        "source_revisions_after": [
+          [
+            "contratos_procesados",
+            0,
+            9249545
+          ],
+          [
+            "raw_secop",
+            0,
+            9249545
+          ]
+        ],
+        "source_writes_blocked": true,
+        "real_models": 0
+      }
+    },
+    "not_measured": [
+      "Full-cut inference and result persistence",
+      "Peak process memory",
+      "Predictive quality",
+      "Final candidate deployment recovery"
+    ]
+  },
+  "frontend": {
+    "tests": 11,
+    "lint": "passed",
+    "build": "passed",
+    "types": "checked",
+    "visual_fixture": "frontend/tests/risk-evidence-preview.html",
+    "viewports": [
+      {
+        "width": 1280,
+        "height": "full page"
+      },
+      {
+        "width": 390,
+        "height": 844
+      }
+    ],
+    "visual_states_checked": [
+      "results",
+      "abstention",
+      "blocked",
+      "empty",
+      "error",
+      "pending"
+    ],
+    "horizontal_overflow_detected": false,
+    "scope": "Synthetic component fixture only; final complete deployment review pending"
+  },
+  "training_dependency_vulnerabilities": 0,
+  "training_lock_sha256": "1700f4a596deecf0a52c37338fa691e421e636207bb1a9f008ed289c5ed6da3e",
+  "scopes_not_verified": [
+    "Real judicial model training/validation",
+    "Full-cut inference/resources with actual approved models and final deployment",
+    "Training/inference temporal-scope equivalence on real dated features",
+    "Final operational role privileges after candidate deployment",
+    "Activation of revised engine and daily Windows startup"
+  ],
+  "citizen_publication": {
+    "atomic_data_and_risk_pointers": true,
+    "before_images_without_daily_full_clone": true,
+    "persisted_aggregates": true,
+    "versioned_public_reads_and_exports": true,
+    "historical_restore_after_incompatible_feature_upgrade": true,
+    "concurrent_committed_writes_test": {
+      "reader_calls": 48,
+      "committed_updates": 8,
+      "wrong_cut_reads": 0
+    },
+    "scope": "Isolated engineering tests; final candidate deployment remains pending"
+  },
+  "temporal_policy": {
+    "feature_version": "secop-point-in-time-v3",
+    "prediction_policy": "reviewed-stage-landmark-v1",
+    "current_captures_abstain": true,
+    "indexed_exact_reviewed_stage_lookup": true,
+    "conflicting_reviews_abstain": true,
+    "all_abstentions_block_publication": true,
+    "training_inference_feature_equivalence": "synthetic two-stage physical review fixtures only",
+    "real_reviewed_observations": 0
+  },
+  "durable_inference_recovery": {
+    "atomic_completed_directory": true,
+    "reuse_verifies_input_model_and_code": true,
+    "rows_and_cursor_commit_together": true,
+    "recovery_after_committed_batch": true,
+    "no_reinference_or_duplicate_inserts": true,
+    "model_binds_actual_prediction_code": true,
+    "scope": "Isolated engineering tests and complete abstention-only volume recovery; no real approved-model inference"
+  },
+  "full_volume_engineering": {
+    "time": "2026-10-16T23:11:32.224485+00:00",
+    "state": "COMPLETE",
+    "scope": "Full isolated current SECOP capture and abstention-only inference, durable persistence recovery; no learned/approved models or citizen activation",
+    "source_rows": 9249545,
+    "source_oid": 75045,
+    "cut_id": "12123789-5a7a-491b-b564-4086b339b011",
+    "baseline_citizen_cut_id": "99f05e23-fd13-44a5-bcf9-c931e6c40dcd",
+    "publication_performed": false,
+    "real_models": 0,
+    "capture": {
+      "seconds": 2904.764632999999,
+      "coverage": {
+        "source_rows": 9249545,
+        "raw_rows_read": 9249545,
+        "normalized_rows_read": 9249545,
+        "observed_rows": 4261387,
+        "not_normalized_rows": 0,
+        "exclusions": {
+          "etapa_sin_confirmar": 4785322,
+          "estado_fuera_del_alcance": 202836
+        },
+        "stage_counts": {
+          "CONVOCATORIA": 3378967,
+          "ADJUDICACION": 882420
+        },
+        "observations_sha256": "434525503a7f8260c92a1c887dfca9b4b7f42fc299575eb9453b5a5c426a7df6",
+        "hash_scope": "uncompressed_jsonl_bytes",
+        "file_sha256": "5441b067ab4bd9dbe9ee4cf6bc4c9b9c95f41d560c2bf3bc32c87ef9d4ab83dd",
+        "file_bytes": 1440576735,
+        "encoding": "gzip"
+      }
+    },
+    "inference": {
+      "seconds": 531.0156664000096,
+      "input_rows": 4261387,
+      "evaluated_counts": {
+        "ADJUDICACION": 0,
+        "CONVOCATORIA": 0
+      },
+      "output_bytes": 870385190,
+      "output_sha256": "9eb391cd7b4a433ea6cd9ba66f86343a2e27f0af0fdcc2f86ce29d055eae5576",
+      "invocations": 1,
+      "actual_inference_peak_rss": null,
+      "memory_limitation": "Windows venv launcher was sampled; actual Python descendant RSS was not verified. Launcher values are not inference memory measurements."
+    },
+    "recovery": {
+      "first_committed_checkpoint": {
+        "lines": 1000,
+        "counts": {
+          "ADJUDICACION": 223,
+          "CONVOCATORIA": 777
+        },
+        "output_sha256": "9eb391cd7b4a433ea6cd9ba66f86343a2e27f0af0fdcc2f86ce29d055eae5576"
+      },
+      "verified_file_reuse_seconds": 12.558180300009553,
+      "resume_inference_invocations": 0,
+      "interrupted_checkpoint": {
+        "at": "2026-10-16T22:22:08.513717+00:00",
+        "lines": 1837000,
+        "counts": {
+          "ADJUDICACION": 380677,
+          "CONVOCATORIA": 1456323
+        },
+        "output_sha256": "9eb391cd7b4a433ea6cd9ba66f86343a2e27f0af0fdcc2f86ce29d055eae5576",
+        "count_validation": "Durable cursor read; persisted stage counts will be revalidated by persist_results on resume"
+      },
+      "persistence_complete": true
+    },
+    "runs": [
+      {
+        "resume": false,
+        "phases": [
+          {
+            "phase": "CAPTURE",
+            "seconds": 2904.764632999999,
+            "rows": 4261387,
+            "file_bytes": 1440576735
+          },
+          {
+            "phase": "INFERENCE",
+            "seconds": 531.0156664000096,
+            "input_rows": 4261387,
+            "output_bytes": 870385190
+          },
+          {
+            "phase": "PERSISTENCE",
+            "seconds": 0.8640433000109624
+          }
+        ],
+        "reader_errors": [],
+        "concurrent_readers": {
+          "requests": 13367,
+          "median_seconds": 0.005308000007062219,
+          "p95_seconds": 0.01155070000095293,
+          "max_seconds": 0.2098178000014741
+        },
+        "minimum_free_bytes": 79273840640,
+        "elapsed_seconds": 3437.172699700008,
+        "stop_reason": null,
+        "accessible_process_memory": {
+          "worker": {
+            "pid": 57688,
+            "sampled_peak_rss": 82034688,
+            "peak_commit": 66138112
+          },
+          "postgres_capture": {
+            "pid": 56548,
+            "sampled_peak_rss": 236638208,
+            "peak_commit": 94277632
+          }
+        }
+      },
+      {
+        "resume": true,
+        "phases": [
+          {
+            "phase": "INFERENCE",
+            "seconds": 12.558180300009553,
+            "input_rows": 4261387,
+            "output_bytes": 870385190
+          }
+        ],
+        "reader_errors": [],
+        "concurrent_readers": {
+          "requests": 5030,
+          "median_seconds": 0.006267649994697422,
+          "p95_seconds": 0.06546779999916907,
+          "max_seconds": 0.17906969999603461
+        },
+        "minimum_free_bytes": 83567955968,
+        "elapsed_seconds": 1320.951694000003,
+        "stop_reason": "Intentional cancellation of exact benchmark INSERT to serialize heavy I/O; confirmed batches retained. Not an unexplained production failure.",
+        "accessible_process_memory": {
+          "worker": {
+            "pid": 66932,
+            "sampled_peak_rss": 103194624,
+            "peak_commit": 88674304
+          }
+        }
+      },
+      {
+        "resume": true,
+        "phases": [
+          {
+            "phase": "INFERENCE",
+            "seconds": 15.23046940000495,
+            "input_rows": 4261387,
+            "output_bytes": 870385190
+          },
+          {
+            "phase": "PERSISTENCE",
+            "seconds": 1723.0155923999992
+          }
+        ],
+        "reader_errors": [],
+        "concurrent_readers": {
+          "requests": 6697,
+          "median_seconds": 0.005846300002303906,
+          "p95_seconds": 0.013115599998855032,
+          "max_seconds": 0.26555630000075325
+        },
+        "minimum_free_bytes": 81015005184,
+        "elapsed_seconds": 1738.4909794999985,
+        "stop_reason": null,
+        "accessible_process_memory": {
+          "worker": {
+            "pid": 61680,
+            "sampled_peak_rss": 100839424,
+            "peak_commit": 87371776
+          }
+        }
+      }
+    ],
+    "limitations": [
+      "Only abstention paths exercised; no predictive validation or approved-model inference throughput",
+      "Not total PostgreSQL or operating-system memory",
+      "Uncontrolled caches; additional isolated tests/capture ran during persistence",
+      "Candidate operational deployment and actual learned-model resource validation remain pending"
+    ],
+    "persisted_total": 4261387,
+    "results_table_bytes": 12726919168,
+    "source_signature_unchanged": true,
+    "baseline_pointer_unchanged": true
+  },
+  "process_lifecycle": {
+    "native_windows_probe": {
+      "time": "2026-10-16T23:26:19.649997+00:00",
+      "scope": "Synthetic owned Windows venv trees; forced API-like supervisor death, not full HTTP/deployment recovery",
+      "code_sha256": {
+        "process_runner.py": "cd76a2c930d1e6f0ba3082d76451a5f5bc121e76cf72ddd1e1462fee1bac239a",
+        "windows_job.py": "3eff06af4c2709e4e8be54902bf76cab21beef8624392a8992a9efd0521aff21"
+      },
+      "trials": [
+        {
+          "kind": "TIMEOUT",
+          "seconds": 5.13297180000518,
+          "actual_pids": [
+            74148,
+            74304
+          ],
+          "all_descendants_stopped": true
+        },
+        {
+          "kind": "OWNER_FORCED_EXIT",
+          "seconds": 1.8274734000005992,
+          "owner_exit_code": 97,
+          "actual_pids": [
+            66384,
+            61744
+          ],
+          "all_descendants_stopped": true
+        }
+      ],
+      "status": "COMPLETE"
+    },
+    "execution_receipt_separate_from_predictive_approval": true,
+    "worker_owner_recovery": {
+      "time": "2026-10-16T23:25:09.744968+00:00",
+      "state": "COMPLETE",
+      "source_oid": 82244,
+      "scope": "Real durable worker + synthetic model task under forced API-like owner exit; no HTTP/auth or full release activation test",
+      "real_models_trained": 0,
+      "publication_performed": false,
+      "owner_exit_code": 97,
+      "actual_descendant_pids": [
+        64452,
+        70388
+      ],
+      "descendants_stopped": true,
+      "recovered_same_public_id": true,
+      "attempts": 2,
+      "deduplicated_before_and_after_recovery": true,
+      "source_versions_unchanged": true,
+      "synthetic_job_removed": true
+    },
+    "api_forced_termination_cleanup": "API-like supervisor and real durable worker tested; final HTTP deployment pending"
+  },
+  "capture_optimization": {
+    "no_population_wide_current_contexts_by_default": true,
+    "no_preliminary_full_count": true,
+    "ambiguous_unnormalized_aliases_detected": true,
+    "insert_template_reused": true,
+    "full_volume_comparison": "complete"
+  },
+  "optimized_capture_benchmark": {
+    "started_at": "2026-10-16T22:20:35.665516+00:00",
+    "pid": 68488,
+    "state": "COMPLETE",
+    "scope": "Full current-capture engineering comparison; no usable historical predictors or model validation",
+    "baseline_seconds": 2904.764632999999,
+    "source_oid": 75045,
+    "read_errors": [],
+    "source_at": "2026-10-16T16:52:03.749852+00:00",
+    "capture_code_sha256": {
+      "modules/motor_riesgo/feature_store.py": "4b4e8029e90f98e8f6d97eacbc9005bf354577887c30472ba11b97eae2e96d12",
+      "modules/motor_riesgo/feature_builder.py": "2885c8e67ff446b2875ae499e594202ae9072df8e1e99c829a8cbe1f2865622d",
+      "modules/motor_riesgo/stage_evidence.py": "57458d6d450c5d04df67f5d9da003fa584498734fd33ad14f8e41d5f382d5ddf"
+    },
+    "minimum_free_bytes": 86872678400,
+    "publication_performed": false,
+    "capture_seconds": 1304.3612779999967,
+    "coverage": {
+      "source_rows": 9249545,
+      "raw_rows_read": 9249545,
+      "normalized_rows_read": 9249545,
+      "observed_rows": 4261387,
+      "capture_mode": "reviewed_stage_evidence",
+      "source_count_scope": "complete_selected_source_keyset_traversal",
+      "not_normalized_rows": 0,
+      "exclusions": {
+        "etapa_sin_confirmar": 4785322,
+        "estado_fuera_del_alcance": 202836
+      },
+      "stage_counts": {
+        "CONVOCATORIA": 3378967,
+        "ADJUDICACION": 882420
+      },
+      "observations_sha256": "d9d8985cba8e2a9f236f53f17a6add2c865b07c1c16b62f777426d44af172d33",
+      "hash_scope": "uncompressed_jsonl_bytes",
+      "file_sha256": "444df0b4f3b5dd15395c8006d36f8e451eaecd6ae0b4796ae123d9d416569c10",
+      "file_bytes": 1251744317,
+      "encoding": "gzip"
+    },
+    "counts": {
+      "CONVOCATORIA": 3378967,
+      "ADJUDICACION": 882420
+    },
+    "source_signature_unchanged": true,
+    "baseline_pointer_unchanged": true,
+    "speedup": 2.226963251664395,
+    "concurrent_readers": {
+      "requests": 5043,
+      "p95_seconds": 0.014699199993629009,
+      "max_seconds": 0.28764169999340083
+    },
+    "elapsed_seconds": 1304.7901004000014,
+    "memory": {
+      "started_at": "2026-10-16T22:23:48.763471+00:00",
+      "state": "COMPLETE",
+      "scope": "OS lifetime peaks of actual capture worker and its accessible PostgreSQL backend only; not total PostgreSQL/OS/inference memory",
+      "processes": {
+        "capture_worker": {
+          "pid": 68488,
+          "peak_rss_bytes": 80019456,
+          "peak_commit_bytes": 63385600
+        },
+        "capture_backend": {
+          "pid": 67352,
+          "peak_rss_bytes": 155115520,
+          "peak_commit_bytes": 7852032
+        }
+      },
+      "finished_at": "2026-10-16T22:42:24.927779+00:00"
+    }
+  },
+  "judicial_operation_scope": {
+    "reviewed_exact_convicted_facts_required_per_operation": true,
+    "judgment_sha256_and_facts_and_operative_locators_required": true,
+    "partial_nullities_not_positive": true,
+    "acquittals_investigations_and_fraud_not_positive": true,
+    "real_eligible_cases": 0
+  },
+  "native_http_isolated": {
+    "time": "2026-10-16T23:36:49.056550+00:00",
+    "state": "COMPLETE",
+    "database_oid": 82244,
+    "scope": "Native candidate API on isolated DB: authentication, administrative reads, refusals with absent approval, and unauthenticated/invalid-token boundaries. Temporary owned admin/session removed. No approved-model workflows, final release, UI or Windows task activation.",
+    "source_mutations": false,
+    "publication_performed": false,
+    "authenticated_checks": [
+      {
+        "method": "GET",
+        "path": "/api/auth/me",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/riesgo/admin/inventario",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/riesgo/admin/modelos",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/riesgo/admin/evidencias-variables",
+        "status": 200
+      },
+      {
+        "method": "POST",
+        "path": "/api/riesgo/admin/entrenar",
+        "status": 422
+      },
+      {
+        "method": "POST",
+        "path": "/api/riesgo/admin/activar",
+        "status": 409
+      },
+      {
+        "method": "POST",
+        "path": "/api/riesgo/admin/actualizar",
+        "status": 409
+      },
+      {
+        "method": "POST",
+        "path": "/api/riesgo/admin/revertir/00000000-0000-0000-0000-000000000001",
+        "status": 409
+      },
+      {
+        "method": "POST",
+        "path": "/api/riesgo/admin/casos",
+        "status": 422
+      }
+    ],
+    "logout_revokes_admin_access": true,
+    "public_checks": [
+      {
+        "method": "GET",
+        "path": "/api/riesgo/estado",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/riesgo/metodologia",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/riesgo/resultados",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/riesgo/resultados?stage=INVALID",
+        "status": 422
+      }
+    ],
+    "administrative_denials": [
+      {
+        "method": "POST",
+        "path": "/api/riesgo/admin/casos",
+        "credentials": "absent",
+        "status": 401
+      },
+      {
+        "method": "POST",
+        "path": "/api/riesgo/admin/casos",
+        "credentials": "invalid",
+        "status": 401
+      },
+      {
+        "method": "POST",
+        "path": "/api/riesgo/admin/casos",
+        "credentials": "malformed",
+        "status": 401
+      },
+      {
+        "method": "GET",
+        "path": "/api/riesgo/admin/inventario",
+        "credentials": "absent",
+        "status": 401
+      },
+      {
+        "method": "GET",
+        "path": "/api/riesgo/admin/inventario",
+        "credentials": "invalid",
+        "status": 401
+      },
+      {
+        "method": "GET",
+        "path": "/api/riesgo/admin/inventario",
+        "credentials": "malformed",
+        "status": 401
+      },
+      {
+        "method": "GET",
+        "path": "/api/riesgo/admin/modelos",
+        "credentials": "absent",
+        "status": 401
+      },
+      {
+        "method": "GET",
+        "path": "/api/riesgo/admin/modelos",
+        "credentials": "invalid",
+        "status": 401
+      },
+      {
+        "method": "GET",
+        "path": "/api/riesgo/admin/modelos",
+        "credentials": "malformed",
+        "status": 401
+      },
+      {
+        "method": "POST",
+        "path": "/api/riesgo/admin/evidencias-variables",
+        "credentials": "absent",
+        "status": 401
+      },
+      {
+        "method": "POST",
+        "path": "/api/riesgo/admin/evidencias-variables",
+        "credentials": "invalid",
+        "status": 401
+      },
+      {
+        "method": "POST",
+        "path": "/api/riesgo/admin/evidencias-variables",
+        "credentials": "malformed",
+        "status": 401
+      },
+      {
+        "method": "GET",
+        "path": "/api/riesgo/admin/evidencias-variables",
+        "credentials": "absent",
+        "status": 401
+      },
+      {
+        "method": "GET",
+        "path": "/api/riesgo/admin/evidencias-variables",
+        "credentials": "invalid",
+        "status": 401
+      },
+      {
+        "method": "GET",
+        "path": "/api/riesgo/admin/evidencias-variables",
+        "credentials": "malformed",
+        "status": 401
+      },
+      {
+        "method": "POST",
+        "path": "/api/riesgo/admin/entrenar",
+        "credentials": "absent",
+        "status": 401
+      },
+      {
+        "method": "POST",
+        "path": "/api/riesgo/admin/entrenar",
+        "credentials": "invalid",
+        "status": 401
+      },
+      {
+        "method": "POST",
+        "path": "/api/riesgo/admin/entrenar",
+        "credentials": "malformed",
+        "status": 401
+      },
+      {
+        "method": "POST",
+        "path": "/api/riesgo/admin/activar",
+        "credentials": "absent",
+        "status": 401
+      },
+      {
+        "method": "POST",
+        "path": "/api/riesgo/admin/activar",
+        "credentials": "invalid",
+        "status": 401
+      },
+      {
+        "method": "POST",
+        "path": "/api/riesgo/admin/activar",
+        "credentials": "malformed",
+        "status": 401
+      },
+      {
+        "method": "POST",
+        "path": "/api/riesgo/admin/preparar-base",
+        "credentials": "absent",
+        "status": 401
+      },
+      {
+        "method": "POST",
+        "path": "/api/riesgo/admin/preparar-base",
+        "credentials": "invalid",
+        "status": 401
+      },
+      {
+        "method": "POST",
+        "path": "/api/riesgo/admin/preparar-base",
+        "credentials": "malformed",
+        "status": 401
+      },
+      {
+        "method": "POST",
+        "path": "/api/riesgo/admin/actualizar",
+        "credentials": "absent",
+        "status": 401
+      },
+      {
+        "method": "POST",
+        "path": "/api/riesgo/admin/actualizar",
+        "credentials": "invalid",
+        "status": 401
+      },
+      {
+        "method": "POST",
+        "path": "/api/riesgo/admin/actualizar",
+        "credentials": "malformed",
+        "status": 401
+      },
+      {
+        "method": "POST",
+        "path": "/api/riesgo/admin/revertir/{cut_id}",
+        "credentials": "absent",
+        "status": 401
+      },
+      {
+        "method": "POST",
+        "path": "/api/riesgo/admin/revertir/{cut_id}",
+        "credentials": "invalid",
+        "status": 401
+      },
+      {
+        "method": "POST",
+        "path": "/api/riesgo/admin/revertir/{cut_id}",
+        "credentials": "malformed",
+        "status": 401
+      }
+    ],
+    "administrative_operations": 10,
+    "read_only_permission_check_passed": true,
+    "code_sha256": {
+      "main.py": "64ec8089b40610f4390d62e46cb7a0c0144acbcc3f540110ac131234bd4e608b",
+      "modules/motor_riesgo/controller.py": "bd256ae883bf21b1c89801bb9f6fb03766289638ca34f317b4c07937a9a17c15",
+      "gateway/middlewares/auth_middleware.py": "dea6bc036741a283bef0beb00d4d4fe37424be54e3b4dcc1f31cf09d8b13b1cb",
+      "modules/motor_riesgo/runtime_permissions.py": "417ee1fa592315204f99e88edfa66dcef0841bbb0898a694d07094b94345f4d2"
+    },
+    "owned_server_stopped": true,
+    "temporary_admin_and_session_removed": true,
+    "source_jobs_evidence_models_and_publication_unchanged": true,
+    "auth_sequence_restore_attempted": false
+  },
+  "local_role_capabilities": {
+    "time": "2026-10-16T21:59:57.928350+00:00",
+    "oid": 24577,
+    "schema": "3c19a8f7e2d0",
+    "read_only": true,
+    "create_schemas_in_database": true,
+    "create_objects_in_public": true,
+    "public_usage": true,
+    "owns_existing_source_and_quality_tables": {
+      "contrato_anomalo_incompleto": true,
+      "contratos_metricas_calidad": true,
+      "contratos_procesados": true,
+      "estadistica_campos_faltantes": true,
+      "raw_secop": true
+    },
+    "elevated_role_flags": {
+      "superuser": false,
+      "create_database": false,
+      "create_role": false,
+      "replication": false
+    },
+    "candidate_not_installed": true,
+    "scope": "Existing capabilities only; no proof of new object privileges after an unperformed deployment"
+  },
+  "batch_write_comparison": {
+    "time": "2026-10-16T22:14:55.125100+00:00",
+    "rows_per_trial": 10000,
+    "scope": "Real unscored results, isolated rollback transactions; concurrent capture and writer active; not sustained production throughput",
+    "current_code_sha256": "910a0242fcad3fd8f03853ecd5beb7170df8fd8d02c3d1287bcc9b70f5296ef3",
+    "comparison_code_sha256": "7bb228f414d4bc9b9140541f03456a8c519da30f44fe24dc860ba93ff0d7ebeb",
+    "trials": [
+      {
+        "mode": "previous",
+        "seconds": 10.840465999994194,
+        "rows_per_second": 922.4695691131134
+      },
+      {
+        "mode": "template",
+        "seconds": 4.264880400005495,
+        "rows_per_second": 2344.731636551195
+      },
+      {
+        "mode": "template",
+        "seconds": 3.7244739000016125,
+        "rows_per_second": 2684.9429660376113
+      },
+      {
+        "mode": "previous",
+        "seconds": 4.388098600000376,
+        "rows_per_second": 2278.8913631063674
+      }
+    ],
+    "committed_results": 0
+  },
+  "volume_copy_current_state": {
+    "oid": 75045,
+    "schema": "f67b120ce841",
+    "source_versions": [
+      [
+        "contratos_procesados",
+        0,
+        9249545
+      ],
+      [
+        "raw_secop",
+        0,
+        9249545
+      ]
+    ],
+    "public_cut_id": "99f05e23-fd13-44a5-bcf9-c931e6c40dcd",
+    "data_cut_at": "2026-10-01",
+    "aggregate_rows": 9249545,
+    "real_models": 0,
+    "daily_enabled": false,
+    "source_revisions_unchanged": true
+  }
+}

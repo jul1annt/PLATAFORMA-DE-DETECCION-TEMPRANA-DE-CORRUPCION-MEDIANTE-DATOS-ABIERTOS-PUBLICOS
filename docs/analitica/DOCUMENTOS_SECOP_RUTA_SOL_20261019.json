@@ -1,0 +1,55 @@
+{
+  "created_at": "2026-10-19T16:50:06.850828+00:00",
+  "source_url": "https://www.contratos.gov.co/consultas/detalleProceso.do?numConstancia=09-1-41316",
+  "process_reference": "SEA LP 001 2009",
+  "documents": [
+    {
+      "filename": "DA_PROCESO_09-1-41316_124001001_1456887.pdf",
+      "title": "RESOLUCION DE ADJUDICACION Nº 641",
+      "sha256": "bd7d800f3cf01fbd85e9a363c64a0da7dd98236a41e4df455facc275898dbc92",
+      "bytes": 816323,
+      "pages": 6,
+      "publication_display": "2009-12-18T18:09:00-05:00",
+      "publication_timezone_assumption": "America/Bogota; portal shows local date and AM/PM without explicit zone",
+      "publication_evidence": "current official process document listing, version 1",
+      "download_method": "normal public SECOP I browser link",
+      "historical_observation_admitted": false
+    },
+    {
+      "filename": "PPC_PROCESO_09-1-41316_124001001_959284.pdf",
+      "title": "PROYECTO DE PLIEGO DE CONDICIONES",
+      "sha256": "8ae976fa9a3f2edcd83d3bc99a8944eadd1893d7d1312801c73b1e7b7a20fcd9",
+      "bytes": 773009,
+      "pages": 105,
+      "publication_display": "2009-03-10T00:34:00-05:00",
+      "publication_timezone_assumption": "America/Bogota; portal shows local date and AM/PM without explicit zone",
+      "publication_evidence": "current official process document listing, version 1",
+      "download_method": "normal public SECOP I browser link",
+      "historical_observation_admitted": false
+    },
+    {
+      "filename": "DA_PROCESO_09-1-41316_124001001_1323952.pdf",
+      "title": "PLIEGOS - ADENDA Nº 12",
+      "sha256": "4b685ccf5f4784cb4860706e92e8e2cffb2744ad8e1cbc32048b97fc85f8f037",
+      "bytes": 722968,
+      "pages": 125,
+      "publication_display": "2009-10-22T00:02:00-05:00",
+      "publication_timezone_assumption": "America/Bogota; portal shows local date and AM/PM without explicit zone",
+      "publication_evidence": "current official process document listing, version 1",
+      "download_method": "normal public SECOP I browser link",
+      "historical_observation_admitted": false
+    }
+  ],
+  "failed_downloads": [
+    {
+      "document_id": "987089",
+      "description": "PLIEGOS DE CONDICIONES DEFINITIVOS",
+      "confirmed_file": false,
+      "event_result": "timeout"
+    }
+  ],
+  "secondary_award_id_candidate": "1536756",
+  "secondary_id_not_verified_by_official_record": true,
+  "training_labels_created": 0,
+  "database_modified": false
+}

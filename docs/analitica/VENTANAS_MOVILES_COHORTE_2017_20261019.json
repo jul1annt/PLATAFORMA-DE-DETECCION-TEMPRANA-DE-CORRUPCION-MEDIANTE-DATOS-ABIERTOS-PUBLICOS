@@ -1,0 +1,2011 @@
+{
+  "date_bogota": "2026-10-19",
+  "scope": "Complete local normalized pair histories for eligible targets in the selected 2017 cohort; not national procurement coverage.",
+  "cohort_rows": 1698,
+  "targets_with_pair_and_award_date": 17,
+  "targets_excluded_ambiguous_global_identity": 4,
+  "targets_evaluated": 13,
+  "source_rows_across_pair_queries": 21,
+  "pairs_query_seconds": 4.137509699969087,
+  "offline_cli_seconds": 1.8095864999922924,
+  "reiteration_counts": {
+    "0": 13
+  },
+  "direct_counts": {
+    "0": 13
+  },
+  "complete_risk_scores": 0,
+  "reports": [
+    {
+      "policy": "verified-pair-rolling-current-cut-v1",
+      "temporal_scope": "current_cut_descriptive_not_stage_prediction",
+      "frame": {
+        "start": "2017-08-19T05:00:00+00:00",
+        "end": "2017-11-17T05:00:00+00:00",
+        "complete_pair_history": true,
+        "universe": "Normalized local cut, stored buyer/provider keys; all stored sources, dates, methods and categories.",
+        "snapshot_cut": "2026-10-01",
+        "coverage_outside_declared_universe_verified": false
+      },
+      "target": {
+        "source_id": 1,
+        "process_id": "CO1.REQ.256728",
+        "award_id": "CO1.AWD.195124",
+        "award_at": "2017-11-17T05:00:00+00:00"
+      },
+      "values": {
+        "reiteraciones_30d": 0,
+        "directas_90d": 0
+      },
+      "indicators": {
+        "reiteraciones_30d": {
+          "count": 0,
+          "observed_distinct_processes": 0,
+          "observed_awards": 0,
+          "reasons": {},
+          "amounts_by_currency": {},
+          "amounts_complete": true,
+          "awards_without_verified_amount_currency": 0,
+          "evidence": []
+        },
+        "directas_90d": {
+          "count": 0,
+          "observed_distinct_processes": 0,
+          "observed_awards": 0,
+          "reasons": {},
+          "amounts_by_currency": {},
+          "amounts_complete": true,
+          "awards_without_verified_amount_currency": 0,
+          "evidence": []
+        }
+      },
+      "ignored": {
+        "proceso_objetivo": 1,
+        "evento_futuro": 1
+      },
+      "frame_sha256": "65dc2dfd4e2af44de5c8ff543753c1b31c42f1db8f0dcbba6dbc615b276b7b49",
+      "training_eligible": false,
+      "publication_authorized": false,
+      "limitations": [
+        "Ventanas inclusivas [t-días,t], excluyen todo el proceso objetivo.",
+        "Reiteración no acredita fraccionamiento ni duplicación.",
+        "Contratación directa no acredita una conducta ilícita.",
+        "No mide cuota de mercado: el denominador de la entidad no está incluido.",
+        "Datos actuales no reconstruyen conocimiento histórico."
+      ],
+      "coverage": {
+        "policy": "binary-family-coverage-v1",
+        "stage": "ADJUDICACION",
+        "indicators": {
+          "IMPORTE_ATIPICO": {
+            "indicator": "IMPORTE_ATIPICO",
+            "status": "NO_EVALUABLE",
+            "detected": null,
+            "reason": "iqr_no_calculado",
+            "observed": {
+              "detected": null,
+              "reason": "iqr_no_calculado"
+            }
+          },
+          "OFERENTE_UNICO": {
+            "indicator": "OFERENTE_UNICO",
+            "status": "NO_EVALUABLE",
+            "detected": null,
+            "reason": "modalidad_no_verificada",
+            "observed": null
+          },
+          "DIRECTAS_90D": {
+            "indicator": "DIRECTAS_90D",
+            "status": "SIN_SENAL",
+            "detected": false,
+            "reason": null,
+            "observed": {
+              "value": "0",
+              "threshold": 3
+            }
+          },
+          "REITERACION_30D": {
+            "indicator": "REITERACION_30D",
+            "status": "SIN_SENAL",
+            "detected": false,
+            "reason": null,
+            "observed": {
+              "value": "0",
+              "threshold": 2
+            }
+          }
+        },
+        "families": {
+          "IMPORTE_ATIPICO": {
+            "status": "NO_EVALUABLE",
+            "weight": 1,
+            "contribution": null,
+            "indicators": [
+              "IMPORTE_ATIPICO"
+            ]
+          },
+          "COMPETENCIA": {
+            "status": "NO_EVALUABLE",
+            "weight": 1,
+            "contribution": null,
+            "indicators": [
+              "OFERENTE_UNICO"
+            ]
+          },
+          "CONCENTRACION_REITERACION": {
+            "status": "SIN_SENAL",
+            "weight": 1,
+            "contribution": 0,
+            "indicators": [
+              "DIRECTAS_90D",
+              "REITERACION_30D"
+            ]
+          }
+        },
+        "confirmed_signal_count": 0,
+        "applicable_families": 3,
+        "evaluated_families": 1,
+        "unevaluable_families": 2,
+        "family_coverage": 0.3333333333333333,
+        "applicable_indicators": 4,
+        "evaluated_indicators": 2,
+        "complete_score": null,
+        "score_interval": {
+          "min": 0,
+          "max": 2
+        },
+        "interpretation": "Conteo descriptivo de familias; intervalo por datos no evaluables, no probabilidad ni intervalo estadístico.",
+        "publication_authorized": false
+      },
+      "input_sha256": "7be69514ebbdd32df9bf193c5cfe1957f977ec3f1cd46e81f023ecaed42ef272",
+      "implementation_sha256": {
+        "scripts/risk_rolling_context.py": "594a10da5faa4fc56c6558e873076885003cdcb8c9eae58956558734b4ae33d0",
+        "modules/motor_riesgo/rolling_evidence.py": "2447d56b12e071ec71b63d3771ba798ba2ce3d874ca0309b5cbb17360161523d",
+        "modules/motor_riesgo/cut_rules.py": "b9bb04fa609164ca321089f70496c0edf5ada1db084888f52a1e0316b7f08a94",
+        "modules/motor_riesgo/rules.py": "c4b78866d0c09f589dfe31d54a60dac20baac35ad21e3f7da2b528010b5c6713",
+        "modules/motor_riesgo/baseline_coverage.py": "3bcd8a116dc56cf3f7d5cf9168c5a782b0f657a957fb5d8850125955acf684bb",
+        "modules/motor_riesgo/weight_lab.py": "eeb456b49a88d9185ae7d3d297f86a53b3ef89ab99420c31223ea91b45925354",
+        "modules/motor_riesgo/domain.py": "48d8fe00d07572047f57460ea05aace1f30c464b919073b80075afbbe7a430dd"
+      },
+      "contract_id": 347175
+    },
+    {
+      "policy": "verified-pair-rolling-current-cut-v1",
+      "temporal_scope": "current_cut_descriptive_not_stage_prediction",
+      "frame": {
+        "start": "2017-04-12T05:00:00+00:00",
+        "end": "2017-07-11T05:00:00+00:00",
+        "complete_pair_history": true,
+        "universe": "Normalized local cut, stored buyer/provider keys; all stored sources, dates, methods and categories.",
+        "snapshot_cut": "2026-10-01",
+        "coverage_outside_declared_universe_verified": false
+      },
+      "target": {
+        "source_id": 1,
+        "process_id": "CO1.REQ.188139",
+        "award_id": "CO1.AWD.141012",
+        "award_at": "2017-07-11T05:00:00+00:00"
+      },
+      "values": {
+        "reiteraciones_30d": 0,
+        "directas_90d": 0
+      },
+      "indicators": {
+        "reiteraciones_30d": {
+          "count": 0,
+          "observed_distinct_processes": 0,
+          "observed_awards": 0,
+          "reasons": {},
+          "amounts_by_currency": {},
+          "amounts_complete": true,
+          "awards_without_verified_amount_currency": 0,
+          "evidence": []
+        },
+        "directas_90d": {
+          "count": 0,
+          "observed_distinct_processes": 0,
+          "observed_awards": 0,
+          "reasons": {},
+          "amounts_by_currency": {},
+          "amounts_complete": true,
+          "awards_without_verified_amount_currency": 0,
+          "evidence": []
+        }
+      },
+      "ignored": {
+        "proceso_objetivo": 1
+      },
+      "frame_sha256": "6c1816f340d49603c43b1ef9a15c722d465815e86a83b7d40a920dec353854f1",
+      "training_eligible": false,
+      "publication_authorized": false,
+      "limitations": [
+        "Ventanas inclusivas [t-días,t], excluyen todo el proceso objetivo.",
+        "Reiteración no acredita fraccionamiento ni duplicación.",
+        "Contratación directa no acredita una conducta ilícita.",
+        "No mide cuota de mercado: el denominador de la entidad no está incluido.",
+        "Datos actuales no reconstruyen conocimiento histórico."
+      ],
+      "coverage": {
+        "policy": "binary-family-coverage-v1",
+        "stage": "ADJUDICACION",
+        "indicators": {
+          "IMPORTE_ATIPICO": {
+            "indicator": "IMPORTE_ATIPICO",
+            "status": "NO_EVALUABLE",
+            "detected": null,
+            "reason": "iqr_no_calculado",
+            "observed": {
+              "detected": null,
+              "reason": "iqr_no_calculado"
+            }
+          },
+          "OFERENTE_UNICO": {
+            "indicator": "OFERENTE_UNICO",
+            "status": "NO_EVALUABLE",
+            "detected": null,
+            "reason": "modalidad_no_verificada",
+            "observed": null
+          },
+          "DIRECTAS_90D": {
+            "indicator": "DIRECTAS_90D",
+            "status": "SIN_SENAL",
+            "detected": false,
+            "reason": null,
+            "observed": {
+              "value": "0",
+              "threshold": 3
+            }
+          },
+          "REITERACION_30D": {
+            "indicator": "REITERACION_30D",
+            "status": "SIN_SENAL",
+            "detected": false,
+            "reason": null,
+            "observed": {
+              "value": "0",
+              "threshold": 2
+            }
+          }
+        },
+        "families": {
+          "IMPORTE_ATIPICO": {
+            "status": "NO_EVALUABLE",
+            "weight": 1,
+            "contribution": null,
+            "indicators": [
+              "IMPORTE_ATIPICO"
+            ]
+          },
+          "COMPETENCIA": {
+            "status": "NO_EVALUABLE",
+            "weight": 1,
+            "contribution": null,
+            "indicators": [
+              "OFERENTE_UNICO"
+            ]
+          },
+          "CONCENTRACION_REITERACION": {
+            "status": "SIN_SENAL",
+            "weight": 1,
+            "contribution": 0,
+            "indicators": [
+              "DIRECTAS_90D",
+              "REITERACION_30D"
+            ]
+          }
+        },
+        "confirmed_signal_count": 0,
+        "applicable_families": 3,
+        "evaluated_families": 1,
+        "unevaluable_families": 2,
+        "family_coverage": 0.3333333333333333,
+        "applicable_indicators": 4,
+        "evaluated_indicators": 2,
+        "complete_score": null,
+        "score_interval": {
+          "min": 0,
+          "max": 2
+        },
+        "interpretation": "Conteo descriptivo de familias; intervalo por datos no evaluables, no probabilidad ni intervalo estadístico.",
+        "publication_authorized": false
+      },
+      "input_sha256": "2d396242b8dbdc731c68c1137fbd882c267aad577e39214cf55d328e42cd10e1",
+      "implementation_sha256": {
+        "scripts/risk_rolling_context.py": "594a10da5faa4fc56c6558e873076885003cdcb8c9eae58956558734b4ae33d0",
+        "modules/motor_riesgo/rolling_evidence.py": "2447d56b12e071ec71b63d3771ba798ba2ce3d874ca0309b5cbb17360161523d",
+        "modules/motor_riesgo/cut_rules.py": "b9bb04fa609164ca321089f70496c0edf5ada1db084888f52a1e0316b7f08a94",
+        "modules/motor_riesgo/rules.py": "c4b78866d0c09f589dfe31d54a60dac20baac35ad21e3f7da2b528010b5c6713",
+        "modules/motor_riesgo/baseline_coverage.py": "3bcd8a116dc56cf3f7d5cf9168c5a782b0f657a957fb5d8850125955acf684bb",
+        "modules/motor_riesgo/weight_lab.py": "eeb456b49a88d9185ae7d3d297f86a53b3ef89ab99420c31223ea91b45925354",
+        "modules/motor_riesgo/domain.py": "48d8fe00d07572047f57460ea05aace1f30c464b919073b80075afbbe7a430dd"
+      },
+      "contract_id": 1723167
+    },
+    {
+      "policy": "verified-pair-rolling-current-cut-v1",
+      "temporal_scope": "current_cut_descriptive_not_stage_prediction",
+      "frame": {
+        "start": "2016-10-14T05:00:00+00:00",
+        "end": "2017-01-12T05:00:00+00:00",
+        "complete_pair_history": true,
+        "universe": "Normalized local cut, stored buyer/provider keys; all stored sources, dates, methods and categories.",
+        "snapshot_cut": "2026-10-01",
+        "coverage_outside_declared_universe_verified": false
+      },
+      "target": {
+        "source_id": 1,
+        "process_id": "CO1.REQ.121410",
+        "award_id": "CO1.AWD.80107",
+        "award_at": "2017-01-12T05:00:00+00:00"
+      },
+      "values": {
+        "reiteraciones_30d": 0,
+        "directas_90d": 0
+      },
+      "indicators": {
+        "reiteraciones_30d": {
+          "count": 0,
+          "observed_distinct_processes": 0,
+          "observed_awards": 0,
+          "reasons": {},
+          "amounts_by_currency": {},
+          "amounts_complete": true,
+          "awards_without_verified_amount_currency": 0,
+          "evidence": []
+        },
+        "directas_90d": {
+          "count": 0,
+          "observed_distinct_processes": 0,
+          "observed_awards": 0,
+          "reasons": {},
+          "amounts_by_currency": {},
+          "amounts_complete": true,
+          "awards_without_verified_amount_currency": 0,
+          "evidence": []
+        }
+      },
+      "ignored": {
+        "proceso_objetivo": 1
+      },
+      "frame_sha256": "ec78b7d778fa11d2a162572c01a45a44fa58d8b9bd3f1966478c50e0cf50246a",
+      "training_eligible": false,
+      "publication_authorized": false,
+      "limitations": [
+        "Ventanas inclusivas [t-días,t], excluyen todo el proceso objetivo.",
+        "Reiteración no acredita fraccionamiento ni duplicación.",
+        "Contratación directa no acredita una conducta ilícita.",
+        "No mide cuota de mercado: el denominador de la entidad no está incluido.",
+        "Datos actuales no reconstruyen conocimiento histórico."
+      ],
+      "coverage": {
+        "policy": "binary-family-coverage-v1",
+        "stage": "ADJUDICACION",
+        "indicators": {
+          "IMPORTE_ATIPICO": {
+            "indicator": "IMPORTE_ATIPICO",
+            "status": "NO_EVALUABLE",
+            "detected": null,
+            "reason": "iqr_no_calculado",
+            "observed": {
+              "detected": null,
+              "reason": "iqr_no_calculado"
+            }
+          },
+          "OFERENTE_UNICO": {
+            "indicator": "OFERENTE_UNICO",
+            "status": "NO_EVALUABLE",
+            "detected": null,
+            "reason": "modalidad_no_verificada",
+            "observed": null
+          },
+          "DIRECTAS_90D": {
+            "indicator": "DIRECTAS_90D",
+            "status": "SIN_SENAL",
+            "detected": false,
+            "reason": null,
+            "observed": {
+              "value": "0",
+              "threshold": 3
+            }
+          },
+          "REITERACION_30D": {
+            "indicator": "REITERACION_30D",
+            "status": "SIN_SENAL",
+            "detected": false,
+            "reason": null,
+            "observed": {
+              "value": "0",
+              "threshold": 2
+            }
+          }
+        },
+        "families": {
+          "IMPORTE_ATIPICO": {
+            "status": "NO_EVALUABLE",
+            "weight": 1,
+            "contribution": null,
+            "indicators": [
+              "IMPORTE_ATIPICO"
+            ]
+          },
+          "COMPETENCIA": {
+            "status": "NO_EVALUABLE",
+            "weight": 1,
+            "contribution": null,
+            "indicators": [
+              "OFERENTE_UNICO"
+            ]
+          },
+          "CONCENTRACION_REITERACION": {
+            "status": "SIN_SENAL",
+            "weight": 1,
+            "contribution": 0,
+            "indicators": [
+              "DIRECTAS_90D",
+              "REITERACION_30D"
+            ]
+          }
+        },
+        "confirmed_signal_count": 0,
+        "applicable_families": 3,
+        "evaluated_families": 1,
+        "unevaluable_families": 2,
+        "family_coverage": 0.3333333333333333,
+        "applicable_indicators": 4,
+        "evaluated_indicators": 2,
+        "complete_score": null,
+        "score_interval": {
+          "min": 0,
+          "max": 2
+        },
+        "interpretation": "Conteo descriptivo de familias; intervalo por datos no evaluables, no probabilidad ni intervalo estadístico.",
+        "publication_authorized": false
+      },
+      "input_sha256": "c2b583c345f0029b121dda453591974ead4b9d13c32e295903ebf896319521be",
+      "implementation_sha256": {
+        "scripts/risk_rolling_context.py": "594a10da5faa4fc56c6558e873076885003cdcb8c9eae58956558734b4ae33d0",
+        "modules/motor_riesgo/rolling_evidence.py": "2447d56b12e071ec71b63d3771ba798ba2ce3d874ca0309b5cbb17360161523d",
+        "modules/motor_riesgo/cut_rules.py": "b9bb04fa609164ca321089f70496c0edf5ada1db084888f52a1e0316b7f08a94",
+        "modules/motor_riesgo/rules.py": "c4b78866d0c09f589dfe31d54a60dac20baac35ad21e3f7da2b528010b5c6713",
+        "modules/motor_riesgo/baseline_coverage.py": "3bcd8a116dc56cf3f7d5cf9168c5a782b0f657a957fb5d8850125955acf684bb",
+        "modules/motor_riesgo/weight_lab.py": "eeb456b49a88d9185ae7d3d297f86a53b3ef89ab99420c31223ea91b45925354",
+        "modules/motor_riesgo/domain.py": "48d8fe00d07572047f57460ea05aace1f30c464b919073b80075afbbe7a430dd"
+      },
+      "contract_id": 3977709
+    },
+    {
+      "policy": "verified-pair-rolling-current-cut-v1",
+      "temporal_scope": "current_cut_descriptive_not_stage_prediction",
+      "frame": {
+        "start": "2016-10-19T05:00:00+00:00",
+        "end": "2017-01-17T05:00:00+00:00",
+        "complete_pair_history": true,
+        "universe": "Normalized local cut, stored buyer/provider keys; all stored sources, dates, methods and categories.",
+        "snapshot_cut": "2026-10-01",
+        "coverage_outside_declared_universe_verified": false
+      },
+      "target": {
+        "source_id": 1,
+        "process_id": "CO1.REQ.123226",
+        "award_id": "CO1.AWD.82528",
+        "award_at": "2017-01-17T05:00:00+00:00"
+      },
+      "values": {
+        "reiteraciones_30d": 0,
+        "directas_90d": 0
+      },
+      "indicators": {
+        "reiteraciones_30d": {
+          "count": 0,
+          "observed_distinct_processes": 0,
+          "observed_awards": 0,
+          "reasons": {},
+          "amounts_by_currency": {},
+          "amounts_complete": true,
+          "awards_without_verified_amount_currency": 0,
+          "evidence": []
+        },
+        "directas_90d": {
+          "count": 0,
+          "observed_distinct_processes": 0,
+          "observed_awards": 0,
+          "reasons": {},
+          "amounts_by_currency": {},
+          "amounts_complete": true,
+          "awards_without_verified_amount_currency": 0,
+          "evidence": []
+        }
+      },
+      "ignored": {
+        "proceso_objetivo": 1
+      },
+      "frame_sha256": "4931e516c5010b7f3001363f8f20179fb640e789f734faa36288fad0e301ec19",
+      "training_eligible": false,
+      "publication_authorized": false,
+      "limitations": [
+        "Ventanas inclusivas [t-días,t], excluyen todo el proceso objetivo.",
+        "Reiteración no acredita fraccionamiento ni duplicación.",
+        "Contratación directa no acredita una conducta ilícita.",
+        "No mide cuota de mercado: el denominador de la entidad no está incluido.",
+        "Datos actuales no reconstruyen conocimiento histórico."
+      ],
+      "coverage": {
+        "policy": "binary-family-coverage-v1",
+        "stage": "ADJUDICACION",
+        "indicators": {
+          "IMPORTE_ATIPICO": {
+            "indicator": "IMPORTE_ATIPICO",
+            "status": "NO_EVALUABLE",
+            "detected": null,
+            "reason": "iqr_no_calculado",
+            "observed": {
+              "detected": null,
+              "reason": "iqr_no_calculado"
+            }
+          },
+          "OFERENTE_UNICO": {
+            "indicator": "OFERENTE_UNICO",
+            "status": "NO_EVALUABLE",
+            "detected": null,
+            "reason": "modalidad_no_verificada",
+            "observed": null
+          },
+          "DIRECTAS_90D": {
+            "indicator": "DIRECTAS_90D",
+            "status": "SIN_SENAL",
+            "detected": false,
+            "reason": null,
+            "observed": {
+              "value": "0",
+              "threshold": 3
+            }
+          },
+          "REITERACION_30D": {
+            "indicator": "REITERACION_30D",
+            "status": "SIN_SENAL",
+            "detected": false,
+            "reason": null,
+            "observed": {
+              "value": "0",
+              "threshold": 2
+            }
+          }
+        },
+        "families": {
+          "IMPORTE_ATIPICO": {
+            "status": "NO_EVALUABLE",
+            "weight": 1,
+            "contribution": null,
+            "indicators": [
+              "IMPORTE_ATIPICO"
+            ]
+          },
+          "COMPETENCIA": {
+            "status": "NO_EVALUABLE",
+            "weight": 1,
+            "contribution": null,
+            "indicators": [
+              "OFERENTE_UNICO"
+            ]
+          },
+          "CONCENTRACION_REITERACION": {
+            "status": "SIN_SENAL",
+            "weight": 1,
+            "contribution": 0,
+            "indicators": [
+              "DIRECTAS_90D",
+              "REITERACION_30D"
+            ]
+          }
+        },
+        "confirmed_signal_count": 0,
+        "applicable_families": 3,
+        "evaluated_families": 1,
+        "unevaluable_families": 2,
+        "family_coverage": 0.3333333333333333,
+        "applicable_indicators": 4,
+        "evaluated_indicators": 2,
+        "complete_score": null,
+        "score_interval": {
+          "min": 0,
+          "max": 2
+        },
+        "interpretation": "Conteo descriptivo de familias; intervalo por datos no evaluables, no probabilidad ni intervalo estadístico.",
+        "publication_authorized": false
+      },
+      "input_sha256": "b97bb42bf17acec120459830431ea3c768a0a0438e33a41fdb1816608850f5eb",
+      "implementation_sha256": {
+        "scripts/risk_rolling_context.py": "594a10da5faa4fc56c6558e873076885003cdcb8c9eae58956558734b4ae33d0",
+        "modules/motor_riesgo/rolling_evidence.py": "2447d56b12e071ec71b63d3771ba798ba2ce3d874ca0309b5cbb17360161523d",
+        "modules/motor_riesgo/cut_rules.py": "b9bb04fa609164ca321089f70496c0edf5ada1db084888f52a1e0316b7f08a94",
+        "modules/motor_riesgo/rules.py": "c4b78866d0c09f589dfe31d54a60dac20baac35ad21e3f7da2b528010b5c6713",
+        "modules/motor_riesgo/baseline_coverage.py": "3bcd8a116dc56cf3f7d5cf9168c5a782b0f657a957fb5d8850125955acf684bb",
+        "modules/motor_riesgo/weight_lab.py": "eeb456b49a88d9185ae7d3d297f86a53b3ef89ab99420c31223ea91b45925354",
+        "modules/motor_riesgo/domain.py": "48d8fe00d07572047f57460ea05aace1f30c464b919073b80075afbbe7a430dd"
+      },
+      "contract_id": 4422699
+    },
+    {
+      "policy": "verified-pair-rolling-current-cut-v1",
+      "temporal_scope": "current_cut_descriptive_not_stage_prediction",
+      "frame": {
+        "start": "2017-01-19T05:00:00+00:00",
+        "end": "2017-04-19T05:00:00+00:00",
+        "complete_pair_history": true,
+        "universe": "Normalized local cut, stored buyer/provider keys; all stored sources, dates, methods and categories.",
+        "snapshot_cut": "2026-10-01",
+        "coverage_outside_declared_universe_verified": false
+      },
+      "target": {
+        "source_id": 1,
+        "process_id": "CO1.REQ.158305",
+        "award_id": "CO1.AWD.113312",
+        "award_at": "2017-04-19T05:00:00+00:00"
+      },
+      "values": {
+        "reiteraciones_30d": 0,
+        "directas_90d": 0
+      },
+      "indicators": {
+        "reiteraciones_30d": {
+          "count": 0,
+          "observed_distinct_processes": 0,
+          "observed_awards": 0,
+          "reasons": {},
+          "amounts_by_currency": {},
+          "amounts_complete": true,
+          "awards_without_verified_amount_currency": 0,
+          "evidence": []
+        },
+        "directas_90d": {
+          "count": 0,
+          "observed_distinct_processes": 0,
+          "observed_awards": 0,
+          "reasons": {},
+          "amounts_by_currency": {},
+          "amounts_complete": true,
+          "awards_without_verified_amount_currency": 0,
+          "evidence": []
+        }
+      },
+      "ignored": {
+        "proceso_objetivo": 1
+      },
+      "frame_sha256": "a49385f2065d688affc24492ae80cc66b9be5e5d619ba63fbb5b44db171c18c0",
+      "training_eligible": false,
+      "publication_authorized": false,
+      "limitations": [
+        "Ventanas inclusivas [t-días,t], excluyen todo el proceso objetivo.",
+        "Reiteración no acredita fraccionamiento ni duplicación.",
+        "Contratación directa no acredita una conducta ilícita.",
+        "No mide cuota de mercado: el denominador de la entidad no está incluido.",
+        "Datos actuales no reconstruyen conocimiento histórico."
+      ],
+      "coverage": {
+        "policy": "binary-family-coverage-v1",
+        "stage": "ADJUDICACION",
+        "indicators": {
+          "IMPORTE_ATIPICO": {
+            "indicator": "IMPORTE_ATIPICO",
+            "status": "NO_EVALUABLE",
+            "detected": null,
+            "reason": "iqr_no_calculado",
+            "observed": {
+              "detected": null,
+              "reason": "iqr_no_calculado"
+            }
+          },
+          "OFERENTE_UNICO": {
+            "indicator": "OFERENTE_UNICO",
+            "status": "NO_EVALUABLE",
+            "detected": null,
+            "reason": "modalidad_no_verificada",
+            "observed": null
+          },
+          "DIRECTAS_90D": {
+            "indicator": "DIRECTAS_90D",
+            "status": "SIN_SENAL",
+            "detected": false,
+            "reason": null,
+            "observed": {
+              "value": "0",
+              "threshold": 3
+            }
+          },
+          "REITERACION_30D": {
+            "indicator": "REITERACION_30D",
+            "status": "SIN_SENAL",
+            "detected": false,
+            "reason": null,
+            "observed": {
+              "value": "0",
+              "threshold": 2
+            }
+          }
+        },
+        "families": {
+          "IMPORTE_ATIPICO": {
+            "status": "NO_EVALUABLE",
+            "weight": 1,
+            "contribution": null,
+            "indicators": [
+              "IMPORTE_ATIPICO"
+            ]
+          },
+          "COMPETENCIA": {
+            "status": "NO_EVALUABLE",
+            "weight": 1,
+            "contribution": null,
+            "indicators": [
+              "OFERENTE_UNICO"
+            ]
+          },
+          "CONCENTRACION_REITERACION": {
+            "status": "SIN_SENAL",
+            "weight": 1,
+            "contribution": 0,
+            "indicators": [
+              "DIRECTAS_90D",
+              "REITERACION_30D"
+            ]
+          }
+        },
+        "confirmed_signal_count": 0,
+        "applicable_families": 3,
+        "evaluated_families": 1,
+        "unevaluable_families": 2,
+        "family_coverage": 0.3333333333333333,
+        "applicable_indicators": 4,
+        "evaluated_indicators": 2,
+        "complete_score": null,
+        "score_interval": {
+          "min": 0,
+          "max": 2
+        },
+        "interpretation": "Conteo descriptivo de familias; intervalo por datos no evaluables, no probabilidad ni intervalo estadístico.",
+        "publication_authorized": false
+      },
+      "input_sha256": "49f6160a729effb963066daeee16c37677105698aa8d5c29aea542f11b953402",
+      "implementation_sha256": {
+        "scripts/risk_rolling_context.py": "594a10da5faa4fc56c6558e873076885003cdcb8c9eae58956558734b4ae33d0",
+        "modules/motor_riesgo/rolling_evidence.py": "2447d56b12e071ec71b63d3771ba798ba2ce3d874ca0309b5cbb17360161523d",
+        "modules/motor_riesgo/cut_rules.py": "b9bb04fa609164ca321089f70496c0edf5ada1db084888f52a1e0316b7f08a94",
+        "modules/motor_riesgo/rules.py": "c4b78866d0c09f589dfe31d54a60dac20baac35ad21e3f7da2b528010b5c6713",
+        "modules/motor_riesgo/baseline_coverage.py": "3bcd8a116dc56cf3f7d5cf9168c5a782b0f657a957fb5d8850125955acf684bb",
+        "modules/motor_riesgo/weight_lab.py": "eeb456b49a88d9185ae7d3d297f86a53b3ef89ab99420c31223ea91b45925354",
+        "modules/motor_riesgo/domain.py": "48d8fe00d07572047f57460ea05aace1f30c464b919073b80075afbbe7a430dd"
+      },
+      "contract_id": 4553959
+    },
+    {
+      "policy": "verified-pair-rolling-current-cut-v1",
+      "temporal_scope": "current_cut_descriptive_not_stage_prediction",
+      "frame": {
+        "start": "2016-11-24T05:00:00+00:00",
+        "end": "2017-02-22T05:00:00+00:00",
+        "complete_pair_history": true,
+        "universe": "Normalized local cut, stored buyer/provider keys; all stored sources, dates, methods and categories.",
+        "snapshot_cut": "2026-10-01",
+        "coverage_outside_declared_universe_verified": false
+      },
+      "target": {
+        "source_id": 1,
+        "process_id": "CO1.REQ.136334",
+        "award_id": "CO1.AWD.94203",
+        "award_at": "2017-02-22T05:00:00+00:00"
+      },
+      "values": {
+        "reiteraciones_30d": 0,
+        "directas_90d": 0
+      },
+      "indicators": {
+        "reiteraciones_30d": {
+          "count": 0,
+          "observed_distinct_processes": 0,
+          "observed_awards": 0,
+          "reasons": {},
+          "amounts_by_currency": {},
+          "amounts_complete": true,
+          "awards_without_verified_amount_currency": 0,
+          "evidence": []
+        },
+        "directas_90d": {
+          "count": 0,
+          "observed_distinct_processes": 0,
+          "observed_awards": 0,
+          "reasons": {},
+          "amounts_by_currency": {},
+          "amounts_complete": true,
+          "awards_without_verified_amount_currency": 0,
+          "evidence": []
+        }
+      },
+      "ignored": {
+        "proceso_objetivo": 1
+      },
+      "frame_sha256": "6cc177ba9fd37bc978058fe5df3e27a01a2d8a3cb67fb87976c5a3bfa79bd2e8",
+      "training_eligible": false,
+      "publication_authorized": false,
+      "limitations": [
+        "Ventanas inclusivas [t-días,t], excluyen todo el proceso objetivo.",
+        "Reiteración no acredita fraccionamiento ni duplicación.",
+        "Contratación directa no acredita una conducta ilícita.",
+        "No mide cuota de mercado: el denominador de la entidad no está incluido.",
+        "Datos actuales no reconstruyen conocimiento histórico."
+      ],
+      "coverage": {
+        "policy": "binary-family-coverage-v1",
+        "stage": "ADJUDICACION",
+        "indicators": {
+          "IMPORTE_ATIPICO": {
+            "indicator": "IMPORTE_ATIPICO",
+            "status": "NO_EVALUABLE",
+            "detected": null,
+            "reason": "iqr_no_calculado",
+            "observed": {
+              "detected": null,
+              "reason": "iqr_no_calculado"
+            }
+          },
+          "OFERENTE_UNICO": {
+            "indicator": "OFERENTE_UNICO",
+            "status": "NO_EVALUABLE",
+            "detected": null,
+            "reason": "modalidad_no_verificada",
+            "observed": null
+          },
+          "DIRECTAS_90D": {
+            "indicator": "DIRECTAS_90D",
+            "status": "SIN_SENAL",
+            "detected": false,
+            "reason": null,
+            "observed": {
+              "value": "0",
+              "threshold": 3
+            }
+          },
+          "REITERACION_30D": {
+            "indicator": "REITERACION_30D",
+            "status": "SIN_SENAL",
+            "detected": false,
+            "reason": null,
+            "observed": {
+              "value": "0",
+              "threshold": 2
+            }
+          }
+        },
+        "families": {
+          "IMPORTE_ATIPICO": {
+            "status": "NO_EVALUABLE",
+            "weight": 1,
+            "contribution": null,
+            "indicators": [
+              "IMPORTE_ATIPICO"
+            ]
+          },
+          "COMPETENCIA": {
+            "status": "NO_EVALUABLE",
+            "weight": 1,
+            "contribution": null,
+            "indicators": [
+              "OFERENTE_UNICO"
+            ]
+          },
+          "CONCENTRACION_REITERACION": {
+            "status": "SIN_SENAL",
+            "weight": 1,
+            "contribution": 0,
+            "indicators": [
+              "DIRECTAS_90D",
+              "REITERACION_30D"
+            ]
+          }
+        },
+        "confirmed_signal_count": 0,
+        "applicable_families": 3,
+        "evaluated_families": 1,
+        "unevaluable_families": 2,
+        "family_coverage": 0.3333333333333333,
+        "applicable_indicators": 4,
+        "evaluated_indicators": 2,
+        "complete_score": null,
+        "score_interval": {
+          "min": 0,
+          "max": 2
+        },
+        "interpretation": "Conteo descriptivo de familias; intervalo por datos no evaluables, no probabilidad ni intervalo estadístico.",
+        "publication_authorized": false
+      },
+      "input_sha256": "6bdc268ea935ee97ccb14e95b27029329104add40bdf60b51d5ebf2cc5794d5c",
+      "implementation_sha256": {
+        "scripts/risk_rolling_context.py": "594a10da5faa4fc56c6558e873076885003cdcb8c9eae58956558734b4ae33d0",
+        "modules/motor_riesgo/rolling_evidence.py": "2447d56b12e071ec71b63d3771ba798ba2ce3d874ca0309b5cbb17360161523d",
+        "modules/motor_riesgo/cut_rules.py": "b9bb04fa609164ca321089f70496c0edf5ada1db084888f52a1e0316b7f08a94",
+        "modules/motor_riesgo/rules.py": "c4b78866d0c09f589dfe31d54a60dac20baac35ad21e3f7da2b528010b5c6713",
+        "modules/motor_riesgo/baseline_coverage.py": "3bcd8a116dc56cf3f7d5cf9168c5a782b0f657a957fb5d8850125955acf684bb",
+        "modules/motor_riesgo/weight_lab.py": "eeb456b49a88d9185ae7d3d297f86a53b3ef89ab99420c31223ea91b45925354",
+        "modules/motor_riesgo/domain.py": "48d8fe00d07572047f57460ea05aace1f30c464b919073b80075afbbe7a430dd"
+      },
+      "contract_id": 4671424
+    },
+    {
+      "policy": "verified-pair-rolling-current-cut-v1",
+      "temporal_scope": "current_cut_descriptive_not_stage_prediction",
+      "frame": {
+        "start": "2017-09-01T05:00:00+00:00",
+        "end": "2017-11-30T05:00:00+00:00",
+        "complete_pair_history": true,
+        "universe": "Normalized local cut, stored buyer/provider keys; all stored sources, dates, methods and categories.",
+        "snapshot_cut": "2026-10-01",
+        "coverage_outside_declared_universe_verified": false
+      },
+      "target": {
+        "source_id": 1,
+        "process_id": "CO1.REQ.266038",
+        "award_id": "CO1.AWD.202859",
+        "award_at": "2017-11-30T05:00:00+00:00"
+      },
+      "values": {
+        "reiteraciones_30d": 0,
+        "directas_90d": 0
+      },
+      "indicators": {
+        "reiteraciones_30d": {
+          "count": 0,
+          "observed_distinct_processes": 0,
+          "observed_awards": 0,
+          "reasons": {},
+          "amounts_by_currency": {},
+          "amounts_complete": true,
+          "awards_without_verified_amount_currency": 0,
+          "evidence": []
+        },
+        "directas_90d": {
+          "count": 0,
+          "observed_distinct_processes": 0,
+          "observed_awards": 0,
+          "reasons": {},
+          "amounts_by_currency": {},
+          "amounts_complete": true,
+          "awards_without_verified_amount_currency": 0,
+          "evidence": []
+        }
+      },
+      "ignored": {
+        "proceso_objetivo": 1
+      },
+      "frame_sha256": "d182dbb40812ed49ecafe272824d28b2be97aaa586d965db6ba8d3c1d2d85609",
+      "training_eligible": false,
+      "publication_authorized": false,
+      "limitations": [
+        "Ventanas inclusivas [t-días,t], excluyen todo el proceso objetivo.",
+        "Reiteración no acredita fraccionamiento ni duplicación.",
+        "Contratación directa no acredita una conducta ilícita.",
+        "No mide cuota de mercado: el denominador de la entidad no está incluido.",
+        "Datos actuales no reconstruyen conocimiento histórico."
+      ],
+      "coverage": {
+        "policy": "binary-family-coverage-v1",
+        "stage": "ADJUDICACION",
+        "indicators": {
+          "IMPORTE_ATIPICO": {
+            "indicator": "IMPORTE_ATIPICO",
+            "status": "NO_EVALUABLE",
+            "detected": null,
+            "reason": "iqr_no_calculado",
+            "observed": {
+              "detected": null,
+              "reason": "iqr_no_calculado"
+            }
+          },
+          "OFERENTE_UNICO": {
+            "indicator": "OFERENTE_UNICO",
+            "status": "NO_EVALUABLE",
+            "detected": null,
+            "reason": "modalidad_no_verificada",
+            "observed": null
+          },
+          "DIRECTAS_90D": {
+            "indicator": "DIRECTAS_90D",
+            "status": "SIN_SENAL",
+            "detected": false,
+            "reason": null,
+            "observed": {
+              "value": "0",
+              "threshold": 3
+            }
+          },
+          "REITERACION_30D": {
+            "indicator": "REITERACION_30D",
+            "status": "SIN_SENAL",
+            "detected": false,
+            "reason": null,
+            "observed": {
+              "value": "0",
+              "threshold": 2
+            }
+          }
+        },
+        "families": {
+          "IMPORTE_ATIPICO": {
+            "status": "NO_EVALUABLE",
+            "weight": 1,
+            "contribution": null,
+            "indicators": [
+              "IMPORTE_ATIPICO"
+            ]
+          },
+          "COMPETENCIA": {
+            "status": "NO_EVALUABLE",
+            "weight": 1,
+            "contribution": null,
+            "indicators": [
+              "OFERENTE_UNICO"
+            ]
+          },
+          "CONCENTRACION_REITERACION": {
+            "status": "SIN_SENAL",
+            "weight": 1,
+            "contribution": 0,
+            "indicators": [
+              "DIRECTAS_90D",
+              "REITERACION_30D"
+            ]
+          }
+        },
+        "confirmed_signal_count": 0,
+        "applicable_families": 3,
+        "evaluated_families": 1,
+        "unevaluable_families": 2,
+        "family_coverage": 0.3333333333333333,
+        "applicable_indicators": 4,
+        "evaluated_indicators": 2,
+        "complete_score": null,
+        "score_interval": {
+          "min": 0,
+          "max": 2
+        },
+        "interpretation": "Conteo descriptivo de familias; intervalo por datos no evaluables, no probabilidad ni intervalo estadístico.",
+        "publication_authorized": false
+      },
+      "input_sha256": "9da30fdf33b2f749e819c110ced65f1f8714640a6648222a183fb7fabaa9e021",
+      "implementation_sha256": {
+        "scripts/risk_rolling_context.py": "594a10da5faa4fc56c6558e873076885003cdcb8c9eae58956558734b4ae33d0",
+        "modules/motor_riesgo/rolling_evidence.py": "2447d56b12e071ec71b63d3771ba798ba2ce3d874ca0309b5cbb17360161523d",
+        "modules/motor_riesgo/cut_rules.py": "b9bb04fa609164ca321089f70496c0edf5ada1db084888f52a1e0316b7f08a94",
+        "modules/motor_riesgo/rules.py": "c4b78866d0c09f589dfe31d54a60dac20baac35ad21e3f7da2b528010b5c6713",
+        "modules/motor_riesgo/baseline_coverage.py": "3bcd8a116dc56cf3f7d5cf9168c5a782b0f657a957fb5d8850125955acf684bb",
+        "modules/motor_riesgo/weight_lab.py": "eeb456b49a88d9185ae7d3d297f86a53b3ef89ab99420c31223ea91b45925354",
+        "modules/motor_riesgo/domain.py": "48d8fe00d07572047f57460ea05aace1f30c464b919073b80075afbbe7a430dd"
+      },
+      "contract_id": 4850927
+    },
+    {
+      "policy": "verified-pair-rolling-current-cut-v1",
+      "temporal_scope": "current_cut_descriptive_not_stage_prediction",
+      "frame": {
+        "start": "2017-08-04T05:00:00+00:00",
+        "end": "2017-11-02T05:00:00+00:00",
+        "complete_pair_history": true,
+        "universe": "Normalized local cut, stored buyer/provider keys; all stored sources, dates, methods and categories.",
+        "snapshot_cut": "2026-10-01",
+        "coverage_outside_declared_universe_verified": false
+      },
+      "target": {
+        "source_id": 1,
+        "process_id": "CO1.REQ.244910",
+        "award_id": "CO1.AWD.188320",
+        "award_at": "2017-11-02T05:00:00+00:00"
+      },
+      "values": {
+        "reiteraciones_30d": 0,
+        "directas_90d": 0
+      },
+      "indicators": {
+        "reiteraciones_30d": {
+          "count": 0,
+          "observed_distinct_processes": 0,
+          "observed_awards": 0,
+          "reasons": {},
+          "amounts_by_currency": {},
+          "amounts_complete": true,
+          "awards_without_verified_amount_currency": 0,
+          "evidence": []
+        },
+        "directas_90d": {
+          "count": 0,
+          "observed_distinct_processes": 0,
+          "observed_awards": 0,
+          "reasons": {},
+          "amounts_by_currency": {},
+          "amounts_complete": true,
+          "awards_without_verified_amount_currency": 0,
+          "evidence": []
+        }
+      },
+      "ignored": {
+        "proceso_objetivo": 1
+      },
+      "frame_sha256": "511756f3803213ed99df05bb2a91503e30be1041dce6b6b3e3118754c926ae79",
+      "training_eligible": false,
+      "publication_authorized": false,
+      "limitations": [
+        "Ventanas inclusivas [t-días,t], excluyen todo el proceso objetivo.",
+        "Reiteración no acredita fraccionamiento ni duplicación.",
+        "Contratación directa no acredita una conducta ilícita.",
+        "No mide cuota de mercado: el denominador de la entidad no está incluido.",
+        "Datos actuales no reconstruyen conocimiento histórico."
+      ],
+      "coverage": {
+        "policy": "binary-family-coverage-v1",
+        "stage": "ADJUDICACION",
+        "indicators": {
+          "IMPORTE_ATIPICO": {
+            "indicator": "IMPORTE_ATIPICO",
+            "status": "NO_EVALUABLE",
+            "detected": null,
+            "reason": "iqr_no_calculado",
+            "observed": {
+              "detected": null,
+              "reason": "iqr_no_calculado"
+            }
+          },
+          "OFERENTE_UNICO": {
+            "indicator": "OFERENTE_UNICO",
+            "status": "NO_EVALUABLE",
+            "detected": null,
+            "reason": "modalidad_no_verificada",
+            "observed": null
+          },
+          "DIRECTAS_90D": {
+            "indicator": "DIRECTAS_90D",
+            "status": "SIN_SENAL",
+            "detected": false,
+            "reason": null,
+            "observed": {
+              "value": "0",
+              "threshold": 3
+            }
+          },
+          "REITERACION_30D": {
+            "indicator": "REITERACION_30D",
+            "status": "SIN_SENAL",
+            "detected": false,
+            "reason": null,
+            "observed": {
+              "value": "0",
+              "threshold": 2
+            }
+          }
+        },
+        "families": {
+          "IMPORTE_ATIPICO": {
+            "status": "NO_EVALUABLE",
+            "weight": 1,
+            "contribution": null,
+            "indicators": [
+              "IMPORTE_ATIPICO"
+            ]
+          },
+          "COMPETENCIA": {
+            "status": "NO_EVALUABLE",
+            "weight": 1,
+            "contribution": null,
+            "indicators": [
+              "OFERENTE_UNICO"
+            ]
+          },
+          "CONCENTRACION_REITERACION": {
+            "status": "SIN_SENAL",
+            "weight": 1,
+            "contribution": 0,
+            "indicators": [
+              "DIRECTAS_90D",
+              "REITERACION_30D"
+            ]
+          }
+        },
+        "confirmed_signal_count": 0,
+        "applicable_families": 3,
+        "evaluated_families": 1,
+        "unevaluable_families": 2,
+        "family_coverage": 0.3333333333333333,
+        "applicable_indicators": 4,
+        "evaluated_indicators": 2,
+        "complete_score": null,
+        "score_interval": {
+          "min": 0,
+          "max": 2
+        },
+        "interpretation": "Conteo descriptivo de familias; intervalo por datos no evaluables, no probabilidad ni intervalo estadístico.",
+        "publication_authorized": false
+      },
+      "input_sha256": "b101756f7b7bbcc60e645f1c72d87a01497a717ef95b0caede7737e2e348a445",
+      "implementation_sha256": {
+        "scripts/risk_rolling_context.py": "594a10da5faa4fc56c6558e873076885003cdcb8c9eae58956558734b4ae33d0",
+        "modules/motor_riesgo/rolling_evidence.py": "2447d56b12e071ec71b63d3771ba798ba2ce3d874ca0309b5cbb17360161523d",
+        "modules/motor_riesgo/cut_rules.py": "b9bb04fa609164ca321089f70496c0edf5ada1db084888f52a1e0316b7f08a94",
+        "modules/motor_riesgo/rules.py": "c4b78866d0c09f589dfe31d54a60dac20baac35ad21e3f7da2b528010b5c6713",
+        "modules/motor_riesgo/baseline_coverage.py": "3bcd8a116dc56cf3f7d5cf9168c5a782b0f657a957fb5d8850125955acf684bb",
+        "modules/motor_riesgo/weight_lab.py": "eeb456b49a88d9185ae7d3d297f86a53b3ef89ab99420c31223ea91b45925354",
+        "modules/motor_riesgo/domain.py": "48d8fe00d07572047f57460ea05aace1f30c464b919073b80075afbbe7a430dd"
+      },
+      "contract_id": 7235470
+    },
+    {
+      "policy": "verified-pair-rolling-current-cut-v1",
+      "temporal_scope": "current_cut_descriptive_not_stage_prediction",
+      "frame": {
+        "start": "2016-11-16T05:00:00+00:00",
+        "end": "2017-02-14T05:00:00+00:00",
+        "complete_pair_history": true,
+        "universe": "Normalized local cut, stored buyer/provider keys; all stored sources, dates, methods and categories.",
+        "snapshot_cut": "2026-10-01",
+        "coverage_outside_declared_universe_verified": false
+      },
+      "target": {
+        "source_id": 1,
+        "process_id": "CO1.REQ.131502",
+        "award_id": "CO1.AWD.92118",
+        "award_at": "2017-02-14T05:00:00+00:00"
+      },
+      "values": {
+        "reiteraciones_30d": 0,
+        "directas_90d": 0
+      },
+      "indicators": {
+        "reiteraciones_30d": {
+          "count": 0,
+          "observed_distinct_processes": 0,
+          "observed_awards": 0,
+          "reasons": {},
+          "amounts_by_currency": {},
+          "amounts_complete": true,
+          "awards_without_verified_amount_currency": 0,
+          "evidence": []
+        },
+        "directas_90d": {
+          "count": 0,
+          "observed_distinct_processes": 0,
+          "observed_awards": 0,
+          "reasons": {},
+          "amounts_by_currency": {},
+          "amounts_complete": true,
+          "awards_without_verified_amount_currency": 0,
+          "evidence": []
+        }
+      },
+      "ignored": {
+        "evento_futuro": 2,
+        "proceso_objetivo": 1
+      },
+      "frame_sha256": "e4878cd83ee292b786bbfb4a37ae9af64b8d3514e21f80dc5730011cdb947a65",
+      "training_eligible": false,
+      "publication_authorized": false,
+      "limitations": [
+        "Ventanas inclusivas [t-días,t], excluyen todo el proceso objetivo.",
+        "Reiteración no acredita fraccionamiento ni duplicación.",
+        "Contratación directa no acredita una conducta ilícita.",
+        "No mide cuota de mercado: el denominador de la entidad no está incluido.",
+        "Datos actuales no reconstruyen conocimiento histórico."
+      ],
+      "coverage": {
+        "policy": "binary-family-coverage-v1",
+        "stage": "ADJUDICACION",
+        "indicators": {
+          "IMPORTE_ATIPICO": {
+            "indicator": "IMPORTE_ATIPICO",
+            "status": "NO_EVALUABLE",
+            "detected": null,
+            "reason": "iqr_no_calculado",
+            "observed": {
+              "detected": null,
+              "reason": "iqr_no_calculado"
+            }
+          },
+          "OFERENTE_UNICO": {
+            "indicator": "OFERENTE_UNICO",
+            "status": "NO_EVALUABLE",
+            "detected": null,
+            "reason": "modalidad_no_verificada",
+            "observed": null
+          },
+          "DIRECTAS_90D": {
+            "indicator": "DIRECTAS_90D",
+            "status": "SIN_SENAL",
+            "detected": false,
+            "reason": null,
+            "observed": {
+              "value": "0",
+              "threshold": 3
+            }
+          },
+          "REITERACION_30D": {
+            "indicator": "REITERACION_30D",
+            "status": "SIN_SENAL",
+            "detected": false,
+            "reason": null,
+            "observed": {
+              "value": "0",
+              "threshold": 2
+            }
+          }
+        },
+        "families": {
+          "IMPORTE_ATIPICO": {
+            "status": "NO_EVALUABLE",
+            "weight": 1,
+            "contribution": null,
+            "indicators": [
+              "IMPORTE_ATIPICO"
+            ]
+          },
+          "COMPETENCIA": {
+            "status": "NO_EVALUABLE",
+            "weight": 1,
+            "contribution": null,
+            "indicators": [
+              "OFERENTE_UNICO"
+            ]
+          },
+          "CONCENTRACION_REITERACION": {
+            "status": "SIN_SENAL",
+            "weight": 1,
+            "contribution": 0,
+            "indicators": [
+              "DIRECTAS_90D",
+              "REITERACION_30D"
+            ]
+          }
+        },
+        "confirmed_signal_count": 0,
+        "applicable_families": 3,
+        "evaluated_families": 1,
+        "unevaluable_families": 2,
+        "family_coverage": 0.3333333333333333,
+        "applicable_indicators": 4,
+        "evaluated_indicators": 2,
+        "complete_score": null,
+        "score_interval": {
+          "min": 0,
+          "max": 2
+        },
+        "interpretation": "Conteo descriptivo de familias; intervalo por datos no evaluables, no probabilidad ni intervalo estadístico.",
+        "publication_authorized": false
+      },
+      "input_sha256": "7eca900e04648a7e98808b1737cd774361fb5e5b950861b224f884c340cdcdc1",
+      "implementation_sha256": {
+        "scripts/risk_rolling_context.py": "594a10da5faa4fc56c6558e873076885003cdcb8c9eae58956558734b4ae33d0",
+        "modules/motor_riesgo/rolling_evidence.py": "2447d56b12e071ec71b63d3771ba798ba2ce3d874ca0309b5cbb17360161523d",
+        "modules/motor_riesgo/cut_rules.py": "b9bb04fa609164ca321089f70496c0edf5ada1db084888f52a1e0316b7f08a94",
+        "modules/motor_riesgo/rules.py": "c4b78866d0c09f589dfe31d54a60dac20baac35ad21e3f7da2b528010b5c6713",
+        "modules/motor_riesgo/baseline_coverage.py": "3bcd8a116dc56cf3f7d5cf9168c5a782b0f657a957fb5d8850125955acf684bb",
+        "modules/motor_riesgo/weight_lab.py": "eeb456b49a88d9185ae7d3d297f86a53b3ef89ab99420c31223ea91b45925354",
+        "modules/motor_riesgo/domain.py": "48d8fe00d07572047f57460ea05aace1f30c464b919073b80075afbbe7a430dd"
+      },
+      "contract_id": 7799390
+    },
+    {
+      "policy": "verified-pair-rolling-current-cut-v1",
+      "temporal_scope": "current_cut_descriptive_not_stage_prediction",
+      "frame": {
+        "start": "2017-03-09T05:00:00+00:00",
+        "end": "2017-06-07T05:00:00+00:00",
+        "complete_pair_history": true,
+        "universe": "Normalized local cut, stored buyer/provider keys; all stored sources, dates, methods and categories.",
+        "snapshot_cut": "2026-10-01",
+        "coverage_outside_declared_universe_verified": false
+      },
+      "target": {
+        "source_id": 1,
+        "process_id": "CO1.REQ.177512",
+        "award_id": "CO1.AWD.129514",
+        "award_at": "2017-06-07T05:00:00+00:00"
+      },
+      "values": {
+        "reiteraciones_30d": 0,
+        "directas_90d": 0
+      },
+      "indicators": {
+        "reiteraciones_30d": {
+          "count": 0,
+          "observed_distinct_processes": 0,
+          "observed_awards": 0,
+          "reasons": {},
+          "amounts_by_currency": {},
+          "amounts_complete": true,
+          "awards_without_verified_amount_currency": 0,
+          "evidence": []
+        },
+        "directas_90d": {
+          "count": 0,
+          "observed_distinct_processes": 0,
+          "observed_awards": 0,
+          "reasons": {},
+          "amounts_by_currency": {},
+          "amounts_complete": true,
+          "awards_without_verified_amount_currency": 0,
+          "evidence": []
+        }
+      },
+      "ignored": {
+        "fuera_de_ventana": 1,
+        "proceso_objetivo": 1
+      },
+      "frame_sha256": "66d41a13476eeafe9e9e37b02cffc0a536bb59c314aa32ea6261eea6fad871cf",
+      "training_eligible": false,
+      "publication_authorized": false,
+      "limitations": [
+        "Ventanas inclusivas [t-días,t], excluyen todo el proceso objetivo.",
+        "Reiteración no acredita fraccionamiento ni duplicación.",
+        "Contratación directa no acredita una conducta ilícita.",
+        "No mide cuota de mercado: el denominador de la entidad no está incluido.",
+        "Datos actuales no reconstruyen conocimiento histórico."
+      ],
+      "coverage": {
+        "policy": "binary-family-coverage-v1",
+        "stage": "ADJUDICACION",
+        "indicators": {
+          "IMPORTE_ATIPICO": {
+            "indicator": "IMPORTE_ATIPICO",
+            "status": "NO_EVALUABLE",
+            "detected": null,
+            "reason": "iqr_no_calculado",
+            "observed": {
+              "detected": null,
+              "reason": "iqr_no_calculado"
+            }
+          },
+          "OFERENTE_UNICO": {
+            "indicator": "OFERENTE_UNICO",
+            "status": "NO_EVALUABLE",
+            "detected": null,
+            "reason": "modalidad_no_verificada",
+            "observed": null
+          },
+          "DIRECTAS_90D": {
+            "indicator": "DIRECTAS_90D",
+            "status": "SIN_SENAL",
+            "detected": false,
+            "reason": null,
+            "observed": {
+              "value": "0",
+              "threshold": 3
+            }
+          },
+          "REITERACION_30D": {
+            "indicator": "REITERACION_30D",
+            "status": "SIN_SENAL",
+            "detected": false,
+            "reason": null,
+            "observed": {
+              "value": "0",
+              "threshold": 2
+            }
+          }
+        },
+        "families": {
+          "IMPORTE_ATIPICO": {
+            "status": "NO_EVALUABLE",
+            "weight": 1,
+            "contribution": null,
+            "indicators": [
+              "IMPORTE_ATIPICO"
+            ]
+          },
+          "COMPETENCIA": {
+            "status": "NO_EVALUABLE",
+            "weight": 1,
+            "contribution": null,
+            "indicators": [
+              "OFERENTE_UNICO"
+            ]
+          },
+          "CONCENTRACION_REITERACION": {
+            "status": "SIN_SENAL",
+            "weight": 1,
+            "contribution": 0,
+            "indicators": [
+              "DIRECTAS_90D",
+              "REITERACION_30D"
+            ]
+          }
+        },
+        "confirmed_signal_count": 0,
+        "applicable_families": 3,
+        "evaluated_families": 1,
+        "unevaluable_families": 2,
+        "family_coverage": 0.3333333333333333,
+        "applicable_indicators": 4,
+        "evaluated_indicators": 2,
+        "complete_score": null,
+        "score_interval": {
+          "min": 0,
+          "max": 2
+        },
+        "interpretation": "Conteo descriptivo de familias; intervalo por datos no evaluables, no probabilidad ni intervalo estadístico.",
+        "publication_authorized": false
+      },
+      "input_sha256": "1b8fb754184aa9db84da1cd19a45ec9b14dd6ec92790ef22b1b60487b9daf6a5",
+      "implementation_sha256": {
+        "scripts/risk_rolling_context.py": "594a10da5faa4fc56c6558e873076885003cdcb8c9eae58956558734b4ae33d0",
+        "modules/motor_riesgo/rolling_evidence.py": "2447d56b12e071ec71b63d3771ba798ba2ce3d874ca0309b5cbb17360161523d",
+        "modules/motor_riesgo/cut_rules.py": "b9bb04fa609164ca321089f70496c0edf5ada1db084888f52a1e0316b7f08a94",
+        "modules/motor_riesgo/rules.py": "c4b78866d0c09f589dfe31d54a60dac20baac35ad21e3f7da2b528010b5c6713",
+        "modules/motor_riesgo/baseline_coverage.py": "3bcd8a116dc56cf3f7d5cf9168c5a782b0f657a957fb5d8850125955acf684bb",
+        "modules/motor_riesgo/weight_lab.py": "eeb456b49a88d9185ae7d3d297f86a53b3ef89ab99420c31223ea91b45925354",
+        "modules/motor_riesgo/domain.py": "48d8fe00d07572047f57460ea05aace1f30c464b919073b80075afbbe7a430dd"
+      },
+      "contract_id": 8276763
+    },
+    {
+      "policy": "verified-pair-rolling-current-cut-v1",
+      "temporal_scope": "current_cut_descriptive_not_stage_prediction",
+      "frame": {
+        "start": "2017-05-26T05:00:00+00:00",
+        "end": "2017-08-24T05:00:00+00:00",
+        "complete_pair_history": true,
+        "universe": "Normalized local cut, stored buyer/provider keys; all stored sources, dates, methods and categories.",
+        "snapshot_cut": "2026-10-01",
+        "coverage_outside_declared_universe_verified": false
+      },
+      "target": {
+        "source_id": 1,
+        "process_id": "CO1.REQ.209526",
+        "award_id": "CO1.AWD.158215",
+        "award_at": "2017-08-24T05:00:00+00:00"
+      },
+      "values": {
+        "reiteraciones_30d": 0,
+        "directas_90d": 0
+      },
+      "indicators": {
+        "reiteraciones_30d": {
+          "count": 0,
+          "observed_distinct_processes": 0,
+          "observed_awards": 0,
+          "reasons": {},
+          "amounts_by_currency": {},
+          "amounts_complete": true,
+          "awards_without_verified_amount_currency": 0,
+          "evidence": []
+        },
+        "directas_90d": {
+          "count": 0,
+          "observed_distinct_processes": 0,
+          "observed_awards": 0,
+          "reasons": {},
+          "amounts_by_currency": {},
+          "amounts_complete": true,
+          "awards_without_verified_amount_currency": 0,
+          "evidence": []
+        }
+      },
+      "ignored": {
+        "evento_futuro": 1,
+        "proceso_objetivo": 1
+      },
+      "frame_sha256": "348b17d9fcaf5c7214f71d185433b49a26cb42c52503d49825bd31403e82837e",
+      "training_eligible": false,
+      "publication_authorized": false,
+      "limitations": [
+        "Ventanas inclusivas [t-días,t], excluyen todo el proceso objetivo.",
+        "Reiteración no acredita fraccionamiento ni duplicación.",
+        "Contratación directa no acredita una conducta ilícita.",
+        "No mide cuota de mercado: el denominador de la entidad no está incluido.",
+        "Datos actuales no reconstruyen conocimiento histórico."
+      ],
+      "coverage": {
+        "policy": "binary-family-coverage-v1",
+        "stage": "ADJUDICACION",
+        "indicators": {
+          "IMPORTE_ATIPICO": {
+            "indicator": "IMPORTE_ATIPICO",
+            "status": "NO_EVALUABLE",
+            "detected": null,
+            "reason": "iqr_no_calculado",
+            "observed": {
+              "detected": null,
+              "reason": "iqr_no_calculado"
+            }
+          },
+          "OFERENTE_UNICO": {
+            "indicator": "OFERENTE_UNICO",
+            "status": "NO_EVALUABLE",
+            "detected": null,
+            "reason": "modalidad_no_verificada",
+            "observed": null
+          },
+          "DIRECTAS_90D": {
+            "indicator": "DIRECTAS_90D",
+            "status": "SIN_SENAL",
+            "detected": false,
+            "reason": null,
+            "observed": {
+              "value": "0",
+              "threshold": 3
+            }
+          },
+          "REITERACION_30D": {
+            "indicator": "REITERACION_30D",
+            "status": "SIN_SENAL",
+            "detected": false,
+            "reason": null,
+            "observed": {
+              "value": "0",
+              "threshold": 2
+            }
+          }
+        },
+        "families": {
+          "IMPORTE_ATIPICO": {
+            "status": "NO_EVALUABLE",
+            "weight": 1,
+            "contribution": null,
+            "indicators": [
+              "IMPORTE_ATIPICO"
+            ]
+          },
+          "COMPETENCIA": {
+            "status": "NO_EVALUABLE",
+            "weight": 1,
+            "contribution": null,
+            "indicators": [
+              "OFERENTE_UNICO"
+            ]
+          },
+          "CONCENTRACION_REITERACION": {
+            "status": "SIN_SENAL",
+            "weight": 1,
+            "contribution": 0,
+            "indicators": [
+              "DIRECTAS_90D",
+              "REITERACION_30D"
+            ]
+          }
+        },
+        "confirmed_signal_count": 0,
+        "applicable_families": 3,
+        "evaluated_families": 1,
+        "unevaluable_families": 2,
+        "family_coverage": 0.3333333333333333,
+        "applicable_indicators": 4,
+        "evaluated_indicators": 2,
+        "complete_score": null,
+        "score_interval": {
+          "min": 0,
+          "max": 2
+        },
+        "interpretation": "Conteo descriptivo de familias; intervalo por datos no evaluables, no probabilidad ni intervalo estadístico.",
+        "publication_authorized": false
+      },
+      "input_sha256": "fae072a6cbc531dd87b4f71d57da9e770240d139d92952fcde2a611000c13d6c",
+      "implementation_sha256": {
+        "scripts/risk_rolling_context.py": "594a10da5faa4fc56c6558e873076885003cdcb8c9eae58956558734b4ae33d0",
+        "modules/motor_riesgo/rolling_evidence.py": "2447d56b12e071ec71b63d3771ba798ba2ce3d874ca0309b5cbb17360161523d",
+        "modules/motor_riesgo/cut_rules.py": "b9bb04fa609164ca321089f70496c0edf5ada1db084888f52a1e0316b7f08a94",
+        "modules/motor_riesgo/rules.py": "c4b78866d0c09f589dfe31d54a60dac20baac35ad21e3f7da2b528010b5c6713",
+        "modules/motor_riesgo/baseline_coverage.py": "3bcd8a116dc56cf3f7d5cf9168c5a782b0f657a957fb5d8850125955acf684bb",
+        "modules/motor_riesgo/weight_lab.py": "eeb456b49a88d9185ae7d3d297f86a53b3ef89ab99420c31223ea91b45925354",
+        "modules/motor_riesgo/domain.py": "48d8fe00d07572047f57460ea05aace1f30c464b919073b80075afbbe7a430dd"
+      },
+      "contract_id": 8445391
+    },
+    {
+      "policy": "verified-pair-rolling-current-cut-v1",
+      "temporal_scope": "current_cut_descriptive_not_stage_prediction",
+      "frame": {
+        "start": "2017-07-01T05:00:00+00:00",
+        "end": "2017-09-29T05:00:00+00:00",
+        "complete_pair_history": true,
+        "universe": "Normalized local cut, stored buyer/provider keys; all stored sources, dates, methods and categories.",
+        "snapshot_cut": "2026-10-01",
+        "coverage_outside_declared_universe_verified": false
+      },
+      "target": {
+        "source_id": 1,
+        "process_id": "CO1.REQ.227014",
+        "award_id": "CO1.AWD.172813",
+        "award_at": "2017-09-29T05:00:00+00:00"
+      },
+      "values": {
+        "reiteraciones_30d": 0,
+        "directas_90d": 0
+      },
+      "indicators": {
+        "reiteraciones_30d": {
+          "count": 0,
+          "observed_distinct_processes": 0,
+          "observed_awards": 0,
+          "reasons": {},
+          "amounts_by_currency": {},
+          "amounts_complete": true,
+          "awards_without_verified_amount_currency": 0,
+          "evidence": []
+        },
+        "directas_90d": {
+          "count": 0,
+          "observed_distinct_processes": 0,
+          "observed_awards": 0,
+          "reasons": {},
+          "amounts_by_currency": {},
+          "amounts_complete": true,
+          "awards_without_verified_amount_currency": 0,
+          "evidence": []
+        }
+      },
+      "ignored": {
+        "evento_futuro": 2,
+        "proceso_objetivo": 1
+      },
+      "frame_sha256": "2ed7304a5c42928f3d5ba1388f12dc70e70d687760b9525c9c7c8ff3888fb501",
+      "training_eligible": false,
+      "publication_authorized": false,
+      "limitations": [
+        "Ventanas inclusivas [t-días,t], excluyen todo el proceso objetivo.",
+        "Reiteración no acredita fraccionamiento ni duplicación.",
+        "Contratación directa no acredita una conducta ilícita.",
+        "No mide cuota de mercado: el denominador de la entidad no está incluido.",
+        "Datos actuales no reconstruyen conocimiento histórico."
+      ],
+      "coverage": {
+        "policy": "binary-family-coverage-v1",
+        "stage": "ADJUDICACION",
+        "indicators": {
+          "IMPORTE_ATIPICO": {
+            "indicator": "IMPORTE_ATIPICO",
+            "status": "NO_EVALUABLE",
+            "detected": null,
+            "reason": "iqr_no_calculado",
+            "observed": {
+              "detected": null,
+              "reason": "iqr_no_calculado"
+            }
+          },
+          "OFERENTE_UNICO": {
+            "indicator": "OFERENTE_UNICO",
+            "status": "NO_EVALUABLE",
+            "detected": null,
+            "reason": "modalidad_no_verificada",
+            "observed": null
+          },
+          "DIRECTAS_90D": {
+            "indicator": "DIRECTAS_90D",
+            "status": "SIN_SENAL",
+            "detected": false,
+            "reason": null,
+            "observed": {
+              "value": "0",
+              "threshold": 3
+            }
+          },
+          "REITERACION_30D": {
+            "indicator": "REITERACION_30D",
+            "status": "SIN_SENAL",
+            "detected": false,
+            "reason": null,
+            "observed": {
+              "value": "0",
+              "threshold": 2
+            }
+          }
+        },
+        "families": {
+          "IMPORTE_ATIPICO": {
+            "status": "NO_EVALUABLE",
+            "weight": 1,
+            "contribution": null,
+            "indicators": [
+              "IMPORTE_ATIPICO"
+            ]
+          },
+          "COMPETENCIA": {
+            "status": "NO_EVALUABLE",
+            "weight": 1,
+            "contribution": null,
+            "indicators": [
+              "OFERENTE_UNICO"
+            ]
+          },
+          "CONCENTRACION_REITERACION": {
+            "status": "SIN_SENAL",
+            "weight": 1,
+            "contribution": 0,
+            "indicators": [
+              "DIRECTAS_90D",
+              "REITERACION_30D"
+            ]
+          }
+        },
+        "confirmed_signal_count": 0,
+        "applicable_families": 3,
+        "evaluated_families": 1,
+        "unevaluable_families": 2,
+        "family_coverage": 0.3333333333333333,
+        "applicable_indicators": 4,
+        "evaluated_indicators": 2,
+        "complete_score": null,
+        "score_interval": {
+          "min": 0,
+          "max": 2
+        },
+        "interpretation": "Conteo descriptivo de familias; intervalo por datos no evaluables, no probabilidad ni intervalo estadístico.",
+        "publication_authorized": false
+      },
+      "input_sha256": "c8e312d59f8640bf52965812efb864df1ad48bd04c2f22c7372af4f91875e435",
+      "implementation_sha256": {
+        "scripts/risk_rolling_context.py": "594a10da5faa4fc56c6558e873076885003cdcb8c9eae58956558734b4ae33d0",
+        "modules/motor_riesgo/rolling_evidence.py": "2447d56b12e071ec71b63d3771ba798ba2ce3d874ca0309b5cbb17360161523d",
+        "modules/motor_riesgo/cut_rules.py": "b9bb04fa609164ca321089f70496c0edf5ada1db084888f52a1e0316b7f08a94",
+        "modules/motor_riesgo/rules.py": "c4b78866d0c09f589dfe31d54a60dac20baac35ad21e3f7da2b528010b5c6713",
+        "modules/motor_riesgo/baseline_coverage.py": "3bcd8a116dc56cf3f7d5cf9168c5a782b0f657a957fb5d8850125955acf684bb",
+        "modules/motor_riesgo/weight_lab.py": "eeb456b49a88d9185ae7d3d297f86a53b3ef89ab99420c31223ea91b45925354",
+        "modules/motor_riesgo/domain.py": "48d8fe00d07572047f57460ea05aace1f30c464b919073b80075afbbe7a430dd"
+      },
+      "contract_id": 8801763
+    },
+    {
+      "policy": "verified-pair-rolling-current-cut-v1",
+      "temporal_scope": "current_cut_descriptive_not_stage_prediction",
+      "frame": {
+        "start": "2017-05-19T05:00:00+00:00",
+        "end": "2017-08-17T05:00:00+00:00",
+        "complete_pair_history": true,
+        "universe": "Normalized local cut, stored buyer/provider keys; all stored sources, dates, methods and categories.",
+        "snapshot_cut": "2026-10-01",
+        "coverage_outside_declared_universe_verified": false
+      },
+      "target": {
+        "source_id": 1,
+        "process_id": "CO1.REQ.205001",
+        "award_id": "CO1.AWD.155712",
+        "award_at": "2017-08-17T05:00:00+00:00"
+      },
+      "values": {
+        "reiteraciones_30d": 0,
+        "directas_90d": 0
+      },
+      "indicators": {
+        "reiteraciones_30d": {
+          "count": 0,
+          "observed_distinct_processes": 0,
+          "observed_awards": 0,
+          "reasons": {},
+          "amounts_by_currency": {},
+          "amounts_complete": true,
+          "awards_without_verified_amount_currency": 0,
+          "evidence": []
+        },
+        "directas_90d": {
+          "count": 0,
+          "observed_distinct_processes": 0,
+          "observed_awards": 0,
+          "reasons": {},
+          "amounts_by_currency": {},
+          "amounts_complete": true,
+          "awards_without_verified_amount_currency": 0,
+          "evidence": []
+        }
+      },
+      "ignored": {
+        "evento_futuro": 1,
+        "proceso_objetivo": 1
+      },
+      "frame_sha256": "24cef35edee1da098ca1c5036f057b158f06e6e81bb7cbf81bd60a8e59cca2c4",
+      "training_eligible": false,
+      "publication_authorized": false,
+      "limitations": [
+        "Ventanas inclusivas [t-días,t], excluyen todo el proceso objetivo.",
+        "Reiteración no acredita fraccionamiento ni duplicación.",
+        "Contratación directa no acredita una conducta ilícita.",
+        "No mide cuota de mercado: el denominador de la entidad no está incluido.",
+        "Datos actuales no reconstruyen conocimiento histórico."
+      ],
+      "coverage": {
+        "policy": "binary-family-coverage-v1",
+        "stage": "ADJUDICACION",
+        "indicators": {
+          "IMPORTE_ATIPICO": {
+            "indicator": "IMPORTE_ATIPICO",
+            "status": "NO_EVALUABLE",
+            "detected": null,
+            "reason": "iqr_no_calculado",
+            "observed": {
+              "detected": null,
+              "reason": "iqr_no_calculado"
+            }
+          },
+          "OFERENTE_UNICO": {
+            "indicator": "OFERENTE_UNICO",
+            "status": "NO_EVALUABLE",
+            "detected": null,
+            "reason": "modalidad_no_verificada",
+            "observed": null
+          },
+          "DIRECTAS_90D": {
+            "indicator": "DIRECTAS_90D",
+            "status": "SIN_SENAL",
+            "detected": false,
+            "reason": null,
+            "observed": {
+              "value": "0",
+              "threshold": 3
+            }
+          },
+          "REITERACION_30D": {
+            "indicator": "REITERACION_30D",
+            "status": "SIN_SENAL",
+            "detected": false,
+            "reason": null,
+            "observed": {
+              "value": "0",
+              "threshold": 2
+            }
+          }
+        },
+        "families": {
+          "IMPORTE_ATIPICO": {
+            "status": "NO_EVALUABLE",
+            "weight": 1,
+            "contribution": null,
+            "indicators": [
+              "IMPORTE_ATIPICO"
+            ]
+          },
+          "COMPETENCIA": {
+            "status": "NO_EVALUABLE",
+            "weight": 1,
+            "contribution": null,
+            "indicators": [
+              "OFERENTE_UNICO"
+            ]
+          },
+          "CONCENTRACION_REITERACION": {
+            "status": "SIN_SENAL",
+            "weight": 1,
+            "contribution": 0,
+            "indicators": [
+              "DIRECTAS_90D",
+              "REITERACION_30D"
+            ]
+          }
+        },
+        "confirmed_signal_count": 0,
+        "applicable_families": 3,
+        "evaluated_families": 1,
+        "unevaluable_families": 2,
+        "family_coverage": 0.3333333333333333,
+        "applicable_indicators": 4,
+        "evaluated_indicators": 2,
+        "complete_score": null,
+        "score_interval": {
+          "min": 0,
+          "max": 2
+        },
+        "interpretation": "Conteo descriptivo de familias; intervalo por datos no evaluables, no probabilidad ni intervalo estadístico.",
+        "publication_authorized": false
+      },
+      "input_sha256": "0e1058b308a4e690b05f8df57780c5efb3ebdb002a86efa37348cbc32f5150b6",
+      "implementation_sha256": {
+        "scripts/risk_rolling_context.py": "594a10da5faa4fc56c6558e873076885003cdcb8c9eae58956558734b4ae33d0",
+        "modules/motor_riesgo/rolling_evidence.py": "2447d56b12e071ec71b63d3771ba798ba2ce3d874ca0309b5cbb17360161523d",
+        "modules/motor_riesgo/cut_rules.py": "b9bb04fa609164ca321089f70496c0edf5ada1db084888f52a1e0316b7f08a94",
+        "modules/motor_riesgo/rules.py": "c4b78866d0c09f589dfe31d54a60dac20baac35ad21e3f7da2b528010b5c6713",
+        "modules/motor_riesgo/baseline_coverage.py": "3bcd8a116dc56cf3f7d5cf9168c5a782b0f657a957fb5d8850125955acf684bb",
+        "modules/motor_riesgo/weight_lab.py": "eeb456b49a88d9185ae7d3d297f86a53b3ef89ab99420c31223ea91b45925354",
+        "modules/motor_riesgo/domain.py": "48d8fe00d07572047f57460ea05aace1f30c464b919073b80075afbbe7a430dd"
+      },
+      "contract_id": 9214862
+    }
+  ],
+  "publication_authorized": false,
+  "training_eligible": false,
+  "acquisition_manifest_sha256": "00022d8ddea2332ee899f7a9955950d63fac6a326ca01aa8b00f715dd5450ffa",
+  "limitations": [
+    "Zero counts describe this small, eligible local subset only; not evidence that the remainder has no signals.",
+    "Unmapped identities and records outside the normalized pair frame are not reconciled.",
+    "No monetary denomination or historical timezone proven from original documents.",
+    "IQR evidence not joined; no complete risk score or new index."
+  ]
+}

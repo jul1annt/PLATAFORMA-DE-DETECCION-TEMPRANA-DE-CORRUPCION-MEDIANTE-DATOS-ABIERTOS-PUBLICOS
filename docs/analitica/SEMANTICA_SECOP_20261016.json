@@ -1,0 +1,18 @@
+{
+  "dataset": "p6dx-8zbt",
+  "metadata_url": "https://www.datos.gov.co/api/views/p6dx-8zbt.json",
+  "metadata_sha256": "646ea96f77a426b2f684c5e9294e0a4bcf47b07d54e284ebe44e5c25d7b67a11",
+  "reviewed_at": "2026-10-16",
+  "fields": {
+    "adjudicado": {"use": "Etapa adjudicación si es afirmativo, con fecha de adjudicación válida."},
+    "estado_del_procedimiento": {"use": "Antes de adjudicar: Publicado, Abierto o Evaluación. Cancelado, Suspendido y borradores quedan fuera de inferencia."},
+    "fase": {"use": "Describe el estado observado actualmente. No reconstruye la fase histórica de una fila."},
+    "respuestas_al_procedimiento": {"use_as_bidder_count": false, "reason": "Incluye aportes de la propia entidad y no representa ofertas de proveedores."},
+    "proveedores_unicos_con": {"use_as_bidder_count": false, "reason": "Cuenta proveedores que respondieron; no demuestra cuántos presentaron una oferta válida."},
+    "conteo_de_respuestas_a_ofertas": {"use_as_bidder_count": false, "reason": "Respuestas asociadas a ofertas no equivalen a oferentes únicos."},
+    "fecha_de_recepcion_de": {"use_as_deadline": false, "reason": "La descripción no permite asegurar que sea el cierre definitivo de presentación de ofertas."},
+    "duracion": {"use": "Duración estimada del proceso de compra, no duración de ejecución del contrato."},
+    "unidad_de_duracion": {"use": "Solo unidades expresadas en días se convierten automáticamente; meses y años no tienen una equivalencia fija."}
+  },
+  "limits": "Revisión semántica de metadatos conservados. No es una auditoría de cobertura de los 9.249.545 registros ni prueba del significado de valores históricos."
+}

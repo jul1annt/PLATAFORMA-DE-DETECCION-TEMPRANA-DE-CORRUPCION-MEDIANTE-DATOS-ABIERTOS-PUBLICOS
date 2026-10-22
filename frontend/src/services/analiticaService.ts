@@ -1,136 +1,62 @@
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+import api from '../api/axios';
+import { jobsService } from './jobsService';
+import type {
+  AdjudicacionDirectaCalculoRequest as ApiAdjudicacionDirectaCalculoRequest,
+  DuplicadoCalculoRequest as ApiDuplicadoCalculoRequest,
+  DuplicadoResumenResponse,
+  EjecucionAnaliticaEstadoResponse,
+  OutlierCalculoRequest as ApiOutlierCalculoRequest,
+  PesoAnomaliaResponse,
+  ProveedorDirectaResumenResponse,
+  RiesgoGlobalResumenResponse,
+  RunResumenResponse,
+} from '../types/api.generated';
 
-export interface OutlierCalculoRequest {
+export type OutlierCalculoRequest = Omit<ApiOutlierCalculoRequest, 'campo' | 'fecha_campo'> & {
   campo: 'valor_total_normalizado' | 'precio_base_normalizado' | 'nivel_confianza' | 'cantidad_campos_faltantes';
   fecha_campo?: 'fecha_publicacion_normalizada' | 'fecha_adjudicacion_normalizada' | null;
-  fecha_desde?: string | null;
-  fecha_hasta?: string | null;
-  modalidad?: string | null;
-}
-
-export interface DuplicadoCalculoRequest {
-  fecha_desde?: string | null;
-  fecha_hasta?: string | null;
-}
-
-export interface AdjudicacionDirectaCalculoRequest {
-  fecha_desde?: string | null;
-  fecha_hasta?: string | null;
-  minimo_directas: number;
-  dias_ventana: number;
-}
-
-export interface RunResumenResponse {
-  run_id: string;
-  campo_analizado: string;
-  total_contratos_analizados: number;
-  total_outliers: number;
-  porcentaje_outliers: number;
-  total_outliers_alto: number;
-  total_outliers_bajo: number;
-  grupos_procesados: number;
-  fecha_calculo: string;
-}
-
-export interface DuplicadoResumenResponse {
-  run_id: string;
-  total_duplicados: number;
-  promedio_dias_diferencia: number;
-  promedio_score: number;
-  fecha_calculo: string;
-}
-
-export interface ProveedorDirectaResumenResponse {
-  run_id: string;
-  total_proveedores_detectados: number;
-  promedio_porcentaje_directos: number;
-  promedio_score: number;
-  fecha_calculo: string;
-}
-
-export interface RiesgoGlobalResumenResponse {
-  run_id: string;
-  total_proveedores_evaluados: number;
-  promedio_score_final: number;
-  fecha_calculo: string;
-}
-
-export interface PesoAnomaliaResponse {
-  tipo_anomalia: string;
-  peso: number;
-  updated_at?: string | null;
-}
+};
+export type DuplicadoCalculoRequest = ApiDuplicadoCalculoRequest;
+export type AdjudicacionDirectaCalculoRequest = ApiAdjudicacionDirectaCalculoRequest;
+export type {
+  DuplicadoResumenResponse,
+  EjecucionAnaliticaEstadoResponse,
+  PesoAnomaliaResponse,
+  ProveedorDirectaResumenResponse,
+  RiesgoGlobalResumenResponse,
+  RunResumenResponse,
+};
 
 export const analiticaService = {
+  getUltimasEjecuciones: async (): Promise<EjecucionAnaliticaEstadoResponse[]> => {
+    return (await api.get('/api/analitica/ejecuciones/ultimas')).data;
+  },
+
   calcularOutliers: async (payload: OutlierCalculoRequest): Promise<RunResumenResponse> => {
-    const response = await fetch(`${API_URL}/api/analitica/outliers/calcular`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-    });
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      throw Object.assign(new Error('Error al calcular outliers'), { response: { data: errorData } });
-    }
-    return response.json();
+    const job = await jobsService.enqueue('/api/analitica/outliers/calcular', payload);
+    return jobsService.waitForResult<RunResumenResponse>(job.id, 45 * 60 * 1000);
   },
 
   calcularDuplicados: async (payload: DuplicadoCalculoRequest): Promise<DuplicadoResumenResponse> => {
-    const response = await fetch(`${API_URL}/api/analitica/duplicados/calcular`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-    });
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      throw Object.assign(new Error('Error al calcular duplicados'), { response: { data: errorData } });
-    }
-    return response.json();
+    const job = await jobsService.enqueue('/api/analitica/duplicados/calcular', payload);
+    return jobsService.waitForResult<DuplicadoResumenResponse>(job.id, 45 * 60 * 1000);
   },
 
   calcularDirectas: async (payload: AdjudicacionDirectaCalculoRequest): Promise<ProveedorDirectaResumenResponse> => {
-    const response = await fetch(`${API_URL}/api/analitica/directas/calcular`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-    });
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      throw Object.assign(new Error('Error al calcular adjudicaciones directas'), { response: { data: errorData } });
-    }
-    return response.json();
+    const job = await jobsService.enqueue('/api/analitica/directas/calcular', payload);
+    return jobsService.waitForResult<ProveedorDirectaResumenResponse>(job.id, 45 * 60 * 1000);
   },
 
   calcularRiesgo: async (): Promise<RiesgoGlobalResumenResponse> => {
-    const response = await fetch(`${API_URL}/api/analitica/riesgo/calcular`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-    });
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      throw Object.assign(new Error('Error al calcular riesgo global'), { response: { data: errorData } });
-    }
-    return response.json();
+    const job = await jobsService.enqueue('/api/analitica/riesgo/calcular', {});
+    return jobsService.waitForResult<RiesgoGlobalResumenResponse>(job.id, 45 * 60 * 1000);
   },
 
   getPesos: async (): Promise<PesoAnomaliaResponse[]> => {
-    const response = await fetch(`${API_URL}/api/analitica/pesos`);
-    if (!response.ok) {
-      throw new Error('Error al obtener pesos de anomalías');
-    }
-    return response.json();
+    return (await api.get('/api/analitica/pesos')).data;
   },
 
   actualizarPeso: async (tipo_anomalia: string, peso: number): Promise<PesoAnomaliaResponse> => {
-    const response = await fetch(`${API_URL}/api/analitica/pesos/${tipo_anomalia}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ peso }),
-    });
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      throw Object.assign(new Error(`Error al actualizar peso para ${tipo_anomalia}`), { response: { data: errorData } });
-    }
-    return response.json();
+    return (await api.put(`/api/analitica/pesos/${tipo_anomalia}`, { peso })).data;
   },
 };

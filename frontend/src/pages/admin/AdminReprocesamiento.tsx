@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Play, Loader2, RefreshCw, AlertCircle, CheckCircle, XCircle, FileSpreadsheet, FileText } from 'lucide-react';
 import { procesamientoService } from '../../services/procesamientoService';
+import { jobsService } from '../../services/jobsService';
 import type { PaginatedProcesamientoLogsDTO, ProcesamientoLogDTO } from '../../types/procesado';
 import { cn } from '../../utils/utils';
-import { exportToCSV, exportToExcel } from '../../utils/exportUtils';
+import { downloadExport } from '../../utils/download';
+import { getErrorMessage } from '../../utils/errors';
 
 export const AdminReprocesamiento: React.FC = () => {
   const [logs, setLogs] = useState<PaginatedProcesamientoLogsDTO | null>(null);
@@ -12,7 +14,10 @@ export const AdminReprocesamiento: React.FC = () => {
   const [size] = useState(20);
 
   const [isReprocessing, setIsReprocessing] = useState(false);
-  const [forzarReproceso, setForzarReproceso] = useState(true);
+  const [activeJobId, setActiveJobId] = useState<string | null>(null);
+  const hasRunningProcess = logs?.items.some((log) => log.estado === 'EN_PROCESO') ?? false;
+  const busy = isReprocessing || hasRunningProcess;
+  const [forzarReproceso, setForzarReproceso] = useState(false);
 
   // Simple toast/alert state
   const [toast, setToast] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
@@ -22,65 +27,87 @@ export const AdminReprocesamiento: React.FC = () => {
     try {
       const data = await procesamientoService.getLogs(page, size);
       setLogs(data);
-    } catch (err: any) {
-      console.error('Error fetching logs:', err);
+    } catch (err: unknown) {
+      console.error('Error fetching logs:', getErrorMessage(err, 'Error desconocido'));
     } finally {
       if (!hideLoading) setLoadingLogs(false);
     }
   }, [page, size]);
 
   useEffect(() => {
-    fetchLogs();
+    const timer = window.setTimeout(() => {
+      void fetchLogs();
+    }, 0);
+    return () => window.clearTimeout(timer);
   }, [fetchLogs]);
 
   // Polling if any log is EN_PROCESO
   useEffect(() => {
-    if (!logs) return;
-    const hasRunningProcess = logs.items.some((log) => log.estado === 'EN_PROCESO');
-    if (hasRunningProcess || isReprocessing) {
+    if (busy) {
       const interval = setInterval(() => {
         fetchLogs(true);
       }, 5000); // refresh every 5 seconds silently
       return () => clearInterval(interval);
     }
-  }, [logs, isReprocessing, fetchLogs]);
+  }, [busy, fetchLogs]);
+
+  useEffect(() => {
+    if (!activeJobId) return;
+    let cancelled = false;
+    let checking = false;
+    const checkStatus = async () => {
+      if (checking) return;
+      checking = true;
+      try {
+        const job = await jobsService.get(activeJobId);
+        if (cancelled) return;
+        if (job.status === 'EXITOSO' || job.status === 'ERROR' || job.status === 'PARCIAL') {
+          setActiveJobId(null);
+          setIsReprocessing(false);
+          setToast(job.status === 'EXITOSO'
+            ? { type: 'success', message: 'Reprocesamiento finalizado con éxito.' }
+            : { type: 'error', message: job.error_message || 'El reprocesamiento no terminó correctamente.' });
+          void fetchLogs();
+        }
+      } catch (error: unknown) {
+        if (!cancelled) {
+          console.error('Error checking reprocessing job:', getErrorMessage(error, 'Error desconocido'));
+          setToast({ type: 'error', message: 'No se pudo consultar el estado. Se reintentará.' });
+        }
+      } finally {
+        checking = false;
+      }
+    };
+    void checkStatus();
+    const interval = window.setInterval(() => { void checkStatus(); }, 5000);
+    return () => {
+      cancelled = true;
+      window.clearInterval(interval);
+    };
+  }, [activeJobId, fetchLogs]);
 
   const handleReprocesar = async () => {
+    if (busy) return;
     setIsReprocessing(true);
     setToast(null);
     try {
-      await procesamientoService.reprocesar(forzarReproceso);
-      setToast({ type: 'success', message: 'Reprocesamiento finalizado con éxito.' });
-      fetchLogs();
-    } catch (error: any) {
-      console.error('Error in reprocesar:', error);
+      const accepted = await procesamientoService.reprocesar(forzarReproceso);
+      setActiveJobId(accepted.id);
+      setToast({ type: 'success', message: 'Reprocesamiento iniciado. El avance se actualizará automáticamente.' });
+      void fetchLogs();
+    } catch (error: unknown) {
+      console.error('Error in reprocesar:', getErrorMessage(error, 'Error desconocido'));
       setToast({ 
         type: 'error', 
-        message: error.response?.data?.detail || 'Error al ejecutar reprocesamiento.' 
+        message: getErrorMessage(error, 'Error al ejecutar reprocesamiento.')
       });
-      fetchLogs();
-    } finally {
+      void fetchLogs();
       setIsReprocessing(false);
     }
   };
 
-  const buildExportRows = () =>
-    (logs?.items ?? []).map((log: ProcesamientoLogDTO) => ({
-      ID: log.id,
-      Estado: log.estado,
-      'Forzar Reproceso': log.forzar_reproceso ? 'SÍ' : 'NO',
-      'Fecha Inicio': log.fecha_hora_inicio,
-      'Fecha Fin': log.fecha_hora_fin ?? '',
-      'Duración (s)': log.duracion_segundos ?? '',
-      'Total Evaluados': log.total_evaluados,
-      Procesados: log.procesados,
-      Omitidos: log.omitidos,
-      'Anomalías Registradas': log.anomalias_registradas,
-      'Mensaje Error': log.mensaje_error ?? '',
-    }));
-
-  const handleExportCSV = () => exportToCSV(buildExportRows(), 'historial_reprocesamiento');
-  const handleExportExcel = () => exportToExcel(buildExportRows(), 'historial_reprocesamiento');
+  const handleExportCSV = () => downloadExport('/api/procesados/logs/export/csv', 'historial_reprocesamiento.csv');
+  const handleExportExcel = () => downloadExport('/api/procesados/logs/export/xlsx', 'historial_reprocesamiento.xlsx');
 
   const getStatusBadge = (estado: string) => {
     switch (estado) {
@@ -164,7 +191,7 @@ export const AdminReprocesamiento: React.FC = () => {
                 id="forzar_reproceso" 
                 checked={forzarReproceso}
                 onChange={(e) => setForzarReproceso(e.target.checked)}
-                disabled={isReprocessing}
+                disabled={busy}
                 className="rounded border-slate-300 text-emerald-600 focus:ring-emerald-500"
               />
               <label htmlFor="forzar_reproceso" className="text-sm font-medium text-slate-700 cursor-pointer">
@@ -172,22 +199,22 @@ export const AdminReprocesamiento: React.FC = () => {
               </label>
             </div>
             <p className="text-xs text-slate-500 pl-6">
-              Si está activo, se volverán a evaluar todos los contratos existentes. 
-              Si está inactivo, solo se procesarán registros crudos nuevos.
+              Si está activo, se volverán a evaluar todos los contratos y puede tardar varias horas.
+              Si está inactivo, se procesarán los registros crudos nuevos o actualizados.
             </p>
           </div>
           
           <button
             onClick={handleReprocesar}
-            disabled={isReprocessing}
+            disabled={busy}
             className={cn(
               "flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold text-white transition-all",
-              isReprocessing 
+              busy
                 ? "bg-emerald-400 cursor-not-allowed" 
                 : "bg-emerald-600 hover:bg-emerald-700 shadow-sm hover:shadow"
             )}
           >
-            {isReprocessing ? (
+            {busy ? (
               <>
                 <Loader2 size={18} className="animate-spin" />
                 Ejecutando...
@@ -219,7 +246,7 @@ export const AdminReprocesamiento: React.FC = () => {
       <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden flex flex-col">
         <div className="px-6 py-4 border-b border-slate-200 bg-slate-50 flex items-center justify-between">
           <h2 className="text-lg font-semibold text-slate-800">Historial de Ejecuciones</h2>
-          {loadingLogs && !isReprocessing && (
+          {loadingLogs && !busy && (
             <Loader2 size={18} className="text-slate-400 animate-spin" />
           )}
         </div>

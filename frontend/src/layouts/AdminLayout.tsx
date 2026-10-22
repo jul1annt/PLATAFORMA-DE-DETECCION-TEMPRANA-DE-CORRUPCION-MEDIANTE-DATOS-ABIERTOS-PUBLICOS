@@ -10,8 +10,10 @@ import {
   Settings,
   Brain
 } from 'lucide-react';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../context/useAuth';
 import { cn } from '../utils/utils';
+import { BackButton } from '../components/navigation/BackButton';
+import { useLocation } from 'react-router-dom';
 
 const navItems = [
   { name: 'Dashboard', path: '/admin', icon: LayoutDashboard, end: true },
@@ -25,6 +27,7 @@ const navItems = [
 export const AdminLayout: React.FC = () => {
   const { admin, logout } = useAuth();
   const navigate = useNavigate();
+  const { pathname } = useLocation();
 
   const handleLogout = async () => {
     await logout();
@@ -99,6 +102,11 @@ export const AdminLayout: React.FC = () => {
         {/* Top bar */}
         <header className="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-4 sm:px-6 z-10 sticky top-0">
           <div className="flex items-center gap-2">
+            <BackButton
+              fallback={pathname === '/admin' ? '/public/dashboard' : '/admin'}
+              label={pathname === '/admin' ? 'Vista pública' : 'Panel admin'}
+              className="mr-2"
+            />
             <ShieldCheck size={18} className="text-emerald-500" />
             <span className="text-sm font-semibold text-slate-700">
               Módulo Administrativo

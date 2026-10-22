@@ -18,9 +18,6 @@ export const CamposFaltantesTable: React.FC<CamposFaltantesTableProps> = ({ camp
     );
   }
 
-  // Sort by count descending just in case
-  const sortedCampos = [...campos].sort((a, b) => b.cantidad - a.cantidad);
-
   return (
     <Card className="overflow-hidden">
       <div className="p-5 border-b border-slate-200 bg-white flex justify-between items-center">
@@ -39,7 +36,7 @@ export const CamposFaltantesTable: React.FC<CamposFaltantesTableProps> = ({ camp
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100">
-            {sortedCampos.map((campo, index) => (
+            {campos.map((campo, index) => (
               <tr key={index} className="hover:bg-slate-50">
                 <td className="px-5 py-3 font-medium text-slate-700">{campo.campo}</td>
                 <td className="px-5 py-3 text-right text-slate-600">{campo.cantidad.toLocaleString()}</td>
@@ -50,7 +47,7 @@ export const CamposFaltantesTable: React.FC<CamposFaltantesTableProps> = ({ camp
                     </span>
                     <div className="flex-1 h-2 bg-slate-100 rounded-full overflow-hidden">
                       <div 
-                        className={`h-full rounded-full ${campo.porcentaje > 50 ? 'bg-red-500' : campo.porcentaje > 20 ? 'bg-amber-500' : 'bg-blue-500'}`}
+                        className="h-full rounded-full bg-blue-500"
                         style={{ width: `${Math.min(campo.porcentaje, 100)}%` }}
                       />
                     </div>

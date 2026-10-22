@@ -1,0 +1,386 @@
+{
+  "policy": "complete-cohort-current-cut-v1",
+  "scope": {
+    "date_bogota": "2026-10-19",
+    "snapshot_cut": "2026-10-01",
+    "temporal_scope": "current_cut_descriptive_not_stage_prediction",
+    "database_oid": 24577,
+    "selection": {
+      "start": "2017-01-01",
+      "end": "2018-01-01",
+      "method": "CONTRATACIÓN DIRECTA (CON OFERTAS)",
+      "category": "V1.80161500"
+    },
+    "full_selected_cohort": true,
+    "maximum_rows": 20000,
+    "raw_peer_rows": 1698,
+    "target_contract_ids": [
+      8610280,
+      7068621,
+      6196230
+    ],
+    "read_only": true,
+    "server_cursor_batch": 25,
+    "per_fetch_timeout_seconds": 10,
+    "selection_and_identity_seconds": 178.0949704000377
+  },
+  "reference": {
+    "category": "V1.80161500",
+    "method": "CONTRATACIÓN DIRECTA (CON OFERTAS)",
+    "year": 2017,
+    "n": 1392,
+    "exclusions": {
+      "identidad_incompleta": 299,
+      "identidad_ambigua_o_no_comprobada": 6,
+      "importe_ausente_o_invalido": 1
+    },
+    "peer_values_sha256": "ec223fa3bbe7a27c4387612a75c07c4e322e310fa11610a176b528326e38170f",
+    "iqr": {
+      "indicator": "IMPORTE_ATIPICO",
+      "reference": "https://www.open-contracting.org/resources/red-flags-in-public-procurement-a-guide-to-using-data-to-detect-and-mitigate-risks/",
+      "n": 1392,
+      "invalid_peers": 0,
+      "q1": "21000000.0000",
+      "q3": "66747216.0000",
+      "lower": "-47620824.00000",
+      "upper": "135368040.00000",
+      "explanation": "Importe fuera del rango de sus pares; no acredita sobreprecio."
+    },
+    "sha256": "cf9e8767ba6c2980354fd123e6750f19afe477645b9f7c3ae19b6937464af0f8"
+  },
+  "results": [
+    {
+      "contract_id": 8610280,
+      "source_id": 1,
+      "source_row_id": "row-cdrq~hmbb.kt5u",
+      "process_id": "CO1.REQ.120927",
+      "award_id": "CO1.AWD.79548",
+      "stage": "ADJUDICACION",
+      "temporal_scope": "current_cut_descriptive_not_stage_prediction",
+      "training_eligible": false,
+      "reference_sha256": "cf9e8767ba6c2980354fd123e6750f19afe477645b9f7c3ae19b6937464af0f8",
+      "coverage": {
+        "policy": "binary-family-coverage-v1",
+        "stage": "ADJUDICACION",
+        "indicators": {
+          "IMPORTE_ATIPICO": {
+            "indicator": "IMPORTE_ATIPICO",
+            "status": "SIN_SENAL",
+            "detected": false,
+            "reason": null,
+            "observed": {
+              "indicator": "IMPORTE_ATIPICO",
+              "reference": "https://www.open-contracting.org/resources/red-flags-in-public-procurement-a-guide-to-using-data-to-detect-and-mitigate-risks/",
+              "n": 1392,
+              "detected": false,
+              "invalid_peers": 0,
+              "value": "72000000.00",
+              "q1": "21000000.0000",
+              "q3": "66747216.0000",
+              "lower": "-47620824.00000",
+              "upper": "135368040.00000",
+              "explanation": "Importe fuera del rango de sus pares; no acredita sobreprecio."
+            }
+          },
+          "OFERENTE_UNICO": {
+            "indicator": "OFERENTE_UNICO",
+            "status": "NO_EVALUABLE",
+            "detected": null,
+            "reason": "modalidad_no_verificada",
+            "observed": null
+          },
+          "DIRECTAS_90D": {
+            "indicator": "DIRECTAS_90D",
+            "status": "NO_EVALUABLE",
+            "detected": null,
+            "reason": "conteo_ausente_o_invalido",
+            "observed": {
+              "value": null,
+              "threshold": 3
+            }
+          },
+          "REITERACION_30D": {
+            "indicator": "REITERACION_30D",
+            "status": "NO_EVALUABLE",
+            "detected": null,
+            "reason": "conteo_ausente_o_invalido",
+            "observed": {
+              "value": null,
+              "threshold": 2
+            }
+          }
+        },
+        "families": {
+          "IMPORTE_ATIPICO": {
+            "status": "SIN_SENAL",
+            "weight": 1,
+            "contribution": 0,
+            "indicators": [
+              "IMPORTE_ATIPICO"
+            ]
+          },
+          "COMPETENCIA": {
+            "status": "NO_EVALUABLE",
+            "weight": 1,
+            "contribution": null,
+            "indicators": [
+              "OFERENTE_UNICO"
+            ]
+          },
+          "CONCENTRACION_REITERACION": {
+            "status": "NO_EVALUABLE",
+            "weight": 1,
+            "contribution": null,
+            "indicators": [
+              "DIRECTAS_90D",
+              "REITERACION_30D"
+            ]
+          }
+        },
+        "confirmed_signal_count": 0,
+        "applicable_families": 3,
+        "evaluated_families": 1,
+        "unevaluable_families": 2,
+        "family_coverage": 0.3333333333333333,
+        "applicable_indicators": 4,
+        "evaluated_indicators": 1,
+        "complete_score": null,
+        "score_interval": {
+          "min": 0,
+          "max": 2
+        },
+        "interpretation": "Conteo descriptivo de familias; intervalo por datos no evaluables, no probabilidad ni intervalo estadístico.",
+        "publication_authorized": false
+      }
+    },
+    {
+      "contract_id": 7068621,
+      "source_id": 1,
+      "source_row_id": "row-juq4.75j5-kgic",
+      "process_id": "CO1.REQ.126210",
+      "award_id": "CO1.AWD.85224",
+      "stage": "ADJUDICACION",
+      "temporal_scope": "current_cut_descriptive_not_stage_prediction",
+      "training_eligible": false,
+      "reference_sha256": "cf9e8767ba6c2980354fd123e6750f19afe477645b9f7c3ae19b6937464af0f8",
+      "coverage": {
+        "policy": "binary-family-coverage-v1",
+        "stage": "ADJUDICACION",
+        "indicators": {
+          "IMPORTE_ATIPICO": {
+            "indicator": "IMPORTE_ATIPICO",
+            "status": "SIN_SENAL",
+            "detected": false,
+            "reason": null,
+            "observed": {
+              "indicator": "IMPORTE_ATIPICO",
+              "reference": "https://www.open-contracting.org/resources/red-flags-in-public-procurement-a-guide-to-using-data-to-detect-and-mitigate-risks/",
+              "n": 1392,
+              "detected": false,
+              "invalid_peers": 0,
+              "value": "30900000.00",
+              "q1": "21000000.0000",
+              "q3": "66747216.0000",
+              "lower": "-47620824.00000",
+              "upper": "135368040.00000",
+              "explanation": "Importe fuera del rango de sus pares; no acredita sobreprecio."
+            }
+          },
+          "OFERENTE_UNICO": {
+            "indicator": "OFERENTE_UNICO",
+            "status": "NO_EVALUABLE",
+            "detected": null,
+            "reason": "modalidad_no_verificada",
+            "observed": null
+          },
+          "DIRECTAS_90D": {
+            "indicator": "DIRECTAS_90D",
+            "status": "NO_EVALUABLE",
+            "detected": null,
+            "reason": "conteo_ausente_o_invalido",
+            "observed": {
+              "value": null,
+              "threshold": 3
+            }
+          },
+          "REITERACION_30D": {
+            "indicator": "REITERACION_30D",
+            "status": "NO_EVALUABLE",
+            "detected": null,
+            "reason": "conteo_ausente_o_invalido",
+            "observed": {
+              "value": null,
+              "threshold": 2
+            }
+          }
+        },
+        "families": {
+          "IMPORTE_ATIPICO": {
+            "status": "SIN_SENAL",
+            "weight": 1,
+            "contribution": 0,
+            "indicators": [
+              "IMPORTE_ATIPICO"
+            ]
+          },
+          "COMPETENCIA": {
+            "status": "NO_EVALUABLE",
+            "weight": 1,
+            "contribution": null,
+            "indicators": [
+              "OFERENTE_UNICO"
+            ]
+          },
+          "CONCENTRACION_REITERACION": {
+            "status": "NO_EVALUABLE",
+            "weight": 1,
+            "contribution": null,
+            "indicators": [
+              "DIRECTAS_90D",
+              "REITERACION_30D"
+            ]
+          }
+        },
+        "confirmed_signal_count": 0,
+        "applicable_families": 3,
+        "evaluated_families": 1,
+        "unevaluable_families": 2,
+        "family_coverage": 0.3333333333333333,
+        "applicable_indicators": 4,
+        "evaluated_indicators": 1,
+        "complete_score": null,
+        "score_interval": {
+          "min": 0,
+          "max": 2
+        },
+        "interpretation": "Conteo descriptivo de familias; intervalo por datos no evaluables, no probabilidad ni intervalo estadístico.",
+        "publication_authorized": false
+      }
+    },
+    {
+      "contract_id": 6196230,
+      "source_id": 1,
+      "source_row_id": "row-jwxk.845q~ahdv",
+      "process_id": "CO1.REQ.120303",
+      "award_id": "CO1.AWD.79225",
+      "stage": "ADJUDICACION",
+      "temporal_scope": "current_cut_descriptive_not_stage_prediction",
+      "training_eligible": false,
+      "reference_sha256": "cf9e8767ba6c2980354fd123e6750f19afe477645b9f7c3ae19b6937464af0f8",
+      "coverage": {
+        "policy": "binary-family-coverage-v1",
+        "stage": "ADJUDICACION",
+        "indicators": {
+          "IMPORTE_ATIPICO": {
+            "indicator": "IMPORTE_ATIPICO",
+            "status": "SIN_SENAL",
+            "detected": false,
+            "reason": null,
+            "observed": {
+              "indicator": "IMPORTE_ATIPICO",
+              "reference": "https://www.open-contracting.org/resources/red-flags-in-public-procurement-a-guide-to-using-data-to-detect-and-mitigate-risks/",
+              "n": 1392,
+              "detected": false,
+              "invalid_peers": 0,
+              "value": "37080000.00",
+              "q1": "21000000.0000",
+              "q3": "66747216.0000",
+              "lower": "-47620824.00000",
+              "upper": "135368040.00000",
+              "explanation": "Importe fuera del rango de sus pares; no acredita sobreprecio."
+            }
+          },
+          "OFERENTE_UNICO": {
+            "indicator": "OFERENTE_UNICO",
+            "status": "NO_EVALUABLE",
+            "detected": null,
+            "reason": "modalidad_no_verificada",
+            "observed": null
+          },
+          "DIRECTAS_90D": {
+            "indicator": "DIRECTAS_90D",
+            "status": "NO_EVALUABLE",
+            "detected": null,
+            "reason": "conteo_ausente_o_invalido",
+            "observed": {
+              "value": null,
+              "threshold": 3
+            }
+          },
+          "REITERACION_30D": {
+            "indicator": "REITERACION_30D",
+            "status": "NO_EVALUABLE",
+            "detected": null,
+            "reason": "conteo_ausente_o_invalido",
+            "observed": {
+              "value": null,
+              "threshold": 2
+            }
+          }
+        },
+        "families": {
+          "IMPORTE_ATIPICO": {
+            "status": "SIN_SENAL",
+            "weight": 1,
+            "contribution": 0,
+            "indicators": [
+              "IMPORTE_ATIPICO"
+            ]
+          },
+          "COMPETENCIA": {
+            "status": "NO_EVALUABLE",
+            "weight": 1,
+            "contribution": null,
+            "indicators": [
+              "OFERENTE_UNICO"
+            ]
+          },
+          "CONCENTRACION_REITERACION": {
+            "status": "NO_EVALUABLE",
+            "weight": 1,
+            "contribution": null,
+            "indicators": [
+              "DIRECTAS_90D",
+              "REITERACION_30D"
+            ]
+          }
+        },
+        "confirmed_signal_count": 0,
+        "applicable_families": 3,
+        "evaluated_families": 1,
+        "unevaluable_families": 2,
+        "family_coverage": 0.3333333333333333,
+        "applicable_indicators": 4,
+        "evaluated_indicators": 1,
+        "complete_score": null,
+        "score_interval": {
+          "min": 0,
+          "max": 2
+        },
+        "interpretation": "Conteo descriptivo de familias; intervalo por datos no evaluables, no probabilidad ni intervalo estadístico.",
+        "publication_authorized": false
+      }
+    }
+  ],
+  "iqr_evaluable_targets": 3,
+  "complete_targets": 0,
+  "limitations": [
+    "Importes reportados por SECOP, sin confirmar unidad monetaria y precio unitario mediante documentos físicos.",
+    "Referencia del corte actual; no información disponible al momento de adjudicar.",
+    "Solo se reconstruye IQR; no se reutilizan pares legados como conteos móviles corregidos.",
+    "Oferentes y concentraciones permanecen no evaluables cuando falta su evidencia."
+  ],
+  "training_performed": false,
+  "model_index": null,
+  "publication_authorized": false,
+  "database_accessed": false,
+  "input_sha256": "a8afd9f928a278b923b84ae847971f8667d95bcd5793443f3441250e3cf5c5d7",
+  "implementation_sha256": {
+    "scripts/risk_cut_cohort.py": "51be1041b7fc67590f7b6a9c3671dd8e13a23329aec205508e99fb3ab2d9dc31",
+    "modules/motor_riesgo/cut_rules.py": "b9bb04fa609164ca321089f70496c0edf5ada1db084888f52a1e0316b7f08a94",
+    "modules/motor_riesgo/rules.py": "c4b78866d0c09f589dfe31d54a60dac20baac35ad21e3f7da2b528010b5c6713",
+    "modules/motor_riesgo/baseline_coverage.py": "3bcd8a116dc56cf3f7d5cf9168c5a782b0f657a957fb5d8850125955acf684bb",
+    "modules/motor_riesgo/weight_lab.py": "eeb456b49a88d9185ae7d3d297f86a53b3ef89ab99420c31223ea91b45925354",
+    "modules/motor_riesgo/domain.py": "48d8fe00d07572047f57460ea05aace1f30c464b919073b80075afbbe7a430dd"
+  }
+}

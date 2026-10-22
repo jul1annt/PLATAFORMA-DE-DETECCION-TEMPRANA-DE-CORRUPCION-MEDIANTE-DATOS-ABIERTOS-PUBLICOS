@@ -1,52 +1,68 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { ShieldAlert, RefreshCcw } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { calidadService } from '../services/calidadService';
 import { fuentesService } from '../services/fuentesService';
+import { getErrorMessage } from '../utils/errors';
+import type { ComparativaFuenteDTO } from '../services/fuentesService';
 import type { MetricasCalidadDTO, CampoFaltanteDTO } from '../types/calidad';
-import type { FuenteDatosResponseDTO, SincronizacionHistorialResponseDTO } from '../types/fuente';
 import { QualityScoreCard } from '../components/calidad/QualityScoreCard';
 import { CamposFaltantesTable } from '../components/calidad/CamposFaltantesTable';
 import { ComparativaSincronizaciones } from '../components/calidad/ComparativaSincronizaciones';
+import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 import { Skeleton } from '../components/ui/Skeleton';
 
 export const DataQualityDashboard: React.FC = () => {
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [metricas, setMetricas] = useState<MetricasCalidadDTO | null>(null);
   const [camposFaltantes, setCamposFaltantes] = useState<CampoFaltanteDTO[]>([]);
-  const [fuentes, setFuentes] = useState<FuenteDatosResponseDTO[]>([]);
-  const [sincronizaciones, setSincronizaciones] = useState<SincronizacionHistorialResponseDTO[]>([]);
+  const [comparativa, setComparativa] = useState<ComparativaFuenteDTO[]>([]);
+  const activeRequest = useRef<AbortController | null>(null);
 
-  const fetchDashboardData = async () => {
+  const fetchDashboardData = useCallback(async () => {
+    activeRequest.current?.abort();
+    const controller = new AbortController();
+    activeRequest.current = controller;
     setLoading(true);
+    setError(null);
     try {
       const [
         metricasData,
         camposData,
-        fuentesData,
-        sincronizacionesData
+        comparativaData,
       ] = await Promise.all([
-        calidadService.getMetricasCalidad(),
-        calidadService.getCamposFaltantes(),
-        fuentesService.getAll(),
-        fuentesService.getSincronizacionesGlobales()
+        calidadService.getMetricasCalidad(controller.signal),
+        calidadService.getCamposFaltantes(controller.signal),
+        fuentesService.getComparativa(controller.signal)
       ]);
 
+      if (controller.signal.aborted) return;
       setMetricas(metricasData);
       setCamposFaltantes(camposData);
-      setFuentes(fuentesData);
-      setSincronizaciones(sincronizacionesData);
-    } catch (error) {
-      toast.error('Error al cargar los datos del dashboard de calidad');
+      setComparativa(comparativaData);
+    } catch (err: unknown) {
+      if (controller.signal.aborted) return;
+      setError(getErrorMessage(err, 'Error al cargar los datos del dashboard de calidad'));
     } finally {
-      setLoading(false);
+      if (activeRequest.current === controller) {
+        activeRequest.current = null;
+        setLoading(false);
+      }
     }
-  };
+  }, []);
 
   useEffect(() => {
-    fetchDashboardData();
-  }, []);
+    const timer = window.setTimeout(() => {
+      void fetchDashboardData();
+    }, 0);
+    return () => {
+      window.clearTimeout(timer);
+      activeRequest.current?.abort();
+      activeRequest.current = null;
+    };
+  }, [fetchDashboardData]);
 
   return (
     <div className="space-y-6 animate-in fade-in duration-500 pb-10">
@@ -66,9 +82,8 @@ export const DataQualityDashboard: React.FC = () => {
               try {
                 toast.loading('Iniciando reprocesamiento...', { id: 'reproceso' });
                 await calidadService.reprocesar();
-                toast.success('Reprocesamiento completado', { id: 'reproceso' });
-                fetchDashboardData();
-              } catch (error) {
+                toast.success('Reprocesamiento iniciado. Consulta el avance en Reprocesamiento.', { id: 'reproceso' });
+              } catch {
                 toast.error('Error al reprocesar datos', { id: 'reproceso' });
               }
             }} 
@@ -97,6 +112,14 @@ export const DataQualityDashboard: React.FC = () => {
             <Skeleton className="h-96 w-full rounded-xl" />
           </div>
         </div>
+      ) : error ? (
+        <Card role="alert" className="border-red-200 bg-red-50 p-8 text-red-800">
+          <h2 className="font-semibold">No se pudo cargar el dashboard de calidad</h2>
+          <p className="mt-2 text-sm">{error}</p>
+          <Button onClick={() => void fetchDashboardData()} variant="secondary" className="mt-4">
+            Reintentar
+          </Button>
+        </Card>
       ) : metricas ? (
         <div className="space-y-6">
           <section>
@@ -105,7 +128,7 @@ export const DataQualityDashboard: React.FC = () => {
           </section>
 
           <section>
-            <ComparativaSincronizaciones fuentes={fuentes} sincronizaciones={sincronizaciones} />
+            <ComparativaSincronizaciones comparativa={comparativa} />
           </section>
 
           <section className="grid grid-cols-1 lg:grid-cols-2 gap-6">

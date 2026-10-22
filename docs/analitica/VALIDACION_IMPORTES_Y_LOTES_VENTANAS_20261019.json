@@ -1,0 +1,937 @@
+{
+  "date_bogota": "2026-10-19",
+  "policy": "verified-pair-rolling-current-cut-v2",
+  "monetary_policy": "positive-numeric38-2-no-rounding-v1",
+  "status": "OFFLINE_BATCH_AND_MONETARY_AGGREGATE_PARITY_VALIDATED",
+  "tests": {
+    "run_id": "ea3bbea4e4fc4bb7960b9aef9a5f40ad",
+    "count": 147,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "by_module": {
+      "tests.test_rolling_batch": 11,
+      "tests.test_rolling_sql_postgres": 39,
+      "tests.test_rolling_evidence": 41,
+      "tests.test_cut_rules": 18,
+      "tests.test_baseline_coverage": 38
+    },
+    "junit_sha256": "bdc8816d513125b222d7d23e887753a007897fe67618187d0c5eb28e617c9d65"
+  },
+  "batch": {
+    "date_bogota": "2026-10-19",
+    "operations": [
+      {
+        "operation": "initial",
+        "seconds": 1.1318101999931969,
+        "results": 13,
+        "reused_identical_results": 0,
+        "complete_risk_scores": 0,
+        "publication_authorized": false
+      },
+      {
+        "operation": "reuse",
+        "seconds": 0.4419772000401281,
+        "results": 13,
+        "reused_identical_results": 13,
+        "complete_risk_scores": 0,
+        "publication_authorized": false
+      },
+      {
+        "operation": "frozen_code_replay",
+        "seconds": 1.320388299995102,
+        "results": 13,
+        "reused_identical_results": 0,
+        "complete_risk_scores": 0,
+        "publication_authorized": false
+      }
+    ],
+    "replay_manifest_identical": true,
+    "complete_manifest_sha256": "5ad0c6745167cb69331e00c712cfac82b4c81fe072c39a58da9f33d68ea7a24b",
+    "input_manifest_sha256": "83d45d65ff29f4e2e541f1efd315db9bd158d9e8f4682c5b9ed360d52521d2fa",
+    "new_database_queries": 0,
+    "training_eligible": false,
+    "publication_authorized": false
+  },
+  "real_sql_checks": [
+    {
+      "contract_id": 347175,
+      "policy": "rolling-count-quality-money-sql-comparator-v2",
+      "match": true,
+      "reference": {
+        "indicators": {
+          "reiteraciones_30d": {
+            "count": 0,
+            "observed_distinct_processes": 0,
+            "observed_awards": 0,
+            "reasons": {},
+            "amounts_by_currency": {},
+            "amounts_complete": true,
+            "awards_without_verified_amount_currency": 0
+          },
+          "directas_90d": {
+            "count": 0,
+            "observed_distinct_processes": 0,
+            "observed_awards": 0,
+            "reasons": {},
+            "amounts_by_currency": {},
+            "amounts_complete": true,
+            "awards_without_verified_amount_currency": 0
+          }
+        },
+        "ignored": {
+          "proceso_objetivo": 1,
+          "evento_futuro": 1
+        }
+      },
+      "sql": {
+        "ignored": {
+          "evento_futuro": 1,
+          "proceso_objetivo": 1
+        },
+        "indicators": {
+          "directas_90d": {
+            "count": 0,
+            "reasons": {},
+            "observed_awards": 0,
+            "amounts_complete": true,
+            "amounts_by_currency": {},
+            "observed_distinct_processes": 0,
+            "awards_without_verified_amount_currency": 0
+          },
+          "reiteraciones_30d": {
+            "count": 0,
+            "reasons": {},
+            "observed_awards": 0,
+            "amounts_complete": true,
+            "amounts_by_currency": {},
+            "observed_distinct_processes": 0,
+            "awards_without_verified_amount_currency": 0
+          }
+        }
+      },
+      "input_sha256": "65dc2dfd4e2af44de5c8ff543753c1b31c42f1db8f0dcbba6dbc615b276b7b49",
+      "sql_sha256": "64fb01ff81eec20ef4424d2727581c08b760ea483919cd7e3be1596464a7532b",
+      "count_and_quality_parity_only": false,
+      "monetary_parity_checked": true,
+      "monetary_parsing_shared": true,
+      "source_currency_verified": false,
+      "legacy_history_parity_checked": false,
+      "database_writes": false,
+      "publication_authorized": false,
+      "training_eligible": false
+    },
+    {
+      "contract_id": 1723167,
+      "policy": "rolling-count-quality-money-sql-comparator-v2",
+      "match": true,
+      "reference": {
+        "indicators": {
+          "reiteraciones_30d": {
+            "count": 0,
+            "observed_distinct_processes": 0,
+            "observed_awards": 0,
+            "reasons": {},
+            "amounts_by_currency": {},
+            "amounts_complete": true,
+            "awards_without_verified_amount_currency": 0
+          },
+          "directas_90d": {
+            "count": 0,
+            "observed_distinct_processes": 0,
+            "observed_awards": 0,
+            "reasons": {},
+            "amounts_by_currency": {},
+            "amounts_complete": true,
+            "awards_without_verified_amount_currency": 0
+          }
+        },
+        "ignored": {
+          "proceso_objetivo": 1
+        }
+      },
+      "sql": {
+        "ignored": {
+          "proceso_objetivo": 1
+        },
+        "indicators": {
+          "directas_90d": {
+            "count": 0,
+            "reasons": {},
+            "observed_awards": 0,
+            "amounts_complete": true,
+            "amounts_by_currency": {},
+            "observed_distinct_processes": 0,
+            "awards_without_verified_amount_currency": 0
+          },
+          "reiteraciones_30d": {
+            "count": 0,
+            "reasons": {},
+            "observed_awards": 0,
+            "amounts_complete": true,
+            "amounts_by_currency": {},
+            "observed_distinct_processes": 0,
+            "awards_without_verified_amount_currency": 0
+          }
+        }
+      },
+      "input_sha256": "6c1816f340d49603c43b1ef9a15c722d465815e86a83b7d40a920dec353854f1",
+      "sql_sha256": "64fb01ff81eec20ef4424d2727581c08b760ea483919cd7e3be1596464a7532b",
+      "count_and_quality_parity_only": false,
+      "monetary_parity_checked": true,
+      "monetary_parsing_shared": true,
+      "source_currency_verified": false,
+      "legacy_history_parity_checked": false,
+      "database_writes": false,
+      "publication_authorized": false,
+      "training_eligible": false
+    },
+    {
+      "contract_id": 3977709,
+      "policy": "rolling-count-quality-money-sql-comparator-v2",
+      "match": true,
+      "reference": {
+        "indicators": {
+          "reiteraciones_30d": {
+            "count": 0,
+            "observed_distinct_processes": 0,
+            "observed_awards": 0,
+            "reasons": {},
+            "amounts_by_currency": {},
+            "amounts_complete": true,
+            "awards_without_verified_amount_currency": 0
+          },
+          "directas_90d": {
+            "count": 0,
+            "observed_distinct_processes": 0,
+            "observed_awards": 0,
+            "reasons": {},
+            "amounts_by_currency": {},
+            "amounts_complete": true,
+            "awards_without_verified_amount_currency": 0
+          }
+        },
+        "ignored": {
+          "proceso_objetivo": 1
+        }
+      },
+      "sql": {
+        "ignored": {
+          "proceso_objetivo": 1
+        },
+        "indicators": {
+          "directas_90d": {
+            "count": 0,
+            "reasons": {},
+            "observed_awards": 0,
+            "amounts_complete": true,
+            "amounts_by_currency": {},
+            "observed_distinct_processes": 0,
+            "awards_without_verified_amount_currency": 0
+          },
+          "reiteraciones_30d": {
+            "count": 0,
+            "reasons": {},
+            "observed_awards": 0,
+            "amounts_complete": true,
+            "amounts_by_currency": {},
+            "observed_distinct_processes": 0,
+            "awards_without_verified_amount_currency": 0
+          }
+        }
+      },
+      "input_sha256": "ec78b7d778fa11d2a162572c01a45a44fa58d8b9bd3f1966478c50e0cf50246a",
+      "sql_sha256": "64fb01ff81eec20ef4424d2727581c08b760ea483919cd7e3be1596464a7532b",
+      "count_and_quality_parity_only": false,
+      "monetary_parity_checked": true,
+      "monetary_parsing_shared": true,
+      "source_currency_verified": false,
+      "legacy_history_parity_checked": false,
+      "database_writes": false,
+      "publication_authorized": false,
+      "training_eligible": false
+    },
+    {
+      "contract_id": 4422699,
+      "policy": "rolling-count-quality-money-sql-comparator-v2",
+      "match": true,
+      "reference": {
+        "indicators": {
+          "reiteraciones_30d": {
+            "count": 0,
+            "observed_distinct_processes": 0,
+            "observed_awards": 0,
+            "reasons": {},
+            "amounts_by_currency": {},
+            "amounts_complete": true,
+            "awards_without_verified_amount_currency": 0
+          },
+          "directas_90d": {
+            "count": 0,
+            "observed_distinct_processes": 0,
+            "observed_awards": 0,
+            "reasons": {},
+            "amounts_by_currency": {},
+            "amounts_complete": true,
+            "awards_without_verified_amount_currency": 0
+          }
+        },
+        "ignored": {
+          "proceso_objetivo": 1
+        }
+      },
+      "sql": {
+        "ignored": {
+          "proceso_objetivo": 1
+        },
+        "indicators": {
+          "directas_90d": {
+            "count": 0,
+            "reasons": {},
+            "observed_awards": 0,
+            "amounts_complete": true,
+            "amounts_by_currency": {},
+            "observed_distinct_processes": 0,
+            "awards_without_verified_amount_currency": 0
+          },
+          "reiteraciones_30d": {
+            "count": 0,
+            "reasons": {},
+            "observed_awards": 0,
+            "amounts_complete": true,
+            "amounts_by_currency": {},
+            "observed_distinct_processes": 0,
+            "awards_without_verified_amount_currency": 0
+          }
+        }
+      },
+      "input_sha256": "4931e516c5010b7f3001363f8f20179fb640e789f734faa36288fad0e301ec19",
+      "sql_sha256": "64fb01ff81eec20ef4424d2727581c08b760ea483919cd7e3be1596464a7532b",
+      "count_and_quality_parity_only": false,
+      "monetary_parity_checked": true,
+      "monetary_parsing_shared": true,
+      "source_currency_verified": false,
+      "legacy_history_parity_checked": false,
+      "database_writes": false,
+      "publication_authorized": false,
+      "training_eligible": false
+    },
+    {
+      "contract_id": 4553959,
+      "policy": "rolling-count-quality-money-sql-comparator-v2",
+      "match": true,
+      "reference": {
+        "indicators": {
+          "reiteraciones_30d": {
+            "count": 0,
+            "observed_distinct_processes": 0,
+            "observed_awards": 0,
+            "reasons": {},
+            "amounts_by_currency": {},
+            "amounts_complete": true,
+            "awards_without_verified_amount_currency": 0
+          },
+          "directas_90d": {
+            "count": 0,
+            "observed_distinct_processes": 0,
+            "observed_awards": 0,
+            "reasons": {},
+            "amounts_by_currency": {},
+            "amounts_complete": true,
+            "awards_without_verified_amount_currency": 0
+          }
+        },
+        "ignored": {
+          "proceso_objetivo": 1
+        }
+      },
+      "sql": {
+        "ignored": {
+          "proceso_objetivo": 1
+        },
+        "indicators": {
+          "directas_90d": {
+            "count": 0,
+            "reasons": {},
+            "observed_awards": 0,
+            "amounts_complete": true,
+            "amounts_by_currency": {},
+            "observed_distinct_processes": 0,
+            "awards_without_verified_amount_currency": 0
+          },
+          "reiteraciones_30d": {
+            "count": 0,
+            "reasons": {},
+            "observed_awards": 0,
+            "amounts_complete": true,
+            "amounts_by_currency": {},
+            "observed_distinct_processes": 0,
+            "awards_without_verified_amount_currency": 0
+          }
+        }
+      },
+      "input_sha256": "a49385f2065d688affc24492ae80cc66b9be5e5d619ba63fbb5b44db171c18c0",
+      "sql_sha256": "64fb01ff81eec20ef4424d2727581c08b760ea483919cd7e3be1596464a7532b",
+      "count_and_quality_parity_only": false,
+      "monetary_parity_checked": true,
+      "monetary_parsing_shared": true,
+      "source_currency_verified": false,
+      "legacy_history_parity_checked": false,
+      "database_writes": false,
+      "publication_authorized": false,
+      "training_eligible": false
+    },
+    {
+      "contract_id": 4671424,
+      "policy": "rolling-count-quality-money-sql-comparator-v2",
+      "match": true,
+      "reference": {
+        "indicators": {
+          "reiteraciones_30d": {
+            "count": 0,
+            "observed_distinct_processes": 0,
+            "observed_awards": 0,
+            "reasons": {},
+            "amounts_by_currency": {},
+            "amounts_complete": true,
+            "awards_without_verified_amount_currency": 0
+          },
+          "directas_90d": {
+            "count": 0,
+            "observed_distinct_processes": 0,
+            "observed_awards": 0,
+            "reasons": {},
+            "amounts_by_currency": {},
+            "amounts_complete": true,
+            "awards_without_verified_amount_currency": 0
+          }
+        },
+        "ignored": {
+          "proceso_objetivo": 1
+        }
+      },
+      "sql": {
+        "ignored": {
+          "proceso_objetivo": 1
+        },
+        "indicators": {
+          "directas_90d": {
+            "count": 0,
+            "reasons": {},
+            "observed_awards": 0,
+            "amounts_complete": true,
+            "amounts_by_currency": {},
+            "observed_distinct_processes": 0,
+            "awards_without_verified_amount_currency": 0
+          },
+          "reiteraciones_30d": {
+            "count": 0,
+            "reasons": {},
+            "observed_awards": 0,
+            "amounts_complete": true,
+            "amounts_by_currency": {},
+            "observed_distinct_processes": 0,
+            "awards_without_verified_amount_currency": 0
+          }
+        }
+      },
+      "input_sha256": "6cc177ba9fd37bc978058fe5df3e27a01a2d8a3cb67fb87976c5a3bfa79bd2e8",
+      "sql_sha256": "64fb01ff81eec20ef4424d2727581c08b760ea483919cd7e3be1596464a7532b",
+      "count_and_quality_parity_only": false,
+      "monetary_parity_checked": true,
+      "monetary_parsing_shared": true,
+      "source_currency_verified": false,
+      "legacy_history_parity_checked": false,
+      "database_writes": false,
+      "publication_authorized": false,
+      "training_eligible": false
+    },
+    {
+      "contract_id": 4850927,
+      "policy": "rolling-count-quality-money-sql-comparator-v2",
+      "match": true,
+      "reference": {
+        "indicators": {
+          "reiteraciones_30d": {
+            "count": 0,
+            "observed_distinct_processes": 0,
+            "observed_awards": 0,
+            "reasons": {},
+            "amounts_by_currency": {},
+            "amounts_complete": true,
+            "awards_without_verified_amount_currency": 0
+          },
+          "directas_90d": {
+            "count": 0,
+            "observed_distinct_processes": 0,
+            "observed_awards": 0,
+            "reasons": {},
+            "amounts_by_currency": {},
+            "amounts_complete": true,
+            "awards_without_verified_amount_currency": 0
+          }
+        },
+        "ignored": {
+          "proceso_objetivo": 1
+        }
+      },
+      "sql": {
+        "ignored": {
+          "proceso_objetivo": 1
+        },
+        "indicators": {
+          "directas_90d": {
+            "count": 0,
+            "reasons": {},
+            "observed_awards": 0,
+            "amounts_complete": true,
+            "amounts_by_currency": {},
+            "observed_distinct_processes": 0,
+            "awards_without_verified_amount_currency": 0
+          },
+          "reiteraciones_30d": {
+            "count": 0,
+            "reasons": {},
+            "observed_awards": 0,
+            "amounts_complete": true,
+            "amounts_by_currency": {},
+            "observed_distinct_processes": 0,
+            "awards_without_verified_amount_currency": 0
+          }
+        }
+      },
+      "input_sha256": "d182dbb40812ed49ecafe272824d28b2be97aaa586d965db6ba8d3c1d2d85609",
+      "sql_sha256": "64fb01ff81eec20ef4424d2727581c08b760ea483919cd7e3be1596464a7532b",
+      "count_and_quality_parity_only": false,
+      "monetary_parity_checked": true,
+      "monetary_parsing_shared": true,
+      "source_currency_verified": false,
+      "legacy_history_parity_checked": false,
+      "database_writes": false,
+      "publication_authorized": false,
+      "training_eligible": false
+    },
+    {
+      "contract_id": 7235470,
+      "policy": "rolling-count-quality-money-sql-comparator-v2",
+      "match": true,
+      "reference": {
+        "indicators": {
+          "reiteraciones_30d": {
+            "count": 0,
+            "observed_distinct_processes": 0,
+            "observed_awards": 0,
+            "reasons": {},
+            "amounts_by_currency": {},
+            "amounts_complete": true,
+            "awards_without_verified_amount_currency": 0
+          },
+          "directas_90d": {
+            "count": 0,
+            "observed_distinct_processes": 0,
+            "observed_awards": 0,
+            "reasons": {},
+            "amounts_by_currency": {},
+            "amounts_complete": true,
+            "awards_without_verified_amount_currency": 0
+          }
+        },
+        "ignored": {
+          "proceso_objetivo": 1
+        }
+      },
+      "sql": {
+        "ignored": {
+          "proceso_objetivo": 1
+        },
+        "indicators": {
+          "directas_90d": {
+            "count": 0,
+            "reasons": {},
+            "observed_awards": 0,
+            "amounts_complete": true,
+            "amounts_by_currency": {},
+            "observed_distinct_processes": 0,
+            "awards_without_verified_amount_currency": 0
+          },
+          "reiteraciones_30d": {
+            "count": 0,
+            "reasons": {},
+            "observed_awards": 0,
+            "amounts_complete": true,
+            "amounts_by_currency": {},
+            "observed_distinct_processes": 0,
+            "awards_without_verified_amount_currency": 0
+          }
+        }
+      },
+      "input_sha256": "511756f3803213ed99df05bb2a91503e30be1041dce6b6b3e3118754c926ae79",
+      "sql_sha256": "64fb01ff81eec20ef4424d2727581c08b760ea483919cd7e3be1596464a7532b",
+      "count_and_quality_parity_only": false,
+      "monetary_parity_checked": true,
+      "monetary_parsing_shared": true,
+      "source_currency_verified": false,
+      "legacy_history_parity_checked": false,
+      "database_writes": false,
+      "publication_authorized": false,
+      "training_eligible": false
+    },
+    {
+      "contract_id": 7799390,
+      "policy": "rolling-count-quality-money-sql-comparator-v2",
+      "match": true,
+      "reference": {
+        "indicators": {
+          "reiteraciones_30d": {
+            "count": 0,
+            "observed_distinct_processes": 0,
+            "observed_awards": 0,
+            "reasons": {},
+            "amounts_by_currency": {},
+            "amounts_complete": true,
+            "awards_without_verified_amount_currency": 0
+          },
+          "directas_90d": {
+            "count": 0,
+            "observed_distinct_processes": 0,
+            "observed_awards": 0,
+            "reasons": {},
+            "amounts_by_currency": {},
+            "amounts_complete": true,
+            "awards_without_verified_amount_currency": 0
+          }
+        },
+        "ignored": {
+          "evento_futuro": 2,
+          "proceso_objetivo": 1
+        }
+      },
+      "sql": {
+        "ignored": {
+          "evento_futuro": 2,
+          "proceso_objetivo": 1
+        },
+        "indicators": {
+          "directas_90d": {
+            "count": 0,
+            "reasons": {},
+            "observed_awards": 0,
+            "amounts_complete": true,
+            "amounts_by_currency": {},
+            "observed_distinct_processes": 0,
+            "awards_without_verified_amount_currency": 0
+          },
+          "reiteraciones_30d": {
+            "count": 0,
+            "reasons": {},
+            "observed_awards": 0,
+            "amounts_complete": true,
+            "amounts_by_currency": {},
+            "observed_distinct_processes": 0,
+            "awards_without_verified_amount_currency": 0
+          }
+        }
+      },
+      "input_sha256": "e4878cd83ee292b786bbfb4a37ae9af64b8d3514e21f80dc5730011cdb947a65",
+      "sql_sha256": "64fb01ff81eec20ef4424d2727581c08b760ea483919cd7e3be1596464a7532b",
+      "count_and_quality_parity_only": false,
+      "monetary_parity_checked": true,
+      "monetary_parsing_shared": true,
+      "source_currency_verified": false,
+      "legacy_history_parity_checked": false,
+      "database_writes": false,
+      "publication_authorized": false,
+      "training_eligible": false
+    },
+    {
+      "contract_id": 8276763,
+      "policy": "rolling-count-quality-money-sql-comparator-v2",
+      "match": true,
+      "reference": {
+        "indicators": {
+          "reiteraciones_30d": {
+            "count": 0,
+            "observed_distinct_processes": 0,
+            "observed_awards": 0,
+            "reasons": {},
+            "amounts_by_currency": {},
+            "amounts_complete": true,
+            "awards_without_verified_amount_currency": 0
+          },
+          "directas_90d": {
+            "count": 0,
+            "observed_distinct_processes": 0,
+            "observed_awards": 0,
+            "reasons": {},
+            "amounts_by_currency": {},
+            "amounts_complete": true,
+            "awards_without_verified_amount_currency": 0
+          }
+        },
+        "ignored": {
+          "fuera_de_ventana": 1,
+          "proceso_objetivo": 1
+        }
+      },
+      "sql": {
+        "ignored": {
+          "fuera_de_ventana": 1,
+          "proceso_objetivo": 1
+        },
+        "indicators": {
+          "directas_90d": {
+            "count": 0,
+            "reasons": {},
+            "observed_awards": 0,
+            "amounts_complete": true,
+            "amounts_by_currency": {},
+            "observed_distinct_processes": 0,
+            "awards_without_verified_amount_currency": 0
+          },
+          "reiteraciones_30d": {
+            "count": 0,
+            "reasons": {},
+            "observed_awards": 0,
+            "amounts_complete": true,
+            "amounts_by_currency": {},
+            "observed_distinct_processes": 0,
+            "awards_without_verified_amount_currency": 0
+          }
+        }
+      },
+      "input_sha256": "66d41a13476eeafe9e9e37b02cffc0a536bb59c314aa32ea6261eea6fad871cf",
+      "sql_sha256": "64fb01ff81eec20ef4424d2727581c08b760ea483919cd7e3be1596464a7532b",
+      "count_and_quality_parity_only": false,
+      "monetary_parity_checked": true,
+      "monetary_parsing_shared": true,
+      "source_currency_verified": false,
+      "legacy_history_parity_checked": false,
+      "database_writes": false,
+      "publication_authorized": false,
+      "training_eligible": false
+    },
+    {
+      "contract_id": 8445391,
+      "policy": "rolling-count-quality-money-sql-comparator-v2",
+      "match": true,
+      "reference": {
+        "indicators": {
+          "reiteraciones_30d": {
+            "count": 0,
+            "observed_distinct_processes": 0,
+            "observed_awards": 0,
+            "reasons": {},
+            "amounts_by_currency": {},
+            "amounts_complete": true,
+            "awards_without_verified_amount_currency": 0
+          },
+          "directas_90d": {
+            "count": 0,
+            "observed_distinct_processes": 0,
+            "observed_awards": 0,
+            "reasons": {},
+            "amounts_by_currency": {},
+            "amounts_complete": true,
+            "awards_without_verified_amount_currency": 0
+          }
+        },
+        "ignored": {
+          "evento_futuro": 1,
+          "proceso_objetivo": 1
+        }
+      },
+      "sql": {
+        "ignored": {
+          "evento_futuro": 1,
+          "proceso_objetivo": 1
+        },
+        "indicators": {
+          "directas_90d": {
+            "count": 0,
+            "reasons": {},
+            "observed_awards": 0,
+            "amounts_complete": true,
+            "amounts_by_currency": {},
+            "observed_distinct_processes": 0,
+            "awards_without_verified_amount_currency": 0
+          },
+          "reiteraciones_30d": {
+            "count": 0,
+            "reasons": {},
+            "observed_awards": 0,
+            "amounts_complete": true,
+            "amounts_by_currency": {},
+            "observed_distinct_processes": 0,
+            "awards_without_verified_amount_currency": 0
+          }
+        }
+      },
+      "input_sha256": "348b17d9fcaf5c7214f71d185433b49a26cb42c52503d49825bd31403e82837e",
+      "sql_sha256": "64fb01ff81eec20ef4424d2727581c08b760ea483919cd7e3be1596464a7532b",
+      "count_and_quality_parity_only": false,
+      "monetary_parity_checked": true,
+      "monetary_parsing_shared": true,
+      "source_currency_verified": false,
+      "legacy_history_parity_checked": false,
+      "database_writes": false,
+      "publication_authorized": false,
+      "training_eligible": false
+    },
+    {
+      "contract_id": 8801763,
+      "policy": "rolling-count-quality-money-sql-comparator-v2",
+      "match": true,
+      "reference": {
+        "indicators": {
+          "reiteraciones_30d": {
+            "count": 0,
+            "observed_distinct_processes": 0,
+            "observed_awards": 0,
+            "reasons": {},
+            "amounts_by_currency": {},
+            "amounts_complete": true,
+            "awards_without_verified_amount_currency": 0
+          },
+          "directas_90d": {
+            "count": 0,
+            "observed_distinct_processes": 0,
+            "observed_awards": 0,
+            "reasons": {},
+            "amounts_by_currency": {},
+            "amounts_complete": true,
+            "awards_without_verified_amount_currency": 0
+          }
+        },
+        "ignored": {
+          "evento_futuro": 2,
+          "proceso_objetivo": 1
+        }
+      },
+      "sql": {
+        "ignored": {
+          "evento_futuro": 2,
+          "proceso_objetivo": 1
+        },
+        "indicators": {
+          "directas_90d": {
+            "count": 0,
+            "reasons": {},
+            "observed_awards": 0,
+            "amounts_complete": true,
+            "amounts_by_currency": {},
+            "observed_distinct_processes": 0,
+            "awards_without_verified_amount_currency": 0
+          },
+          "reiteraciones_30d": {
+            "count": 0,
+            "reasons": {},
+            "observed_awards": 0,
+            "amounts_complete": true,
+            "amounts_by_currency": {},
+            "observed_distinct_processes": 0,
+            "awards_without_verified_amount_currency": 0
+          }
+        }
+      },
+      "input_sha256": "2ed7304a5c42928f3d5ba1388f12dc70e70d687760b9525c9c7c8ff3888fb501",
+      "sql_sha256": "64fb01ff81eec20ef4424d2727581c08b760ea483919cd7e3be1596464a7532b",
+      "count_and_quality_parity_only": false,
+      "monetary_parity_checked": true,
+      "monetary_parsing_shared": true,
+      "source_currency_verified": false,
+      "legacy_history_parity_checked": false,
+      "database_writes": false,
+      "publication_authorized": false,
+      "training_eligible": false
+    },
+    {
+      "contract_id": 9214862,
+      "policy": "rolling-count-quality-money-sql-comparator-v2",
+      "match": true,
+      "reference": {
+        "indicators": {
+          "reiteraciones_30d": {
+            "count": 0,
+            "observed_distinct_processes": 0,
+            "observed_awards": 0,
+            "reasons": {},
+            "amounts_by_currency": {},
+            "amounts_complete": true,
+            "awards_without_verified_amount_currency": 0
+          },
+          "directas_90d": {
+            "count": 0,
+            "observed_distinct_processes": 0,
+            "observed_awards": 0,
+            "reasons": {},
+            "amounts_by_currency": {},
+            "amounts_complete": true,
+            "awards_without_verified_amount_currency": 0
+          }
+        },
+        "ignored": {
+          "evento_futuro": 1,
+          "proceso_objetivo": 1
+        }
+      },
+      "sql": {
+        "ignored": {
+          "evento_futuro": 1,
+          "proceso_objetivo": 1
+        },
+        "indicators": {
+          "directas_90d": {
+            "count": 0,
+            "reasons": {},
+            "observed_awards": 0,
+            "amounts_complete": true,
+            "amounts_by_currency": {},
+            "observed_distinct_processes": 0,
+            "awards_without_verified_amount_currency": 0
+          },
+          "reiteraciones_30d": {
+            "count": 0,
+            "reasons": {},
+            "observed_awards": 0,
+            "amounts_complete": true,
+            "amounts_by_currency": {},
+            "observed_distinct_processes": 0,
+            "awards_without_verified_amount_currency": 0
+          }
+        }
+      },
+      "input_sha256": "24cef35edee1da098ca1c5036f057b158f06e6e81bb7cbf81bd60a8e59cca2c4",
+      "sql_sha256": "64fb01ff81eec20ef4424d2727581c08b760ea483919cd7e3be1596464a7532b",
+      "count_and_quality_parity_only": false,
+      "monetary_parity_checked": true,
+      "monetary_parsing_shared": true,
+      "source_currency_verified": false,
+      "legacy_history_parity_checked": false,
+      "database_writes": false,
+      "publication_authorized": false,
+      "training_eligible": false
+    }
+  ],
+  "real_sql_database_oid": 82244,
+  "real_sql_read_only": true,
+  "real_sql_rows_written": 0,
+  "source_currency_verified": false,
+  "legacy_history_parity_checked": false,
+  "monetary_parsing_shared": true,
+  "batch_implementation_sha256": {
+    "modules/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "modules/motor_riesgo/__init__.py": "5f125ab57cce9564d9effc9fbc90d84ea20dfc290e3559ef5ccefb464d140ba8",
+    "modules/motor_riesgo/baseline_coverage.py": "3bcd8a116dc56cf3f7d5cf9168c5a782b0f657a957fb5d8850125955acf684bb",
+    "modules/motor_riesgo/cut_rules.py": "b9bb04fa609164ca321089f70496c0edf5ada1db084888f52a1e0316b7f08a94",
+    "modules/motor_riesgo/domain.py": "48d8fe00d07572047f57460ea05aace1f30c464b919073b80075afbbe7a430dd",
+    "modules/motor_riesgo/rolling_evidence.py": "8bd9a1658612f0d53b0527bcfebf97c175b94af16bca2e1fea3cde010bf258f8",
+    "modules/motor_riesgo/rules.py": "c4b78866d0c09f589dfe31d54a60dac20baac35ad21e3f7da2b528010b5c6713",
+    "modules/motor_riesgo/weight_lab.py": "eeb456b49a88d9185ae7d3d297f86a53b3ef89ab99420c31223ea91b45925354",
+    "scripts/risk_rolling_batch.py": "e986559cd0ad2965336e5a210a77182d4e6b9ee0215c3147473d5bc3543f551e"
+  },
+  "sql_implementation_sha256": "70b2341c5eee090d1fb71c084ae2c394484aa25e68ec1fbd6a56431c10208b64",
+  "new_dependencies": false,
+  "training_eligible": false,
+  "publication_authorized": false,
+  "external_contact": false
+}

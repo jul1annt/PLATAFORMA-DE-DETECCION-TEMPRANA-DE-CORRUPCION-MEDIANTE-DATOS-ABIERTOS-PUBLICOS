@@ -1,0 +1,183 @@
+{
+  "stage": "prepared_remaining_local_items_no_mutation",
+  "inventory": {
+    "at_utc": "2026-10-12T18:08:05.243963+00:00",
+    "policy_approved": false,
+    "backup_inventory": [
+      {
+        "path": "Backend/.codex-e2e-postgres/plataforma_cutover_final.dump",
+        "bytes": 3428333830,
+        "modified_at_utc": "2026-09-30T11:06:34.626144+00:00",
+        "decision_proposed": "Preserve unique historical backup; no authorized expiry",
+        "cryptographic_reverification_performed": false
+      },
+      {
+        "path": "Backend/.codex-e2e-postgres/plataforma_cutover_pre_backfill.dump",
+        "bytes": 6383897,
+        "modified_at_utc": "2026-09-29T11:57:10.566505+00:00",
+        "decision_proposed": "Preserve unique historical backup; no authorized expiry",
+        "cryptographic_reverification_performed": false
+      },
+      {
+        "path": "Backend/.codex-e2e-postgres/plataforma_cutover_pre_full_load.dump",
+        "bytes": 7714032,
+        "modified_at_utc": "2026-09-29T18:25:33.633815+00:00",
+        "decision_proposed": "Preserve unique historical backup; no authorized expiry",
+        "cryptographic_reverification_performed": false
+      },
+      {
+        "path": "Backend/.codex-e2e-postgres/plataforma_raw_secop_cutover.dump",
+        "bytes": 2659255472,
+        "modified_at_utc": "2026-09-29T18:24:36.489417+00:00",
+        "decision_proposed": "Preserve unique historical backup; no authorized expiry",
+        "cryptographic_reverification_performed": false
+      },
+      {
+        "path": "Backend/.codex-e2e-postgres/plataforma_secop_refresh_final.dump",
+        "bytes": 3429788315,
+        "modified_at_utc": "2026-10-01T23:13:31.514554+00:00",
+        "decision_proposed": "Preserve unique historical backup; no authorized expiry",
+        "cryptographic_reverification_performed": false
+      },
+      {
+        "path": "Backend/.codex-e2e-postgres/plataformaanticorrupcion-cutover.dump",
+        "bytes": 6382052,
+        "modified_at_utc": "2026-09-29T09:58:09.501573+00:00",
+        "decision_proposed": "Preserve unique historical backup; no authorized expiry",
+        "cryptographic_reverification_performed": false
+      },
+      {
+        "path": "Backend/.codex-e2e-postgres/plataformaanticorrupcion-preserved-2026-10-01.dump",
+        "bytes": 6374617,
+        "modified_at_utc": "2026-10-01T13:32:10.084926+00:00",
+        "decision_proposed": "Preserve unique historical backup; no authorized expiry",
+        "cryptographic_reverification_performed": false
+      },
+      {
+        "path": "Backend/.codex-e2e-postgres/secop_20261001_final.dump",
+        "bytes": 3434770306,
+        "modified_at_utc": "2026-10-03T05:30:04.664470+00:00",
+        "decision_proposed": "Preserve unique historical backup; no authorized expiry",
+        "cryptographic_reverification_performed": false
+      }
+    ],
+    "backup_bytes": 12979002521,
+    "recovery_checkpoints": [
+      {
+        "path": "Backend/.codex-integration-postgres/activation-execution-20261012/frozen-checkpoint/control-state.dump",
+        "bytes": 25816,
+        "decision_proposed": "Preserve original/current recovery checkpoint",
+        "sha256": "32c881f868f72128ef727b095e839adbf9c2e1337bda41192bdffad5b444e791"
+      },
+      {
+        "path": "Backend/.codex-integration-postgres/activation-execution-20261012/frozen-checkpoint/schema-before.dump",
+        "bytes": 72502,
+        "decision_proposed": "Preserve original/current recovery checkpoint",
+        "sha256": "1d40d760a86b25ef6cf62bbc8b350ed63e964dbffda45c3d7b1cf208852f2ffe"
+      },
+      {
+        "path": "Backend/.codex-integration-postgres/activation-preparation-20261012/control-state.dump",
+        "bytes": 25816,
+        "decision_proposed": "Preserve original/current recovery checkpoint",
+        "sha256": "8c57b6f61119a36ff1a333529630ad0e410e642469dd19175eac324eca2ce36a"
+      },
+      {
+        "path": "Backend/.codex-integration-postgres/activation-preparation-20261012/schema-before.dump",
+        "bytes": 72502,
+        "decision_proposed": "Preserve original/current recovery checkpoint",
+        "sha256": "fb9e0e1b5de8d33e71a0acf86fb37d86c095e74c5675da601c4cd93a4f945f51"
+      },
+      {
+        "path": "Backend/.codex-integration-postgres/publication-20261010/operational-before.dump",
+        "bytes": 6374617,
+        "decision_proposed": "Preserve original/current recovery checkpoint",
+        "sha256": "2d775be9bdb6f768dbd96d0a99d3368dee166d566095ab6c6d9e8894931981f8"
+      }
+    ],
+    "active_ref": "794d185832c7c56ffa4d91ef08ca1f3d15128be5",
+    "previous_verified_ref": "915e863cc7492e619888506f59a04c6dbbfa5552",
+    "derived_full_copy_candidate": {
+      "name": "codex_plan_full_acceptance_20261011_test",
+      "oid": 75045,
+      "port": 5433,
+      "schema": "3c19a8f7e2d0",
+      "size_bytes": 23077412199,
+      "raw_first_2000_utc_md5": "7faea8375c6e3e4faba1c23f71dc6b5e",
+      "max_job_id": 106,
+      "active_jobs": 0,
+      "active_sources": 0
+    },
+    "preserved_source": {
+      "name": "plataforma_integracion_local",
+      "oid": 74053,
+      "port": 5433,
+      "schema": "f4826b9d1c30",
+      "size_bytes": 23158209895,
+      "raw_first_2000_utc_md5": "7faea8375c6e3e4faba1c23f71dc6b5e",
+      "max_job_id": 102,
+      "active_jobs": 0,
+      "active_sources": 0
+    },
+    "derived_raw_prefix_matches_source": true,
+    "derived_sessions_observed": 0,
+    "source_sessions_observed": 0,
+    "terminal_processing_and_api_evidence_verified": true,
+    "retirement_performed": false,
+    "active_bindings_unchanged": true,
+    "current_pending_use": "P06 requires isolated historical provider/DIAN verification. Preserve the existing full-cut test copy until the authorized input and exact read/write scope are known, to avoid another full copy.",
+    "derived_copy_retirement_authorized": false,
+    "derived_copy_decision_current": "Preserve pending P06 scope; zero sessions alone does not prove unused",
+    "databases_removed": 0,
+    "files_removed": 0,
+    "limits": [
+      "Raw lineage equality uses the first 2,000 UTC rows; complete-cut counts and unchanged raw-source evidence reuse terminal reports rather than another full scan",
+      "Derived projections include controlled test changes; this copy is not a unique source generation or the published database",
+      "The stored dump restores were not repeated; only selected small checkpoint SHA-256 values were refreshed"
+    ]
+  },
+  "firewall_prerequisites": {
+    "at_utc": "2026-10-12T18:11:21.5037517+00:00",
+    "stage": "readonly_firewall_prerequisites",
+    "elevated": false,
+    "profiles": [
+      {
+        "Name": "Domain",
+        "Enabled": 1,
+        "DefaultOutboundAction": 0,
+        "AllowLocalFirewallRules": 2
+      },
+      {
+        "Name": "Private",
+        "Enabled": 1,
+        "DefaultOutboundAction": 0,
+        "AllowLocalFirewallRules": 2
+      },
+      {
+        "Name": "Public",
+        "Enabled": 1,
+        "DefaultOutboundAction": 0,
+        "AllowLocalFirewallRules": 2
+      }
+    ],
+    "existing_scoped_rules": [],
+    "rules_applied": false,
+    "global_profiles_changed": false,
+    "explicit_rule_authorization_pending": true
+  },
+  "private_evidence_sha256": {
+    "inventory": "d467871e7072754404ba260e556a20ffbb9d968eb71e2d323d088183db49cd80",
+    "firewall": "c735bac386df9c6b308bccf8d6a9b610cf5eb360c04bab193aecc9c1374f40f6"
+  },
+  "checklist": {
+    "complete": 96,
+    "open": 5,
+    "ids": [
+      "P01",
+      "P05",
+      "P06",
+      "P12",
+      "P15"
+    ]
+  },
+  "identity_files": "Paths not yet provided; no claim of absence throughout the computer"
+}

@@ -1,0 +1,86 @@
+{
+  "stage": "verified_full_cut_secop_supplier_consistency",
+  "started_at_utc": "2026-10-16T03:50:40.439479+00:00",
+  "completed_at_utc": "2026-10-16T03:55:54.596446+00:00",
+  "elapsed_seconds": 314.157,
+  "authorization": "Sí, ajustar P06 a SECOP",
+  "source_scope": "SECOP only",
+  "dian_identity_contrast_performed": false,
+  "database_identity": [
+    "codex_plan_full_acceptance_20261011_test",
+    5433,
+    "plataforma_integracion",
+    75045,
+    "3c19a8f7e2d0"
+  ],
+  "candidate_ref": "794d185832c7c56ffa4d91ef08ca1f3d15128be5",
+  "code_sha256": {
+    "modules/transformacion/services/normalization_service.py": "e7b3ecb63ca894cc11fccc738ad2bfc4c0a3fd847984a40f6675a8e201e6da42",
+    "modules/transformacion/services/trasformacionservice.py": "0378c3391eedc52f4d5eb09e02363a262cd49c3dfdf0969c16ace4a2410db1b1",
+    "modules/transformacion/repository/transformacion.py": "3503b0037f22f289b538143ce8f55ccabce182d24be3ea867b52498c1c885ef2",
+    "modules/analitica/repository/repository.py": "6bd4bc925b657b90575a9bccaeb7d01268f52a5343ca13c1ec55911eb93abd96"
+  },
+  "evaluated_raw_rows": 9249545,
+  "evaluated_processed_rows": 9249545,
+  "classification": {
+    "missing_or_known_missing_marker": 8798585,
+    "accepted_without_dv": 450051,
+    "unsupported_or_ambiguous_format": 903,
+    "accepted_with_coherent_dv": 6
+  },
+  "mismatches": {},
+  "supplier_groups": {
+    "accepted_keys": 36627,
+    "contracts_with_accepted_key": 450057,
+    "names_with_multiple_distinct_keys": 181,
+    "keys_with_multiple_reported_names": 320
+  },
+  "all_supplier_group_counts_match": true,
+  "repository_top_provider_groups_verified": 100,
+  "source_row_unique_index_verified": true,
+  "sources": [
+    {
+      "id": 1,
+      "host": "www.datos.gov.co",
+      "path": "/resource/p6dx-8zbt.json"
+    }
+  ],
+  "database_writes": 0,
+  "historical_reload_performed": false,
+  "normalization_reprocessing_performed": false,
+  "active_published_bindings_unchanged": true,
+  "bounded_state_and_controls_unchanged": true,
+  "database_transaction_mode": "REPEATABLE READ, READ ONLY",
+  "raw_projection_sha256": "a3e96c490cebe9971fe976ae62ee99d16723166aa632af74994f608000685de3",
+  "processed_projection_sha256": "af91bda6984676448a6bbf83c056418b3e806d933fb3df938f236a27ab21f8a6",
+  "group_result_sha256": "8e75f84c81f97f456f1f6b9d903fd26cb615825a7ab08f854d63ac7c8061c4ec",
+  "limits": [
+    "Internal consistency with SECOP and implemented normalization rules only; no independent confirmation of taxpayer existence, ownership or historical tax status.",
+    "The retained acceptance copy includes the previously documented processing/fault exercise; this audit does not claim all its derived fields are identical to the published database.",
+    "No identities are assigned to the 18980 pre-Socrata legacy rows; P05/P12 remain separate."
+  ],
+  "historic_cut": "2026-10-01",
+  "audit_script_sha256": "3ef17feec2c227cc5100a9b29296ce40052326ffcccc0fc9f2a708d08aaa2483",
+  "private_evidence_sha256": {
+    "audit.json": "e760ff0886b7f6c62c35088b810ee8059330b888698b103c5476879214e4c327",
+    "audit-2.json": "380a941cd426a3d145a5d4b3005620eb2c9a83f88133b5d2454efdeaef5847f4",
+    "scope-authorization.json": "43b78585238c5b59aee1b184b65c1a7e2b4175eadea3565671e03ce4935b1812",
+    "scope-approved-text.md": "ab3086d6021cec1d492cb2062fe7fcd86b3081a4aba9189defe04a7654bf8f29"
+  },
+  "published_destination_audited_in_this_run": false,
+  "scope": "Complete retained isolated copy; SECOP provenance and internal consistency only. No claim of current complete content equality with the published destination.",
+  "P06": "closed_for_explicitly_approved_secop_only_scope",
+  "checklist": {
+    "complete": 98,
+    "open": 3,
+    "ids": [
+      "P01",
+      "P05",
+      "P12"
+    ]
+  },
+  "attempts": [
+    "The first read-only preflight stopped at zero rows because its expected dataset path differed; existing source metadata and ingestion code confirmed p6dx-8zbt. First report retained.",
+    "The same existing PostgreSQL process became ready after the initial pg_ctl observation timed out; no repeated start, new database, historical reload or processing run."
+  ]
+}

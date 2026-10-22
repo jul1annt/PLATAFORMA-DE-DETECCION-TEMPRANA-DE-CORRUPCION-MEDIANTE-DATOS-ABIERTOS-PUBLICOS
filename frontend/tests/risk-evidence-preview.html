@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="es">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Prueba visual de señales contractuales</title></head>
+<body class="bg-slate-50"><main class="mx-auto max-w-4xl px-5 py-8"><h1 class="text-2xl font-bold text-indigo-950">Prueba visual con datos ficticios</h1><p class="mt-2 text-slate-700">Esta página solo comprueba la interfaz. No representa contratos ni modelos reales.</p><div id="root"></div></main>
+<script type="module">
+import React from 'react';
+import { createRoot } from 'react-dom/client';
+import { RiskEvidence } from '../src/components/RiskEvidence.tsx';
+import api from '../src/api/axios.ts';
+import '../src/index.css';
+const mode = new URLSearchParams(location.search).get('state') || 'results';
+const items = [
+  {raw_secop_id:1,stage:'ADJUDICACION',result:{index:97.25,coverage:.78,model_version:'FICTICIO-adjudicacion-2026-10-16-version-larga-para-probar-ajuste-de-texto',prediction_at:'2026-10-16T12:00:00Z',temporal_scope:'historical_stage_snapshot',
+    provenance:{process_id:'FICTICIO-PROCESO-CON-IDENTIFICADOR-EXTENSO-2026-0000000000000001',source_row_id:'FILA-FICTICIA-1',award_id:'ADJUDICACION-FICTICIA-1',lot_id:null,source_url:'https://community.secop.gov.co/Public/Tendering/OpportunityDetail/Index?noticeUID=FICTICIO'},
+    observed:{budget:'123456789012345678.90',awarded_amount:'9876543210.50',modality:'CONTRATACIÓN DIRECTA',direct_justification:'Justificación de ejemplo para revisar el espacio de lectura; no corresponde a una operación real.'},
+    context:{directas_90d:{processes:6,amount:'12000000000.10'}},signals:[{variable:'directas_90d',contribution:.12345678},{variable:'log_adjudicado',contribution:.000001234}],reasons:['sin_evidencia:oferentes']}},
+  {raw_secop_id:2,stage:'CONVOCATORIA',result:{index:null,coverage:.4,model_version:'FICTICIO-convocatoria-2026-10-16',prediction_at:'2026-10-16T12:00:00Z',temporal_scope:'observed_at_capture_not_backdated',provenance:{process_id:'FICTICIO-CONVOCATORIA-2',source_row_id:'FILA-FICTICIA-2',lot_id:null},reasons:['identidad_operacion_ambigua','sin_reconstruccion_temporal_de_etapa','sin_evidencia:log_presupuesto']}}
+];
+// This fixture performs no API calls and reads no authentication state.
+api.get = async path => {
+  if (mode === 'error') throw new Error('Synthetic visual error state');
+  if (path === '/api/riesgo/estado') return {data:{available:mode!=='pending',cut_id:'00000000-0000-4000-8000-000000000001',public_cut_id:'00000000-0000-4000-8000-000000000001',public_data_cut_at:'2026-10-01',data_cut_at:'2026-10-16T12:00:00Z',daily_enabled:false,update_status:mode==='blocked'?'BLOQUEADO':'VALIDADO',last_attempt_day:null,last_success_day:null,message:''}};
+  if (path === '/api/riesgo/resultados') return {data:{items:mode==='empty'?[]:items,total:mode==='empty'?0:2,cut_id:'00000000-0000-4000-8000-000000000001'}};
+  throw new Error('Unexpected fixture request');
+};
+createRoot(document.getElementById('root')).render(React.createElement(RiskEvidence,{rawIds:[1,2]}));
+</script></body></html>

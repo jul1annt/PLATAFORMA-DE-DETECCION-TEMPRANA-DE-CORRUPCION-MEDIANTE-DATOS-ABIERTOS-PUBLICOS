@@ -1,0 +1,45 @@
+{
+  "date_bogota": "2026-10-19",
+  "census_run_id": "154b21cd-89dd-47b1-a45e-ec48dd8d9f86",
+  "census_rows": 31731,
+  "expected_rows": 31731,
+  "scope": "Censo completo de resultados legados de proveedor en una ejecución; no todos los contratos ni una muestra de corrupción.",
+  "census_input_sha256": "9c3c91707619762b2633eeee1674c2c23c3d9cba1e8baba35c8098672aef290b",
+  "reference_sha256": "9ece481b9cdfe034d98cf754622e80f459ade357164f7139d46a51bb9b890d9d",
+  "reference_file_sha256": "f6efa18f3bb72143e71e660c40ca82e8faf930934787e05796eb0432e901fe54",
+  "report_sha256": "5611c260b04e5518c6b297e6c8cd17432b3ae60d88213c88c4e58cffd5904d80",
+  "code_sha256": {
+    "scripts/risk_normalization_lab.py": "aca0c54a39d68095fbb1a1e6d1ec4839a805ed832c56ac7332a1e92fd84f3d6f",
+    "modules/motor_riesgo/weight_lab.py": "eeb456b49a88d9185ae7d3d297f86a53b3ef89ab99420c31223ea91b45925354"
+  },
+  "repeated_offline_evaluation_identical": true,
+  "tests": {
+    "run_id": "8dbb0a8010f94a5785c62226f154bf80",
+    "count": 63,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 0.721,
+    "junit_sha256": "40474d41a4e565b2db0162c8097864c7fa83fbd3b1e2c5e6b1e255476d37d59f",
+    "log_sha256": "2103d0336bbf86473eb79a6671fdf64d4950ac3b712c7ffb02213ac218729acd"
+  },
+  "production_schema_changed": false,
+  "database_writes": false,
+  "dependencies_added": false,
+  "weights_changed": false,
+  "release_ref": "794d185832c7c56ffa4d91ef08ca1f3d15128be5",
+  "publication_cut_date": "2026-10-01",
+  "publication_changed": false,
+  "real_models_trained": false,
+  "third_parties_contacted": false,
+  "earlier_reports_preserved": [
+    "COMPARACION_NORMALIZACIONES_20261019.json",
+    "COMPARACION_NORMALIZACIONES_REV2_20261019.json"
+  ],
+  "full_backend_suite_not_rerun": "Cambios limitados a módulo y CLI nuevos de laboratorio desconectado; se ejecutaron pruebas enfocadas y la comparación completa real.",
+  "remaining": [
+    "Estratificación por sector, periodo y modalidad con unidades contractuales válidas",
+    "Cobertura y fechas para las familias corregidas por operación",
+    "Etiquetas judiciales y validación predictiva antes de modelos públicos"
+  ]
+}

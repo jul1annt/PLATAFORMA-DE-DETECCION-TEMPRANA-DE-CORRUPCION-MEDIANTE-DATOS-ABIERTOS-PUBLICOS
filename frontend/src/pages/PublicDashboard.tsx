@@ -1,9 +1,9 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   getDashboardMetrics,
+  getHistoricalHighCount,
   getTopProviders,
-  getRiskDistribution,
   getAnomalyDistribution,
 } from '../services/procesadosService';
 import type {
@@ -17,6 +17,10 @@ import { RiskChart } from '../components/dashboard/RiskChart';
 import { TopProvidersChart } from '../components/dashboard/TopProvidersChart';
 import { AnomalyChart } from '../components/dashboard/AnomalyChart';
 import { PublicNavbar } from '../components/layout/PublicNavbar';
+import { RiskEvidence } from '../components/RiskEvidence';
+import { getRiskStatus } from '../services/riskService';
+import { getIndiciosState, type IndiciosMvpState } from '../services/indiciosMvpService';
+import { getErrorMessage } from '../utils/errors';
 
 const POLL_INTERVAL_MS = 60_000;
 
@@ -65,32 +69,69 @@ export const PublicDashboard: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
+  const [publicCutId,setPublicCutId] = useState<string | null>(null);
+  const [indiciosState, setIndiciosState] = useState<IndiciosMvpState | null>(null);
+  const activeRequest = useRef<AbortController | null>(null);
 
   const loadData = useCallback(async () => {
+    if (activeRequest.current) return;
+    const controller = new AbortController();
+    activeRequest.current = controller;
     try {
       setError(null);
-      const [m, risk, providers, anomaly] = await Promise.all([
-        getDashboardMetrics(),
-        getRiskDistribution(),
-        getTopProviders(10),
-        getAnomalyDistribution(),
+      void getIndiciosState(controller.signal)
+        .then((engineState) => { if (!controller.signal.aborted) setIndiciosState(engineState); })
+        .catch(() => { if (!controller.signal.aborted) setIndiciosState(null); });
+      const publication=await getRiskStatus(controller.signal);
+      const selected=publication?.public_cut_id ?? null;
+      const [m, providers, anomaly, historicalHigh] = await Promise.all([
+        getDashboardMetrics(controller.signal,selected),
+        getTopProviders(10, controller.signal,selected),
+        getAnomalyDistribution(controller.signal,selected),
+        getHistoricalHighCount(controller.signal,selected),
       ]);
-      setMetrics(m);
-      setRiskData(risk);
+      if (controller.signal.aborted) return;
+      if (!m || typeof m.total_contratos !== 'number') {
+        throw new Error('El servicio de métricas no devolvió un resumen válido.');
+      }
+      const metricsWithHistoricalHigh = {
+        ...m,
+        total_alto_riesgo: historicalHigh,
+        pct_alto_riesgo: m.total_contratos > 0 ? Number((historicalHigh / m.total_contratos * 100).toFixed(2)) : null,
+      };
+      setMetrics(metricsWithHistoricalHigh);
+      setRiskData([
+        { name: 'Alto histórico · alerta + incompleto', value: historicalHigh, color: '#ef4444' },
+        { name: 'Alerta sin dato incompleto', value: Math.max(0, m.total_sospechosos - historicalHigh), color: '#94a3b8' },
+      ]);
       setTopProviders(providers);
       setAnomalyData(anomaly);
+      setPublicCutId(selected??null);
       setLastUpdated(new Date());
-    } catch (err: any) {
-      setError(err.message || 'Error al cargar el dashboard');
+    } catch (err: unknown) {
+      if (controller.signal.aborted) return;
+      setError(getErrorMessage(err, 'Error al cargar el dashboard'));
     } finally {
-      setLoading(false);
+      if (activeRequest.current === controller) {
+        activeRequest.current = null;
+        setLoading(false);
+      }
     }
   }, []);
 
   useEffect(() => {
-    loadData();
-    const interval = setInterval(loadData, POLL_INTERVAL_MS);
-    return () => clearInterval(interval);
+    const initial = window.setTimeout(() => {
+      void loadData();
+    }, 0);
+    const interval = window.setInterval(() => {
+      void loadData();
+    }, POLL_INTERVAL_MS);
+    return () => {
+      window.clearTimeout(initial);
+      window.clearInterval(interval);
+      activeRequest.current?.abort();
+      activeRequest.current = null;
+    };
   }, [loadData]);
 
   return (
@@ -112,7 +153,7 @@ export const PublicDashboard: React.FC = () => {
         <div className="mb-16 text-center max-w-3xl mx-auto">
           <div className="inline-flex items-center gap-2 bg-indigo-50 border border-indigo-100 px-4 py-2 rounded-full text-indigo-600 text-[10px] font-black uppercase tracking-widest mb-6 shadow-sm">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            Sistema Activo · Datos en Tiempo Real
+            Sistema Activo · Datos Públicos
           </div>
           <h1 className="text-6xl font-black text-indigo-950 tracking-tighter mb-5 leading-[1.05]">
             Dashboard de{' '}
@@ -121,15 +162,17 @@ export const PublicDashboard: React.FC = () => {
             </span>
           </h1>
           <p className="text-lg text-slate-500 font-medium leading-relaxed max-w-2xl mx-auto">
-            Monitoreo en tiempo real del sistema de contratación pública. Detectamos anomalías,
-            evaluamos riesgos y garantizamos la integridad de los datos.
+            Consulta del sistema de contratación pública. Detectamos anomalías,
+            evaluamos riesgos y analizamos la calidad de los datos.
           </p>
           {lastUpdated && (
             <p className="mt-4 text-[11px] font-bold text-slate-400 uppercase tracking-widest">
-              Última actualización: {lastUpdated.toLocaleTimeString('es-ES')} · Actualiza cada 60s
+              Consulta actualizada: {lastUpdated.toLocaleTimeString('es-ES')} · Revisa cada 60s
             </p>
           )}
         </div>
+
+        <IndiciosTransparencySection state={indiciosState} onOpen={() => navigate('/public/indicios')} />
 
         {/* ── Loading / Error ───────────────────────────────────────────────── */}
         {loading ? (
@@ -173,7 +216,7 @@ export const PublicDashboard: React.FC = () => {
               {/* Incompletos → ?filter=INCOMPLETOS */}
               <KpiCard
                 title="% Incompletos"
-                value={`${metrics!.pct_incompletos.toFixed(1)}%`}
+                value={metrics!.pct_incompletos === null ? '—' : `${metrics!.pct_incompletos.toFixed(1)}%`}
                 subtitle={`${metrics!.total_incompletos.toLocaleString('es-ES')} registros con campos faltantes`}
                 icon={<WarningIcon />}
                 gradient="bg-gradient-to-br from-amber-50 to-amber-100/60"
@@ -185,9 +228,9 @@ export const PublicDashboard: React.FC = () => {
               />
               {/* Sospechosos → ?filter=SOSPECHOSOS */}
               <KpiCard
-                title="% Sospechosos"
-                value={`${metrics!.pct_sospechosos.toFixed(1)}%`}
-                subtitle={`${metrics!.total_sospechosos.toLocaleString('es-ES')} anomalías detectadas`}
+                title="Banderas históricas"
+                value={metrics!.pct_sospechosos === null ? '—' : `${metrics!.pct_sospechosos.toFixed(1)}%`}
+                subtitle={`${metrics!.total_sospechosos.toLocaleString('es-ES')} marcas heredadas; no son señales del MVP`}
                 icon={<AlertIcon />}
                 gradient="bg-gradient-to-br from-rose-50 to-rose-100/60"
                 border="border-rose-200/50"
@@ -196,11 +239,11 @@ export const PublicDashboard: React.FC = () => {
                 badge="🚨"
                 onClick={() => navigate('/public/procesados?calidad=SOSPECHOSOS')}
               />
-              {/* Alto Riesgo → ?filter=ALTO_RIESGO */}
+              {/* Alto histórico: registros con alerta y datos incompletos */}
               <KpiCard
-                title="% Alto Riesgo"
-                value={`${metrics!.pct_alto_riesgo.toFixed(1)}%`}
-                subtitle={`${metrics!.total_alto_riesgo.toLocaleString('es-ES')} contratos clasificados ALTO`}
+                title="Riesgo histórico alto"
+                value={metrics!.total_alto_riesgo.toLocaleString('es-ES')}
+                subtitle="Registros con alerta y datos incompletos"
                 icon={<ShieldIcon />}
                 gradient="bg-gradient-to-br from-violet-50 to-violet-100/60"
                 border="border-violet-200/50"
@@ -218,7 +261,7 @@ export const PublicDashboard: React.FC = () => {
                   Índice de Confianza de Datos
                 </p>
                 <p className="text-5xl font-black tracking-tighter">
-                  {metrics!.promedio_confianza.toFixed(1)}
+                  {metrics!.promedio_confianza === null ? '—' : metrics!.promedio_confianza.toFixed(1)}
                   <span className="text-2xl opacity-60 ml-1">/ 100</span>
                 </p>
                 <p className="text-sm opacity-70 font-medium mt-2">
@@ -233,25 +276,30 @@ export const PublicDashboard: React.FC = () => {
                       cx="50" cy="50" r="40" fill="none" stroke="white" strokeWidth="10"
                       strokeLinecap="round"
                       strokeDasharray={`${2 * Math.PI * 40}`}
-                      strokeDashoffset={`${2 * Math.PI * 40 * (1 - metrics!.promedio_confianza / 100)}`}
+                      strokeDashoffset={`${2 * Math.PI * 40 * (1 - (metrics!.promedio_confianza ?? 0) / 100)}`}
                       className="transition-all duration-1000"
                     />
                   </svg>
                   <div className="absolute inset-0 flex items-center justify-center">
                     <span className="text-white text-xl font-black">
-                      {Math.round(metrics!.promedio_confianza)}%
+                      {metrics!.promedio_confianza === null ? '—' : `${Math.round(metrics!.promedio_confianza)}%`}
                     </span>
                   </div>
                 </div>
                 <span className="text-white/60 text-xs font-bold uppercase tracking-widest">
-                  {metrics!.promedio_confianza >= 80 ? '✅ Excelente' : metrics!.promedio_confianza >= 60 ? '⚠️ Aceptable' : '🚨 Bajo'}
+                  {{
+                    SIN_DATOS: 'Sin datos para evaluar',
+                    EXCELENTE: '✅ Excelente',
+                    ACEPTABLE: '⚠️ Aceptable',
+                    BAJA: '🚨 Bajo',
+                  }[metrics!.calificacion_confianza]}
                 </span>
               </div>
             </div>
 
             {/* ── Charts Row ───────────────────────────────────────────────────── */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-10">
-              <ChartSection title="Distribución de Riesgo" subtitle="Clasificación por nivel de riesgo detectado">
+              <ChartSection title="Cruce de alertas y datos incompletos" subtitle={`${metrics!.total_alto_riesgo.toLocaleString('es-CO')} de ${metrics!.total_sospechosos.toLocaleString('es-CO')} registros con alertas también tienen datos incompletos`}>
                 <RiskChart data={riskData} />
               </ChartSection>
               <div className="lg:col-span-2">
@@ -263,7 +311,7 @@ export const PublicDashboard: React.FC = () => {
 
             {/* ── Anomalies Row ─────────────────────────────────────────────────── */}
             <div className="mb-10">
-              <ChartSection title="Tipos de Anomalías" subtitle="Distribución de irregularidades detectadas en el sistema">
+              <ChartSection title="Calidad y banderas históricas" subtitle="Incompletitud y marcas heredadas; no equivalen a señales de corrupción">
                 <AnomalyChart data={anomalyData} total={metrics!.total_contratos} />
               </ChartSection>
             </div>
@@ -273,7 +321,7 @@ export const PublicDashboard: React.FC = () => {
               {[
                 {
                   label: 'Contratos Completos',
-                  value: (metrics!.total_contratos - metrics!.total_incompletos).toLocaleString('es-ES'),
+                  value: metrics!.total_completos.toLocaleString('es-ES'),
                   color: 'text-emerald-600',
                   bg: 'bg-emerald-50 border-emerald-100',
                   filter: '',
@@ -286,14 +334,14 @@ export const PublicDashboard: React.FC = () => {
                   filter: 'INCOMPLETOS',
                 },
                 {
-                  label: 'Con Anomalías',
+                  label: 'Con banderas históricas',
                   value: metrics!.total_sospechosos.toLocaleString('es-ES'),
                   color: 'text-rose-600',
                   bg: 'bg-rose-50 border-rose-100',
                   filter: 'SOSPECHOSOS',
                 },
                 {
-                  label: 'Alto Riesgo',
+                  label: 'Alerta + incompleto',
                   value: metrics!.total_alto_riesgo.toLocaleString('es-ES'),
                   color: 'text-violet-600',
                   bg: 'bg-violet-50 border-violet-100',
@@ -314,6 +362,7 @@ export const PublicDashboard: React.FC = () => {
             </div>
           </>
         )}
+        {!loading && !error ? <RiskEvidence publicCutId={publicCutId} /> : null}
       </main>
 
       {/* ── Footer ───────────────────────────────────────────────────────────── */}
@@ -337,3 +386,103 @@ export const PublicDashboard: React.FC = () => {
     </div>
   );
 };
+
+function IndiciosTransparencySection({
+  state,
+  onOpen,
+}: {
+  state: IndiciosMvpState | null;
+  onOpen: () => void;
+}) {
+  if (!state) {
+    return (
+      <section className="mb-10 rounded-[28px] border border-slate-200 bg-white/90 p-7 shadow-lg shadow-slate-200/40" aria-labelledby="engine-summary-title">
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <p className="text-xs font-black uppercase tracking-[.18em] text-indigo-600">Motor analítico · MVP de reglas</p>
+            <h2 id="engine-summary-title" className="mt-2 text-2xl font-black tracking-tight text-indigo-950">Señales estadísticas para revisión</h2>
+            <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-600">El resumen del motor no está disponible en este momento. Las métricas generales del tablero se mantienen independientes.</p>
+          </div>
+          <button type="button" onClick={onOpen} className="rounded-xl bg-indigo-700 px-4 py-2.5 text-sm font-bold text-white shadow-sm transition hover:bg-indigo-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Abrir indicios</button>
+        </div>
+      </section>
+    );
+  }
+
+  const total = state.cohort.rows;
+  const signal = state.coverage.signal;
+  const noEvaluation = state.coverage.no_evaluable_family;
+  const partial = state.coverage.partial_or_unknown;
+  const evaluatedWithoutSignal = Math.max(0, state.coverage.complete_family_evaluation - signal);
+  const processedAt = state.created_at
+    ? new Intl.DateTimeFormat('es-CO', { dateStyle: 'medium', timeStyle: 'short', timeZone: 'America/Bogota' }).format(new Date(state.created_at))
+    : 'sin dato';
+  const segments = [
+    { name: 'Señal estadística', count: signal, color: 'bg-rose-500' },
+    { name: 'Evaluado sin señal', count: evaluatedWithoutSignal, color: 'bg-emerald-500' },
+    { name: 'Evidencia parcial', count: partial, color: 'bg-amber-400' },
+    { name: 'No evaluable', count: noEvaluation, color: 'bg-slate-400' },
+  ];
+  const percent = (count: number) => total > 0 ? Math.max(0, count / total * 100) : 0;
+
+  return (
+    <section className="mb-10 overflow-hidden rounded-[28px] border border-indigo-100 bg-white/90 shadow-xl shadow-indigo-100/30" aria-labelledby="engine-summary-title">
+      <div className="grid gap-8 p-6 sm:p-8 lg:grid-cols-[1.3fr_.7fr]">
+        <div>
+          <div className="flex flex-wrap items-center gap-2">
+            <p className="text-xs font-black uppercase tracking-[.18em] text-indigo-600">Motor analítico · MVP de reglas</p>
+            <span className="rounded-full border border-indigo-200 bg-indigo-50 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-indigo-800">Corte {state.snapshot_cut}</span>
+          </div>
+          <h2 id="engine-summary-title" className="mt-2 text-2xl font-black tracking-tight text-indigo-950 sm:text-3xl">Señales estadísticas para revisión</h2>
+          <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-600">
+            El corte incluye {total.toLocaleString('es-CO')} registros. La señal compara el importe base con pares mensuales por tipo de contrato disponible y modalidad; algunos registros quedan parciales o no evaluables.
+          </p>
+          <div className="mt-6 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+            {[
+              { label: 'Señal estadística', count: signal, note: 'Importe fuera del rango IQR', tone: 'border-rose-200 bg-rose-50 text-rose-800' },
+              { label: 'Evaluado sin señal', count: evaluatedWithoutSignal, note: 'No descarta otros riesgos', tone: 'border-emerald-200 bg-emerald-50 text-emerald-800' },
+              { label: 'Evidencia parcial', count: partial, note: 'Faltan señales verificables', tone: 'border-amber-200 bg-amber-50 text-amber-900' },
+              { label: 'No evaluable', count: noEvaluation, note: 'Sin grupo o datos suficientes', tone: 'border-slate-200 bg-slate-50 text-slate-700' },
+            ].map((item) => (
+              <div key={item.label} className={`rounded-2xl border p-4 ${item.tone}`}>
+                <p className="text-[11px] font-black uppercase tracking-wide opacity-80">{item.label}</p>
+                <p className="mt-2 text-2xl font-black tabular-nums">{item.count.toLocaleString('es-CO')}</p>
+                <p className="mt-1 text-xs opacity-80">{percent(item.count).toFixed(1)}% · {item.note}</p>
+              </div>
+            ))}
+          </div>
+          <div className="mt-5" aria-label="Distribución de resultados del motor">
+            <div className="flex h-3 overflow-hidden rounded-full bg-slate-100" role="img" aria-label={segments.map((s) => `${s.name}: ${s.count.toLocaleString('es-CO')}`).join('; ')}>
+              {segments.map((segment) => <div key={segment.name} className={segment.color} style={{ width: `${percent(segment.count)}%` }} />)}
+            </div>
+            <div className="mt-3 flex flex-wrap gap-x-5 gap-y-2">
+              {segments.map((segment) => <span key={segment.name} className="inline-flex items-center gap-2 text-xs font-semibold text-slate-600"><span className={`h-2.5 w-2.5 rounded-full ${segment.color}`} />{segment.name}</span>)}
+            </div>
+          </div>
+          <div className="mt-5 grid gap-3 border-t border-slate-200 pt-4 sm:grid-cols-2">
+            <div className="rounded-xl bg-slate-50 px-4 py-3">
+              <p className="text-[10px] font-black uppercase tracking-wide text-slate-500">Etapa de convocatoria</p>
+              <p className="mt-1 text-lg font-black tabular-nums text-slate-800">{(state.coverage.by_stage.CONVOCATORIA ?? 0).toLocaleString('es-CO')}</p>
+            </div>
+            <div className="rounded-xl bg-slate-50 px-4 py-3">
+              <p className="text-[10px] font-black uppercase tracking-wide text-slate-500">Etapa de adjudicación</p>
+              <p className="mt-1 text-lg font-black tabular-nums text-slate-800">{(state.coverage.by_stage.ADJUDICACION ?? 0).toLocaleString('es-CO')}</p>
+            </div>
+          </div>
+        </div>
+
+        <aside className="flex flex-col rounded-2xl bg-indigo-950 p-6 text-white">
+          <p className="text-xs font-black uppercase tracking-[.16em] text-indigo-200">Cómo interpretar</p>
+          <p className="mt-3 text-sm leading-6 text-indigo-50">Una anomalía de importe sirve para priorizar una revisión documental. No prueba corrupción, sobreprecio ni responsabilidad.</p>
+          <dl className="mt-5 space-y-3 border-t border-white/15 pt-4 text-sm">
+            <div className="flex justify-between gap-4"><dt className="text-indigo-200">Grupos de referencia</dt><dd className="font-bold tabular-nums">{state.cohort.groups?.toLocaleString('es-CO') ?? '—'}</dd></div>
+            <div className="flex justify-between gap-4"><dt className="text-indigo-200">Actualizado</dt><dd className="text-right font-bold">{processedAt}</dd></div>
+          </dl>
+          <p className="mt-4 text-xs leading-5 text-indigo-100">Regla IQR: valores fuera de Q1−1,5×IQR o Q3+1,5×IQR; el grupo necesita al menos 30 procesos distintos e IQR mayor que cero. El tipo de contrato se usa como proxy local de categoría SECOP.</p>
+          <p className="mt-4 text-xs leading-5 text-indigo-200">Competencia y concentración no se afirman sin evidencia completa. La comparación no reconstruye la información disponible al momento de cada decisión.</p>
+          <button type="button" onClick={onOpen} className="mt-auto self-start rounded-xl bg-white px-4 py-2.5 text-sm font-black text-indigo-950 transition hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-indigo-950">Explorar contratos y evidencia</button>
+        </aside>
+      </div>
+    </section>
+  );
+}

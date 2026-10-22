@@ -1,0 +1,33 @@
+{
+  "checked_at_utc": "2026-10-02T18:04:00.059536+00:00",
+  "database": "plataforma_secop_refresh_20261001_test",
+  "route": "/api/procesados/search?fecha_inicio=2024-01-01&fecha_fin=2024-12-31&limit=20&sort=fecha&order=desc",
+  "method": "FastAPI TestClient, real isolated PostgreSQL and live analytics",
+  "analytics_stage_before": "running_analytics",
+  "analytics_stage_after": "running_analytics",
+  "concurrent_clients": 2,
+  "requests": 8,
+  "warmup": {
+    "status": 200,
+    "milliseconds": 17674.3,
+    "total": 1670370,
+    "items": 20
+  },
+  "statuses": {
+    "200": 8
+  },
+  "totals": [
+    1670370
+  ],
+  "items": [
+    20
+  ],
+  "latency_ms": {
+    "min": 86.89,
+    "median": 133.2,
+    "p95_nearest_rank": 225.87,
+    "max": 225.87
+  },
+  "disk_free_gib_before": 136.42,
+  "disk_free_gib_after": 136.42
+}

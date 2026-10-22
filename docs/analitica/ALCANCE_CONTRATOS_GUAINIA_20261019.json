@@ -1,0 +1,159 @@
+{
+  "created_at": "2026-10-19T22:21:01.812322+00:00",
+  "case_id": "csj-sep079-2023-00059",
+  "judgment_sha256": "b40da81dbd50268e7c0dc4cef23e1059aa8324d30a646867b517795943dbe47c",
+  "judgment_url": "https://cortesuprema.gov.co/corte/wp-content/uploads/2023/08/SEP079-2023.pdf",
+  "physical_pages_visually_reviewed_this_revision": [
+    4,
+    5,
+    7,
+    10,
+    11,
+    12
+  ],
+  "rendered_pages_sha256": {
+    "4": "b790162d5ea1bab4111f5edadc19f03b1f556c69577b132ec560d8d11e9f38f0",
+    "5": "11140989f08a64fffcb28ca7f214122d3342ce388245c4bcf15e070294ddb55c",
+    "7": "3839944aaec69465c2cecf1e01c24ffa955f30ecd2a3d16fb8a38727b4339aba",
+    "10": "8e3fa0952e5f88c9cc51fba42beeaae09a2e079e5724e37361ed1380fa4fbbb2",
+    "11": "3484d5582cebc08acaaa1010559bc7b7aab6af095b4133193d89beb8df2d4669",
+    "12": "50dfe29f89a9cb677da25d0d4dcb3c962183c21e3141650bf05d4e34f2b1174a"
+  },
+  "previous_correspondences_report_sha256": "62292c3bde12b2b6626f8e1ecd6deb73607f8263c6052350f51798455980e048",
+  "related_independent_group_count": 1,
+  "limited_scope": "Revisión parcial y específica del proceso acumulado número 1; no revisión íntegra de las 196 páginas ni seis expedientes independientes.",
+  "contracts": [
+    {
+      "contract_reference": "068",
+      "year": 2013,
+      "judgment_contract_amount_COP": "1364873500.00",
+      "judgment_contract_amount_locator": "p. física 5, sección 1.1.1.1",
+      "judgment_disbursed_amount_COP": "1017381251.00",
+      "judgment_disbursed_amount_locator": "pp. físicas 10-11, sección 1.1.1.2.2",
+      "archive_amount_COP_as_published": "1364873500.0",
+      "difference_judgment_minus_archive_COP": "0.00",
+      "amount_correspondence": "COINCIDENCIA_NUMERICA_NO_SUFICIENTE_PARA_IDENTIDAD",
+      "secop_constancia_as_published": "12-1-84082",
+      "archive_award_id_as_published": "7769884",
+      "judicial_facts_locator": "pp. físicas 4-12, hechos y cargos del proceso número 1; especialmente 1.1.1.3 en p. 12",
+      "operative_locator_previously_reviewed": "pp. físicas 192-193, RESUELVE, numerales PRIMERO y CUARTO",
+      "review_scope": "Hechos y cargos aceptados específicos; continúa pendiente la admisión integral de firmeza, identidad y datos temporales.",
+      "training_label": null
+    },
+    {
+      "contract_reference": "069",
+      "year": 2013,
+      "judgment_contract_amount_COP": "1355576695.00",
+      "judgment_contract_amount_locator": "p. física 5, sección 1.1.1.1",
+      "judgment_disbursed_amount_COP": "1195044941.00",
+      "judgment_disbursed_amount_locator": "pp. físicas 10-11, sección 1.1.1.2.2",
+      "archive_amount_COP_as_published": "1355576595.0",
+      "difference_judgment_minus_archive_COP": "100.00",
+      "amount_correspondence": "DISCREPANCIA_PENDIENTE",
+      "secop_constancia_as_published": "12-1-84081",
+      "archive_award_id_as_published": "7455850",
+      "judicial_facts_locator": "pp. físicas 4-12, hechos y cargos del proceso número 1; especialmente 1.1.1.3 en p. 12",
+      "operative_locator_previously_reviewed": "pp. físicas 192-193, RESUELVE, numerales PRIMERO y CUARTO",
+      "review_scope": "Hechos y cargos aceptados específicos; continúa pendiente la admisión integral de firmeza, identidad y datos temporales.",
+      "training_label": null
+    },
+    {
+      "contract_reference": "070",
+      "year": 2013,
+      "judgment_contract_amount_COP": "1415465689.00",
+      "judgment_contract_amount_locator": "p. física 5, sección 1.1.1.1",
+      "judgment_disbursed_amount_COP": "1194429258.60",
+      "judgment_disbursed_amount_locator": "pp. físicas 10-11, sección 1.1.1.2.2",
+      "archive_amount_COP_as_published": "1415465689.0",
+      "difference_judgment_minus_archive_COP": "0.00",
+      "amount_correspondence": "COINCIDENCIA_NUMERICA_NO_SUFICIENTE_PARA_IDENTIDAD",
+      "secop_constancia_as_published": "12-1-83953",
+      "archive_award_id_as_published": "7769974",
+      "judicial_facts_locator": "pp. físicas 4-12, hechos y cargos del proceso número 1; especialmente 1.1.1.3 en p. 12",
+      "operative_locator_previously_reviewed": "pp. físicas 192-193, RESUELVE, numerales PRIMERO y CUARTO",
+      "review_scope": "Hechos y cargos aceptados específicos; continúa pendiente la admisión integral de firmeza, identidad y datos temporales.",
+      "training_label": null
+    },
+    {
+      "contract_reference": "204",
+      "year": 2013,
+      "judgment_contract_amount_COP": "1220490007.00",
+      "judgment_contract_amount_locator": "p. física 5, sección 1.1.1.1",
+      "judgment_disbursed_amount_COP": "931701622.80",
+      "judgment_disbursed_amount_locator": "pp. físicas 10-11, sección 1.1.1.2.2",
+      "archive_amount_COP_as_published": "1220490007.0",
+      "difference_judgment_minus_archive_COP": "0.00",
+      "amount_correspondence": "COINCIDENCIA_NUMERICA_NO_SUFICIENTE_PARA_IDENTIDAD",
+      "secop_constancia_as_published": "13-11-1538012",
+      "archive_award_id_as_published": "1550735",
+      "judicial_facts_locator": "pp. físicas 4-12, hechos y cargos del proceso número 1; especialmente 1.1.1.3 en p. 12",
+      "operative_locator_previously_reviewed": "pp. físicas 192-193, RESUELVE, numerales PRIMERO y CUARTO",
+      "review_scope": "Hechos y cargos aceptados específicos; continúa pendiente la admisión integral de firmeza, identidad y datos temporales.",
+      "training_label": null
+    },
+    {
+      "contract_reference": "205",
+      "year": 2013,
+      "judgment_contract_amount_COP": "1399666350.00",
+      "judgment_contract_amount_locator": "p. física 5, sección 1.1.1.1",
+      "judgment_disbursed_amount_COP": "1031861798.00",
+      "judgment_disbursed_amount_locator": "pp. físicas 10-11, sección 1.1.1.2.2",
+      "archive_amount_COP_as_published": "1399666350.0",
+      "difference_judgment_minus_archive_COP": "0.00",
+      "amount_correspondence": "COINCIDENCIA_NUMERICA_NO_SUFICIENTE_PARA_IDENTIDAD",
+      "secop_constancia_as_published": "13-11-1537995",
+      "archive_award_id_as_published": "1560801",
+      "judicial_facts_locator": "pp. físicas 4-12, hechos y cargos del proceso número 1; especialmente 1.1.1.3 en p. 12",
+      "operative_locator_previously_reviewed": "pp. físicas 192-193, RESUELVE, numerales PRIMERO y CUARTO",
+      "review_scope": "Hechos y cargos aceptados específicos; continúa pendiente la admisión integral de firmeza, identidad y datos temporales.",
+      "training_label": null
+    },
+    {
+      "contract_reference": "079",
+      "year": 2013,
+      "judgment_contract_amount_COP": "472948216.00",
+      "judgment_contract_amount_locator": "p. física 5, sección 1.1.1.1",
+      "judgment_disbursed_amount_COP": "212826697.00",
+      "judgment_disbursed_amount_locator": "pp. físicas 10-11, sección 1.1.1.2.2",
+      "archive_amount_COP_as_published": "472948216.0",
+      "difference_judgment_minus_archive_COP": "0.00",
+      "amount_correspondence": "COINCIDENCIA_NUMERICA_NO_SUFICIENTE_PARA_IDENTIDAD",
+      "secop_constancia_as_published": "12-15-1269067",
+      "archive_award_id_as_published": "3319750",
+      "judicial_facts_locator": "pp. físicas 4-12, hechos y cargos del proceso número 1; especialmente 1.1.1.3 en p. 12",
+      "operative_locator_previously_reviewed": "pp. físicas 192-193, RESUELVE, numerales PRIMERO y CUARTO",
+      "review_scope": "Hechos y cargos aceptados específicos; continúa pendiente la admisión integral de firmeza, identidad y datos temporales.",
+      "training_label": null
+    }
+  ],
+  "procedural_dates": {
+    "docket_as_published": "110016000102201600369",
+    "imputation_dates_as_published": [
+      "2018-10-02",
+      "2018-10-24"
+    ],
+    "locator": "p. física 4, sección 1.1.1",
+    "first_investigation_at_assigned": false,
+    "reason": "La imputación es un hito posterior; el año del radicado tampoco acredita fecha inicial de investigación. La referencia a visita de Contraloría a finales de 2016 es imprecisa y no reemplaza ese documento."
+  },
+  "predictive_leakage_exclusions": [
+    "Desembolsos, hallazgos, relaciones y conclusiones conocidos por la sentencia no se usan como variables disponibles en convocatoria o adjudicación.",
+    "La repetición y alternancia de proponentes descrita judicialmente requiere documentos de ofertas fechados por proceso; no se reconstruye desde la sentencia como variable predictora.",
+    "Importes desembolsados de pp. 10-11 no son el presupuesto ni el valor adjudicado de p. 5."
+  ],
+  "text_extraction_limitations": [
+    "En p. 7, 204/205/068/069 llevan llamadas a notas al pie. Los dígitos de las notas no forman parte del número contractual.",
+    "La nota 2 relata contrato 070 aunque la llamada está junto a 204. Se conserva la inconsistencia; no se fabrica una referencia de proceso para 204 a partir de esa nota."
+  ],
+  "firmness_research": {
+    "new_original_acquired": false,
+    "final_at_assigned": false,
+    "blocked_origin": "https://consultaprovidencias.cortesuprema.gov.co",
+    "browser_permission_denied": true,
+    "no_alternative_access_attempted_after_denial": true
+  },
+  "labels_created": 0,
+  "stage_observations_created": 0,
+  "database_accessed": false,
+  "publication_changed": false
+}

@@ -1,0 +1,30 @@
+{
+  "time": "2026-10-16T22:14:55.125100+00:00",
+  "rows_per_trial": 10000,
+  "scope": "Real unscored results, isolated rollback transactions; concurrent capture and writer active; not sustained production throughput",
+  "current_code_sha256": "910a0242fcad3fd8f03853ecd5beb7170df8fd8d02c3d1287bcc9b70f5296ef3",
+  "comparison_code_sha256": "7bb228f414d4bc9b9140541f03456a8c519da30f44fe24dc860ba93ff0d7ebeb",
+  "trials": [
+    {
+      "mode": "previous",
+      "seconds": 10.840465999994194,
+      "rows_per_second": 922.4695691131134
+    },
+    {
+      "mode": "template",
+      "seconds": 4.264880400005495,
+      "rows_per_second": 2344.731636551195
+    },
+    {
+      "mode": "template",
+      "seconds": 3.7244739000016125,
+      "rows_per_second": 2684.9429660376113
+    },
+    {
+      "mode": "previous",
+      "seconds": 4.388098600000376,
+      "rows_per_second": 2278.8913631063674
+    }
+  ],
+  "committed_results": 0
+}

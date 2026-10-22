@@ -3,6 +3,10 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { getProcesadoById, getAnomaliasByRawSecopId } from '../services/procesadosService';
 import type { Procesado, AnomaliaContrato } from '../types/procesado';
 import { PublicNavbar } from '../components/layout/PublicNavbar';
+import { getErrorMessage } from '../utils/errors';
+import { formatCalendarDate, formatDecimalAmount } from '../utils/format';
+import { secopSourceUrl } from '../utils/secopLink';
+import { BackButton } from '../components/navigation/BackButton';
 
 
 export const PublicContratoDetalle: React.FC = () => {
@@ -25,11 +29,11 @@ export const PublicContratoDetalle: React.FC = () => {
         
         // Fetch anomalies if the record has suspicious/incomplete flags
         if (contratoData.raw_secop_id && (contratoData.es_sospechoso || contratoData.es_incompleto)) {
-          const anomaliasData = await getAnomaliasByRawSecopId(contratoData.raw_secop_id);
+          const anomaliasData = await getAnomaliasByRawSecopId(contratoData.raw_secop_id,contratoData.public_cut_id);
           setAnomalias(anomaliasData);
         }
-      } catch (err: any) {
-        setError(err.message || "Error al cargar los detalles del contrato");
+      } catch (err: unknown) {
+        setError(getErrorMessage(err, 'Error al cargar los detalles del contrato'));
       } finally {
         setLoading(false);
       }
@@ -57,12 +61,14 @@ export const PublicContratoDetalle: React.FC = () => {
           </div>
           <h2 className="text-2xl font-black text-slate-800 mb-2">Contrato no encontrado</h2>
           <p className="text-slate-500 mb-8 font-medium">{error || "El registro solicitado no existe o no está disponible."}</p>
-          <button 
-            onClick={() => navigate('/public/procesados')}
+          <button
+            onClick={() => {
+              const index = window.history.state?.idx;
+              if (typeof index === 'number' && index > 0) navigate(-1);
+              else navigate('/public/procesados', { replace: true });
+            }}
             className="w-full py-4 bg-slate-900 text-white rounded-2xl font-bold uppercase tracking-widest text-sm hover:bg-slate-800 transition-colors"
-          >
-            Volver al listado
-          </button>
+          >Volver al listado</button>
         </div>
       </div>
     );
@@ -70,8 +76,16 @@ export const PublicContratoDetalle: React.FC = () => {
 
   const isIncompleto = contrato.es_incompleto === true;
   const isAltoRiesgo = contrato.clasificacion_riesgo === 'ALTO';
-  const isModificado = contrato.datos_modificados === true;
-  const hasAlerts = isIncompleto || isAltoRiesgo || isModificado;
+  const hasAlerts = isIncompleto || contrato.es_sospechoso === true || isAltoRiesgo;
+  const riesgoContrato: 'ALTO' | 'MEDIO' | 'BAJO' | 'SIN_EVALUAR' = ['ALTO', 'MEDIO', 'BAJO'].includes(contrato.clasificacion_riesgo ?? '')
+    ? contrato.clasificacion_riesgo as 'ALTO' | 'MEDIO' | 'BAJO'
+    : 'SIN_EVALUAR';
+  const riesgoContratoLabel = {
+    ALTO: 'Alto',
+    MEDIO: 'Medio',
+    BAJO: 'Bajo',
+    SIN_EVALUAR: 'Sin evaluar',
+  }[riesgoContrato];
 
   return (
     <div className="min-h-screen font-sans text-slate-900 relative overflow-hidden bg-slate-50 pb-20">
@@ -88,33 +102,13 @@ export const PublicContratoDetalle: React.FC = () => {
       <main className="max-w-[1000px] mx-auto px-8 py-6 relative z-10">
         {/* Back button */}
         <div className="mb-8">
-          <button
-            onClick={() => navigate('/public/procesados')}
-            className="flex items-center gap-2 px-5 py-2.5 bg-white border border-slate-200 text-slate-600 text-xs font-bold uppercase tracking-widest rounded-full hover:bg-slate-50 transition-all shadow-sm"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-            </svg>
-            Volver al listado
-          </button>
+          <BackButton fallback="/public/procesados" label="Volver al listado" />
         </div>
 
         
         {/* Banner Alertas Superiores */}
         {hasAlerts && (
           <div className="mb-10 flex flex-col gap-3">
-            {isModificado && (
-              <div className="bg-red-50 border border-red-200 rounded-2xl p-4 flex items-center gap-4 shadow-sm relative overflow-hidden">
-                <div className="absolute left-0 top-0 bottom-0 w-1 bg-red-500"></div>
-                <div className="w-10 h-10 bg-red-500 rounded-full flex items-center justify-center text-white shadow-lg shrink-0">
-                  <span className="text-xl italic font-black">⚡</span>
-                </div>
-                <div>
-                  <h4 className="text-red-700 font-bold uppercase tracking-wider text-sm">Datos Modificados</h4>
-                  <p className="text-red-600/80 text-xs font-medium">Este registro ha sufrido modificaciones importantes desde su publicación original.</p>
-                </div>
-              </div>
-            )}
             {isAltoRiesgo && (
               <div className="bg-rose-50 border border-rose-200 rounded-2xl p-4 flex items-center gap-4 shadow-sm relative overflow-hidden">
                 <div className="absolute left-0 top-0 bottom-0 w-1 bg-rose-500"></div>
@@ -147,7 +141,7 @@ export const PublicContratoDetalle: React.FC = () => {
           <h1 className="text-4xl font-black text-indigo-950 tracking-tighter mb-2 leading-tight">
             Detalle del Contrato
           </h1>
-          <p className="text-slate-500 font-medium">ID Interno: {contrato.id} • Secop ID: {contrato.raw_secop_id}</p>
+            <p className="text-slate-500 font-medium">ID interno: {contrato.id} · Proceso SECOP: {contrato.id_del_proceso || 'Sin identificador oficial disponible'}</p>
         </div>
 
         {/* Sección: Información General */}
@@ -181,7 +175,7 @@ export const PublicContratoDetalle: React.FC = () => {
             <div className="flex flex-col gap-1">
               <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Valor Total Normalizado</span>
               <span className="text-2xl font-black text-emerald-600 bg-emerald-50 self-start px-4 py-1 rounded-xl border border-emerald-100">
-                $ {contrato.valor_total_normalizado?.toLocaleString('es-ES') || '0'}
+                {contrato.valor_total_normalizado == null ? '—' : `$ ${formatDecimalAmount(contrato.valor_total_normalizado, 'es-ES')}`}
               </span>
             </div>
             <div className="flex flex-col gap-1">
@@ -191,13 +185,13 @@ export const PublicContratoDetalle: React.FC = () => {
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                   </svg>
-                  Publicación: <strong className="text-slate-800">{contrato.fecha_publicacion_normalizada ? new Date(contrato.fecha_publicacion_normalizada).toLocaleDateString('es-ES') : 'N/A'}</strong>
+                  Publicación: <strong className="text-slate-800">{formatCalendarDate(contrato.fecha_publicacion_normalizada)}</strong>
                 </div>
                 <div className="flex items-center gap-2 text-sm text-slate-600 font-medium">
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
-                  Adjudicación: <strong className="text-slate-800">{contrato.fecha_adjudicacion_normalizada ? new Date(contrato.fecha_adjudicacion_normalizada).toLocaleDateString('es-ES') : 'N/A'}</strong>
+                  Adjudicación: <strong className="text-slate-800">{formatCalendarDate(contrato.fecha_adjudicacion_normalizada)}</strong>
                 </div>
               </div>
             </div>
@@ -213,6 +207,22 @@ export const PublicContratoDetalle: React.FC = () => {
                   {contrato.estado_normalizado || 'N/A'}
                 </span>
               </div>
+            </div>
+            <div className="flex flex-col gap-1">
+              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Riesgo contractual</span>
+              <div>
+                <span className={`inline-flex px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-widest ${
+                  riesgoContrato === 'ALTO' ? 'bg-rose-100 text-rose-700' :
+                  riesgoContrato === 'MEDIO' ? 'bg-amber-100 text-amber-700' :
+                  riesgoContrato === 'BAJO' ? 'bg-emerald-100 text-emerald-700' :
+                  'bg-slate-100 text-slate-600'
+                }`}>
+                  {riesgoContratoLabel}
+                </span>
+              </div>
+              {riesgoContrato === 'SIN_EVALUAR' && (
+                <p className="text-xs text-slate-500">No hay una clasificación calculada específicamente para este contrato.</p>
+              )}
             </div>
           </div>
         </div>
@@ -236,19 +246,10 @@ export const PublicContratoDetalle: React.FC = () => {
           ) : (
             <div className="grid grid-cols-1 gap-4">
               {anomalias.map((a) => {
-                let colorClass = "bg-blue-50 border-blue-200 text-blue-800";
-                let icon = "ℹ️";
-                let label = "INFO";
-                
-                if (a.clasificacion_riesgo === 'ALTO') {
-                  colorClass = "bg-rose-50 border-rose-200 text-rose-800";
-                  icon = "🚨";
-                  label = "RIESGO ALTO";
-                } else if (a.clasificacion_riesgo === 'MEDIO' || a.motivo === 'CAMPO_FALTANTE') {
-                  colorClass = "bg-amber-50 border-amber-200 text-amber-800";
-                  icon = "⚠️";
-                  label = "ADVERTENCIA";
-                }
+                const motivo = a.tipo_anomalia ?? a.motivo ?? 'ANOMALIA';
+                const colorClass = "bg-amber-50 border-amber-200 text-amber-800";
+                const icon = "⚠️";
+                const label = "ANOMALÍA DE DATOS";
 
                 return (
                   <div key={a.id} className={`rounded-[32px] border p-6 flex flex-col md:flex-row gap-6 items-start md:items-center ${colorClass}`}>
@@ -258,7 +259,7 @@ export const PublicContratoDetalle: React.FC = () => {
                       </div>
                       <div>
                         <span className="text-[10px] font-black tracking-widest uppercase opacity-70 block mb-1">{label}</span>
-                        <strong className="text-lg font-black leading-tight block">{a.motivo.replace(/_/g, ' ')}</strong>
+                        <strong className="text-lg font-black leading-tight block">{motivo.replace(/_/g, ' ')}</strong>
                       </div>
                     </div>
                     
@@ -334,19 +335,7 @@ export const PublicContratoDetalle: React.FC = () => {
             
             <div className="mt-8 pt-8 border-t border-slate-100 flex justify-center">
               {(() => {
-                const getCleanUrl = (url?: string): string => {
-                  if (!url) return '';
-                  const trimmed = url.trim();
-                  if (!trimmed) return '';
-                  
-                  if (trimmed.startsWith('{') && trimmed.endsWith('}')) {
-                    const match = trimmed.match(/https?:\/\/[^\s'}"]+/);
-                    if (match) return match[0];
-                  }
-                  return trimmed;
-                };
-                
-                const cleanUrl = getCleanUrl(contrato.urlproceso);
+                const cleanUrl = secopSourceUrl(contrato.urlproceso);
                 
                 if (cleanUrl) {
                   return (

@@ -1,0 +1,15 @@
+{
+  "scope": "Localizar documentos de un candidato 2020-2021; un comunicado no acredita condena firme ni identidad SECOP.",
+  "sources": [
+    {
+      "id": "fiscalia-search-remberto-navas",
+      "kind": "BUSQUEDA_INSTITUCIONAL",
+      "url": "https://www.fiscalia.gov.co/colombia/?s=Remberto+Navas"
+    },
+    {
+      "id": "fiscalia-index-690-current",
+      "kind": "INDICE_INSTITUCIONAL",
+      "url": "https://www.fiscalia.gov.co/colombia/inicio/mas-noticias/page/690/"
+    }
+  ]
+}

@@ -3,17 +3,18 @@ import { useNavigate } from 'react-router-dom';
 import { Plus, Edit2, Trash2, Play, RefreshCw, AlertCircle, CheckCircle2, History } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { fuentesService } from '../services/fuentesService';
-import type { FuenteDatosResponseDTO, ConexionTestResponseDTO, SincronizacionHistorialResponseDTO } from '../types/fuente';
+import type { FuenteDatosResponseDTO, ConexionTestResponseDTO } from '../types/fuente';
 import { Button } from '../components/ui/Button';
 import { Badge } from '../components/ui/Badge';
 import { Modal } from '../components/ui/Modal';
 import { Skeleton } from '../components/ui/Skeleton';
 import { HistorialSyncModal } from '../components/fuentes/HistorialSyncModal';
+import { getErrorMessage } from '../utils/errors';
 
 export const FuentesList: React.FC = () => {
   const navigate = useNavigate();
   const [fuentes, setFuentes] = useState<FuenteDatosResponseDTO[]>([]);
-  const [sincronizaciones, setSincronizaciones] = useState<SincronizacionHistorialResponseDTO[]>([]);
+  const [ultimaSyncPorFuente, setUltimaSyncPorFuente] = useState<Record<number, { estado: string | null; error: string | null | undefined }>>({});
   const [loading, setLoading] = useState(true);
   const [syncingId, setSyncingId] = useState<number | null>(null);
   
@@ -25,13 +26,18 @@ export const FuentesList: React.FC = () => {
   const fetchFuentes = async () => {
     try {
       setLoading(true);
-      const [dataFuentes, dataSyncs] = await Promise.all([
+      const [dataFuentes, comparativa] = await Promise.all([
         fuentesService.getAll(),
-        fuentesService.getSincronizacionesGlobales().catch(() => []) // Fallback si falla
+        fuentesService.getComparativa().catch(() => [])
       ]);
       setFuentes(dataFuentes);
-      setSincronizaciones(dataSyncs);
-    } catch (error) {
+      setUltimaSyncPorFuente(Object.fromEntries(
+        comparativa.map((item) => [item.fuente_id, {
+          estado: item.ultima_sync_estado,
+          error: item.ultima_sync_error,
+        }]),
+      ));
+    } catch {
       toast.error('Error al cargar las fuentes de datos');
     } finally {
       setLoading(false);
@@ -39,7 +45,10 @@ export const FuentesList: React.FC = () => {
   };
 
   useEffect(() => {
-    fetchFuentes();
+    const timer = window.setTimeout(() => {
+      void fetchFuentes();
+    }, 0);
+    return () => window.clearTimeout(timer);
   }, []);
 
   const handleDelete = async () => {
@@ -49,7 +58,7 @@ export const FuentesList: React.FC = () => {
       toast.success('Fuente eliminada exitosamente');
       setFuentes(fuentes.filter(f => f.id !== deleteModal.id));
       setDeleteModal({ isOpen: false, id: null });
-    } catch (error) {
+    } catch {
       toast.error('Error al eliminar la fuente');
     }
   };
@@ -59,10 +68,10 @@ export const FuentesList: React.FC = () => {
     try {
       const result = await fuentesService.testConnection(id);
       setTestModal({ isOpen: true, result, loading: false });
-    } catch (error: any) {
+    } catch (error: unknown) {
       setTestModal({ 
         isOpen: true, 
-        result: { exitoso: false, mensaje: error?.response?.data?.detail || 'Error de conexión', registros_muestra: null }, 
+        result: { exitoso: false, mensaje: getErrorMessage(error, 'Error de conexión'), registros_muestra: null },
         loading: false 
       });
     }
@@ -72,9 +81,9 @@ export const FuentesList: React.FC = () => {
     setSyncingId(id);
     try {
       await fuentesService.sync(id);
-      toast.success('Sincronización iniciada exitosamente');
+      toast.success('Sincronización finalizada correctamente');
       await fetchFuentes();
-    } catch (error) {
+    } catch {
       toast.error('Error al sincronizar la fuente');
     } finally {
       setSyncingId(null);
@@ -150,13 +159,13 @@ export const FuentesList: React.FC = () => {
                       <div className="flex items-center gap-2">
                         {fuente.ultima_sync ? new Date(fuente.ultima_sync).toLocaleDateString() : 'Nunca'}
                         {(() => {
-                          const fuenteSyncs = sincronizaciones.filter(s => s.fuente_id === fuente.id).sort((a, b) => new Date(b.fecha_inicio).getTime() - new Date(a.fecha_inicio).getTime());
-                          if (fuenteSyncs.length > 0 && fuenteSyncs[0].estado === 'ERROR') {
+                          const ultimaSync = ultimaSyncPorFuente[fuente.id];
+                          if (ultimaSync?.estado === 'ERROR') {
                             return (
                               <div className="group relative flex items-center justify-center">
                                 <AlertCircle size={16} className="text-red-500 cursor-help" />
                                 <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block w-max max-w-xs bg-slate-800 text-white text-xs rounded py-1 px-2 z-10 shadow-lg">
-                                  La última sincronización falló: {fuenteSyncs[0].mensaje_error || 'Error desconocido'}
+                                  La última sincronización falló: {ultimaSync.error || 'Error desconocido'}
                                   <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-slate-800" />
                                 </div>
                               </div>

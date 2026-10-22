@@ -1,0 +1,64 @@
+{
+  "date_bogota": "2026-10-19",
+  "policy": "complete-cohort-current-cut-v1",
+  "complete_selected_cohort_rows": 1698,
+  "independent_identified_positive_amount_peers": 1392,
+  "iqr_evaluable_targets": 1392,
+  "iqr_findings": 50,
+  "iqr_no_finding": 1342,
+  "iqr_unevaluable": 306,
+  "complete_risk_scores": 0,
+  "exclusions": {
+    "identidad_incompleta": 299,
+    "identidad_ambigua_o_no_comprobada": 6,
+    "importe_ausente_o_invalido": 1
+  },
+  "input_sha256": "15e0624e0bd9bd1fc3c1105df772708f7c6e4380508dec3f7981685c5d1a2868",
+  "acquired_cohort_sha256": "a8afd9f928a278b923b84ae847971f8667d95bcd5793443f3441250e3cf5c5d7",
+  "report_sha256": "205d8482e28a25570a7a7fab24e90d95061ed0a353e3a8d0ba8ffbf53bbf2732",
+  "reference_sha256": "cf9e8767ba6c2980354fd123e6750f19afe477645b9f7c3ae19b6937464af0f8",
+  "code_sha256": {
+    "scripts/risk_cut_cohort.py": "51be1041b7fc67590f7b6a9c3671dd8e13a23329aec205508e99fb3ab2d9dc31",
+    "modules/motor_riesgo/cut_rules.py": "b9bb04fa609164ca321089f70496c0edf5ada1db084888f52a1e0316b7f08a94",
+    "modules/motor_riesgo/rules.py": "c4b78866d0c09f589dfe31d54a60dac20baac35ad21e3f7da2b528010b5c6713",
+    "modules/motor_riesgo/baseline_coverage.py": "3bcd8a116dc56cf3f7d5cf9168c5a782b0f657a957fb5d8850125955acf684bb",
+    "modules/motor_riesgo/weight_lab.py": "eeb456b49a88d9185ae7d3d297f86a53b3ef89ab99420c31223ea91b45925354",
+    "modules/motor_riesgo/domain.py": "48d8fe00d07572047f57460ea05aace1f30c464b919073b80075afbbe7a430dd"
+  },
+  "collector_sha256": "289cb14189bbe6df7a4c56bda031a5eb4e970844162c71d904cdf2b76a9c6f48",
+  "repeat_identical": true,
+  "offline_repeat_seconds": 0.04583540000021458,
+  "acquisition_seconds": 178.0949704000377,
+  "first_full_query_timed_out_at_seconds": 30,
+  "server_cursor_batch": 25,
+  "per_fetch_timeout_seconds": 10,
+  "tests": {
+    "run_id": "cf1f8410b7f34d7aa7661725289560ae",
+    "count": 99,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 1.456,
+    "junit_sha256": "44cc6e8e2539b5b394f0366759051d2d496b740570282f9d1914648e13fcbdf7"
+  },
+  "original_database": {
+    "oid": 24577,
+    "schema": "3c19a8f7e2d0",
+    "weights": {
+      "OUTLIER": "1.00",
+      "DUPLICADO_CORTO": "1.50",
+      "ABUSO_DIRECTO": "2.00"
+    },
+    "read_only": true
+  },
+  "release_ref": "794d185832c7c56ffa4d91ef08ca1f3d15128be5",
+  "publication_cut_date": "2026-10-01",
+  "registry_changed": false,
+  "database_writes": false,
+  "publication_changed": false,
+  "real_models_trained": false,
+  "third_parties_contacted": false,
+  "dependencies_added": false,
+  "full_backend_suite_rerun": false,
+  "remaining": "Conteos móviles con historial completo de entidad/proveedor y semántica verificada de competencia; validación histórica y judicial separadas."
+}

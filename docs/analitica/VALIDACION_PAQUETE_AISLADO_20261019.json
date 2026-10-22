@@ -1,0 +1,62 @@
+{
+  "created_at": "2026-10-19T22:31:37.020654+00:00",
+  "scope": "Paquete completo en aislamiento, sin modelos judiciales reales aprobados. Prueba de ingeniería, no aprobación predictiva ni activación local definitiva.",
+  "backend_snapshot_sha256": "dfa652d64a6177cdca0cd946c7e26aee9f9c6ee4f2bf72027092e55d81087eb2",
+  "backend_source_matches_tested_workspace": true,
+  "release": "worktree-dfa652d64a6177cdca0c",
+  "isolated_database_oid": 82244,
+  "isolated_api_port": 18100,
+  "isolated_frontend_port": 14173,
+  "backend_tests": {
+    "run_id": "ba5de082dffc4427b34c91d985c96e6b",
+    "passed": 731,
+    "errors": 0,
+    "failures": 0,
+    "skipped": 0,
+    "junit_seconds": 71.408,
+    "junit_sha256": "808d4b6d4752e76b772c6774a9bdf81f4c77782a74f00e2d04125128ceaef6b1"
+  },
+  "frontend_build": {
+    "passed": true,
+    "artifact_files": 36,
+    "log_sha256": "85f97c8535cb968cf91bacc12c397e52e6cca6ce730dc0db1b630e4f0ca40737",
+    "visual_browser_review_performed": false
+  },
+  "first_attempt": {
+    "outcome": "FAILED",
+    "error_type": "PermissionError",
+    "cause": "Windows denied atomic replacement of services.json during concurrent state reads.",
+    "first_report_status_was_not_terminal": true,
+    "report_sha256": "fdc9d67c51b66f1d011d00d520b7f9490bdd6d25493fab34570de0d5a3e117a0",
+    "state_sha256": "9010302592a5fa2333297cf5e3b93f75518e8bfb4d5436d46636aca8c364db47",
+    "supervisor_log_sha256": "8d49de78354630767dda13c390bf82a1f545987b05251b5dfad563df34f14073"
+  },
+  "second_attempt": {
+    "outcome": "PASSED",
+    "complete_start_stop_cycles": 2,
+    "api_frontend_worker_started_and_stopped": true,
+    "native_report_sha256": "6f5457274e388fc3e599878b5b030f330ef258d6cb3c70f4d3ba359fcd3340e0",
+    "authenticated_admin_reads_and_logout": true,
+    "refused_activation_without_approved_models": true,
+    "recovered_same_synthetic_job_without_duplicate_or_extra_attempt": true,
+    "recovered_job_failed_for_missing_models": true,
+    "temporary_admin_sessions_and_owned_job_removed": true,
+    "supervisor_and_components_left_running": false
+  },
+  "published_binding_hashes_unchanged": true,
+  "published_http_read_check": {
+    "http://127.0.0.1:8000/openapi.json": 200,
+    "http://127.0.0.1:4173/index.html": 200
+  },
+  "model_or_feature_data_created": false,
+  "real_models_approved": false,
+  "citizen_publication_activated": false,
+  "windows_task_installed": false,
+  "pending": [
+    "Evidencia judicial e histórica suficiente",
+    "Entrenamiento y evaluación de ambos modelos reales",
+    "Recursos, publicación, reversa y recuperación con modelos aprobados",
+    "Instalación y comprobación de autoinicio local",
+    "Revisión visual del paquete final"
+  ]
+}

@@ -1,4 +1,4 @@
-from sqlalchemy import Column, BigInteger, String, Text, DateTime, ForeignKey, Index
+from sqlalchemy import Column, BigInteger, String, Text, DateTime, ForeignKey, Index, text
 from sqlalchemy.sql import func
 from shared.base_model import Base
 
@@ -25,9 +25,17 @@ class ContratoAnomaloIncompleto(Base):
     
     campo_afectado  = Column(String(100), nullable=False)   # nombre de la columna afectada
     created_at      = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+    riesgo_desde_revision = Column(BigInteger, nullable=False, server_default='0')
 
     __table_args__ = (
         Index("ix_cai_motivo",       "motivo"),
         Index("ix_cai_campo",        "campo_afectado"),
         Index("ix_cai_tipo_anomalia","tipo_anomalia"),
+        Index(
+            "uq_cai_raw_tipo_campo",
+            "raw_secop_id",
+            text("COALESCE(tipo_anomalia, motivo, 'SIN_TIPO')"),
+            "campo_afectado",
+            unique=True,
+        ),
     )

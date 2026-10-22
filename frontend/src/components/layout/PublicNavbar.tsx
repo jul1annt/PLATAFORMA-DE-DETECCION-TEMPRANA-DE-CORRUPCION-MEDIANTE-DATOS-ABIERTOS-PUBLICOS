@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { BackButton } from '../navigation/BackButton';
 
 export const PublicNavbar: React.FC = () => {
   const navigate = useNavigate();
@@ -7,15 +8,23 @@ export const PublicNavbar: React.FC = () => {
 
   const isActive = (path: string) =>
     pathname === path || pathname.startsWith(path + '/');
+  const backFallback = pathname.startsWith('/public/procesados/')
+    ? '/public/procesados'
+    : pathname === '/public/dashboard'
+      ? '/'
+      : '/public/dashboard';
 
   return (
     <header className="sticky top-0 z-40 bg-white/70 backdrop-blur-xl border-b border-white/60 shadow-sm shadow-indigo-100/20">
       <div className="max-w-[1400px] mx-auto px-6 md:px-8 h-18 md:h-20 flex justify-between items-center gap-4 py-3">
 
         {/* ── Logo ────────────────────────────────────────────────────────── */}
-        <button
+        <div className="flex min-w-0 items-center gap-3">
+          <BackButton fallback={backFallback} className="hidden sm:inline-flex" />
+          <button
           onClick={() => navigate('/public/dashboard')}
           className="flex items-center gap-3 flex-shrink-0 group"
+          aria-label="Ir al dashboard público"
         >
           <div className="w-10 h-10 md:w-11 md:h-11 bg-gradient-to-br from-indigo-600 to-violet-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-indigo-300/40 group-hover:scale-105 transition-transform">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 md:h-6 md:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -30,7 +39,8 @@ export const PublicNavbar: React.FC = () => {
               Observatorio de Transparencia
             </span>
           </div>
-        </button>
+          </button>
+        </div>
 
         {/* ── Nav Links ───────────────────────────────────────────────────── */}
         <nav className="flex items-center gap-1 md:gap-2">
@@ -66,6 +76,23 @@ export const PublicNavbar: React.FC = () => {
             <span className="hidden md:inline">Contratos</span>
           </button>
 
+          {/* Motor analítico MVP */}
+          <button
+            id="public-nav-indicios"
+            onClick={() => navigate('/public/indicios')}
+            aria-current={isActive('/public/indicios') ? 'page' : undefined}
+            className={`flex items-center gap-1.5 px-3 md:px-5 py-2 md:py-2.5 rounded-full text-xs font-black uppercase tracking-widest transition-all ${
+              isActive('/public/indicios')
+                ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-200'
+                : 'text-slate-500 hover:text-indigo-700 hover:bg-indigo-50'
+            }`}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5 md:h-4 md:w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 3v3m0 12v3M3 12h3m12 0h3M5.64 5.64l2.12 2.12m8.48 8.48 2.12 2.12m0-12.72-2.12 2.12m-8.48 8.48-2.12 2.12M12 8a4 4 0 100 8 4 4 0 000-8z" />
+            </svg>
+            <span className="hidden lg:inline">Indicios</span>
+          </button>
+
           {/* Divider */}
           <div className="w-px h-6 bg-slate-200 mx-1 hidden md:block" />
 
@@ -82,6 +109,11 @@ export const PublicNavbar: React.FC = () => {
           </button>
         </nav>
       </div>
+      {import.meta.env.VITE_DATA_CONTEXT && (
+        <p className="border-t border-amber-200 bg-amber-50 px-6 py-2 text-center text-sm text-amber-900">
+          {import.meta.env.VITE_DATA_CONTEXT}
+        </p>
+      )}
     </header>
   );
 };

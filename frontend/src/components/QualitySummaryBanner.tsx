@@ -4,42 +4,15 @@ import type { QualitySummaryProps } from '../types/procesado';
 export const QualitySummaryBanner: React.FC<QualitySummaryProps> = ({
   metricas,
   camposFaltantes,
-  hayCambiosRecientes,
   onFilterChange,
   activeFilter,
+  onViewAll,
+  showingAllFields,
 }) => {
   if (!metricas) return null;
 
   return (
     <div className="mb-10 flex flex-col gap-6">
-      {/* Banner de Alerta - Estilo Screenshot */}
-      {hayCambiosRecientes && (
-        <div className="bg-red-50 border border-red-200 rounded-3xl p-5 flex items-center justify-between shadow-sm relative overflow-hidden">
-          <div className="absolute left-0 top-0 bottom-0 w-1 bg-red-500"></div>
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-red-500 rounded-full flex items-center justify-center text-white shadow-lg">
-              <span className="text-2xl italic font-black">⚡</span>
-            </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="text-red-600">⚡</span>
-                <h4 className="text-red-700 font-bold">ALERTA: Se detectaron cambios recientes en los datos sincronizados</h4>
-              </div>
-              <p className="text-red-600/80 text-sm">Hay registros que han sido modificados desde la última sincronización.</p>
-            </div>
-          </div>
-          <button 
-            onClick={() => onFilterChange('MODIFICADOS')}
-            className="px-6 py-2 border border-red-300 rounded-xl text-red-700 font-semibold text-sm hover:bg-red-100 transition-colors flex items-center gap-2 bg-white/50"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4.5h14.25M3 9h9.75M3 13.5h9.75m4.5-4.5v12m0 0l-3.75-3.75M17.25 21L21 17.25" />
-            </svg>
-            Ver registros modificados
-          </button>
-        </div>
-      )}
-
       {/* Grid de Cards - Estilo Screenshot */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         {/* Total Registros */}
@@ -76,7 +49,7 @@ export const QualitySummaryBanner: React.FC<QualitySummaryProps> = ({
             <div className="flex justify-between items-start mb-1">
               <p className="text-[10px] font-bold text-amber-700 uppercase tracking-widest">Incompletos ⚠️</p>
               <span className="bg-[#ffec99] text-amber-900 text-[10px] font-black px-2 py-1 rounded-lg">
-                {metricas.porcentaje_incompletos.toFixed(2)}%
+                {metricas.porcentaje_incompletos === null ? 'Sin datos' : `${metricas.porcentaje_incompletos.toFixed(2)}%`}
               </span>
             </div>
             <p className="text-4xl font-black text-slate-800 tracking-tighter">{metricas.incompletos.toLocaleString('es-ES')}</p>
@@ -99,7 +72,7 @@ export const QualitySummaryBanner: React.FC<QualitySummaryProps> = ({
             <div className="flex justify-between items-start mb-1">
               <p className="text-[10px] font-bold text-red-700 uppercase tracking-widest">Sospechosos 🚨</p>
               <span className="bg-[#ffc9c9] text-red-900 text-[10px] font-black px-2 py-1 rounded-lg">
-                {metricas.porcentaje_sospechosos.toFixed(2)}%
+                {metricas.porcentaje_sospechosos === null ? 'Sin datos' : `${metricas.porcentaje_sospechosos.toFixed(2)}%`}
               </span>
             </div>
             <p className="text-4xl font-black text-slate-800 tracking-tighter">{metricas.sospechosos.toLocaleString('es-ES')}</p>
@@ -131,8 +104,13 @@ export const QualitySummaryBanner: React.FC<QualitySummaryProps> = ({
               </div>
             ))}
           </div>
-          <button className="mt-4 text-[10px] font-bold text-teal-600 uppercase flex items-center gap-1 hover:gap-2 transition-all">
-            Ver todos los campos →
+          <button
+            type="button"
+            onClick={onViewAll}
+            aria-expanded={showingAllFields}
+            className="mt-4 text-[10px] font-bold text-teal-700 uppercase flex items-center gap-1 hover:gap-2 transition-all focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-teal-700"
+          >
+            {showingAllFields ? 'Ocultar todos los campos ↑' : `Ver todos los campos (${camposFaltantes.length}) →`}
           </button>
         </div>
       </div>

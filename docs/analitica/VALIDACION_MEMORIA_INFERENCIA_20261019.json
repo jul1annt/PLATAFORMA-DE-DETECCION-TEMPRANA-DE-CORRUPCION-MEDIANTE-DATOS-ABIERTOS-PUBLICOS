@@ -1,0 +1,28 @@
+{
+  "verified_at": "2026-10-19T17:02:48.894547+00:00",
+  "state": "COMPLETE",
+  "trials": [
+    {
+      "rows": 2000,
+      "manifest_sha256": "005d83639b2d4249a2aba1521db98a6f652aaa4504bdf1df7c88330ac1b9f5e5",
+      "input_file_sha256": "f02a7da107bdf4ae2c57166c258cf87de30a6277f1ee8709be1244bc4b1fa131",
+      "actual_pid": 87072,
+      "actual_image": "C:\\Users\\Julianxxo\\AppData\\Local\\Programs\\Python\\Python313\\python.exe",
+      "peak_working_set_bytes": 20873216
+    },
+    {
+      "rows": 100000,
+      "manifest_sha256": "870037cb3a9ac126ce357e586130403bd8b9f892d2cadcc3f464fbaf1c0e2609",
+      "input_file_sha256": "c660dc58f2df0d58e6ce48d5e523ca54ef9e925385c69bdb4adc6b2b9d8a92fc",
+      "actual_pid": 21196,
+      "actual_image": "C:\\Users\\Julianxxo\\AppData\\Local\\Programs\\Python\\Python313\\python.exe",
+      "peak_working_set_bytes": 20926464
+    }
+  ],
+  "common_2000_output_rows_identical": true,
+  "common_prefix_sha256": "5c4048f696d2ad44ef3dea6f966943bea8d08f3451333a193b149b1b7511527d",
+  "models_file_sha256": "1ff15bb8644bab1b759921988b77a476f85e01a08d57c2c40e6dcfd5e72c897a",
+  "inference_lock_sha256": "13446d45575a078cd1411456231381dae10ea459baddc189dd4a3e1c15ffcb30",
+  "report_sha256": "7a133b915ab9e0913657212eaab452849af6e5448fd9e88387243cabac405723",
+  "scope": "Preserved synthetic artifacts only; no retraining, DB access, publication or real-model resource approval."
+}

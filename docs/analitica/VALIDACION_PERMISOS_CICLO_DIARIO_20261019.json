@@ -1,0 +1,35 @@
+{
+  "created_at": "2026-10-19T22:14:59.181465+00:00",
+  "scope": "Permisos de inicio del ciclo diario; validación de software en entorno aislado, no aprobación de modelos reales ni activación operativa.",
+  "files_sha256": {
+    "Backend/modules/motor_riesgo/runtime_permissions.py": "87bed4ddfdcd80b5361ac937562b1805fbef6d184d70c3285f4137fde0b4e3c7",
+    "Backend/tests/test_risk_runtime_permissions.py": "a199cdf7eeb4b667c42c2ca1b91c03821343baab416764b36bbbc823cdf217b3"
+  },
+  "focused_validation": {
+    "run_id": "d9e6cd05a8f747599f0efa9fd919f9c0",
+    "passed": 18,
+    "seconds": 3.27,
+    "includes_postgres_permission_check": true,
+    "missing_permissions_simulated_in_unit_tests": true
+  },
+  "complete_backend_validation": {
+    "run_id": "72bfbdb6a766401c8112c592b7a01810",
+    "command": "Backend/venv/Scripts/python.exe Backend/.codex-e2e-postgres/run_risk_tests_20261016.py tests",
+    "working_directory": "Backend",
+    "passed": 691,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds_reported_by_pytest": 86.89,
+    "junit_sha256": "2d47bec91ce65300dc24e51f7e8d6cf869cd3b55cc762698beccd4f37faedea6",
+    "log_sha256": "47f184f0667b0cf11b909ce72ac318c0ae367736b3476688a0ff8192c149ec54",
+    "database": "codex_risk_engine_20261016_test",
+    "port": 5433,
+    "runtime_role": "plataforma_integracion"
+  },
+  "permissions_granted": false,
+  "published_deployment_changed": false,
+  "daily_scheduler_activated": false,
+  "real_models_trained_or_approved": false,
+  "final_operational_package_verified": false
+}

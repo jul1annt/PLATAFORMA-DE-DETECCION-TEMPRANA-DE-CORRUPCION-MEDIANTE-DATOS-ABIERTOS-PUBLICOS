@@ -1,0 +1,271 @@
+{
+  "date_bogota": "2026-10-20",
+  "status": "RESPONSE_COUNTER_SEMANTICS_AUDITED_AND_EXCLUDED_FROM_BIDDER_INFERENCE",
+  "policy": "secop-registered-responses-context-v1",
+  "tests": {
+    "run_id": "3c1e009993e84267babd823e768fe89b",
+    "focused_count": 97,
+    "new_context_cases": 28,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "junit_sha256": "bf287cea7adb6dfaee2a9c4be2c1816d1c671e2de3a9f2faf5100bc9e4527f1e"
+  },
+  "selected_rows": 2536,
+  "summary": {
+    "ALL_SELECTED_ROWS": {
+      "selected_rows": 2536,
+      "operation_identity_admissible_rows": 1900,
+      "recognized_dataset_rows": 2536,
+      "modality_counts": {
+        "DIRECTA_DEL_DICCIONARIO": 1802,
+        "COMPETITIVA_DEL_DICCIONARIO": 584,
+        "NO_VERIFICADA": 150
+      },
+      "response_patterns": {
+        "UN_PROVEEDOR_CON_RESPUESTA_DECLARADO": 1770,
+        "CERO_PROVEEDORES_DECLARADOS_NO_ACREDITA_CERO_OFERENTES": 235,
+        "VARIOS_PROVEEDORES_CON_RESPUESTA_DECLARADOS": 531
+      },
+      "field_states": {
+        "proveedores_invitados": {
+          "UNO": 1543,
+          "CERO": 670,
+          "MULTIPLE": 323
+        },
+        "proveedores_con_invitacion": {
+          "UNO": 1681,
+          "CERO": 692,
+          "MULTIPLE": 163
+        },
+        "proveedores_que_manifestaron": {
+          "CERO": 2536
+        },
+        "respuestas_al_procedimiento": {
+          "UNO": 1768,
+          "CERO": 196,
+          "MULTIPLE": 572
+        },
+        "respuestas_externas": {
+          "CERO": 2454,
+          "MULTIPLE": 40,
+          "UNO": 42
+        },
+        "conteo_de_respuestas_a_ofertas": {
+          "CERO": 2498,
+          "MULTIPLE": 34,
+          "UNO": 4
+        },
+        "proveedores_unicos_con": {
+          "UNO": 1770,
+          "CERO": 235,
+          "MULTIPLE": 531
+        },
+        "numero_de_lotes": {
+          "CERO": 2291,
+          "MULTIPLE": 243,
+          "UNO": 2
+        }
+      },
+      "observed_processes": 2456,
+      "process_unique_counter_states": {
+        "UNO": 1759,
+        "CERO": 224,
+        "MULTIPLE": 473
+      },
+      "process_consistency_scope": "selected_rows_only_not_complete_process_frame"
+    },
+    "complete_2017_direct_cohort": {
+      "selected_rows": 1698,
+      "operation_identity_admissible_rows": 1393,
+      "recognized_dataset_rows": 1698,
+      "modality_counts": {
+        "DIRECTA_DEL_DICCIONARIO": 1698
+      },
+      "response_patterns": {
+        "UN_PROVEEDOR_CON_RESPUESTA_DECLARADO": 1503,
+        "CERO_PROVEEDORES_DECLARADOS_NO_ACREDITA_CERO_OFERENTES": 193,
+        "VARIOS_PROVEEDORES_CON_RESPUESTA_DECLARADOS": 2
+      },
+      "field_states": {
+        "proveedores_invitados": {
+          "UNO": 1481,
+          "MULTIPLE": 217
+        },
+        "proveedores_con_invitacion": {
+          "UNO": 1602,
+          "MULTIPLE": 75,
+          "CERO": 21
+        },
+        "proveedores_que_manifestaron": {
+          "CERO": 1698
+        },
+        "respuestas_al_procedimiento": {
+          "UNO": 1495,
+          "CERO": 174,
+          "MULTIPLE": 29
+        },
+        "respuestas_externas": {
+          "CERO": 1673,
+          "UNO": 25
+        },
+        "conteo_de_respuestas_a_ofertas": {
+          "CERO": 1698
+        },
+        "proveedores_unicos_con": {
+          "UNO": 1503,
+          "CERO": 193,
+          "MULTIPLE": 2
+        },
+        "numero_de_lotes": {
+          "CERO": 1698
+        }
+      },
+      "observed_processes": 1687,
+      "process_unique_counter_states": {
+        "UNO": 1492,
+        "CERO": 193,
+        "MULTIPLE": 2
+      },
+      "process_consistency_scope": "selected_rows_only_not_complete_process_frame"
+    },
+    "legacy_uuid_subset": {
+      "selected_rows": 841,
+      "operation_identity_admissible_rows": 510,
+      "recognized_dataset_rows": 841,
+      "modality_counts": {
+        "COMPETITIVA_DEL_DICCIONARIO": 584,
+        "NO_VERIFICADA": 150,
+        "DIRECTA_DEL_DICCIONARIO": 107
+      },
+      "response_patterns": {
+        "VARIOS_PROVEEDORES_CON_RESPUESTA_DECLARADOS": 529,
+        "CERO_PROVEEDORES_DECLARADOS_NO_ACREDITA_CERO_OFERENTES": 42,
+        "UN_PROVEEDOR_CON_RESPUESTA_DECLARADO": 270
+      },
+      "field_states": {
+        "proveedores_invitados": {
+          "CERO": 670,
+          "MULTIPLE": 106,
+          "UNO": 65
+        },
+        "proveedores_con_invitacion": {
+          "CERO": 671,
+          "MULTIPLE": 88,
+          "UNO": 82
+        },
+        "proveedores_que_manifestaron": {
+          "CERO": 841
+        },
+        "respuestas_al_procedimiento": {
+          "MULTIPLE": 543,
+          "CERO": 22,
+          "UNO": 276
+        },
+        "respuestas_externas": {
+          "CERO": 784,
+          "MULTIPLE": 40,
+          "UNO": 17
+        },
+        "conteo_de_respuestas_a_ofertas": {
+          "MULTIPLE": 34,
+          "CERO": 803,
+          "UNO": 4
+        },
+        "proveedores_unicos_con": {
+          "MULTIPLE": 529,
+          "CERO": 42,
+          "UNO": 270
+        },
+        "numero_de_lotes": {
+          "MULTIPLE": 243,
+          "CERO": 596,
+          "UNO": 2
+        }
+      },
+      "observed_processes": 772,
+      "process_unique_counter_states": {
+        "MULTIPLE": 471,
+        "CERO": 31,
+        "UNO": 270
+      },
+      "process_consistency_scope": "selected_rows_only_not_complete_process_frame"
+    }
+  },
+  "source_acquisition_seconds": 107.04373390000546,
+  "original_database_oid": 24577,
+  "original_database_read_only": true,
+  "single_repeatable_read_transaction": true,
+  "source_dataset": "p6dx-8zbt",
+  "query_and_collector_hashes": {
+    "query_sha256": "89c54364cf0c850d90687a9ca664042058567ce9ab1c30e19a8b719226bad40c",
+    "collector_sha256": "b3b54b8018affaf4c7f5ba69d2bea89e254a68bf2268b7fba9dd82034c7902f1"
+  },
+  "input_sha256": "11372831bf33b8cc9234e78a0b6eefbbac2f0c35529f0b462e38c7e56b2848d3",
+  "report_sha256": "c14836abfad32d281a16a54317b45bcdb27ebf3cf64c6eca30e91d2e866116b9",
+  "implementation_sha256": {
+    "scripts/risk_competition_audit.py": "f3702e1c882eaad28d53dc70efb5740ac8631b63fd4d2e58fa486dfe2ae3c9f1",
+    "modules/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "modules/motor_riesgo/__init__.py": "5f125ab57cce9564d9effc9fbc90d84ea20dfc290e3559ef5ccefb464d140ba8",
+    "modules/motor_riesgo/competition_context.py": "94f325cff089577d18177c6fef87e37e60e71e219daede5b84b5349cbae60964",
+    "modules/motor_riesgo/method_reference.py": "4adaa7c20eb5078b21a6c5160e7a1d124fe02b283d31a2a98b87d9a57b008769",
+    "modules/motor_riesgo/baseline_coverage.py": "3bcd8a116dc56cf3f7d5cf9168c5a782b0f657a957fb5d8850125955acf684bb",
+    "modules/motor_riesgo/domain.py": "48d8fe00d07572047f57460ea05aace1f30c464b919073b80075afbbe7a430dd"
+  },
+  "tests_sha256": "3db565fa3e9fe5b2a838a45bbd9f8f798e7c9735d1fb770e0dc963e52c2ad0f4",
+  "frozen_code_files": 7,
+  "replay_bytes_identical": true,
+  "source_evidence": [
+    {
+      "file": "dictionary_2022.pdf",
+      "url": "https://www.datos.gov.co/api/views/8scu-28fr/files/ffa9c16f-d9df-4e8d-b826-4eb5520953c7?download=true&filename=Diccionario+de+Datos+Abiertos+2022+Procesos+de+Contratacion+.pdf",
+      "status": 200,
+      "mime": "application/octet-stream",
+      "bytes": 375252,
+      "sha256": "29068b5c74919113887fd20a45e3c4f373987b82d0872b4624967d61c9956697",
+      "pages": 8
+    },
+    {
+      "file": "dictionary_public.pdf",
+      "url": "https://www.datos.gov.co/api/views/s2tk-xck7/files/b208b4ff-27c8-4a17-8caf-8ebf0865f0d7?download=true&filename=DiccionarioDeDatosAbiertos.pdf",
+      "status": 200,
+      "mime": "application/octet-stream",
+      "bytes": 217535,
+      "sha256": "2732c404833963fc39ab8490bcda1e8a84936db5361c005f94a867874dfe1e0c",
+      "pages": 3
+    },
+    {
+      "file": "dataset_metadata.json",
+      "url": "https://www.datos.gov.co/api/views/p6dx-8zbt.json",
+      "status": 200,
+      "mime": "application/json; charset=utf-8",
+      "bytes": 112915,
+      "sha256": "00c30cc681a6f736bf8511d9d7d3048330190e0c1ab41bcfb16752452ff343f5"
+    }
+  ],
+  "visual_reviewed_pages": [
+    {
+      "file": "dictionary_public.pdf",
+      "physical_page": 2,
+      "image_sha256": "f232062bc021bc6d9471cae463472b2057ebdfeb98f1520259a86b865399fb3f"
+    },
+    {
+      "file": "dictionary_2022.pdf",
+      "physical_page": 6,
+      "image_sha256": "4fa32fc6e877f881deb5704416ba54d33d471eba64f15f1521a6f711172e6614"
+    }
+  ],
+  "actual_bidder_feature_enabled": false,
+  "risk_weights_changed": false,
+  "database_writes": false,
+  "new_dependencies_in_project": false,
+  "public_document_downloads_only": true,
+  "third_party_messages_sent": false,
+  "training_performed": false,
+  "publication_activated": false,
+  "canonical_case_registry_sha256": "c1f3693b314857eed4bac388ea41671ef514b1e23783f77c6269ac7b19ba551a",
+  "original_release_manifest_sha256": "d8c350c2391016dfe483df97ca8a942a9bd895e76c5c32da88962172787a6ac2",
+  "frozen_code_snapshot": "competition-context-reference-v2-20261020",
+  "metadata_definitions_referenced_by_hash": true,
+  "temporary_trial_outputs_removed": 3
+}

@@ -1,0 +1,41 @@
+{
+  "date_bogota": "2026-10-20",
+  "database_oid": 82244,
+  "input_sha256": "1b423a7d235476228aab59db2265ab527f50ca3b6bb3ea329ff9ff40cde33110",
+  "rows": 1478,
+  "all_count_quality_fields_match": true,
+  "sql_values": {
+    "buyer_previous": null,
+    "market_processes": 872,
+    "annual_bad_pub": "231",
+    "annual_bad_market": "854",
+    "annual_maximum": 7,
+    "market_complete": false
+  },
+  "reference": {
+    "policy": "buyer-annual-process-participation-v1",
+    "buyer_previous": null,
+    "publication_processes": 1190,
+    "publication_bad_rows": 231,
+    "market_processes": 872,
+    "market_bad_rows": 854,
+    "max_supplier_processes": 7,
+    "market_complete": false,
+    "concentration": null,
+    "metric": "maximum_supplier_process_participation_not_monetary_share_or_hhi",
+    "target_process_excluded": true,
+    "outside_universe_coverage_verified": false,
+    "training_eligible": false,
+    "publication_authorized": false
+  },
+  "numeric_features_withheld": true,
+  "archived_unit_checks_reused": true,
+  "scope": "Actual stored projection and archived identity counts; this is not a full raw-source replica.",
+  "temporary_tables_only": true,
+  "rollback_confirmed": true,
+  "permanent_table_writes": 0,
+  "original_database_access": false,
+  "probe_sha256": "78dcfbc8ccf900bcd76f8bef349a14eaca86a3d8ad3b8e1ea552aa5a98bfa5d1",
+  "training_eligible": false,
+  "publication_authorized": false
+}

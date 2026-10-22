@@ -1,0 +1,7 @@
+{
+  "scope": "Informe institucional para identificar radicados y despacho; no sustituye sentencia ni constancia de firmeza.",
+  "sources": [
+    {"id":"andje-empalme-20240711","kind":"INFORME_INSTITUCIONAL","url":"https://www.defensajuridica.gov.co/servicios-al-ciudadano/ley_transparencia/documentos_2024/informe_empalme_Jhon_Jairo_Camargo_Motta.pdf"},
+    {"id":"j47-bogota-sentencias-index","kind":"INDICE","url":"https://www.ramajudicial.gov.co/web/juzgado-047-penal-del-circuito-con-funcion-de-conocimiento-de-bogota/sentencias"}
+  ]
+}

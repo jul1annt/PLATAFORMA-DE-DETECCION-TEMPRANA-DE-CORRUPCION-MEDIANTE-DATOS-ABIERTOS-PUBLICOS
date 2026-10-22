@@ -1,0 +1,164 @@
+{
+  "candidates": 9,
+  "eligible_cases": 0,
+  "exclusions": [
+    {
+      "case_id": "centros-poblados-andje-20240719",
+      "reasons": [
+        "conducta_fuera_del_objetivo",
+        "decision_no_verificada",
+        "documento_local_ausente:finality",
+        "documento_local_ausente:judgment",
+        "evidencia_finality_incompleta",
+        "evidencia_judgment_incompleta",
+        "falta_corte_temporal_preinvestigacion",
+        "falta_docket",
+        "falta_final_at",
+        "falta_published_at",
+        "falta_sentencia_condenatoria_identificada",
+        "falta_verified_by",
+        "firmeza_no_vinculada_a_sentencia_condenatoria",
+        "vinculo_secop_no_exacto"
+      ]
+    },
+    {
+      "case_id": "csj-sep097-2024",
+      "reasons": [
+        "conducta_fuera_del_objetivo",
+        "decision_no_verificada",
+        "documento_local_ausente:finality",
+        "evidencia_finality_incompleta",
+        "falta_final_at",
+        "falta_published_at",
+        "falta_sentencia_condenatoria_identificada",
+        "falta_verified_by",
+        "firmeza_no_vinculada_a_sentencia_condenatoria",
+        "vinculo_secop_no_exacto"
+      ]
+    },
+    {
+      "case_id": "csj-sp968-2024-65559",
+      "reasons": [
+        "conducta_fuera_del_objetivo",
+        "decision_no_verificada",
+        "documento_local_ausente:finality",
+        "evidencia_finality_incompleta",
+        "falta_final_at",
+        "falta_published_at",
+        "falta_sentencia_condenatoria_identificada",
+        "falta_verified_by",
+        "firmeza_no_vinculada_a_sentencia_condenatoria",
+        "vinculo_secop_no_exacto"
+      ]
+    },
+    {
+      "case_id": "csj-sep060-2025-00641",
+      "reasons": [
+        "conducta_fuera_del_objetivo",
+        "decision_no_verificada",
+        "documento_local_ausente:finality",
+        "evidencia_finality_incompleta",
+        "falta_corte_temporal_preinvestigacion",
+        "falta_final_at",
+        "falta_published_at",
+        "falta_verified_by",
+        "firmeza_no_vinculada_a_sentencia_condenatoria",
+        "vinculo_secop_no_exacto"
+      ]
+    },
+    {
+      "case_id": "csj-sep027-2026-00158",
+      "reasons": [
+        "conducta_fuera_del_objetivo",
+        "decision_no_verificada",
+        "documento_local_ausente:finality",
+        "evidencia_finality_incompleta",
+        "falta_corte_temporal_preinvestigacion",
+        "falta_final_at",
+        "falta_published_at",
+        "falta_sentencia_condenatoria_identificada",
+        "falta_verified_by",
+        "firmeza_no_vinculada_a_sentencia_condenatoria",
+        "vinculo_secop_no_exacto"
+      ]
+    },
+    {
+      "case_id": "necocli-covid-095-2020-discovery",
+      "reasons": [
+        "conducta_fuera_del_objetivo",
+        "decision_no_verificada",
+        "documento_local_ausente:finality",
+        "documento_local_ausente:judgment",
+        "evidencia_finality_incompleta",
+        "evidencia_judgment_incompleta",
+        "falta_corte_temporal_preinvestigacion",
+        "falta_docket",
+        "falta_final_at",
+        "falta_published_at",
+        "falta_sentencia_condenatoria_identificada",
+        "falta_verified_by",
+        "firmeza_no_vinculada_a_sentencia_condenatoria",
+        "vinculo_secop_no_exacto"
+      ]
+    },
+    {
+      "case_id": "centros-poblados-auto-victimas-20230217",
+      "reasons": [
+        "conducta_fuera_del_objetivo",
+        "decision_no_verificada",
+        "documento_local_ausente:finality",
+        "evidencia_finality_incompleta",
+        "falta_corte_temporal_preinvestigacion",
+        "falta_final_at",
+        "falta_published_at",
+        "falta_sentencia_condenatoria_identificada",
+        "falta_verified_by",
+        "firmeza_no_vinculada_a_sentencia_condenatoria",
+        "vinculo_secop_no_exacto"
+      ]
+    },
+    {
+      "case_id": "csj-sep077-2023-00542",
+      "reasons": [
+        "conducta_fuera_del_objetivo",
+        "decision_no_verificada",
+        "documento_local_ausente:finality",
+        "evidencia_finality_incompleta",
+        "falta_corte_temporal_preinvestigacion",
+        "falta_final_at",
+        "falta_published_at",
+        "falta_verified_by",
+        "firmeza_no_vinculada_a_sentencia_condenatoria",
+        "vinculo_secop_no_exacto"
+      ]
+    },
+    {
+      "case_id": "antioquia-050016099150202000452-20230213",
+      "reasons": [
+        "conducta_fuera_del_objetivo",
+        "decision_no_verificada",
+        "documento_local_ausente:finality",
+        "evidencia_finality_incompleta",
+        "falta_corte_temporal_preinvestigacion",
+        "falta_final_at",
+        "falta_published_at",
+        "falta_sentencia_condenatoria_identificada",
+        "falta_verified_by",
+        "firmeza_no_vinculada_a_sentencia_condenatoria",
+        "vinculo_secop_no_exacto"
+      ]
+    }
+  ],
+  "training_target": "CORRUPCION",
+  "registry_by_conduct": {
+    "POR_CLASIFICAR": 9
+  },
+  "independent_case_groups": 0,
+  "temporal_coverage": [],
+  "case_registry_sha256": "568c674d6b8aea0d9361a73be4508dfd71e1beff58c4806a3dbca87b3a25211e",
+  "judicial_identity_inferred": false,
+  "scope": "Inventario inicial de descubrimiento, no búsqueda exhaustiva de todas las sentencias colombianas.",
+  "training_performed": false,
+  "judicial_labels_invented": false,
+  "publication_authorized": false
+}

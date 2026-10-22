@@ -1,0 +1,354 @@
+{
+  "created_at": "2026-10-19T17:01:46.829548+00:00",
+  "state": "COMPLETE",
+  "supervisor_pid": 20240,
+  "synthetic_only": true,
+  "real_models_validated": false,
+  "database_accessed": false,
+  "publication_performed": false,
+  "scope": "OS lifetime peaks sampled from inside the actual inference interpreter. Instrumented unchanged CLI, gzip files and two synthetic 25-member models. Not approved-model deployment, concurrent HTTP or full-cut resource acceptance.",
+  "trials": [
+    {
+      "rows": 2000,
+      "wall_seconds": 0.5433923999662511,
+      "memory": {
+        "actual_pid": 87072,
+        "parent_pid": 84428,
+        "sys_executable": "C:\\PLATAFORMA-DE-DETECCION-TEMPRANA-DE-CORRUPCION-MEDIANTE-DATOS-ABIERTOS-PUBLICOS\\Backend\\.codex-analytics-postgres\\inference\\Scripts\\python.exe",
+        "actual_image": "C:\\Users\\Julianxxo\\AppData\\Local\\Programs\\Python\\Python313\\python.exe",
+        "python": "3.13.0 (tags/v3.13.0:60403a5, Oct  7 2024, 09:38:07) [MSC v.1941 64 bit (AMD64)]",
+        "synthetic_only": true,
+        "sklearn_installed": false,
+        "numpy_installed": false,
+        "state": "COMPLETE",
+        "elapsed_seconds": 0.32154560001799837,
+        "peak_working_set_bytes": 20873216,
+        "working_set_bytes": 20758528,
+        "peak_pagefile_usage_bytes": 13856768,
+        "private_usage_bytes": 13856768
+      },
+      "input_bytes": 69514,
+      "output_bytes": 106128,
+      "output_sha256": "aca74647e2365d429bc113f9fe1239525cbefed68fdae99842bffa6d4d9f89d6",
+      "counts": {
+        "ADJUDICACION": 1000,
+        "CONVOCATORIA": 1000
+      },
+      "evaluated_counts": {
+        "ADJUDICACION": 1000,
+        "CONVOCATORIA": 1000
+      },
+      "sample": [
+        {
+          "raw_secop_id": 1,
+          "stage": "CONVOCATORIA",
+          "result": {
+            "stage": "CONVOCATORIA",
+            "model_version": "synthetic-memory-convocatoria",
+            "values": {
+              "log_presupuesto": 6.90875477931522,
+              "plazo_dias": 0.0,
+              "duracion_dias": 0.0,
+              "procesos_previos": 0.0,
+              "concentracion_previa": 0.0,
+              "categoria": "X",
+              "modalidad": "X",
+              "departamento": "X"
+            },
+            "provenance": {
+              "source_id": 1,
+              "source_row_id": "SYNTHETIC-0",
+              "process_id": "SYNTHETIC-0",
+              "lot_id": null,
+              "award_id": null,
+              "source_url": null,
+              "snapshot_sha256": null
+            },
+            "feature_version": "secop-point-in-time-v3",
+            "prediction_at": "2020-01-01T00:00:00+00:00",
+            "references": {
+              "ocp": "https://www.open-contracting.org/resources/red-flags-in-public-procurement-a-guide-to-using-data-to-detect-and-mitigate-risks/",
+              "cri": "https://doi.org/10.1007/s10610-016-9308-z",
+              "colombia": "https://imco.org.mx/wp-content/uploads/2019/07/FEDESARROLLO_CPBD.pdf",
+              "pu": "https://arxiv.org/abs/2102.05523"
+            },
+            "observed": {},
+            "context": {},
+            "temporal_scope": "historical_stage_snapshot",
+            "stage_event_at": "2020-01-01T00:00:00+00:00",
+            "interpretation": "Prioridad relativa de revisi\u00f3n; no es probabilidad ni prueba de corrupci\u00f3n.",
+            "index": 40.0,
+            "coverage": 1.0,
+            "reasons": [],
+            "signals": [
+              {
+                "variable": "departamento:X",
+                "contribution": 0.00294
+              },
+              {
+                "variable": "modalidad:X",
+                "contribution": 0.002548
+              },
+              {
+                "variable": "categoria:X",
+                "contribution": 0.002156
+              },
+              {
+                "variable": "concentracion_previa",
+                "contribution": -0.001764
+              },
+              {
+                "variable": "procesos_previos",
+                "contribution": -0.001372
+              }
+            ]
+          }
+        },
+        {
+          "raw_secop_id": 2,
+          "stage": "ADJUDICACION",
+          "result": {
+            "stage": "ADJUDICACION",
+            "model_version": "synthetic-memory-adjudicacion",
+            "values": {
+              "log_presupuesto": 6.90975328164481,
+              "plazo_dias": 1.0,
+              "duracion_dias": 1.0,
+              "procesos_previos": 1.0,
+              "concentracion_previa": 1.0,
+              "log_adjudicado": 6.90975328164481,
+              "oferentes": 1.0,
+              "reiteraciones_30d": 1.0,
+              "directas_90d": 1.0,
+              "categoria": "X",
+              "modalidad": "X",
+              "departamento": "X"
+            },
+            "provenance": {
+              "source_id": 1,
+              "source_row_id": "SYNTHETIC-1",
+              "process_id": "SYNTHETIC-1",
+              "lot_id": null,
+              "award_id": "AWARD1",
+              "source_url": null,
+              "snapshot_sha256": null
+            },
+            "feature_version": "secop-point-in-time-v3",
+            "prediction_at": "2020-01-01T00:00:00+00:00",
+            "references": {
+              "ocp": "https://www.open-contracting.org/resources/red-flags-in-public-procurement-a-guide-to-using-data-to-detect-and-mitigate-risks/",
+              "cri": "https://doi.org/10.1007/s10610-016-9308-z",
+              "colombia": "https://imco.org.mx/wp-content/uploads/2019/07/FEDESARROLLO_CPBD.pdf",
+              "pu": "https://arxiv.org/abs/2102.05523"
+            },
+            "observed": {},
+            "context": {},
+            "temporal_scope": "historical_stage_snapshot",
+            "stage_event_at": "2020-01-01T00:00:00+00:00",
+            "interpretation": "Prioridad relativa de revisi\u00f3n; no es probabilidad ni prueba de corrupci\u00f3n.",
+            "index": 40.0,
+            "coverage": 1.0,
+            "reasons": [],
+            "signals": [
+              {
+                "variable": "log_adjudicado",
+                "contribution": 0.01274143
+              },
+              {
+                "variable": "departamento:X",
+                "contribution": 0.004508
+              },
+              {
+                "variable": "modalidad:X",
+                "contribution": 0.004116
+              },
+              {
+                "variable": "categoria:X",
+                "contribution": 0.003724
+              },
+              {
+                "variable": "log_presupuesto",
+                "contribution": 0.00115831
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "rows": 100000,
+      "wall_seconds": 13.731069499976002,
+      "memory": {
+        "actual_pid": 21196,
+        "parent_pid": 8972,
+        "sys_executable": "C:\\PLATAFORMA-DE-DETECCION-TEMPRANA-DE-CORRUPCION-MEDIANTE-DATOS-ABIERTOS-PUBLICOS\\Backend\\.codex-analytics-postgres\\inference\\Scripts\\python.exe",
+        "actual_image": "C:\\Users\\Julianxxo\\AppData\\Local\\Programs\\Python\\Python313\\python.exe",
+        "python": "3.13.0 (tags/v3.13.0:60403a5, Oct  7 2024, 09:38:07) [MSC v.1941 64 bit (AMD64)]",
+        "synthetic_only": true,
+        "sklearn_installed": false,
+        "numpy_installed": false,
+        "state": "COMPLETE",
+        "elapsed_seconds": 11.773193200002424,
+        "peak_working_set_bytes": 20926464,
+        "working_set_bytes": 20910080,
+        "peak_pagefile_usage_bytes": 14110720,
+        "private_usage_bytes": 14110720
+      },
+      "input_bytes": 3438250,
+      "output_bytes": 5289409,
+      "output_sha256": "191678549f3082a36142e6e6635a0c06d373662437871ee5d417c18cd197bcd9",
+      "counts": {
+        "ADJUDICACION": 50000,
+        "CONVOCATORIA": 50000
+      },
+      "evaluated_counts": {
+        "ADJUDICACION": 50000,
+        "CONVOCATORIA": 50000
+      },
+      "sample": [
+        {
+          "raw_secop_id": 1,
+          "stage": "CONVOCATORIA",
+          "result": {
+            "stage": "CONVOCATORIA",
+            "model_version": "synthetic-memory-convocatoria",
+            "values": {
+              "log_presupuesto": 6.90875477931522,
+              "plazo_dias": 0.0,
+              "duracion_dias": 0.0,
+              "procesos_previos": 0.0,
+              "concentracion_previa": 0.0,
+              "categoria": "X",
+              "modalidad": "X",
+              "departamento": "X"
+            },
+            "provenance": {
+              "source_id": 1,
+              "source_row_id": "SYNTHETIC-0",
+              "process_id": "SYNTHETIC-0",
+              "lot_id": null,
+              "award_id": null,
+              "source_url": null,
+              "snapshot_sha256": null
+            },
+            "feature_version": "secop-point-in-time-v3",
+            "prediction_at": "2020-01-01T00:00:00+00:00",
+            "references": {
+              "ocp": "https://www.open-contracting.org/resources/red-flags-in-public-procurement-a-guide-to-using-data-to-detect-and-mitigate-risks/",
+              "cri": "https://doi.org/10.1007/s10610-016-9308-z",
+              "colombia": "https://imco.org.mx/wp-content/uploads/2019/07/FEDESARROLLO_CPBD.pdf",
+              "pu": "https://arxiv.org/abs/2102.05523"
+            },
+            "observed": {},
+            "context": {},
+            "temporal_scope": "historical_stage_snapshot",
+            "stage_event_at": "2020-01-01T00:00:00+00:00",
+            "interpretation": "Prioridad relativa de revisi\u00f3n; no es probabilidad ni prueba de corrupci\u00f3n.",
+            "index": 40.0,
+            "coverage": 1.0,
+            "reasons": [],
+            "signals": [
+              {
+                "variable": "departamento:X",
+                "contribution": 0.00294
+              },
+              {
+                "variable": "modalidad:X",
+                "contribution": 0.002548
+              },
+              {
+                "variable": "categoria:X",
+                "contribution": 0.002156
+              },
+              {
+                "variable": "concentracion_previa",
+                "contribution": -0.001764
+              },
+              {
+                "variable": "procesos_previos",
+                "contribution": -0.001372
+              }
+            ]
+          }
+        },
+        {
+          "raw_secop_id": 2,
+          "stage": "ADJUDICACION",
+          "result": {
+            "stage": "ADJUDICACION",
+            "model_version": "synthetic-memory-adjudicacion",
+            "values": {
+              "log_presupuesto": 6.90975328164481,
+              "plazo_dias": 1.0,
+              "duracion_dias": 1.0,
+              "procesos_previos": 1.0,
+              "concentracion_previa": 1.0,
+              "log_adjudicado": 6.90975328164481,
+              "oferentes": 1.0,
+              "reiteraciones_30d": 1.0,
+              "directas_90d": 1.0,
+              "categoria": "X",
+              "modalidad": "X",
+              "departamento": "X"
+            },
+            "provenance": {
+              "source_id": 1,
+              "source_row_id": "SYNTHETIC-1",
+              "process_id": "SYNTHETIC-1",
+              "lot_id": null,
+              "award_id": "AWARD1",
+              "source_url": null,
+              "snapshot_sha256": null
+            },
+            "feature_version": "secop-point-in-time-v3",
+            "prediction_at": "2020-01-01T00:00:00+00:00",
+            "references": {
+              "ocp": "https://www.open-contracting.org/resources/red-flags-in-public-procurement-a-guide-to-using-data-to-detect-and-mitigate-risks/",
+              "cri": "https://doi.org/10.1007/s10610-016-9308-z",
+              "colombia": "https://imco.org.mx/wp-content/uploads/2019/07/FEDESARROLLO_CPBD.pdf",
+              "pu": "https://arxiv.org/abs/2102.05523"
+            },
+            "observed": {},
+            "context": {},
+            "temporal_scope": "historical_stage_snapshot",
+            "stage_event_at": "2020-01-01T00:00:00+00:00",
+            "interpretation": "Prioridad relativa de revisi\u00f3n; no es probabilidad ni prueba de corrupci\u00f3n.",
+            "index": 40.0,
+            "coverage": 1.0,
+            "reasons": [],
+            "signals": [
+              {
+                "variable": "log_adjudicado",
+                "contribution": 0.01274143
+              },
+              {
+                "variable": "departamento:X",
+                "contribution": 0.004508
+              },
+              {
+                "variable": "modalidad:X",
+                "contribution": 0.004116
+              },
+              {
+                "variable": "categoria:X",
+                "contribution": 0.003724
+              },
+              {
+                "variable": "log_presupuesto",
+                "contribution": 0.00115831
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "code_sha256": {
+    "measure_actual_inference_20261019.py": "442e57ca78c51fb6d0638009a0e887fc7c69c601826bf6d04a36877b2942c9b7",
+    "inference_memory_child_20261019.py": "f12157aaacd4dbcd8dad82f9ed2b05a8e323ac095be0a97c1d4f55ec26502b15",
+    "process_runner.py": "cd76a2c930d1e6f0ba3082d76451a5f5bc121e76cf72ddd1e1462fee1bac239a",
+    "windows_job.py": "3eff06af4c2709e4e8be54902bf76cab21beef8624392a8992a9efd0521aff21"
+  },
+  "finished_at": "2026-10-19T17:02:06.461014+00:00",
+  "peak_rss_growth_bytes": 53248
+}

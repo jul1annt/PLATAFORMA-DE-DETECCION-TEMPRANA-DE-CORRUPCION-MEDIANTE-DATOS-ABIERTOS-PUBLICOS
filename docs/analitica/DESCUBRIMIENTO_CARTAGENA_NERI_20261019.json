@@ -1,0 +1,71 @@
+{
+  "created_at": "2026-10-19T22:41:17.167009+00:00",
+  "scope": "Pista documental no admitida y validación del catálogo de recolección. No acredita sentencia, firmeza ni identidad SECOP.",
+  "potential_case": {
+    "name": "Institución Educativa San Felipe Neri, Cartagena",
+    "discovery_url": "https://caracol.com.co/2024/06/19/condenado-exrector-de-la-ie-san-felipe-neri-en-cartagena-por-actos-de-corrupcion/",
+    "discovery_publication_date": "2024-06-19",
+    "reported_procurement_years_not_verified_from_judgment": [
+      2020,
+      2021
+    ],
+    "status": "PISTA_SIN_ORIGINAL_JUDICIAL",
+    "not_added_to_canonical_registry": true
+  },
+  "institutional_lookup": {
+    "receipt": "runs/20261019T223755950736Z.json",
+    "receipt_sha256": "be3549862f941c6f61642d1541dd51055b747a36f275db3a7675d8b294330655",
+    "sources": [
+      {
+        "source_id": "fiscalia-search-remberto-navas",
+        "requested_url": "https://www.fiscalia.gov.co/colombia/?s=Remberto+Navas",
+        "final_url": "https://www.fiscalia.gov.co/?s=Remberto+Navas",
+        "sha256": "508d9c7981ac5166ef4a3e9464bba35ec7cd07d1a52d7976b0fc2d4e3dba1173",
+        "bytes": 132553
+      },
+      {
+        "source_id": "fiscalia-index-690-current",
+        "requested_url": "https://www.fiscalia.gov.co/colombia/inicio/mas-noticias/page/690/",
+        "final_url": "https://www.fiscalia.gov.co/inicio/mas-noticias/page/690/",
+        "sha256": "561ad61784c4cb9d7fc3a8f596509daf06320b181f992907a0e02110de81a216",
+        "bytes": 149049
+      }
+    ],
+    "search_result": "La búsqueda institucional actual no devuelve coincidencias.",
+    "index_limitation": "El resultado indexado por el buscador y el contenido actual de la página paginada no identifican el mismo artículo. No se trata el resumen del buscador como comunicado original adquirido.",
+    "not_a_global_absence_finding": true
+  },
+  "browser_access_after_explicit_chat_authorization": [
+    {
+      "origin": "https://consultaprocesos.ramajudicial.gov.co",
+      "result": "BLOCKED_SAVED_PERMISSION_OR_MANAGED_POLICY"
+    },
+    {
+      "origin": "https://consultaprovidencias.cortesuprema.gov.co",
+      "result": "BLOCKED_SAVED_PERMISSION_OR_MANAGED_POLICY"
+    },
+    {
+      "origin": "https://community.secop.gov.co",
+      "result": "DENIED_ORIGIN_PERMISSION"
+    }
+  ],
+  "permission_change_requested_from_user": true,
+  "blocked_origins_accessed_via_workaround": false,
+  "collector_correction": {
+    "problem_observed": "Un catálogo con kind ausente produjo KeyError después de guardar el primer cuerpo y su entrada de ledger, antes del recibo de la ejecución.",
+    "fix": "Validar estructura, campos obligatorios, URLs y duplicados de toda la selección antes de crear directorios, consultar la caché o descargar fuentes.",
+    "acquire_py_sha256": "c4703030f2147aac1e9b2c936820129988a4e3e6ee384f405fec706d66ad87be",
+    "test_acquire_py_sha256": "02c1c7cac8a0f9e3581fa63460f3d51b3b8297b7768ec8bd6353465ac4ce09ca",
+    "tests": 39,
+    "test_runner": "unittest corpus_tools.test_acquire corpus_tools.test_history corpus_tools.test_storage -v",
+    "test_log_sha256": "c8acffefd550cea21534d345670bc54afe8284b87dc607a1fdb24bac9f8360cf",
+    "test_network_requests": 0
+  },
+  "canonical_registry_unchanged_sha256": "c1f3693b314857eed4bac388ea41671ef514b1e23783f77c6269ac7b19ba551a",
+  "candidates": 14,
+  "eligible_cases": 0,
+  "labels_created": 0,
+  "database_accessed": false,
+  "models_trained": false,
+  "publication_changed": false
+}

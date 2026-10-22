@@ -1,0 +1,242 @@
+{
+  "policy": "legacy-normalization-lab-v1",
+  "scope": {
+    "date_bogota": "2026-10-19",
+    "database_oid": 24577,
+    "frame": "Todos los resultados de proveedor de una ejecución de riesgo, no todo SECOP",
+    "census": true,
+    "expected_rows": 31731,
+    "read_only": true,
+    "run": {
+      "run_id": "154b21cd-89dd-47b1-a45e-ec48dd8d9f86",
+      "estado": "EXITOSO",
+      "total_resultados": 31731,
+      "fecha_inicio": "2026-10-02 12:27:38.998152-05:00",
+      "fecha_fin": "2026-10-03 00:20:35.709659-05:00",
+      "parametros": {
+        "pesos": {
+          "OUTLIER": 1.0,
+          "ABUSO_DIRECTO": 2.0,
+          "DUPLICADO_CORTO": 1.5
+        },
+        "run_ids_componentes": {
+          "outliers": "4e677b91-c0df-4a20-8f3a-b114b5beb382",
+          "duplicados": "4ce36d30-b387-4f29-b4de-f068a2e3d296",
+          "adjudicacion_directa": "8c98b9d6-37fb-403c-805d-4cbf6f95ddd8"
+        }
+      },
+      "universo": {
+        "modalidad": null,
+        "fecha_campo": "fecha_publicacion_normalizada",
+        "fecha_desde": null,
+        "fecha_hasta": null
+      },
+      "firma_universo": {
+        "id_maximo": 9249545,
+        "total_contratos": 9249545,
+        "ultimo_procesado_en": "2026-10-02T07:53:24.005641-05:00"
+      }
+    }
+  },
+  "rows": 31731,
+  "reference_sha256": "9ece481b9cdfe034d98cf754622e80f459ade357164f7139d46a51bb9b890d9d",
+  "variants": {
+    "LEGADO": {
+      "score_summary": {
+        "min": "0.00",
+        "median": "0.00",
+        "p95_nearest_order": "25.54260",
+        "max": "10705640611.65620",
+        "distinct_scores": 8047,
+        "zero_rows": 15884
+      },
+      "component_contribution_share": {
+        "OUTLIER": 0.9999879330936635,
+        "DUPLICADO_CORTO": 1.2014319839550263e-05,
+        "ABUSO_DIRECTO": 5.2586496896969256e-08
+      },
+      "top_overlap_with_legacy": {
+        "0.01": 1.0,
+        "0.05": 1.0,
+        "0.10": 1.0
+      },
+      "spearman_with_legacy": 1.0
+    },
+    "ESCALA_ORIGINAL_PESOS_IGUALES": {
+      "score_summary": {
+        "min": "0.0",
+        "median": "0.0",
+        "p95_nearest_order": "21.2711",
+        "max": "10705640610.3212",
+        "distinct_scores": 8036,
+        "zero_rows": 15884
+      },
+      "component_contribution_share": {
+        "OUTLIER": 0.9999919641277987,
+        "DUPLICADO_CORTO": 8.00957884684537e-06,
+        "ABUSO_DIRECTO": 2.6293354438745623e-08
+      },
+      "top_overlap_with_legacy": {
+        "0.01": 0.9958715451766411,
+        "0.05": 0.9565094072043112,
+        "0.10": 0.9439034382780247
+      },
+      "spearman_with_legacy": 0.9969108990696011
+    },
+    "ACOTADO_PESOS_LEGADOS": {
+      "score_summary": {
+        "min": "0.00",
+        "median": "0.00",
+        "p95_nearest_order": "2.351862824975927709058588253",
+        "max": "4.490717241609778828998594590",
+        "distinct_scores": 8060,
+        "zero_rows": 15884
+      },
+      "component_contribution_share": {
+        "OUTLIER": 0.28390547125563065,
+        "DUPLICADO_CORTO": 0.712973852933701,
+        "ABUSO_DIRECTO": 0.0031206758106684268
+      },
+      "top_overlap_with_legacy": {
+        "0.01": 0.7163656991585515,
+        "0.05": 0.7207777882827519,
+        "0.10": 0.806813526204658
+      },
+      "spearman_with_legacy": 0.9860751275134619
+    },
+    "ACOTADO_PESOS_IGUALES": {
+      "score_summary": {
+        "min": "0.0",
+        "median": "0.0",
+        "p95_nearest_order": "1.852051308606175378378778240",
+        "max": "2.990717241609778828998594590",
+        "distinct_scores": 8056,
+        "zero_rows": 15884
+      },
+      "component_contribution_share": {
+        "OUTLIER": 0.3731759939902874,
+        "DUPLICADO_CORTO": 0.6247730393756123,
+        "ABUSO_DIRECTO": 0.0020509666341002922
+      },
+      "top_overlap_with_legacy": {
+        "0.01": 0.7163656991585515,
+        "0.05": 0.7220383851753805,
+        "0.10": 0.8137468091141156
+      },
+      "spearman_with_legacy": 0.9872841505337013,
+      "top5_weight_sensitivity": [
+        {
+          "component": "OUTLIER",
+          "factor": "0.8",
+          "overlap": 0.9949576124294853
+        },
+        {
+          "component": "OUTLIER",
+          "factor": "1.2",
+          "overlap": 0.9899152248589708
+        },
+        {
+          "component": "DUPLICADO_CORTO",
+          "factor": "0.8",
+          "overlap": 0.9936970155368567
+        },
+        {
+          "component": "DUPLICADO_CORTO",
+          "factor": "1.2",
+          "overlap": 0.9949576124294853
+        },
+        {
+          "component": "ABUSO_DIRECTO",
+          "factor": "0.8",
+          "overlap": 0.9886546279663421
+        },
+        {
+          "component": "ABUSO_DIRECTO",
+          "factor": "1.2",
+          "overlap": 0.9949576124294853
+        }
+      ]
+    },
+    "ECDF_PESOS_IGUALES": {
+      "score_summary": {
+        "min": "0",
+        "median": "0",
+        "p95_nearest_order": "1.761006586618763984746777599",
+        "max": "2.843843559925624783334909080",
+        "distinct_scores": 8028,
+        "zero_rows": 15884
+      },
+      "component_contribution_share": {
+        "OUTLIER": 0.46905241000845255,
+        "DUPLICADO_CORTO": 0.5282567785723289,
+        "ABUSO_DIRECTO": 0.002690811419218628
+      },
+      "top_overlap_with_legacy": {
+        "0.01": 0.7163656991585515,
+        "0.05": 0.7031294317859507,
+        "0.10": 0.7898269830764867
+      },
+      "spearman_with_legacy": 0.9762177592339943,
+      "top5_weight_sensitivity": [
+        {
+          "component": "OUTLIER",
+          "factor": "0.8",
+          "overlap": 0.9955879108757997
+        },
+        {
+          "component": "OUTLIER",
+          "factor": "1.2",
+          "overlap": 0.9886546279663421
+        },
+        {
+          "component": "DUPLICADO_CORTO",
+          "factor": "0.8",
+          "overlap": 1.0
+        },
+        {
+          "component": "DUPLICADO_CORTO",
+          "factor": "1.2",
+          "overlap": 0.9993697015536857
+        },
+        {
+          "component": "ABUSO_DIRECTO",
+          "factor": "0.8",
+          "overlap": 0.9880243295200277
+        },
+        {
+          "component": "ABUSO_DIRECTO",
+          "factor": "1.2",
+          "overlap": 0.9955879108757997
+        }
+      ]
+    }
+  },
+  "component_spearman": {
+    "OUTLIER:DUPLICADO_CORTO": 0.2517246152409732,
+    "OUTLIER:ABUSO_DIRECTO": 0.012266694837083468,
+    "DUPLICADO_CORTO:ABUSO_DIRECTO": 0.047768127412141266
+  },
+  "bounded_formulas": {
+    "OUTLIER": "s/(1+s)",
+    "DUPLICADO_CORTO": "s/10",
+    "ABUSO_DIRECTO": "s/10"
+  },
+  "ecdf_formula": "Cero permanece cero; positivos: (cantidad menor + 0.5*cantidad igual)/n de referencia congelada.",
+  "ranking": "Masa fraccionaria en empates; coincidencia=sum(min(inclusion_a,inclusion_b))/(n*fraccion).",
+  "limitations": [
+    "Censo de resultados legados por proveedor de una ejecución; no universo completo de contratos.",
+    "Los ceros históricos no acreditan ausencia de riesgo ni cobertura de los indicadores.",
+    "Estos componentes no equivalen a las familias corregidas por operación y etapa.",
+    "Referencia congelada del corte para descripción; no disponible retrospectivamente en convocatoria.",
+    "Estabilidad y correlación no demuestran precisión, causalidad ni calibración judicial.",
+    "No se selecciona una alternativa por su coincidencia con el legado."
+  ],
+  "database_accessed": false,
+  "training_performed": false,
+  "publication_authorized": false,
+  "input_sha256": "9c3c91707619762b2633eeee1674c2c23c3d9cba1e8baba35c8098672aef290b",
+  "implementation_sha256": {
+    "scripts/risk_normalization_lab.py": "aca0c54a39d68095fbb1a1e6d1ec4839a805ed832c56ac7332a1e92fd84f3d6f",
+    "modules/motor_riesgo/weight_lab.py": "3cdebf9e90f8229bae60cdab94d872470527663d00640c0b063bf07bde0a9d0e"
+  }
+}

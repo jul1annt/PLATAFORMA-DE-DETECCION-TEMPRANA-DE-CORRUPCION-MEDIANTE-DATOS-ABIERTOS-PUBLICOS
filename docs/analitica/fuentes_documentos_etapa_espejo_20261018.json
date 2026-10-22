@@ -1,0 +1,7 @@
+{
+  "scope": "Comprobación del portal histórico público de ANI observado en búsqueda: mismos caminos documentales; son candidatos derivados y no evidencia hasta comprobar los cuerpos",
+  "sources": [
+    {"id":"ani-old-ruta-sol-pliegos","kind":"DOCUMENTO_ETAPA_PENDIENTE","url":"https://wwwold.ani.gov.co/sites/default/files/hiring/29336/2577/pliegos_de_condiciones_definitivos.pdf"},
+    {"id":"ani-old-ruta-sol-contrato001","kind":"DOCUMENTO_ETAPA_PENDIENTE","url":"https://wwwold.ani.gov.co/sites/default/files/hiring/29336/2577/contrato_de_concesion_no_001_del_14_de_enero_de_2010.pdf"}
+  ]
+}

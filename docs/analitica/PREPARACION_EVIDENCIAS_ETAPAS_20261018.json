@@ -1,0 +1,131 @@
+{
+  "date_bogota": "2026-10-18",
+  "case_id": "csj-sp1919-2025-58953",
+  "state": "DOCUMENTOS_RECUPERADOS_OBSERVACIONES_NO_ADMITIDAS",
+  "collector_sha256": "400ce40385afb12641313df7d13a737c0f08e349fa3b4e45fd3d05cac6a9ce54",
+  "acquisition_reports": [
+    "runs/20261019T045334687973Z.json",
+    "runs/20261019T045411933963Z.json",
+    "var\\risk\\judicial-discovery\\runs\\20261019T045621538107Z.json"
+  ],
+  "documents": [
+    {
+      "source_id": "ani-old-ruta-sol-pliegos",
+      "url": "https://wwwold.ani.gov.co/sites/default/files/hiring/29336/2577/pliegos_de_condiciones_definitivos.pdf",
+      "sha256": "7e3aa58384f34d7c03f411e0290c76116accc3eff29eed6a8fb9b60ceed79d96",
+      "bytes": 338604,
+      "pages": 106,
+      "physical_pages_visually_reviewed": [
+        1,
+        27,
+        28
+      ]
+    },
+    {
+      "source_id": "ani-old-ruta-sol-contrato001",
+      "url": "https://wwwold.ani.gov.co/sites/default/files/hiring/29336/2577/contrato_de_concesion_no_001_del_14_de_enero_de_2010.pdf",
+      "sha256": "1804355857e1eca1f3695b80506f74c8aa0d5f900a56b40b55613cfab28ce8f2",
+      "bytes": 1299292,
+      "pages": 121,
+      "physical_pages_visually_reviewed": [
+        6,
+        63,
+        121
+      ]
+    }
+  ],
+  "observed_document_facts": {
+    "pliego": {
+      "displayed_process": "SEA-LP-001-2009",
+      "cover_date_granularity": "MONTH",
+      "cover_month": "2009-03",
+      "pdf_creation_metadata": "D:20090327185313",
+      "metadata_not_publication_proof": true,
+      "physical_page_27": {
+        "call_notice_publication": "2009-03-09",
+        "draft_terms_publication": "2009-03-09",
+        "tender_opening": "2009-03-27"
+      },
+      "physical_page_28": {
+        "planned_closing_in_this_document": "2009-08-27",
+        "planned_closing_time_local_as_written": "15:00"
+      },
+      "actual_later_closing_referred_in_contract": "2009-10-27",
+      "amendment_chain_not_obtained": true
+    },
+    "contract_copy": {
+      "displayed_contract": "001 del 14 de enero de 2010",
+      "sector": "2",
+      "physical_page_6": {
+        "award_resolution": "641 del 15 de diciembre de 2009",
+        "successful_bidder": "Estructura Plural Promesa de Sociedad Futura Concesionario Ruta del Sol S.A.S.",
+        "contracting_party": "Concesionaria Ruta del Sol S.A.S."
+      },
+      "physical_page_63": {
+        "value_as_written": "2094286000000",
+        "currency": "COP",
+        "price_basis_date": "2008-12-31",
+        "measure": "VPIT",
+        "meaning": "Valor presente de ingresos totales, valor de la propuesta según el texto"
+      },
+      "physical_page_121": {
+        "signature_date_as_written": "2010-01-14",
+        "handwritten_or_electronic_signatures_visible": false
+      },
+      "pdf_creation_metadata": "D:20130430144534-05'00'",
+      "pdf_modification_metadata": "D:20130430144534-05'00'",
+      "copy_provenance_and_version_require_review": true
+    }
+  },
+  "stage_readiness": {
+    "CONVOCATORIA": {
+      "candidate_landmark_date": "2009-03-09",
+      "complete_event_timestamp_not_verified": true,
+      "accepted_observations": 0,
+      "reasons": [
+        "El pliego definitivo no es el proyecto de pliego publicado el 09/03/2009.",
+        "No se retrofecha este PDF a la fecha del aviso inicial.",
+        "Faltan el proyecto inicial, disponibilidad documental exacta, categoría comprobada y correspondencia inequívoca de la unidad de convocatoria.",
+        "Las modificaciones posteriores del cierre no se trasladan al estado inicial."
+      ]
+    },
+    "ADJUDICACION": {
+      "candidate_landmark_date": "2009-12-15",
+      "complete_event_timestamp_not_verified": true,
+      "accepted_observations": 0,
+      "reasons": [
+        "El contrato de 14/01/2010 es posterior a la adjudicación y no reemplaza el acta o resolución original del 15/12/2009.",
+        "La copia PDF fue generada en 2013 y no exhibe firmas gráficas; esto no prueba alteración, pero exige revisar versión y procedencia.",
+        "Falta el ID oficial de adjudicación y la identidad de fila de la fuente del conjunto futuro de entrenamiento.",
+        "No se trata VPIT constante de 2008 como precio nominal simple ni como presupuesto global del proceso."
+      ]
+    }
+  },
+  "source_access": {
+    "current_portal_pdf_http_404": 3,
+    "current_process_html_preserved": true,
+    "historical_portal_pdf_successes": 2,
+    "historical_documents_cache_verified_without_network": 2,
+    "unrelated_cached_pliego": "file_doc_procesos16310.pdf: portada de licitación SEA-LP-001-2010, sector 3; no adquirido en la copia local, no se utiliza para variables del proceso 2009.",
+    "additional_dataset_x6v4_i8gf_provenance": "community",
+    "additional_dataset_not_used_as_official_evidence": true
+  },
+  "corpus_tool_tests": {
+    "created_at": "2026-10-19T04:56:21.667090+00:00",
+    "tests_run": 28,
+    "failures": 0,
+    "errors": 0,
+    "success": true,
+    "collector_sha256": "400ce40385afb12641313df7d13a737c0f08e349fa3b4e45fd3d05cac6a9ce54",
+    "cache_report": "var\\risk\\judicial-discovery\\runs\\20261019T045621538107Z.json",
+    "verified_document_cache_reused_without_network": 2,
+    "database_accessed": false,
+    "api_or_ml_dependencies_changed": false
+  },
+  "api_or_predictive_code_changed": false,
+  "api_or_ml_dependencies_changed": false,
+  "judicial_labels_created": 0,
+  "historical_observations_registered": 0,
+  "database_modified": false,
+  "publication_activated": false
+}

@@ -18,7 +18,16 @@ export const QualityScoreCard: React.FC<QualityScoreCardProps> = ({ metricas }) 
         <div>
           <p className="text-sm text-slate-500 font-medium">Total Procesados</p>
           <h3 className="text-2xl font-bold text-slate-900">{metricas.total_contratos.toLocaleString()}</h3>
-          <p className="text-xs text-slate-400 mt-1">Confianza Promedio: {metricas.promedio_confianza.toFixed(1)}%</p>
+          <p className="text-xs text-slate-400 mt-1">
+            Confianza Promedio: {metricas.promedio_confianza === null ? 'Sin datos' : `${metricas.promedio_confianza.toFixed(1)}%`}
+            {' · '}
+            {{
+              SIN_DATOS: 'Sin datos para evaluar',
+              EXCELENTE: 'Excelente',
+              ACEPTABLE: 'Aceptable',
+              BAJA: 'Baja',
+            }[metricas.calificacion_confianza]}
+          </p>
         </div>
       </Card>
 
@@ -30,7 +39,7 @@ export const QualityScoreCard: React.FC<QualityScoreCardProps> = ({ metricas }) 
         <div>
           <p className="text-sm text-slate-500 font-medium">Registros Completos</p>
           <h3 className="text-2xl font-bold text-slate-900">{metricas.completos.toLocaleString()}</h3>
-          <p className="text-xs text-emerald-600 font-medium mt-1">{metricas.porcentaje_completos.toFixed(1)}% del total</p>
+          <p className="text-xs text-emerald-600 font-medium mt-1">{metricas.porcentaje_completos === null ? 'Sin datos' : `${metricas.porcentaje_completos.toFixed(1)}% del total`}</p>
         </div>
       </Card>
 
@@ -42,7 +51,7 @@ export const QualityScoreCard: React.FC<QualityScoreCardProps> = ({ metricas }) 
         <div>
           <p className="text-sm text-slate-500 font-medium">Registros Incompletos</p>
           <h3 className="text-2xl font-bold text-slate-900">{metricas.incompletos.toLocaleString()}</h3>
-          <p className="text-xs text-amber-600 font-medium mt-1">{metricas.porcentaje_incompletos.toFixed(1)}% del total</p>
+          <p className="text-xs text-amber-600 font-medium mt-1">{metricas.porcentaje_incompletos === null ? 'Sin datos' : `${metricas.porcentaje_incompletos.toFixed(1)}% del total`}</p>
         </div>
       </Card>
 
@@ -54,7 +63,7 @@ export const QualityScoreCard: React.FC<QualityScoreCardProps> = ({ metricas }) 
         <div>
           <p className="text-sm text-slate-500 font-medium">Valores Sospechosos</p>
           <h3 className="text-2xl font-bold text-slate-900">{metricas.sospechosos.toLocaleString()}</h3>
-          <p className="text-xs text-red-600 font-medium mt-1">{metricas.porcentaje_sospechosos.toFixed(1)}% del total</p>
+          <p className="text-xs text-red-600 font-medium mt-1">{metricas.porcentaje_sospechosos === null ? 'Sin datos' : `${metricas.porcentaje_sospechosos.toFixed(1)}% del total`}</p>
         </div>
       </Card>
     </div>

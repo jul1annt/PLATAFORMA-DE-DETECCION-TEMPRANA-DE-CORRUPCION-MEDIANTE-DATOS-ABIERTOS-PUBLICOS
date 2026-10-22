@@ -1,0 +1,50 @@
+{
+  "checked_at_utc": "2026-10-03T18:32:43Z",
+  "manifest_stage": "historical_restore_verified",
+  "source_database": "plataforma_secop_refresh_20261001_test",
+  "restored_database": "plataforma_secop_refresh_20261001_restore_final",
+  "dump": {
+    "file": "Backend/.codex-e2e-postgres/secop_20261001_final.dump",
+    "bytes": 3434770306,
+    "sha256": "C0E885928126013D87C234320392D18E5D4D441C9E1D520B97557E447D8BE02F",
+    "independent_hash_match": true,
+    "pg_restore_list_exit_code": 0,
+    "archive_entries": 196
+  },
+  "restored_counts": {
+    "raw_secop": 9249545,
+    "contratos_procesados": 9249545,
+    "contrato_anomalo_incompleto": 129062,
+    "analitica_ejecuciones": 4
+  },
+  "alembic_revision": "d2804c8b39a1",
+  "valid_contract_indexes": 18,
+  "four_analytics_successful": true,
+  "original_operational_database": {
+    "database": "plataformaanticorrupcion",
+    "raw_secop": 18980,
+    "contratos_procesados": 18980
+  },
+  "clone_wal_settings_restored": {
+    "max_wal_size": "1GB",
+    "checkpoint_timeout": "5min"
+  },
+  "official_source_at_check": {
+    "rows": 9264013,
+    "min_updated_at": "2026-10-02T22:32:17.773Z",
+    "max_updated_at": "2026-10-02T22:32:17.773Z",
+    "sample_checked": 12,
+    "sample_missing_from_current": 12
+  },
+  "promotable_as_current": false,
+  "plan_item_p14_closed": false,
+  "redundant_restore_cleanup": {
+    "checked_at_utc": "2026-10-03T18:37:52Z",
+    "restore_database_removed_after_verification": true,
+    "source_database_preserved": true,
+    "verified_dump_preserved": true,
+    "active_restore_sessions_before": 0,
+    "free_gib_before_approx": 102.25,
+    "free_gib_after_approx": 123.16
+  }
+}

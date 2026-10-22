@@ -1,0 +1,158 @@
+{
+  "canonical_preflight": {
+    "stage": "verified_readonly_canonical_preflight_candidate_inactive",
+    "completed_at_utc": "2026-10-12T09:21:02.470588+00:00",
+    "scope": "Bounded read-only canonical preflight and ten temporary prepared sessions; no application startup",
+    "connection_capacity_sample": {
+      "max_connections": 100,
+      "superuser_reserved": 3,
+      "client_connections_observed": 14,
+      "unreserved_slots_remaining": 83,
+      "role_connection_limit": -1,
+      "database_connection_limit": -1,
+      "capacity_for_api_ten_and_worker_up_to_ten": true,
+      "scope": "Single sample; recheck after stopping old application and before activation"
+    },
+    "migration_preconditions": {
+      "valid_ready_indices": 21,
+      "old_cover_exact_definition": true,
+      "retained_compact_replacement_exact_definition": true,
+      "date_id_index_absent": true,
+      "quality_summary_absent": true,
+      "ordinary_role_schema_create": true
+    },
+    "writer_locks_observed": 0,
+    "uninspectable_other_database_sessions": 0,
+    "writer_observation_scope": "Single instant, not proof of frozen writes; DBA must inspect opaque sessions before deployment",
+    "native_prepared_pool": {
+      "connections": 10,
+      "seconds": 0.1443981999764219,
+      "checked_in": 10,
+      "checked_out": 0,
+      "overflow": 0,
+      "target": "Canonical published database, existing f4826b9d1c30 schema",
+      "read_only": true,
+      "temporary_pool_only": true
+    },
+    "control_unchanged_during_probe": true,
+    "current_control_matches_prepared_checkpoint": true,
+    "active_bindings_unchanged": true,
+    "http_checks": [
+      {
+        "url": "http://127.0.0.1:8000/openapi.json",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:4173/index.html",
+        "status": 200
+      }
+    ],
+    "temporary_pool_disposed": true,
+    "prepared_files_verified": 6,
+    "backup_files_verified": 2,
+    "package_files_verified": 200,
+    "settings_validated": true,
+    "free_disk_bytes": 82876297216,
+    "database_rows_written": 0,
+    "migrations_applied": 0,
+    "candidate_activated": false,
+    "checkpoint_refresh_required_after_freezing": true
+  },
+  "previous_application_read_compatibility": {
+    "stage": "verified_readonly_previous_application_compatibility",
+    "completed_at_utc": "2026-10-12T09:23:41.583530+00:00",
+    "previous_ref": "915e863cc7492e619888506f59a04c6dbbfa5552",
+    "target_schema": "3c19a8f7e2d0",
+    "database_oid": 75045,
+    "verified_previous_package_files": 186,
+    "archive_sha256": "4f1dca9ef69dc33c8fc0ab40cbe07b306f434a0032ecb87d6a2733866c115114",
+    "application_sql_transactions_forced_read_only": true,
+    "checks": [
+      {
+        "round": 1,
+        "route": "search_2024",
+        "status": 200,
+        "seconds": 1.2001708999741822,
+        "candidate_reference_equal": false,
+        "response_shape_or_reference_verified": true
+      },
+      {
+        "round": 1,
+        "route": "empty_2099",
+        "status": 200,
+        "seconds": 0.016398900072090328,
+        "candidate_reference_equal": true,
+        "response_shape_or_reference_verified": true
+      },
+      {
+        "round": 1,
+        "route": "quality",
+        "status": 200,
+        "seconds": 1.2371074000839144,
+        "candidate_reference_equal": true,
+        "response_shape_or_reference_verified": true
+      },
+      {
+        "round": 1,
+        "route": "providers",
+        "status": 200,
+        "seconds": 0.12256990000605583,
+        "candidate_reference_equal": true,
+        "response_shape_or_reference_verified": true
+      },
+      {
+        "round": 2,
+        "route": "search_2024",
+        "status": 200,
+        "seconds": 0.08129760005977005,
+        "candidate_reference_equal": false,
+        "response_shape_or_reference_verified": true
+      },
+      {
+        "round": 2,
+        "route": "empty_2099",
+        "status": 200,
+        "seconds": 0.004807500052265823,
+        "candidate_reference_equal": true,
+        "response_shape_or_reference_verified": true
+      },
+      {
+        "round": 2,
+        "route": "quality",
+        "status": 200,
+        "seconds": 0.4025772000895813,
+        "candidate_reference_equal": true,
+        "response_shape_or_reference_verified": true
+      },
+      {
+        "round": 2,
+        "route": "providers",
+        "status": 200,
+        "seconds": 0.14101479994133115,
+        "candidate_reference_equal": true,
+        "response_shape_or_reference_verified": true
+      }
+    ],
+    "scope": "Previous application HTTP reads on retained full-cut test copy; no dedicated worker or authentication/export mutation trial",
+    "api_terminal": true,
+    "full_cut_snapshot_unchanged": true,
+    "database_rows_written": 0,
+    "migrations_applied": 0,
+    "canonical_bindings_changed": false,
+    "rollback_on_published_destination_performed": false
+  },
+  "private_report_sha256": {
+    "canonical": "ecd4a5de36a04c2ce5a859a1a4b2ed7c12650dd4fc95b200cfcfa08775f56169",
+    "previous_application": "098cbb49374677d35714106ef44dc16b1c457784e50259b7fc8cb14d591ff5df"
+  },
+  "checklist": {
+    "complete": 95,
+    "open": 6,
+    "activation_performed": false
+  },
+  "limits": [
+    "Canonical locks and capacity are point-in-time samples, not proof of frozen writes.",
+    "Prior application search pages lack the candidate ID tiebreaker; only total and page size were checked there.",
+    "No dedicated worker, authentication/export mutation, concurrent load or published rollback was executed in this compatibility check."
+  ]
+}

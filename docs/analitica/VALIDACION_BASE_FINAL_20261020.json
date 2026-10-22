@@ -1,0 +1,163 @@
+{
+  "date_bogota": "2026-10-20",
+  "status": "DEVELOPMENT_FOUNDATION_ACCEPTED_PREDICTIVE_MODELS_PENDING",
+  "scope": "Local engineering foundation and descriptive weights assessment for subsequent development",
+  "full_predictive_plan_complete": false,
+  "backend_suite": {
+    "tests": 1057,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "run_id": "f2b2213e296943f593e3fd1706cafee1",
+    "seconds": 108.636,
+    "junit_sha256": "127a2ac1c9ecdbd5eecb44bf025f462d0f70b45e99b0bc8696f98b71c797efbd"
+  },
+  "frontend": {
+    "tests": 11,
+    "failures": 0,
+    "skipped": 0,
+    "test_command": "node --test",
+    "typescript_build_exit": 0,
+    "vite_build_exit": 0,
+    "build_output_sha256": "7f93820afedc155c223240bc72140f289bda74fb0fe4cf077a0c2fafcab026f6",
+    "deployed": false
+  },
+  "current_code_sha256": {
+    "Backend/analytics_ml/__init__.py": "cee41b7518203f4a7b707e3728664a6556fc82ddea940a46f93d79e58986635c",
+    "Backend/analytics_ml/approval.py": "7c07d2c1245acfb14db22c4096abd81204896bbe36dab9a63831f3f85df5e177",
+    "Backend/analytics_ml/cli.py": "aacc7fa802accc5d83ee25c27dfd633cfbd8d530ae5172a861f3f3df4562fc15",
+    "Backend/analytics_ml/corpus.py": "914e9baee9304a43f51b3073a78c7a1c917366afc36d3f77c1d00c7ee62f9010",
+    "Backend/analytics_ml/evaluation.py": "ba631ca50117ed69d60feba5dcc6de88afaf3635502c35cc3d8cc502e5ef8fdf",
+    "Backend/analytics_ml/evidence.py": "02844b38e2f7f77ab8dc9c4abe259db16f07b0ed5d561600ea211709b829458a",
+    "Backend/analytics_ml/inference.py": "f72a6e8882e7b360ab020b0920d2ce889d25b9cf2c6310111ea638aa805b58c7",
+    "Backend/analytics_ml/requirements-inference.lock": "13446d45575a078cd1411456231381dae10ea459baddc189dd4a3e1c15ffcb30",
+    "Backend/analytics_ml/requirements-training.lock": "1700f4a596deecf0a52c37338fa691e421e636207bb1a9f008ed289c5ed6da3e",
+    "Backend/analytics_ml/runtime.py": "e77249a49b686b9fb808b2feee856641f27843c0e2bf4ebbfe7f1d81a1319ff3",
+    "Backend/analytics_ml/streams.py": "b7b786d0a415c05e2fcc9ba245b84601614e09cf39d3fd3d2c01dd900d0991d8",
+    "Backend/analytics_ml/training.py": "54467cf6bfd1506ad84c3a378427bded37c002da6480293108edb823c0263536",
+    "Backend/modules/motor_riesgo/__init__.py": "5f125ab57cce9564d9effc9fbc90d84ea20dfc290e3559ef5ccefb464d140ba8",
+    "Backend/modules/motor_riesgo/annual_context.py": "397288719e03a7abf870711e790e2c664d7125d11e50304bfb9013b88e3e2a69",
+    "Backend/modules/motor_riesgo/annual_materialize.py": "d2d4bdc69d39c3bae8be58284a3355e025a7d8674368da43a9d59816e675c0b0",
+    "Backend/modules/motor_riesgo/baseline_coverage.py": "3bcd8a116dc56cf3f7d5cf9168c5a782b0f657a957fb5d8850125955acf684bb",
+    "Backend/modules/motor_riesgo/catalog.py": "dd33e3f5b0f892708b10e233e4ebb7f7878b4ac46d8bfcc0b29d7f3bd52126b2",
+    "Backend/modules/motor_riesgo/competition_context.py": "94f325cff089577d18177c6fef87e37e60e71e219daede5b84b5349cbae60964",
+    "Backend/modules/motor_riesgo/contract_strata.py": "cf61b1f0730d4d10151e1e3f11c385da91cd82a8fc8354125967271cc11b8764",
+    "Backend/modules/motor_riesgo/controller.py": "372e10980ef9cf4a674577217e818ef8ccb2d6bba3dcdaee46a60cf070e0a565",
+    "Backend/modules/motor_riesgo/cut_rules.py": "b9bb04fa609164ca321089f70496c0edf5ada1db084888f52a1e0316b7f08a94",
+    "Backend/modules/motor_riesgo/domain.py": "48d8fe00d07572047f57460ea05aace1f30c464b919073b80075afbbe7a430dd",
+    "Backend/modules/motor_riesgo/feature_builder.py": "a447702f9c21db2166e2c7f4a27fccaf580cb80b2fe76dc4944ca676ade82526",
+    "Backend/modules/motor_riesgo/feature_store.py": "7a029bc17092b7313aec9dcd8358e4d03fe9558c31aed94bd359579a3509d395",
+    "Backend/modules/motor_riesgo/history.py": "8c9cd712aed763957228f0b3a4cea1ec23bd8e06d988922a1422b06a2103dd5d",
+    "Backend/modules/motor_riesgo/inference_artifact.py": "999939eee3e6b8712cbee8e94c821557a84708aa357731016e23c808ce0bbc34",
+    "Backend/modules/motor_riesgo/joint_baseline.py": "32b447d8356b719bf03fcc44aa483178e391cded8ffe41ebcf80299dc5de7738",
+    "Backend/modules/motor_riesgo/materialize.py": "64d154a8e1f0de36896b4ff423d316bfd4d177dc48093be20923b25b7d4b7e44",
+    "Backend/modules/motor_riesgo/method_reference.py": "4adaa7c20eb5078b21a6c5160e7a1d124fe02b283d31a2a98b87d9a57b008769",
+    "Backend/modules/motor_riesgo/models.py": "5ec938d1e64de6900803dcec89dcb047f1dc65be95e0436cb306782e1a742305",
+    "Backend/modules/motor_riesgo/pipeline.py": "6f5cffc303f4114dfc33ae8a069c7014f58a34d9e7d660ba7b933f187877dd95",
+    "Backend/modules/motor_riesgo/process_runner.py": "cd76a2c930d1e6f0ba3082d76451a5f5bc121e76cf72ddd1e1462fee1bac239a",
+    "Backend/modules/motor_riesgo/public_aggregates.py": "5bd22ec9ef2dab4c708ed1d5fbcc094d965eb49db788a6c1a72fbcdf32647ea7",
+    "Backend/modules/motor_riesgo/publication.py": "b626f5183691076c5857b770b273b3b5d9321e034ea935d3afaf2119fd8177fb",
+    "Backend/modules/motor_riesgo/result_store.py": "3959b0e9934f2b38138b99d8e56a0d58c70fd920cf7b02f84126b5e3f5793806",
+    "Backend/modules/motor_riesgo/rolling_evidence.py": "8bd9a1658612f0d53b0527bcfebf97c175b94af16bca2e1fea3cde010bf258f8",
+    "Backend/modules/motor_riesgo/rolling_materialize.py": "dac0723ed00b37234885dd9db0c52d01968bf80df6ac5cafccf8b0967205e7af",
+    "Backend/modules/motor_riesgo/rolling_sql_check.py": "70b2341c5eee090d1fb71c084ae2c394484aa25e68ec1fbd6a56431c10208b64",
+    "Backend/modules/motor_riesgo/rules.py": "c4b78866d0c09f589dfe31d54a60dac20baac35ad21e3f7da2b528010b5c6713",
+    "Backend/modules/motor_riesgo/runtime_permissions.py": "87bed4ddfdcd80b5361ac937562b1805fbef6d184d70c3285f4137fde0b4e3c7",
+    "Backend/modules/motor_riesgo/service.py": "48f46110d48522b75190d2bbce64ba8af72cb3111c55eefc9926f74c5a54a415",
+    "Backend/modules/motor_riesgo/stage_evidence.py": "57458d6d450c5d04df67f5d9da003fa584498734fd33ad14f8e41d5f382d5ddf",
+    "Backend/modules/motor_riesgo/weight_lab.py": "eeb456b49a88d9185ae7d3d297f86a53b3ef89ab99420c31223ea91b45925354",
+    "Backend/modules/motor_riesgo/windows_job.py": "3eff06af4c2709e4e8be54902bf76cab21beef8624392a8992a9efd0521aff21",
+    "Backend/scripts/risk_annual_context.py": "4ce2f5079352ab8b9babd9a3dec08a07ca369496b6c74d5d48a87fd51d258a74",
+    "Backend/scripts/risk_baseline_coverage.py": "55cdbb2f3736f9dda05645da6c89051fe8ca2ada11481c98258cc31b85ee1cee",
+    "Backend/scripts/risk_capture_benchmark.py": "ab0584241c99309f8710d02280340970683bf41601a6c84c7b4bebf1de453827",
+    "Backend/scripts/risk_competition_audit.py": "f3702e1c882eaad28d53dc70efb5740ac8631b63fd4d2e58fa486dfe2ae3c9f1",
+    "Backend/scripts/risk_contract_strata.py": "275eab49ea5ecf0b7d5373ea056ecd30a3efdc794e0ed6854c1587dd476f0c84",
+    "Backend/scripts/risk_cut_cohort.py": "51be1041b7fc67590f7b6a9c3671dd8e13a23329aec205508e99fb3ab2d9dc31",
+    "Backend/scripts/risk_inference_probe.py": "69eba50f9d185d58e1ea6fd082ab22eae8e1e230e93174df67812456d6600ce4",
+    "Backend/scripts/risk_inventory.py": "4267ce0f6f7bb92076528eeb086db2ae29760804a908a10a9458fdff4b080f83",
+    "Backend/scripts/risk_joint_baseline.py": "a162c9de3a5543fd92f6c14bd44a0269e22849c8d001447eefe2c95855a57666",
+    "Backend/scripts/risk_normalization_lab.py": "aca0c54a39d68095fbb1a1e6d1ec4839a805ed832c56ac7332a1e92fd84f3d6f",
+    "Backend/scripts/risk_process.py": "e54cb9d63a4a9d61504e1261fc654ccbf745c617afb5a023695f6a8dd5a497d1",
+    "Backend/scripts/risk_rolling_batch.py": "e986559cd0ad2965336e5a210a77182d4e6b9ee0215c3147473d5bc3543f551e",
+    "Backend/scripts/risk_rolling_context.py": "594a10da5faa4fc56c6558e873076885003cdcb8c9eae58956558734b4ae33d0",
+    "Backend/scripts/risk_runtime_check.py": "b84866d22efe4147c6558056ef5b53fb5cdb45df3c63d6625da3a36d2deeb43b",
+    "Backend/scripts/risk_weight_assessment.py": "a9a3bb3da085188d7d24e955fa6809fa763f6c7eea1c9d9586c7003acea80e21",
+    "Backend/tests/test_risk_methodology.py": "f41783d1e638ef5c91e1fe095c97fcb1e38477d430cad314d5ec003231d604a6"
+  },
+  "policy_sha256": "9df3b2d3c51f7524eb545ddef9ca5bdfc93d85c501fe9744c42e0fc773c8d679",
+  "prior_evidence_source_checks": {
+    "VALIDACION_CONTEXTO_ANUAL_20261020.json": {
+      "sha256": "edaf3d50d7ea42a7327d930664455de3e6c3acc66f01fbc820b67f44090fd063",
+      "current_source_hashes_verified": 14
+    },
+    "VALIDACION_CAMPOS_COMPETENCIA_20261020.json": {
+      "sha256": "677f4f30d172cd39b559d87721f1e625bfd4913c7ffa9fa68445d63c99b27d14",
+      "current_source_hashes_verified": 7
+    },
+    "VALIDACION_COMPOSICION_FAMILIAS_20261019.json": {
+      "sha256": "5d2252cbf6a0351cc4841e0265721a8c4ffe2a45c40f5883dc678e2bcc8f3148",
+      "current_source_hashes_verified": 10
+    }
+  },
+  "local_document_links_verified": 44,
+  "acceptance_document_sha256": "e0e1ecc3a45ad7233153817e598ef763741cbaa5a25222367e2659e76b092772",
+  "inventory": {
+    "candidates": 14,
+    "eligible_cases": 0,
+    "reproduced_inventory_sha256": "6699fcc22649ea11f5db5713ab41549472d778bd5518c9829ec8c78e3e0c826f",
+    "registry_sha256": "c1f3693b314857eed4bac388ea41671ef514b1e23783f77c6269ac7b19ba551a",
+    "admissibility_reasons_preserved": true
+  },
+  "runtime_isolation": {
+    "training_packages": {
+      "sklearn": true,
+      "sqlalchemy": false,
+      "fastapi": false
+    },
+    "inference_packages": {
+      "sklearn": false,
+      "sqlalchemy": false,
+      "fastapi": false
+    },
+    "distinct_effective_environments": true,
+    "probe_sha256": "f272de532b877a6cd96947443b2d0bd83783268fb91a76dd4b547561f2be6e6f"
+  },
+  "original_state_read_only": {
+    "database_oid": 24577,
+    "read_only": "on",
+    "server_version": "15.19",
+    "schema": "3c19a8f7e2d0",
+    "weights": {
+      "ABUSO_DIRECTO": "2.00",
+      "DUPLICADO_CORTO": "1.50",
+      "OUTLIER": "1.00"
+    },
+    "active_sources": 0,
+    "nonterminal_jobs": 0,
+    "new_model_tables_present": false,
+    "release_ref": "794d185832c7c56ffa4d91ef08ca1f3d15128be5",
+    "publication_cut_date": "2026-10-01",
+    "release_manifest_sha256": "d8c350c2391016dfe483df97ca8a942a9bd895e76c5c32da88962172787a6ac2"
+  },
+  "original_http_read_only": {
+    "frontend": {
+      "http_status": 200
+    },
+    "api_openapi": {
+      "http_status": 200,
+      "paths": 56,
+      "public_status_candidates": [
+        "/api/procesados/estadisticas/campos-faltantes"
+      ]
+    }
+  },
+  "current_new_materializers_full_volume_proven": false,
+  "real_predictive_models_trained": false,
+  "weights_calibrated": false,
+  "original_database_weights_changed": false,
+  "original_release_changed": false,
+  "new_publication_activated": false,
+  "new_daily_schedule_activated": false,
+  "third_parties_contacted": false,
+  "backups_modified": false
+}

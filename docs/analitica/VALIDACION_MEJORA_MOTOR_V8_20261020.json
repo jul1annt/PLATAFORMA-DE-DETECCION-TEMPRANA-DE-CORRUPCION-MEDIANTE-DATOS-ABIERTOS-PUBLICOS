@@ -1,0 +1,107 @@
+{
+  "date_bogota": "2026-10-20",
+  "status": "COVERAGE_AND_WEIGHT_ROBUST_PRIORITY_INTEGRATED",
+  "policy": "base-analitica-pesos-v8",
+  "priority_policy": "coverage-and-weight-robust-priority-v1",
+  "backend_suite": {
+    "tests": 1080,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 141.323,
+    "run_id": "8977751fb0ca41f887502064dca7e623",
+    "junit_sha256": "ed16c35e278dd003f89d7a5b50e4390fd96644fa33bf928d41e8d44d9fa95281",
+    "new_priority_cases": 23
+  },
+  "interior_weight_and_completion_test": {
+    "seed": 20261020,
+    "random_frames": 30,
+    "weights_and_completions_per_frame": 20,
+    "targets_per_frame": 12,
+    "rank_intervals_checked": 7200
+  },
+  "frozen_replay": {
+    "frozen_code_sha256": {
+      "modules/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "modules/motor_riesgo/__init__.py": "5f125ab57cce9564d9effc9fbc90d84ea20dfc290e3559ef5ccefb464d140ba8",
+      "modules/motor_riesgo/baseline_coverage.py": "3bcd8a116dc56cf3f7d5cf9168c5a782b0f657a957fb5d8850125955acf684bb",
+      "modules/motor_riesgo/cut_rules.py": "b9bb04fa609164ca321089f70496c0edf5ada1db084888f52a1e0316b7f08a94",
+      "modules/motor_riesgo/domain.py": "48d8fe00d07572047f57460ea05aace1f30c464b919073b80075afbbe7a430dd",
+      "modules/motor_riesgo/joint_baseline.py": "b6dc119b1e0493798ba6330c56c5757f96c818d0870dd78ef68ddd4f99ddee6e",
+      "modules/motor_riesgo/robust_priority.py": "b99569e2a853d235a2981c6efcfcd92c02721bfc91ce0d0f4524bf907f780a1c",
+      "modules/motor_riesgo/rolling_evidence.py": "8bd9a1658612f0d53b0527bcfebf97c175b94af16bca2e1fea3cde010bf258f8",
+      "modules/motor_riesgo/rules.py": "c4b78866d0c09f589dfe31d54a60dac20baac35ad21e3f7da2b528010b5c6713",
+      "modules/motor_riesgo/weight_lab.py": "eeb456b49a88d9185ae7d3d297f86a53b3ef89ab99420c31223ea91b45925354",
+      "scripts/risk_joint_baseline.py": "5d552bb571f4da6007476a5c2840a5fb7d575e448d7e2a2b6a88c86375584c83",
+      "scripts/risk_robust_priority.py": "6e27d3f568aa9f05ed392cf46ab4d50ab0196404a0caa2a92066bfde79439373"
+    },
+    "standalone_bytes_identical": true,
+    "integrated_bytes_identical": true,
+    "overwrite_rejected": true,
+    "old_findings_unchanged": true,
+    "standalone_and_integrated_priorities_identical": true,
+    "snapshot_name": "robust-priority-v1-reference-20261020"
+  },
+  "real_pilot": {
+    "targets": 1698,
+    "histories_accepted": 13,
+    "complete_descriptive_counts": 0,
+    "review_route_counts": {
+      "COMPLETAR_EVIDENCIA": 1648,
+      "REVISAR_SENALES_CONFIRMADAS": 50
+    },
+    "fully_resolved_priorities": 0,
+    "source_inputs_reused_without_new_database_queries": true
+  },
+  "reports_sha256": {
+    "EVALUACION_CONJUNTA_FAMILIAS_2017_REV3_20261020.json": "9ccc26dc3530f6c38cb2d00962f8e0152154f3e5aaf7001f6a49bfebe82535a7",
+    "PRIORIZACION_ROBUSTA_COHORTE_2017_20261020.json": "81b29332f8a5513017de46a4e38374642d983f5d346900581262d1863fbb48f1",
+    "POLITICA_PESOS_BASE_V8.json": "3d6a78068b1221a665c45a4e0dcf09e3f0a1009617b2bf548df97bf067531371"
+  },
+  "implementation_and_tests_sha256": {
+    "modules/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "modules/motor_riesgo/__init__.py": "5f125ab57cce9564d9effc9fbc90d84ea20dfc290e3559ef5ccefb464d140ba8",
+    "modules/motor_riesgo/baseline_coverage.py": "3bcd8a116dc56cf3f7d5cf9168c5a782b0f657a957fb5d8850125955acf684bb",
+    "modules/motor_riesgo/cut_rules.py": "b9bb04fa609164ca321089f70496c0edf5ada1db084888f52a1e0316b7f08a94",
+    "modules/motor_riesgo/domain.py": "48d8fe00d07572047f57460ea05aace1f30c464b919073b80075afbbe7a430dd",
+    "modules/motor_riesgo/joint_baseline.py": "b6dc119b1e0493798ba6330c56c5757f96c818d0870dd78ef68ddd4f99ddee6e",
+    "modules/motor_riesgo/robust_priority.py": "b99569e2a853d235a2981c6efcfcd92c02721bfc91ce0d0f4524bf907f780a1c",
+    "modules/motor_riesgo/rolling_evidence.py": "8bd9a1658612f0d53b0527bcfebf97c175b94af16bca2e1fea3cde010bf258f8",
+    "modules/motor_riesgo/rules.py": "c4b78866d0c09f589dfe31d54a60dac20baac35ad21e3f7da2b528010b5c6713",
+    "modules/motor_riesgo/weight_lab.py": "eeb456b49a88d9185ae7d3d297f86a53b3ef89ab99420c31223ea91b45925354",
+    "scripts/risk_joint_baseline.py": "5d552bb571f4da6007476a5c2840a5fb7d575e448d7e2a2b6a88c86375584c83",
+    "scripts/risk_robust_priority.py": "6e27d3f568aa9f05ed392cf46ab4d50ab0196404a0caa2a92066bfde79439373",
+    "modules/motor_riesgo/catalog.py": "b1f7420f6b83e5664a56a11c4a940e1b1f348c818ddc5646b2ace341ac481f9f",
+    "tests/test_robust_priority.py": "bf2775e432c551d949e8387d6dc7797c0daaa2ba6f776c417f30ec50814f786d",
+    "tests/test_joint_baseline.py": "d2fa38a7176e4cbeb0d12b6007af1d24a6503a0f9106a98810d6b14e9edfa592",
+    "tests/test_risk_methodology.py": "4758b51fe7a8bd8a90de71af1c1913450ef4c044e5187d948af430d7fa95e07c"
+  },
+  "previous_acceptance_receipt_sha256": "acbdcfafb6a022ee4d514f7ceb37a0ef023e2f9fb048af868a203beee237efa5",
+  "central_weights": {
+    "IMPORTE_ATIPICO": 1,
+    "COMPETENCIA": 1,
+    "CONCENTRACION_REITERACION": 1
+  },
+  "sensitivity_box": {
+    "minimum": "0.80",
+    "maximum": "1.20",
+    "engineering_assumption_not_calibrated": true
+  },
+  "original_release_manifest_sha256": "d8c350c2391016dfe483df97ca8a942a9bd895e76c5c32da88962172787a6ac2",
+  "case_registry_sha256": "c1f3693b314857eed4bac388ea41671ef514b1e23783f77c6269ac7b19ba551a",
+  "original_database_writes": false,
+  "database_queries_this_improvement": false,
+  "legacy_weights_changed": false,
+  "weights_calibrated": false,
+  "new_dependencies": false,
+  "frontend_changed": false,
+  "models_trained": false,
+  "publication_activated": false,
+  "third_parties_contacted": false,
+  "limitations": [
+    "Priority intervals can remain broad under absent evidence.",
+    "Rank bounds are conservative, not confidence intervals or corruption probabilities.",
+    "No new full-volume acceptance of these changes.",
+    "No judicial predictive validation."
+  ]
+}

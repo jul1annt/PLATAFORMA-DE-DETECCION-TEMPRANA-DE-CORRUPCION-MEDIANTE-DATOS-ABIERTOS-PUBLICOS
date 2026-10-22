@@ -1,0 +1,46 @@
+{
+  "created_at": "2026-10-19T17:32:17.986067+00:00",
+  "judicial_review_policy": "reviewed-finality-effect-v2",
+  "backend_tests": {
+    "total": 674,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "run_id": "2428cf60973a40e8aa348bbadabfc430",
+    "junit_sha256": "c700cd7ff079b5897d78e399e2e826c2faaeb6ec093824e40308d5909ae7b595"
+  },
+  "code_sha256": {
+    "analytics_ml/corpus.py": "914e9baee9304a43f51b3073a78c7a1c917366afc36d3f77c1d00c7ee62f9010",
+    "tests/test_judicial_document_kind.py": "b354604e39fa1c03d7fb0562a5acecad4769d2ed917dba92f3ffe84d43a89011"
+  },
+  "databases": {
+    "isolated": {
+      "oid": 82244,
+      "schema": "f67b120ce841",
+      "read_only": true,
+      "counts": {
+        "raw_secop": 0,
+        "contratos_procesados": 0,
+        "riesgo_modelos": 0,
+        "riesgo_evidencias_variables": 0
+      }
+    },
+    "published": {
+      "oid": 24577,
+      "schema": "3c19a8f7e2d0",
+      "read_only": true,
+      "new_risk_tables_absent": true
+    }
+  },
+  "inventory": "INVENTARIO_CASOS_REVISION13_20261019.json",
+  "registry_sha256_bytes": "e7becdd11ff54caf39c54ad3c0b87706048a5794b086a7aa45b9db8713c3016e",
+  "candidates": 14,
+  "eligible_cases": 0,
+  "new_category_requires_explicit_finality_date_and_locator": true,
+  "guainia_relatoria_excerpt_not_registered_as_finality": true,
+  "real_models_trained": 0,
+  "new_publication_activated": false,
+  "migrations_run": false,
+  "http_rechecked": false,
+  "scope": "Synthetic backend validation, current registry integrity and read-only schema/count checks; no certification of real predictive performance or judicial sufficiency."
+}

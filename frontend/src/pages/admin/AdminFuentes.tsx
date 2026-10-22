@@ -24,13 +24,18 @@ const AdminFuentes: React.FC = () => {
     }
   };
 
-  useEffect(() => { fetchFuentes(); }, []);
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      void fetchFuentes();
+    }, 0);
+    return () => window.clearTimeout(timer);
+  }, []);
 
   const handleSync = async (fuente: FuenteDatosResponseDTO) => {
     setSyncingIds((prev) => new Set(prev).add(fuente.id));
     try {
       await fuentesService.sync(fuente.id);
-      toast.success(`Sincronización iniciada para "${fuente.nombre}"`);
+      toast.success(`Sincronización completada para "${fuente.nombre}"`);
       setTimeout(fetchFuentes, 1500);
     } catch {
       toast.error(`Error al sincronizar "${fuente.nombre}"`);

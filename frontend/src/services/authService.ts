@@ -26,9 +26,10 @@ export const authService = {
    * GET /api/auth/me
    * JWT required — token is passed explicitly per-call.
    */
-  me: async (token: string): Promise<AdminResponse> => {
+  me: async (token: string, signal?: AbortSignal): Promise<AdminResponse> => {
     const response = await api.get<AdminResponse>('/api/auth/me', {
       headers: { Authorization: `Bearer ${token}` },
+      signal,
     });
     return response.data;
   },

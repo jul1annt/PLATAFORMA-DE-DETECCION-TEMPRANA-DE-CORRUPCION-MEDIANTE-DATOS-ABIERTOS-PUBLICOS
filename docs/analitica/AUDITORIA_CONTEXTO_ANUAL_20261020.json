@@ -1,0 +1,52 @@
+{
+  "scope": {
+    "date_bogota": "2026-10-20",
+    "captured_at": "2026-10-20T06:54:05.800871+00:00",
+    "database_oid": 24577,
+    "read_only": true,
+    "postgres_snapshot": "6038:6038:",
+    "single_repeatable_read_transaction": true,
+    "full_temporally_relevant_exact_stored_buyer_key_frame": true,
+    "outside_stored_key_coverage_verified": false,
+    "identity_scope": "Global exact stored source/process/award, plus trimmed aliases inside the acquired frame.",
+    "target_contract_id": 347175,
+    "maximum_rows": 20000,
+    "rows": 1478,
+    "seconds": 115.98368050000863
+  },
+  "anchor_at": "2017-11-17 00:00:00-05:00",
+  "target_contract_id": 347175,
+  "temporal_scope": "current_cut_descriptive_not_stage_prediction",
+  "assessment": {
+    "policy": "buyer-annual-process-participation-v1",
+    "buyer_previous": null,
+    "publication_processes": 1190,
+    "publication_bad_rows": 231,
+    "market_processes": 872,
+    "market_bad_rows": 854,
+    "max_supplier_processes": 7,
+    "market_complete": false,
+    "concentration": null,
+    "metric": "maximum_supplier_process_participation_not_monetary_share_or_hhi",
+    "target_process_excluded": true,
+    "outside_universe_coverage_verified": false,
+    "training_eligible": false,
+    "publication_authorized": false
+  },
+  "input_sha256": "1b423a7d235476228aab59db2265ab527f50ca3b6bb3ea329ff9ff40cde33110",
+  "training_eligible": false,
+  "publication_authorized": false,
+  "limitations": [
+    "Marco de clave almacenada y fuentes locales, no contratación nacional ni mercado económico.",
+    "Procesos observados e identidades conocidas no se usan como denominador completo cuando hay incertidumbre.",
+    "No reconstruye conocimiento histórico ni habilita un predictor entrenado.",
+    "No calcula cuota monetaria, HHI o probabilidad de corrupción."
+  ],
+  "implementation_sha256": {
+    "scripts/risk_annual_context.py": "4ce2f5079352ab8b9babd9a3dec08a07ca369496b6c74d5d48a87fd51d258a74",
+    "modules/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "modules/motor_riesgo/__init__.py": "5f125ab57cce9564d9effc9fbc90d84ea20dfc290e3559ef5ccefb464d140ba8",
+    "modules/motor_riesgo/annual_context.py": "397288719e03a7abf870711e790e2c664d7125d11e50304bfb9013b88e3e2a69",
+    "modules/motor_riesgo/domain.py": "48d8fe00d07572047f57460ea05aace1f30c464b919073b80075afbbe7a430dd"
+  }
+}

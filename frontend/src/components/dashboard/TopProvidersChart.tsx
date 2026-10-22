@@ -60,8 +60,8 @@ export const TopProvidersChart: React.FC<TopProvidersChartProps> = ({ data }) =>
         />
         <Tooltip
           cursor={{ fill: 'rgba(99,102,241,0.05)' }}
-          formatter={(value: number) => [
-            value.toLocaleString('es-ES') + ' contratos',
+          formatter={(value) => [
+            Number(value ?? 0).toLocaleString('es-ES') + ' contratos',
             'Total',
           ]}
           labelFormatter={(label) => `Proveedor: ${label}`}

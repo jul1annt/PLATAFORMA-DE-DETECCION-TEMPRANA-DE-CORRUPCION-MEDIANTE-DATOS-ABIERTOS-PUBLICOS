@@ -1,7 +1,8 @@
 from pydantic import BaseModel, ConfigDict, Field
-from typing import Optional, List, Any
+from typing import Optional, List, Any, Literal
 from datetime import date, datetime
 from decimal import Decimal
+from uuid import UUID
 
 # ──────────────────────────────────────────────
 # RESPUESTA: Contrato Procesado
@@ -35,6 +36,11 @@ class ContratoProcesadoResponseDTO(BaseModel):
 
     # Identificación de registros sospechosos
     es_sospechoso: bool = Field(False, description="Indica si el contrato tiene valores sospechosos (fechas futuras, etc.)")
+    clasificacion_riesgo: Literal["ALTO", "MEDIO", "BAJO", "SIN_EVALUAR"] = Field(
+        "SIN_EVALUAR", description="ALTO | MEDIO | BAJO | SIN_EVALUAR"
+    )
+    score_riesgo: Optional[Decimal] = None
+    riesgo_run_id: Optional[UUID] = None
     
     created_at: datetime = Field(..., description="Fecha de creación del registro")
 
@@ -84,15 +90,43 @@ class MetricasCalidadDTO(BaseModel):
     completos: int
     incompletos: int
     sospechosos: int
-    porcentaje_completos: float
-    porcentaje_incompletos: float
-    porcentaje_sospechosos: float
-    promedio_confianza: float
+    porcentaje_completos: Optional[float]
+    porcentaje_incompletos: Optional[float]
+    porcentaje_sospechosos: Optional[float]
+    promedio_confianza: Optional[float]
+    calificacion_confianza: Literal["SIN_DATOS", "EXCELENTE", "ACEPTABLE", "BAJA"]
 
 class CampoFaltanteDTO(BaseModel):
     campo: str
     cantidad: int
     porcentaje: float
+
+class DashboardMetricasDTO(BaseModel):
+    total_contratos: int
+    total_completos: int
+    pct_incompletos: Optional[float]
+    pct_sospechosos: Optional[float]
+    pct_alto_riesgo: Optional[float]
+    total_incompletos: int
+    total_sospechosos: int
+    total_alto_riesgo: int
+    promedio_confianza: Optional[float]
+    calificacion_confianza: Literal["SIN_DATOS", "EXCELENTE", "ACEPTABLE", "BAJA"]
+    estado_datos: Literal["DISPONIBLE", "SIN_DATOS"]
+
+class DistribucionDTO(BaseModel):
+    name: str
+    value: int
+    color: str
+
+class TopProveedorDTO(BaseModel):
+    name: str
+    nit: str
+    contracts: int
+
+class AutocompleteDTO(BaseModel):
+    text: str
+    type: str
 
 
 # ──────────────────────────────────────────────
@@ -136,6 +170,8 @@ class ProcesamientoLogDTO(BaseModel):
     forzar_reproceso: bool
     estado: str
     mensaje_error: Optional[str]
+    version_reglas: str
+    universo: dict
     created_at: datetime
     
     model_config = ConfigDict(from_attributes=True)

@@ -1,0 +1,4510 @@
+{
+  "checked_at_utc": "2026-10-10T17:28:58.902248+00:00",
+  "state": "local_candidate_verified_not_deployed",
+  "plan": {
+    "completed": 95,
+    "pending": 6
+  },
+  "scope": "Transactional summary candidate validated on native synthetic DB; canonical nine-million-row schema/backend unchanged; no HTTP acceptance or full-cut migration claim",
+  "tests_final": {
+    "started_at_utc": "2026-10-10T17:22:41.648213+00:00",
+    "stage": "verified",
+    "database": "codex_plan_quality_summary_20261010_test",
+    "oid": 25627,
+    "port": 5432,
+    "role": "plataforma_operacion",
+    "removed_only_previous_benchmark_synthetic_rows": 10001,
+    "source_sha256": {
+      "database/migrations/env.py": "d375b21946c95d014e0d9ad988a3c579bacf65f76f6ea339c34416c32e464a39",
+      "database/migrations/versions/2ab7c4e8d910_transactional_quality_metrics.py": "b5d59c91f21221eb3056644b0c30c6a7be5be2aa07ebcf7473cc4fea190871ee",
+      "modules/transformacion/model/ContratoMetricasCalidad.py": "7511676cdcb78a87f98571436db03a96681549d2e3d406f2f40ee38d4c8e8269",
+      "modules/transformacion/repository/transformacion.py": "40b919c6adfd297b48c92c202f0cbfc1eb1c3d05abca131ac51acec36d5855fb",
+      "tests/test_transactional_quality_metrics_postgres.py": "255c83ed220edd0b824f49cbad03874fbf314b7b0da4d5194f0a9499b0875688",
+      "tests/test_transactional_quality_migration.py": "30405698701abed05a56210ffd568cd9bc8fd42768dcf18dbc0a52880c0cb388"
+    },
+    "steps": [
+      {
+        "label": "downgrade_old_summary",
+        "exit_code": 0,
+        "log_sha256": "e3548b8fafe723ccd1ba231e1cf1b43e9e1f4832503ffb43b758af512398362e"
+      },
+      {
+        "label": "upgrade_revised_summary",
+        "exit_code": 0,
+        "log_sha256": "1dae42df6154c1c9e04be468477ee5a1c261bc5da22bad8dd7e8f052c8853bef"
+      },
+      {
+        "label": "tests",
+        "exit_code": 0,
+        "log_sha256": "e0d772f12cba24d48cfdd516e3e39283c32277ac0ee9caf76b0cbbaf42b3015f"
+      }
+    ],
+    "summary": [
+      "333 passed in 44.18s"
+    ],
+    "completed_at_utc": "2026-10-10T17:23:30.424714+00:00",
+    "test_database_retained_for_bounded_benchmark": true
+  },
+  "first_test_attempt": {
+    "started_at_utc": "2026-10-10T17:02:51.246290+00:00",
+    "database": "codex_plan_quality_summary_20261010_test",
+    "oid": 25627,
+    "role": "plataforma_operacion",
+    "port": 5432,
+    "stage": "failed_test_database_preserved",
+    "steps": [
+      {
+        "label": "upgrade_empty",
+        "exit_code": 0,
+        "log_sha256": "e4d2395d61aa794662a8523670df67b101212587e296dab55e141bc060e1b1d1"
+      },
+      {
+        "label": "downgrade_empty",
+        "exit_code": 0,
+        "log_sha256": "1606eef23de434ab1d1399cdb1150fb4486635a63d799b6ed558d00c91f32bc5"
+      },
+      {
+        "label": "upgrade_again",
+        "exit_code": 0,
+        "log_sha256": "66027cbc858bf282666b238fa2d08ab2feba871f0dccc039d918a14d0fb7d224"
+      },
+      {
+        "label": "tests",
+        "exit_code": 1,
+        "log_sha256": "b1c0e1a11377cb9938bb83b0cf929e3bb574b4275e8c8b0c9c9509e18c09e2c6"
+      }
+    ],
+    "test_application_database_isolated": true,
+    "head": "aebd2b236551718063d63bf6aafc93feea0e707a",
+    "source_sha256": {
+      "database/migrations/env.py": "d375b21946c95d014e0d9ad988a3c579bacf65f76f6ea339c34416c32e464a39",
+      "database/migrations/versions/2ab7c4e8d910_transactional_quality_metrics.py": "ada39d4544f498c9127bb522ef9ece18d59a1d0978f3361bf97cdd82fee1fca1",
+      "modules/transformacion/model/ContratoMetricasCalidad.py": "70f36913901aa3ea7254b04be87f9186f4e3c8baae8407608411856db5c7b714",
+      "modules/transformacion/repository/transformacion.py": "40b919c6adfd297b48c92c202f0cbfc1eb1c3d05abca131ac51acec36d5855fb",
+      "tests/test_transactional_quality_metrics_postgres.py": "416d7f0d0467631f16d83505726f05d5c1c41480963a7f9f14ea61dbc86d23bc",
+      "tests/test_transactional_quality_migration.py": "e59771db92d501cb58eb231a71466dffd332689e6406d1800e0658f58d8c38ae"
+    }
+  },
+  "statement_trigger_tests": {
+    "started_at_utc": "2026-10-10T17:05:56.319462+00:00",
+    "stage": "verified",
+    "database": "codex_plan_quality_summary_20261010_test",
+    "oid": 25627,
+    "port": 5432,
+    "role": "plataforma_operacion",
+    "scope": "Full suite, ordinary-role isolated DB; fixture frequency now explicit; previous failure preserved",
+    "source_sha256": {
+      "database/migrations/env.py": "d375b21946c95d014e0d9ad988a3c579bacf65f76f6ea339c34416c32e464a39",
+      "database/migrations/versions/2ab7c4e8d910_transactional_quality_metrics.py": "ada39d4544f498c9127bb522ef9ece18d59a1d0978f3361bf97cdd82fee1fca1",
+      "modules/transformacion/model/ContratoMetricasCalidad.py": "70f36913901aa3ea7254b04be87f9186f4e3c8baae8407608411856db5c7b714",
+      "modules/transformacion/repository/transformacion.py": "40b919c6adfd297b48c92c202f0cbfc1eb1c3d05abca131ac51acec36d5855fb",
+      "tests/test_transactional_quality_metrics_postgres.py": "1774764c0057ea561235bb34aa95a299a9830cd592804553c587ef6d64456078",
+      "tests/test_transactional_quality_migration.py": "e59771db92d501cb58eb231a71466dffd332689e6406d1800e0658f58d8c38ae"
+    },
+    "exit_code": 0,
+    "log_sha256": "5573017ea32302fda74d2c79a14b0dba7542c6edc9e7b70c19859b388d34ed3c",
+    "summary": [
+      "333 passed in 37.70s"
+    ],
+    "completed_at_utc": "2026-10-10T17:06:35.413091+00:00",
+    "test_database_retained_for_bounded_benchmark": true
+  },
+  "statement_trigger_benchmark": {
+    "started_at_utc": "2026-10-10T17:08:06.211843+00:00",
+    "stage": "verified",
+    "database": "codex_plan_quality_summary_20261010_test",
+    "oid": 25627,
+    "role": "plataforma_operacion",
+    "synthetic_contracts": 10001,
+    "source_sha256": {
+      "database/migrations/env.py": "d375b21946c95d014e0d9ad988a3c579bacf65f76f6ea339c34416c32e464a39",
+      "database/migrations/versions/2ab7c4e8d910_transactional_quality_metrics.py": "ada39d4544f498c9127bb522ef9ece18d59a1d0978f3361bf97cdd82fee1fca1",
+      "modules/transformacion/model/ContratoMetricasCalidad.py": "70f36913901aa3ea7254b04be87f9186f4e3c8baae8407608411856db5c7b714",
+      "modules/transformacion/repository/transformacion.py": "40b919c6adfd297b48c92c202f0cbfc1eb1c3d05abca131ac51acec36d5855fb",
+      "tests/test_transactional_quality_metrics_postgres.py": "1774764c0057ea561235bb34aa95a299a9830cd592804553c587ef6d64456078",
+      "tests/test_transactional_quality_migration.py": "e59771db92d501cb58eb231a71466dffd332689e6406d1800e0658f58d8c38ae"
+    },
+    "scope": "Bounded SQL/ORM experiment in synthetic test DB only: 200 reads per strategy, eight clients, three 1000-row ORM update samples each; no HTTP or nine-million-row migration claim",
+    "steps": [
+      {
+        "label": "downgrade_to_direct",
+        "exit_code": 0,
+        "log_sha256": "e3548b8fafe723ccd1ba231e1cf1b43e9e1f4832503ffb43b758af512398362e"
+      },
+      {
+        "label": "upgrade_prefilled",
+        "exit_code": 0,
+        "log_sha256": "1dae42df6154c1c9e04be468477ee5a1c261bc5da22bad8dd7e8f052c8853bef"
+      }
+    ],
+    "read_profiles": [
+      {
+        "label": "direct_before",
+        "requests": [
+          {
+            "index": 0,
+            "seconds": 0.004028899944387376,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 1,
+            "seconds": 0.2942785000195727,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 2,
+            "seconds": 0.2852466000476852,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 3,
+            "seconds": 0.1941009999718517,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 4,
+            "seconds": 0.22006759990472347,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 5,
+            "seconds": 0.1919289999641478,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 6,
+            "seconds": 0.24931640003342181,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 7,
+            "seconds": 0.006853800034150481,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 8,
+            "seconds": 0.29019830003380775,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 9,
+            "seconds": 0.006020699976943433,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 10,
+            "seconds": 0.003029500017873943,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 11,
+            "seconds": 0.002989599946886301,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 12,
+            "seconds": 0.002975400071591139,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 13,
+            "seconds": 0.0031045000068843365,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 14,
+            "seconds": 0.0029676000121980906,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 15,
+            "seconds": 0.002935199998319149,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 16,
+            "seconds": 0.0034559000050649047,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 17,
+            "seconds": 0.003239199984818697,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 18,
+            "seconds": 0.0029959999956190586,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 19,
+            "seconds": 0.0030970999505370855,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 20,
+            "seconds": 0.003848099964670837,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 21,
+            "seconds": 0.003541499958373606,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 22,
+            "seconds": 0.003792300005443394,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 23,
+            "seconds": 0.0031029999954625964,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 24,
+            "seconds": 0.003192499978467822,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 25,
+            "seconds": 0.0028061000630259514,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 26,
+            "seconds": 0.00299880001693964,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 27,
+            "seconds": 0.0027640999760478735,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 28,
+            "seconds": 0.002717900089919567,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 29,
+            "seconds": 0.0037351999199017882,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 30,
+            "seconds": 0.0027049999916926026,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 31,
+            "seconds": 0.0027286000549793243,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 32,
+            "seconds": 0.0026519999373704195,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 33,
+            "seconds": 0.002917800098657608,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 34,
+            "seconds": 0.0027541000163182616,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 35,
+            "seconds": 0.0026807000394910574,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 36,
+            "seconds": 0.0027300999499857426,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 37,
+            "seconds": 0.0026935000205412507,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 38,
+            "seconds": 0.0035165000008419156,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 39,
+            "seconds": 0.0026775000151246786,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 40,
+            "seconds": 0.003234399948269129,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 41,
+            "seconds": 0.002727000042796135,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 42,
+            "seconds": 0.0030753999017179012,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 43,
+            "seconds": 0.0030161000322550535,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 44,
+            "seconds": 0.0028037000447511673,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 45,
+            "seconds": 0.0026238999562337995,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 46,
+            "seconds": 0.002681200043298304,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 47,
+            "seconds": 0.0030633999267593026,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 48,
+            "seconds": 0.002908000024035573,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 49,
+            "seconds": 0.0026051999302580953,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 50,
+            "seconds": 0.002701600082218647,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 51,
+            "seconds": 0.002890200004912913,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 52,
+            "seconds": 0.003284799982793629,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 53,
+            "seconds": 0.0027824999997392297,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 54,
+            "seconds": 0.0027079000137746334,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 55,
+            "seconds": 0.00270990002900362,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 56,
+            "seconds": 0.0038876000326126814,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 57,
+            "seconds": 0.002567899995483458,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 58,
+            "seconds": 0.0027540000155568123,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 59,
+            "seconds": 0.0026625999016687274,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 60,
+            "seconds": 0.0036554000107571483,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 61,
+            "seconds": 0.003510999958962202,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 62,
+            "seconds": 0.0028220999520272017,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 63,
+            "seconds": 0.002798600005917251,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 64,
+            "seconds": 0.002730000065639615,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 65,
+            "seconds": 0.003317000111564994,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 66,
+            "seconds": 0.0038487000856548548,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 67,
+            "seconds": 0.002686799969524145,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 68,
+            "seconds": 0.0027532000094652176,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 69,
+            "seconds": 0.002964799990877509,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 70,
+            "seconds": 0.003487400012090802,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 71,
+            "seconds": 0.0036068999907001853,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 72,
+            "seconds": 0.0036944999592378736,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 73,
+            "seconds": 0.0029461999656632543,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 74,
+            "seconds": 0.0027723999228328466,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 75,
+            "seconds": 0.003218499943614006,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 76,
+            "seconds": 0.0030632000416517258,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 77,
+            "seconds": 0.0030981000745669007,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 78,
+            "seconds": 0.0032066000858321786,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 79,
+            "seconds": 0.0030463000293821096,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 80,
+            "seconds": 0.0030718999914824963,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 81,
+            "seconds": 0.003008799976669252,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 82,
+            "seconds": 0.003584300051443279,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 83,
+            "seconds": 0.0032134000211954117,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 84,
+            "seconds": 0.003730399999767542,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 85,
+            "seconds": 0.0035748000955209136,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 86,
+            "seconds": 0.0030924000311642885,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 87,
+            "seconds": 0.003064399934373796,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 88,
+            "seconds": 0.0026808999245986342,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 89,
+            "seconds": 0.0029167000902816653,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 90,
+            "seconds": 0.002849099924787879,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 91,
+            "seconds": 0.0028644000412896276,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 92,
+            "seconds": 0.0029346999945119023,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 93,
+            "seconds": 0.003184699919074774,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 94,
+            "seconds": 0.004732200060971081,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 95,
+            "seconds": 0.004689999972470105,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 96,
+            "seconds": 0.0063168000197038054,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 97,
+            "seconds": 0.004577699932269752,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 98,
+            "seconds": 0.0037061000475659966,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 99,
+            "seconds": 0.003683999995701015,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 100,
+            "seconds": 0.0033854000503197312,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 101,
+            "seconds": 0.0036767999408766627,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 102,
+            "seconds": 0.0031649000011384487,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 103,
+            "seconds": 0.0036262000212445855,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 104,
+            "seconds": 0.003244600025936961,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 105,
+            "seconds": 0.00401959998998791,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 106,
+            "seconds": 0.003423099988140166,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 107,
+            "seconds": 0.003991100005805492,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 108,
+            "seconds": 0.0038293000543490052,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 109,
+            "seconds": 0.0040972999995574355,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 110,
+            "seconds": 0.0046156999887898564,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 111,
+            "seconds": 0.004450500011444092,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 112,
+            "seconds": 0.00412319996394217,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 113,
+            "seconds": 0.004118800046853721,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 114,
+            "seconds": 0.003418399952352047,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 115,
+            "seconds": 0.0035809000255540013,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 116,
+            "seconds": 0.003610400017350912,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 117,
+            "seconds": 0.0037708000745624304,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 118,
+            "seconds": 0.003152600023895502,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 119,
+            "seconds": 0.002976900083012879,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 120,
+            "seconds": 0.0033502000151202083,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 121,
+            "seconds": 0.0034253000048920512,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 122,
+            "seconds": 0.0036841999972239137,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 123,
+            "seconds": 0.0047923000529408455,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 124,
+            "seconds": 0.004600200103595853,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 125,
+            "seconds": 0.004054800025187433,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 126,
+            "seconds": 0.003997700056061149,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 127,
+            "seconds": 0.004302800050936639,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 128,
+            "seconds": 0.003993900027126074,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 129,
+            "seconds": 0.003555100061930716,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 130,
+            "seconds": 0.004278599983081222,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 131,
+            "seconds": 0.004367099958471954,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 132,
+            "seconds": 0.0057625999907031655,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 133,
+            "seconds": 0.004658999969251454,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 134,
+            "seconds": 0.004784000106155872,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 135,
+            "seconds": 0.008018000051379204,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 136,
+            "seconds": 0.003931800019927323,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 137,
+            "seconds": 0.0062939999625086784,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 138,
+            "seconds": 0.006117300014011562,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 139,
+            "seconds": 0.007200899999588728,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 140,
+            "seconds": 0.007940699928440154,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 141,
+            "seconds": 0.004776600049808621,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 142,
+            "seconds": 0.004606100032106042,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 143,
+            "seconds": 0.003904300043359399,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 144,
+            "seconds": 0.005243299994617701,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 145,
+            "seconds": 0.003737800056114793,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 146,
+            "seconds": 0.00694399990607053,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 147,
+            "seconds": 0.0036048999754711986,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 148,
+            "seconds": 0.00608640001155436,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 149,
+            "seconds": 0.006338800070807338,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 150,
+            "seconds": 0.005856999894604087,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 151,
+            "seconds": 0.00330250000115484,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 152,
+            "seconds": 0.003108999924734235,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 153,
+            "seconds": 0.004311199998483062,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 154,
+            "seconds": 0.004337599966675043,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 155,
+            "seconds": 0.004292399971745908,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 156,
+            "seconds": 0.00475320010446012,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 157,
+            "seconds": 0.004462100099772215,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 158,
+            "seconds": 0.005124099901877344,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 159,
+            "seconds": 0.004382400074973702,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 160,
+            "seconds": 0.005283000064082444,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 161,
+            "seconds": 0.003434399957768619,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 162,
+            "seconds": 0.0055362998973578215,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 163,
+            "seconds": 0.006166099919937551,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 164,
+            "seconds": 0.0075107000302523375,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 165,
+            "seconds": 0.004664900014176965,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 166,
+            "seconds": 0.006613300065509975,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 167,
+            "seconds": 0.005258399993181229,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 168,
+            "seconds": 0.007466800045222044,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 169,
+            "seconds": 0.006460699951276183,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 170,
+            "seconds": 0.005197999998927116,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 171,
+            "seconds": 0.008204499958083034,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 172,
+            "seconds": 0.006193300010636449,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 173,
+            "seconds": 0.007366799982264638,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 174,
+            "seconds": 0.005980800022371113,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 175,
+            "seconds": 0.007237400044687092,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 176,
+            "seconds": 0.009421200025826693,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 177,
+            "seconds": 0.007194200064986944,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 178,
+            "seconds": 0.007804600056260824,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 179,
+            "seconds": 0.006445999955758452,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 180,
+            "seconds": 0.00974889995995909,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 181,
+            "seconds": 0.005195599980652332,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 182,
+            "seconds": 0.008291199919767678,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 183,
+            "seconds": 0.005033200024627149,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 184,
+            "seconds": 0.00656210002489388,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 185,
+            "seconds": 0.007118599954992533,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 186,
+            "seconds": 0.0057588000781834126,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 187,
+            "seconds": 0.0052161000203341246,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 188,
+            "seconds": 0.009214899968355894,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 189,
+            "seconds": 0.009576699929311872,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 190,
+            "seconds": 0.009626399958506227,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 191,
+            "seconds": 0.007196399965323508,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 192,
+            "seconds": 0.008057999890297651,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 193,
+            "seconds": 0.009231599979102612,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 194,
+            "seconds": 0.0055692000314593315,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 195,
+            "seconds": 0.006551500060595572,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 196,
+            "seconds": 0.005002700025215745,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 197,
+            "seconds": 0.0049703000113368034,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 198,
+            "seconds": 0.005087700090371072,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 199,
+            "seconds": 0.004408800043165684,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          }
+        ],
+        "clients": 8,
+        "correct": 200,
+        "elapsed_seconds": 0.3258263999596238,
+        "median_seconds": 0.003730399999767542,
+        "p95_seconds": 0.009421200025826693,
+        "max_seconds": 0.2942785000195727
+      },
+      {
+        "label": "summary",
+        "requests": [
+          {
+            "index": 0,
+            "seconds": 0.004761200048960745,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 1,
+            "seconds": 0.005907400045543909,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 2,
+            "seconds": 0.008235200075432658,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 3,
+            "seconds": 0.006634699995629489,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 4,
+            "seconds": 0.006646499969065189,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 5,
+            "seconds": 0.012628199998289347,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 6,
+            "seconds": 0.006813699961639941,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 7,
+            "seconds": 0.007433000020682812,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 8,
+            "seconds": 0.008336500031873584,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 9,
+            "seconds": 0.006072300020605326,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 10,
+            "seconds": 0.009308700100518763,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 11,
+            "seconds": 0.007658799993805587,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 12,
+            "seconds": 0.0053952999878674746,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 13,
+            "seconds": 0.007117300061509013,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 14,
+            "seconds": 0.008703799918293953,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 15,
+            "seconds": 0.0064455000683665276,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 16,
+            "seconds": 0.005310700042173266,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 17,
+            "seconds": 0.006429699948057532,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 18,
+            "seconds": 0.005555100040510297,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 19,
+            "seconds": 0.011028200038708746,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 20,
+            "seconds": 0.010145099950022995,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 21,
+            "seconds": 0.006180499913170934,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 22,
+            "seconds": 0.008161699981428683,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 23,
+            "seconds": 0.0064959999872371554,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 24,
+            "seconds": 0.008087199996225536,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 25,
+            "seconds": 0.00493369996547699,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 26,
+            "seconds": 0.005942299962043762,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 27,
+            "seconds": 0.007318099960684776,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 28,
+            "seconds": 0.00982160004787147,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 29,
+            "seconds": 0.007059199968352914,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 30,
+            "seconds": 0.006262200069613755,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 31,
+            "seconds": 0.005026000086218119,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 32,
+            "seconds": 0.008922200067900121,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 33,
+            "seconds": 0.003995799925178289,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 34,
+            "seconds": 0.003966800053603947,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 35,
+            "seconds": 0.00781710003502667,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 36,
+            "seconds": 0.010340399923734367,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 37,
+            "seconds": 0.007956800051033497,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 38,
+            "seconds": 0.005863700062036514,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 39,
+            "seconds": 0.004252100014127791,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 40,
+            "seconds": 0.007882600068114698,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 41,
+            "seconds": 0.004451699904166162,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 42,
+            "seconds": 0.004368399968370795,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 43,
+            "seconds": 0.007062399992719293,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 44,
+            "seconds": 0.0038288000505417585,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 45,
+            "seconds": 0.00528629997279495,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 46,
+            "seconds": 0.008287100004963577,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 47,
+            "seconds": 0.004709700006060302,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 48,
+            "seconds": 0.006397900055162609,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 49,
+            "seconds": 0.005974699975922704,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 50,
+            "seconds": 0.009120199945755303,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 51,
+            "seconds": 0.01106900000013411,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 52,
+            "seconds": 0.007810199982486665,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 53,
+            "seconds": 0.008888299926184118,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 54,
+            "seconds": 0.008413999923504889,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 55,
+            "seconds": 0.007630800013430417,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 56,
+            "seconds": 0.006697200005874038,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 57,
+            "seconds": 0.004687000066041946,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 58,
+            "seconds": 0.007528000045567751,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 59,
+            "seconds": 0.006956600002013147,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 60,
+            "seconds": 0.006363300024531782,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 61,
+            "seconds": 0.0052217000629752874,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 62,
+            "seconds": 0.008384300046600401,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 63,
+            "seconds": 0.0058994999853894114,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 64,
+            "seconds": 0.00613690004684031,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 65,
+            "seconds": 0.010656400001607835,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 66,
+            "seconds": 0.005147299962118268,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 67,
+            "seconds": 0.007370700011961162,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 68,
+            "seconds": 0.011546700028702617,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 69,
+            "seconds": 0.006868199910968542,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 70,
+            "seconds": 0.009240799932740629,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 71,
+            "seconds": 0.01029689994174987,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 72,
+            "seconds": 0.007178100058808923,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 73,
+            "seconds": 0.006892799981869757,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 74,
+            "seconds": 0.004342500003986061,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 75,
+            "seconds": 0.00588039995636791,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 76,
+            "seconds": 0.0049446000484749675,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 77,
+            "seconds": 0.008193999994546175,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 78,
+            "seconds": 0.005649799946695566,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 79,
+            "seconds": 0.006969099980778992,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 80,
+            "seconds": 0.011801399989053607,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 81,
+            "seconds": 0.0053796999854967,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 82,
+            "seconds": 0.008369000046513975,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 83,
+            "seconds": 0.009640400065109134,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 84,
+            "seconds": 0.005790400085970759,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 85,
+            "seconds": 0.006863799993880093,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 86,
+            "seconds": 0.004255400039255619,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 87,
+            "seconds": 0.007459399988874793,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 88,
+            "seconds": 0.008605499984696507,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 89,
+            "seconds": 0.0085560999577865,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 90,
+            "seconds": 0.004675499978475273,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 91,
+            "seconds": 0.0049851000076159835,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 92,
+            "seconds": 0.006091100047342479,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 93,
+            "seconds": 0.006782400072552264,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 94,
+            "seconds": 0.0077078999020159245,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 95,
+            "seconds": 0.007214799989014864,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 96,
+            "seconds": 0.006823800038546324,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 97,
+            "seconds": 0.006852000020444393,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 98,
+            "seconds": 0.010330599965527654,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 99,
+            "seconds": 0.010323000024072826,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 100,
+            "seconds": 0.00853519991505891,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 101,
+            "seconds": 0.00779469998087734,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 102,
+            "seconds": 0.0076027000322937965,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 103,
+            "seconds": 0.006000999943353236,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 104,
+            "seconds": 0.0047221999848261476,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 105,
+            "seconds": 0.005490699899382889,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 106,
+            "seconds": 0.007382599986158311,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 107,
+            "seconds": 0.007649200037121773,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 108,
+            "seconds": 0.007134899962693453,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 109,
+            "seconds": 0.006553999963216484,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 110,
+            "seconds": 0.007076699985191226,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 111,
+            "seconds": 0.0054688999662175775,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 112,
+            "seconds": 0.005126800038851798,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 113,
+            "seconds": 0.00596950005274266,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 114,
+            "seconds": 0.009912900044582784,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 115,
+            "seconds": 0.008844100055284798,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 116,
+            "seconds": 0.005098800058476627,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 117,
+            "seconds": 0.0076555999694392085,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 118,
+            "seconds": 0.007272699964232743,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 119,
+            "seconds": 0.007801000028848648,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 120,
+            "seconds": 0.012063500005751848,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 121,
+            "seconds": 0.011005499982275069,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 122,
+            "seconds": 0.0013551999581977725,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 123,
+            "seconds": 0.004512200015597045,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 124,
+            "seconds": 0.008324800059199333,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 125,
+            "seconds": 0.008615899947471917,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 126,
+            "seconds": 0.00852959998883307,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 127,
+            "seconds": 0.00461059994995594,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 128,
+            "seconds": 0.007681099930778146,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 129,
+            "seconds": 0.007753000012598932,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 130,
+            "seconds": 0.005358199938200414,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 131,
+            "seconds": 0.010611600009724498,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 132,
+            "seconds": 0.003505700035020709,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 133,
+            "seconds": 0.007059300085529685,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 134,
+            "seconds": 0.00536479998845607,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 135,
+            "seconds": 0.007249899907037616,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 136,
+            "seconds": 0.0041420001070946455,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 137,
+            "seconds": 0.007477800012566149,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 138,
+            "seconds": 0.008270499994978309,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 139,
+            "seconds": 0.007917099981568754,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 140,
+            "seconds": 0.011306700063869357,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 141,
+            "seconds": 0.010070799966342747,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 142,
+            "seconds": 0.004521200084127486,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 143,
+            "seconds": 0.013908399967476726,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 144,
+            "seconds": 0.009002799983136356,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 145,
+            "seconds": 0.00590119999833405,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 146,
+            "seconds": 0.006031199940480292,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 147,
+            "seconds": 0.007530599948950112,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 148,
+            "seconds": 0.0064737999346107244,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 149,
+            "seconds": 0.007162399939261377,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 150,
+            "seconds": 0.008157200063578784,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 151,
+            "seconds": 0.0043385999742895365,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 152,
+            "seconds": 0.0070801000110805035,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 153,
+            "seconds": 0.005305200000293553,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 154,
+            "seconds": 0.004771400010213256,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 155,
+            "seconds": 0.0059220000403001904,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 156,
+            "seconds": 0.010039099957793951,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 157,
+            "seconds": 0.007528500049374998,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 158,
+            "seconds": 0.007324900012463331,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 159,
+            "seconds": 0.00860530009958893,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 160,
+            "seconds": 0.010460000019520521,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 161,
+            "seconds": 0.006546099903061986,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 162,
+            "seconds": 0.004683200037106872,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 163,
+            "seconds": 0.004508999991230667,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 164,
+            "seconds": 0.004941500024870038,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 165,
+            "seconds": 0.006534099928103387,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 166,
+            "seconds": 0.0056016999296844006,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 167,
+            "seconds": 0.006020099972374737,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 168,
+            "seconds": 0.00792479992378503,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 169,
+            "seconds": 0.007548399968072772,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 170,
+            "seconds": 0.008187699946574867,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 171,
+            "seconds": 0.008382499916478992,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 172,
+            "seconds": 0.006517200032249093,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 173,
+            "seconds": 0.0065827000653371215,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 174,
+            "seconds": 0.008076699916273355,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 175,
+            "seconds": 0.0061660000355914235,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 176,
+            "seconds": 0.006075600045733154,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 177,
+            "seconds": 0.0067619000328704715,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 178,
+            "seconds": 0.008344300091266632,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 179,
+            "seconds": 0.005292800022289157,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 180,
+            "seconds": 0.006170899956487119,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 181,
+            "seconds": 0.0071084999945014715,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 182,
+            "seconds": 0.005994400009512901,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 183,
+            "seconds": 0.009101800038479269,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 184,
+            "seconds": 0.006999999983236194,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 185,
+            "seconds": 0.007788300048559904,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 186,
+            "seconds": 0.006666100001893938,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 187,
+            "seconds": 0.0040689000161364675,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 188,
+            "seconds": 0.005442699999548495,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 189,
+            "seconds": 0.0069443000247702,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 190,
+            "seconds": 0.005141100031323731,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 191,
+            "seconds": 0.004929800052195787,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 192,
+            "seconds": 0.007963199983350933,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 193,
+            "seconds": 0.005257999990135431,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 194,
+            "seconds": 0.007717499975115061,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 195,
+            "seconds": 0.005045500001870096,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 196,
+            "seconds": 0.006659799953922629,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 197,
+            "seconds": 0.005240199971012771,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 198,
+            "seconds": 0.005067399935796857,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 199,
+            "seconds": 0.003676300053484738,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          }
+        ],
+        "clients": 8,
+        "correct": 200,
+        "elapsed_seconds": 0.18178109999280423,
+        "median_seconds": 0.006892799981869757,
+        "p95_seconds": 0.010611600009724498,
+        "max_seconds": 0.013908399967476726
+      }
+    ],
+    "write_profiles": [
+      {
+        "label": "direct",
+        "samples": [
+          {
+            "target": 40,
+            "rows_updated": 1000,
+            "seconds_including_fetch_flush_commit": 0.2997773999813944
+          },
+          {
+            "target": 60,
+            "rows_updated": 1000,
+            "seconds_including_fetch_flush_commit": 0.28039229998830706
+          },
+          {
+            "target": 40,
+            "rows_updated": 1000,
+            "seconds_including_fetch_flush_commit": 0.26191999996080995
+          }
+        ]
+      },
+      {
+        "label": "summary",
+        "samples": [
+          {
+            "target": 40,
+            "rows_updated": 1000,
+            "seconds_including_fetch_flush_commit": 0.4372611999278888
+          },
+          {
+            "target": 60,
+            "rows_updated": 1000,
+            "seconds_including_fetch_flush_commit": 0.4492880000034347
+          },
+          {
+            "target": 40,
+            "rows_updated": 1000,
+            "seconds_including_fetch_flush_commit": 0.4331194000551477
+          }
+        ]
+      }
+    ],
+    "source_id": 70,
+    "quality_reference": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3",
+    "summary_plan": [
+      {
+        "Plan": {
+          "Node Type": "Index Scan",
+          "Parallel Aware": false,
+          "Async Capable": false,
+          "Scan Direction": "Forward",
+          "Index Name": "contratos_metricas_calidad_pkey",
+          "Relation Name": "contratos_metricas_calidad",
+          "Alias": "contratos_metricas_calidad",
+          "Startup Cost": 0.15,
+          "Total Cost": 8.18,
+          "Plan Rows": 1,
+          "Plan Width": 64,
+          "Actual Startup Time": 0.015,
+          "Actual Total Time": 0.015,
+          "Actual Rows": 1,
+          "Actual Loops": 1,
+          "Index Cond": "(id = 1)",
+          "Rows Removed by Index Recheck": 0,
+          "Shared Hit Blocks": 2,
+          "Shared Read Blocks": 0,
+          "Shared Dirtied Blocks": 0,
+          "Shared Written Blocks": 0,
+          "Local Hit Blocks": 0,
+          "Local Read Blocks": 0,
+          "Local Dirtied Blocks": 0,
+          "Local Written Blocks": 0,
+          "Temp Read Blocks": 0,
+          "Temp Written Blocks": 0
+        },
+        "Planning": {
+          "Shared Hit Blocks": 0,
+          "Shared Read Blocks": 0,
+          "Shared Dirtied Blocks": 0,
+          "Shared Written Blocks": 0,
+          "Local Hit Blocks": 0,
+          "Local Read Blocks": 0,
+          "Local Dirtied Blocks": 0,
+          "Local Written Blocks": 0,
+          "Temp Read Blocks": 0,
+          "Temp Written Blocks": 0
+        },
+        "Planning Time": 0.038,
+        "Triggers": [],
+        "Execution Time": 0.028
+      }
+    ],
+    "summary_relation_bytes": 294912,
+    "completed_at_utc": "2026-10-10T17:08:15.150741+00:00",
+    "exact_after_all_batches": true
+  },
+  "row_update_tests": {
+    "started_at_utc": "2026-10-10T17:12:00.829127+00:00",
+    "stage": "verified",
+    "database": "codex_plan_quality_summary_20261010_test",
+    "oid": 25627,
+    "port": 5432,
+    "role": "plataforma_operacion",
+    "removed_only_previous_benchmark_synthetic_rows": 10001,
+    "source_sha256": {
+      "database/migrations/env.py": "d375b21946c95d014e0d9ad988a3c579bacf65f76f6ea339c34416c32e464a39",
+      "database/migrations/versions/2ab7c4e8d910_transactional_quality_metrics.py": "b1830a853be3df1f42e17da532fbf82c640e140217386b88f4ca85dad9d7493e",
+      "modules/transformacion/model/ContratoMetricasCalidad.py": "70f36913901aa3ea7254b04be87f9186f4e3c8baae8407608411856db5c7b714",
+      "modules/transformacion/repository/transformacion.py": "40b919c6adfd297b48c92c202f0cbfc1eb1c3d05abca131ac51acec36d5855fb",
+      "tests/test_transactional_quality_metrics_postgres.py": "255c83ed220edd0b824f49cbad03874fbf314b7b0da4d5194f0a9499b0875688",
+      "tests/test_transactional_quality_migration.py": "40d9f1239f2cf20104741774d4bd9b113f386792de849d293b444f6faeb5464d"
+    },
+    "steps": [
+      {
+        "label": "downgrade_old_summary",
+        "exit_code": 0,
+        "log_sha256": "e3548b8fafe723ccd1ba231e1cf1b43e9e1f4832503ffb43b758af512398362e"
+      },
+      {
+        "label": "upgrade_revised_summary",
+        "exit_code": 0,
+        "log_sha256": "1dae42df6154c1c9e04be468477ee5a1c261bc5da22bad8dd7e8f052c8853bef"
+      },
+      {
+        "label": "tests",
+        "exit_code": 0,
+        "log_sha256": "d15ceae945e9633eb0e413d5a39bd89cc1e3a91a7d891c87ec4f76173d08a92a"
+      }
+    ],
+    "summary": [
+      "333 passed in 39.95s"
+    ],
+    "completed_at_utc": "2026-10-10T17:12:45.233590+00:00",
+    "test_database_retained_for_bounded_benchmark": true
+  },
+  "row_update_benchmark": {
+    "started_at_utc": "2026-10-10T17:14:02.547655+00:00",
+    "stage": "verified",
+    "database": "codex_plan_quality_summary_20261010_test",
+    "oid": 25627,
+    "role": "plataforma_operacion",
+    "synthetic_contracts": 10001,
+    "source_sha256": {
+      "database/migrations/env.py": "d375b21946c95d014e0d9ad988a3c579bacf65f76f6ea339c34416c32e464a39",
+      "database/migrations/versions/2ab7c4e8d910_transactional_quality_metrics.py": "b1830a853be3df1f42e17da532fbf82c640e140217386b88f4ca85dad9d7493e",
+      "modules/transformacion/model/ContratoMetricasCalidad.py": "70f36913901aa3ea7254b04be87f9186f4e3c8baae8407608411856db5c7b714",
+      "modules/transformacion/repository/transformacion.py": "40b919c6adfd297b48c92c202f0cbfc1eb1c3d05abca131ac51acec36d5855fb",
+      "tests/test_transactional_quality_metrics_postgres.py": "255c83ed220edd0b824f49cbad03874fbf314b7b0da4d5194f0a9499b0875688",
+      "tests/test_transactional_quality_migration.py": "40d9f1239f2cf20104741774d4bd9b113f386792de849d293b444f6faeb5464d"
+    },
+    "scope": "Bounded SQL/ORM experiment in synthetic test DB only: 200 reads per strategy, eight clients, three 1000-row ORM update samples each; no HTTP or nine-million-row migration claim",
+    "steps": [
+      {
+        "label": "downgrade_to_direct",
+        "exit_code": 0,
+        "log_sha256": "e3548b8fafe723ccd1ba231e1cf1b43e9e1f4832503ffb43b758af512398362e"
+      },
+      {
+        "label": "upgrade_prefilled",
+        "exit_code": 0,
+        "log_sha256": "1dae42df6154c1c9e04be468477ee5a1c261bc5da22bad8dd7e8f052c8853bef"
+      }
+    ],
+    "read_profiles": [
+      {
+        "label": "direct_before",
+        "requests": [
+          {
+            "index": 0,
+            "seconds": 0.009400399983860552,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 1,
+            "seconds": 0.22144150000531226,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 2,
+            "seconds": 0.1493437000317499,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 3,
+            "seconds": 0.1487930000294,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 4,
+            "seconds": 0.30842500005383044,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 5,
+            "seconds": 0.31620300002396107,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 6,
+            "seconds": 0.25128500000573695,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 7,
+            "seconds": 0.1876380000030622,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 8,
+            "seconds": 0.003967700060456991,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 9,
+            "seconds": 0.003636099980212748,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 10,
+            "seconds": 0.0035642998991534114,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 11,
+            "seconds": 0.003466299967840314,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 12,
+            "seconds": 0.003975900006480515,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 13,
+            "seconds": 0.003458900027908385,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 14,
+            "seconds": 0.0035148001043125987,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 15,
+            "seconds": 0.0036767000565305352,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 16,
+            "seconds": 0.0049119999166578054,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 17,
+            "seconds": 0.003573999973013997,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 18,
+            "seconds": 0.0038789999671280384,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 19,
+            "seconds": 0.003878299961797893,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 20,
+            "seconds": 0.0035250999499112368,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 21,
+            "seconds": 0.0036213999846950173,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 22,
+            "seconds": 0.0036034000804647803,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 23,
+            "seconds": 0.0034686001017689705,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 24,
+            "seconds": 0.003409299999475479,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 25,
+            "seconds": 0.0035308999940752983,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 26,
+            "seconds": 0.003743800101801753,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 27,
+            "seconds": 0.003537400043569505,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 28,
+            "seconds": 0.003558899974450469,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 29,
+            "seconds": 0.004211000050418079,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 30,
+            "seconds": 0.0038932999595999718,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 31,
+            "seconds": 0.0035342000192031264,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 32,
+            "seconds": 0.003562700003385544,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 33,
+            "seconds": 0.0038686998886987567,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 34,
+            "seconds": 0.003476700047031045,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 35,
+            "seconds": 0.003599400050006807,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 36,
+            "seconds": 0.0038198999827727675,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 37,
+            "seconds": 0.004443699959665537,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 38,
+            "seconds": 0.003425000002607703,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 39,
+            "seconds": 0.0036139999283477664,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 40,
+            "seconds": 0.0038253000238910317,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 41,
+            "seconds": 0.00375879998318851,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 42,
+            "seconds": 0.003554800059646368,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 43,
+            "seconds": 0.003742599976249039,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 44,
+            "seconds": 0.0034951999550685287,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 45,
+            "seconds": 0.0038852000143378973,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 46,
+            "seconds": 0.003769399947486818,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 47,
+            "seconds": 0.004010999924503267,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 48,
+            "seconds": 0.003836299991235137,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 49,
+            "seconds": 0.0037039000308141112,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 50,
+            "seconds": 0.004022000008262694,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 51,
+            "seconds": 0.004306300077587366,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 52,
+            "seconds": 0.004294899990782142,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 53,
+            "seconds": 0.004648500005714595,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 54,
+            "seconds": 0.0034226999850943685,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 55,
+            "seconds": 0.0032706999918445945,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 56,
+            "seconds": 0.0034895000280812383,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 57,
+            "seconds": 0.0035748000955209136,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 58,
+            "seconds": 0.004193199914880097,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 59,
+            "seconds": 0.004722499987110496,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 60,
+            "seconds": 0.0044593000784516335,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 61,
+            "seconds": 0.004104500054381788,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 62,
+            "seconds": 0.003647100063972175,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 63,
+            "seconds": 0.0038725000340491533,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 64,
+            "seconds": 0.003434699960052967,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 65,
+            "seconds": 0.003598800045438111,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 66,
+            "seconds": 0.0035698999417945743,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 67,
+            "seconds": 0.0034134999150410295,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 68,
+            "seconds": 0.003426400013267994,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 69,
+            "seconds": 0.004005199996754527,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 70,
+            "seconds": 0.0037393999518826604,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 71,
+            "seconds": 0.004405000014230609,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 72,
+            "seconds": 0.004486000048927963,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 73,
+            "seconds": 0.004176200018264353,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 74,
+            "seconds": 0.003424599999561906,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 75,
+            "seconds": 0.003644400043413043,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 76,
+            "seconds": 0.004093799972906709,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 77,
+            "seconds": 0.0031222000252455473,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 78,
+            "seconds": 0.003370199934579432,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 79,
+            "seconds": 0.004080099985003471,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 80,
+            "seconds": 0.003689000033773482,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 81,
+            "seconds": 0.003589699976146221,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 82,
+            "seconds": 0.004647099995054305,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 83,
+            "seconds": 0.0033595000859349966,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 84,
+            "seconds": 0.00400329998228699,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 85,
+            "seconds": 0.004236200009472668,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 86,
+            "seconds": 0.0036706000100821257,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 87,
+            "seconds": 0.004388100001960993,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 88,
+            "seconds": 0.004345900029875338,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 89,
+            "seconds": 0.0039187000365927815,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 90,
+            "seconds": 0.004030300071462989,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 91,
+            "seconds": 0.0033177000004798174,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 92,
+            "seconds": 0.004017100087366998,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 93,
+            "seconds": 0.0035880999639630318,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 94,
+            "seconds": 0.003589599975384772,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 95,
+            "seconds": 0.0038967999862506986,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 96,
+            "seconds": 0.0037136999890208244,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 97,
+            "seconds": 0.003642799914814532,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 98,
+            "seconds": 0.0036099000135436654,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 99,
+            "seconds": 0.0033029000042006373,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 100,
+            "seconds": 0.003082399955019355,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 101,
+            "seconds": 0.0032980000833049417,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 102,
+            "seconds": 0.003270299988798797,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 103,
+            "seconds": 0.0037069000536575913,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 104,
+            "seconds": 0.003360099974088371,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 105,
+            "seconds": 0.0034025999484583735,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 106,
+            "seconds": 0.0034827999770641327,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 107,
+            "seconds": 0.003254899987950921,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 108,
+            "seconds": 0.004204199998639524,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 109,
+            "seconds": 0.005974899977445602,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 110,
+            "seconds": 0.004921999992802739,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 111,
+            "seconds": 0.004668099922128022,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 112,
+            "seconds": 0.004987899912521243,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 113,
+            "seconds": 0.005387499928474426,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 114,
+            "seconds": 0.004790500039234757,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 115,
+            "seconds": 0.004811800085008144,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 116,
+            "seconds": 0.004900299943983555,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 117,
+            "seconds": 0.006234399974346161,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 118,
+            "seconds": 0.0045053999638184905,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 119,
+            "seconds": 0.004372900002636015,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 120,
+            "seconds": 0.004290400072932243,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 121,
+            "seconds": 0.004466300015337765,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 122,
+            "seconds": 0.004516299930401146,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 123,
+            "seconds": 0.0042134999530389905,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 124,
+            "seconds": 0.0048538000555709004,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 125,
+            "seconds": 0.004953800002112985,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 126,
+            "seconds": 0.004761000047437847,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 127,
+            "seconds": 0.005129899946041405,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 128,
+            "seconds": 0.004650000017136335,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 129,
+            "seconds": 0.00402260001283139,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 130,
+            "seconds": 0.004516099928878248,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 131,
+            "seconds": 0.005347799975425005,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 132,
+            "seconds": 0.005410099984146655,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 133,
+            "seconds": 0.0036885999143123627,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 134,
+            "seconds": 0.0050212000496685505,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 135,
+            "seconds": 0.01226470002438873,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 136,
+            "seconds": 0.0088632000843063,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 137,
+            "seconds": 0.003667199984192848,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 138,
+            "seconds": 0.003361399983987212,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 139,
+            "seconds": 0.003635199973359704,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 140,
+            "seconds": 0.004829199984669685,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 141,
+            "seconds": 0.004227600060403347,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 142,
+            "seconds": 0.006159899989143014,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 143,
+            "seconds": 0.004944399930536747,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 144,
+            "seconds": 0.0048779998905956745,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 145,
+            "seconds": 0.004456799943000078,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 146,
+            "seconds": 0.006368899950757623,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 147,
+            "seconds": 0.0051750000566244125,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 148,
+            "seconds": 0.004711899906396866,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 149,
+            "seconds": 0.005310900043696165,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 150,
+            "seconds": 0.004952699993737042,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 151,
+            "seconds": 0.006296500097960234,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 152,
+            "seconds": 0.006906300084665418,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 153,
+            "seconds": 0.005296299932524562,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 154,
+            "seconds": 0.005469399970024824,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 155,
+            "seconds": 0.005228099995292723,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 156,
+            "seconds": 0.0051992000080645084,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 157,
+            "seconds": 0.006186199956573546,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 158,
+            "seconds": 0.004721699981018901,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 159,
+            "seconds": 0.004819300025701523,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 160,
+            "seconds": 0.004438400035724044,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 161,
+            "seconds": 0.005671399994753301,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 162,
+            "seconds": 0.00492189999204129,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 163,
+            "seconds": 0.005049999919719994,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 164,
+            "seconds": 0.006352099939249456,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 165,
+            "seconds": 0.005404599942266941,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 166,
+            "seconds": 0.005418000044301152,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 167,
+            "seconds": 0.0057767999824136496,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 168,
+            "seconds": 0.006616499973461032,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 169,
+            "seconds": 0.005880699958652258,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 170,
+            "seconds": 0.006303000031039119,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 171,
+            "seconds": 0.005636000074446201,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 172,
+            "seconds": 0.005955299944616854,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 173,
+            "seconds": 0.00653519993647933,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 174,
+            "seconds": 0.006895600003190339,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 175,
+            "seconds": 0.004212999949231744,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 176,
+            "seconds": 0.005223099957220256,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 177,
+            "seconds": 0.005964200012385845,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 178,
+            "seconds": 0.014291699975728989,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 179,
+            "seconds": 0.005215000011958182,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 180,
+            "seconds": 0.006302700028754771,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 181,
+            "seconds": 0.0069685999769717455,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 182,
+            "seconds": 0.004413199960254133,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 183,
+            "seconds": 0.005153200007043779,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 184,
+            "seconds": 0.004876099992543459,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 185,
+            "seconds": 0.004182900069281459,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 186,
+            "seconds": 0.006658600061200559,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 187,
+            "seconds": 0.004171399981714785,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 188,
+            "seconds": 0.006460600066930056,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 189,
+            "seconds": 0.00441509997472167,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 190,
+            "seconds": 0.004589500022120774,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 191,
+            "seconds": 0.005532099981792271,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 192,
+            "seconds": 0.0034346000757068396,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 193,
+            "seconds": 0.004625699948519468,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 194,
+            "seconds": 0.005906800040975213,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 195,
+            "seconds": 0.005658100009895861,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 196,
+            "seconds": 0.005337700014933944,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 197,
+            "seconds": 0.006144299986772239,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 198,
+            "seconds": 0.0044169999891892076,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 199,
+            "seconds": 0.00314839999191463,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          }
+        ],
+        "clients": 8,
+        "correct": 200,
+        "elapsed_seconds": 0.3201992999529466,
+        "median_seconds": 0.004227600060403347,
+        "p95_seconds": 0.0088632000843063,
+        "max_seconds": 0.31620300002396107
+      },
+      {
+        "label": "summary",
+        "requests": [
+          {
+            "index": 0,
+            "seconds": 0.007599800010211766,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 1,
+            "seconds": 0.005933400010690093,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 2,
+            "seconds": 0.00684950000140816,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 3,
+            "seconds": 0.005535100004635751,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 4,
+            "seconds": 0.009013500064611435,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 5,
+            "seconds": 0.004676099983043969,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 6,
+            "seconds": 0.005321800010278821,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 7,
+            "seconds": 0.0073803000850602984,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 8,
+            "seconds": 0.008405699976719916,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 9,
+            "seconds": 0.009790800046175718,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 10,
+            "seconds": 0.0111403000773862,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 11,
+            "seconds": 0.00743170001078397,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 12,
+            "seconds": 0.0065902000060305,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 13,
+            "seconds": 0.00425949995405972,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 14,
+            "seconds": 0.008968899957835674,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 15,
+            "seconds": 0.004669100046157837,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 16,
+            "seconds": 0.006425900035537779,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 17,
+            "seconds": 0.008855300024151802,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 18,
+            "seconds": 0.006501800031401217,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 19,
+            "seconds": 0.005325699923560023,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 20,
+            "seconds": 0.007458199979737401,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 21,
+            "seconds": 0.0077813999960199,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 22,
+            "seconds": 0.009793599951080978,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 23,
+            "seconds": 0.006473800051026046,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 24,
+            "seconds": 0.003504500025883317,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 25,
+            "seconds": 0.008056099992245436,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 26,
+            "seconds": 0.007681400049477816,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 27,
+            "seconds": 0.006007099989801645,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 28,
+            "seconds": 0.004756300011649728,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 29,
+            "seconds": 0.0062087998958304524,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 30,
+            "seconds": 0.007834700052626431,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 31,
+            "seconds": 0.006697100005112588,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 32,
+            "seconds": 0.005482399952597916,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 33,
+            "seconds": 0.004508999991230667,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 34,
+            "seconds": 0.00857399997767061,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 35,
+            "seconds": 0.00432780000846833,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 36,
+            "seconds": 0.00624510005582124,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 37,
+            "seconds": 0.0033141999738290906,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 38,
+            "seconds": 0.006098899990320206,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 39,
+            "seconds": 0.004306399961933494,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 40,
+            "seconds": 0.005060099996626377,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 41,
+            "seconds": 0.004514100030064583,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 42,
+            "seconds": 0.007921300013549626,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 43,
+            "seconds": 0.0033585000783205032,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 44,
+            "seconds": 0.003409500000998378,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 45,
+            "seconds": 0.009341199998743832,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 46,
+            "seconds": 0.005045600002631545,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 47,
+            "seconds": 0.00565379997715354,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 48,
+            "seconds": 0.00656360003631562,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 49,
+            "seconds": 0.005239500082097948,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 50,
+            "seconds": 0.007270100060850382,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 51,
+            "seconds": 0.008330599986948073,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 52,
+            "seconds": 0.009999100002460182,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 53,
+            "seconds": 0.004726900020614266,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 54,
+            "seconds": 0.012122099986299872,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 55,
+            "seconds": 0.008247599937021732,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 56,
+            "seconds": 0.0044148999731987715,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 57,
+            "seconds": 0.008730699890293181,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 58,
+            "seconds": 0.00812789995688945,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 59,
+            "seconds": 0.008749100030399859,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 60,
+            "seconds": 0.004770300001837313,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 61,
+            "seconds": 0.004400499979965389,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 62,
+            "seconds": 0.0063368999399244785,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 63,
+            "seconds": 0.007459999993443489,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 64,
+            "seconds": 0.004905999987386167,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 65,
+            "seconds": 0.005047899903729558,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 66,
+            "seconds": 0.008438899996690452,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 67,
+            "seconds": 0.004511300008744001,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 68,
+            "seconds": 0.004611200070939958,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 69,
+            "seconds": 0.006478199968114495,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 70,
+            "seconds": 0.00794429995585233,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 71,
+            "seconds": 0.005102999974042177,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 72,
+            "seconds": 0.005539399920962751,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 73,
+            "seconds": 0.004725700011476874,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 74,
+            "seconds": 0.005100899958051741,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 75,
+            "seconds": 0.004397699958644807,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 76,
+            "seconds": 0.006454900023527443,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 77,
+            "seconds": 0.006559200002811849,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 78,
+            "seconds": 0.005043799988925457,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 79,
+            "seconds": 0.004813700099475682,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 80,
+            "seconds": 0.006986799999140203,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 81,
+            "seconds": 0.005499399965628982,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 82,
+            "seconds": 0.00471150001976639,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 83,
+            "seconds": 0.008168300031684339,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 84,
+            "seconds": 0.004340299987234175,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 85,
+            "seconds": 0.005612200009636581,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 86,
+            "seconds": 0.005309100029990077,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 87,
+            "seconds": 0.00515910005196929,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 88,
+            "seconds": 0.005725600058212876,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 89,
+            "seconds": 0.005669599981047213,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 90,
+            "seconds": 0.003987600095570087,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 91,
+            "seconds": 0.0064718000357970595,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 92,
+            "seconds": 0.005754300043918192,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 93,
+            "seconds": 0.004549799952656031,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 94,
+            "seconds": 0.005847300053574145,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 95,
+            "seconds": 0.004956200020387769,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 96,
+            "seconds": 0.004616199992597103,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 97,
+            "seconds": 0.004814199986867607,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 98,
+            "seconds": 0.005803899955935776,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 99,
+            "seconds": 0.005941600073128939,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 100,
+            "seconds": 0.0076824999414384365,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 101,
+            "seconds": 0.006177200004458427,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 102,
+            "seconds": 0.004263299982994795,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 103,
+            "seconds": 0.004332900047302246,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 104,
+            "seconds": 0.004947199951857328,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 105,
+            "seconds": 0.007539500016719103,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 106,
+            "seconds": 0.004238800029270351,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 107,
+            "seconds": 0.004143900005146861,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 108,
+            "seconds": 0.005106900003738701,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 109,
+            "seconds": 0.00411740003619343,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 110,
+            "seconds": 0.005416399915702641,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 111,
+            "seconds": 0.006971199996769428,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 112,
+            "seconds": 0.005314099951647222,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 113,
+            "seconds": 0.007234999909996986,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 114,
+            "seconds": 0.004930399940349162,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 115,
+            "seconds": 0.008549099904485047,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 116,
+            "seconds": 0.005443600006401539,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 117,
+            "seconds": 0.006795400055125356,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 118,
+            "seconds": 0.004767099977470934,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 119,
+            "seconds": 0.005127400043420494,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 120,
+            "seconds": 0.004752099979668856,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 121,
+            "seconds": 0.004410000052303076,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 122,
+            "seconds": 0.003832999966107309,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 123,
+            "seconds": 0.004594100057147443,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 124,
+            "seconds": 0.004921999992802739,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 125,
+            "seconds": 0.006875799968838692,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 126,
+            "seconds": 0.005437200074084103,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 127,
+            "seconds": 0.0049866000190377235,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 128,
+            "seconds": 0.005882199970073998,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 129,
+            "seconds": 0.005234999931417406,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 130,
+            "seconds": 0.004213700070977211,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 131,
+            "seconds": 0.006372199975885451,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 132,
+            "seconds": 0.0076240000780671835,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 133,
+            "seconds": 0.0033964000176638365,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 134,
+            "seconds": 0.006699300021864474,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 135,
+            "seconds": 0.005014299997128546,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 136,
+            "seconds": 0.003791700000874698,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 137,
+            "seconds": 0.0064153000712394714,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 138,
+            "seconds": 0.00724199996329844,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 139,
+            "seconds": 0.003280600067228079,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 140,
+            "seconds": 0.006484400015324354,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 141,
+            "seconds": 0.005091099999845028,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 142,
+            "seconds": 0.00561540003400296,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 143,
+            "seconds": 0.005172999924980104,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 144,
+            "seconds": 0.005391199956648052,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 145,
+            "seconds": 0.003926499979570508,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 146,
+            "seconds": 0.006333000026643276,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 147,
+            "seconds": 0.007434300030581653,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 148,
+            "seconds": 0.00371890002861619,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 149,
+            "seconds": 0.009004799998365343,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 150,
+            "seconds": 0.006784299970604479,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 151,
+            "seconds": 0.0029344999929890037,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 152,
+            "seconds": 0.003252799971960485,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 153,
+            "seconds": 0.0058895000256598,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 154,
+            "seconds": 0.0026802999200299382,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 155,
+            "seconds": 0.00654129998292774,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 156,
+            "seconds": 0.004144500009715557,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 157,
+            "seconds": 0.004329100018367171,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 158,
+            "seconds": 0.005409199977293611,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 159,
+            "seconds": 0.006964100059121847,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 160,
+            "seconds": 0.005354000022634864,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 161,
+            "seconds": 0.005189100047573447,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 162,
+            "seconds": 0.005529800080694258,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 163,
+            "seconds": 0.004417399992235005,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 164,
+            "seconds": 0.005328499944880605,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 165,
+            "seconds": 0.0035418999614194036,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 166,
+            "seconds": 0.006156999967060983,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 167,
+            "seconds": 0.005097100045531988,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 168,
+            "seconds": 0.00526570004876703,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 169,
+            "seconds": 0.00554099993314594,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 170,
+            "seconds": 0.005209699971601367,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 171,
+            "seconds": 0.005070399958640337,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 172,
+            "seconds": 0.004127199994400144,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 173,
+            "seconds": 0.00488019990734756,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 174,
+            "seconds": 0.006431199959479272,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 175,
+            "seconds": 0.006857299944385886,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 176,
+            "seconds": 0.005480399937368929,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 177,
+            "seconds": 0.005510999937541783,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 178,
+            "seconds": 0.008074600016698241,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 179,
+            "seconds": 0.006723599974066019,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 180,
+            "seconds": 0.005671699997037649,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 181,
+            "seconds": 0.003872399916872382,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 182,
+            "seconds": 0.004996399977244437,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 183,
+            "seconds": 0.007168999989517033,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 184,
+            "seconds": 0.004070799914188683,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 185,
+            "seconds": 0.0050601999973878264,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 186,
+            "seconds": 0.0060273000271990895,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 187,
+            "seconds": 0.0029921000823378563,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 188,
+            "seconds": 0.0060903000412508845,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 189,
+            "seconds": 0.004088000045157969,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 190,
+            "seconds": 0.003629199927672744,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 191,
+            "seconds": 0.005486199981532991,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 192,
+            "seconds": 0.00490399997215718,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 193,
+            "seconds": 0.00577970000449568,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 194,
+            "seconds": 0.004226000048220158,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 195,
+            "seconds": 0.004147200030274689,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 196,
+            "seconds": 0.0032226000912487507,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 197,
+            "seconds": 0.004130500019527972,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 198,
+            "seconds": 0.004292999976314604,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          },
+          {
+            "index": 199,
+            "seconds": 0.002394299954175949,
+            "sha256": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3"
+          }
+        ],
+        "clients": 8,
+        "correct": 200,
+        "elapsed_seconds": 0.15173060004599392,
+        "median_seconds": 0.005416399915702641,
+        "p95_seconds": 0.008749100030399859,
+        "max_seconds": 0.012122099986299872
+      }
+    ],
+    "write_profiles": [
+      {
+        "label": "direct",
+        "samples": [
+          {
+            "target": 40,
+            "rows_updated": 1000,
+            "seconds_including_fetch_flush_commit": 0.2947355000069365
+          },
+          {
+            "target": 60,
+            "rows_updated": 1000,
+            "seconds_including_fetch_flush_commit": 0.2971436999505386
+          },
+          {
+            "target": 40,
+            "rows_updated": 1000,
+            "seconds_including_fetch_flush_commit": 0.3156619999790564
+          }
+        ]
+      },
+      {
+        "label": "summary",
+        "samples": [
+          {
+            "target": 40,
+            "rows_updated": 1000,
+            "seconds_including_fetch_flush_commit": 0.45156269997823983
+          },
+          {
+            "target": 60,
+            "rows_updated": 1000,
+            "seconds_including_fetch_flush_commit": 0.4220772999105975
+          },
+          {
+            "target": 40,
+            "rows_updated": 1000,
+            "seconds_including_fetch_flush_commit": 0.42758390004746616
+          }
+        ]
+      }
+    ],
+    "source_id": 106,
+    "quality_reference": "bab91bbe69665adcd8161b43e0e8ad7b16803f2b360388c77f7a1002d45bbbc3",
+    "summary_plan": [
+      {
+        "Plan": {
+          "Node Type": "Index Scan",
+          "Parallel Aware": false,
+          "Async Capable": false,
+          "Scan Direction": "Forward",
+          "Index Name": "contratos_metricas_calidad_pkey",
+          "Relation Name": "contratos_metricas_calidad",
+          "Alias": "contratos_metricas_calidad",
+          "Startup Cost": 0.16,
+          "Total Cost": 8.18,
+          "Plan Rows": 1,
+          "Plan Width": 64,
+          "Actual Startup Time": 0.017,
+          "Actual Total Time": 0.018,
+          "Actual Rows": 1,
+          "Actual Loops": 1,
+          "Index Cond": "(id = 1)",
+          "Rows Removed by Index Recheck": 0,
+          "Shared Hit Blocks": 2,
+          "Shared Read Blocks": 0,
+          "Shared Dirtied Blocks": 0,
+          "Shared Written Blocks": 0,
+          "Local Hit Blocks": 0,
+          "Local Read Blocks": 0,
+          "Local Dirtied Blocks": 0,
+          "Local Written Blocks": 0,
+          "Temp Read Blocks": 0,
+          "Temp Written Blocks": 0
+        },
+        "Planning": {
+          "Shared Hit Blocks": 0,
+          "Shared Read Blocks": 0,
+          "Shared Dirtied Blocks": 0,
+          "Shared Written Blocks": 0,
+          "Local Hit Blocks": 0,
+          "Local Read Blocks": 0,
+          "Local Dirtied Blocks": 0,
+          "Local Written Blocks": 0,
+          "Temp Read Blocks": 0,
+          "Temp Written Blocks": 0
+        },
+        "Planning Time": 0.037,
+        "Triggers": [],
+        "Execution Time": 0.03
+      }
+    ],
+    "summary_relation_bytes": 532480,
+    "completed_at_utc": "2026-10-10T17:14:11.092375+00:00",
+    "exact_after_all_batches": true
+  },
+  "timestamp_only_benchmark": {
+    "database": "codex_plan_quality_summary_20261010_test",
+    "oid": 25627,
+    "scope": "Four paired 1000-row timestamp-only ORM updates on benchmark-owned synthetic records; update trigger temporarily disabled only in this test DB for reference",
+    "started_at_utc": "2026-10-10T17:16:26.419199+00:00",
+    "samples": [
+      {
+        "enabled": true,
+        "rows": 1000,
+        "seconds_including_fetch_flush_commit": 1.1760996000375599
+      },
+      {
+        "enabled": false,
+        "rows": 1000,
+        "seconds_including_fetch_flush_commit": 0.4239773000590503
+      },
+      {
+        "enabled": false,
+        "rows": 1000,
+        "seconds_including_fetch_flush_commit": 0.2967733999248594
+      },
+      {
+        "enabled": true,
+        "rows": 1000,
+        "seconds_including_fetch_flush_commit": 0.31546810001600534
+      }
+    ],
+    "stage": "verified",
+    "summary_not_written": true,
+    "trigger_reenabled": true,
+    "completed_at_utc": "2026-10-10T17:16:29.900086+00:00"
+  },
+  "source_reports_sha256": {
+    "quality-summary-local-tests-20261010.json": "c5992dd3d563c59dcf1c573405cef7acba0de658e162e85881fa2ddfead2ff2b",
+    "quality-summary-local-tests-resume-20261010.json": "65ecc04f38e5a3c19f4d75d9139ee9ccc7a690d9f5df8c704c3454ee737e8ec4",
+    "quality-summary-benchmark-20261010.json": "752519d7399a4eb3f3c4f98328c6755f11b2925e3ba225c7bdcdabadd76b5f77",
+    "quality-summary-row-update-tests-20261010.json": "5173410caddb90c73e8dc8bbaefed19bccbf5f1404774f8085a63dd40ed5ba38",
+    "quality-summary-row-update-benchmark-20261010.json": "d9f8a6b88a6798ec20ba20e08cc899100fb5144191a7cdb1301c12f08f151502",
+    "quality-summary-timestamp-updates-20261010.json": "97bdf65c38f8433d60731005512c1bf136592cdac75e8daae80406f73c992b7d",
+    "quality-summary-final-tests-20261010.json": "097b03cb95f826d836c68c8549d0297278c65d88f3ceab185d0d352fb00d165f"
+  },
+  "postflight": {
+    "schema": "f4826b9d1c30",
+    "summary_absent": true,
+    "valid_indexes": 21,
+    "invalid_indexes": 0,
+    "active_jobs": 0,
+    "active_or_keyed_sources": 0,
+    "raw_first_2000_md5": "7faea8375c6e3e4faba1c23f71dc6b5e",
+    "processed_first_2000_md5": "b43af927328ccadd38889f9665916189",
+    "max_job_id": 103,
+    "heap_file": 24736,
+    "removed_test_database": "codex_plan_quality_summary_20261010_test",
+    "removed_test_oid": 25627,
+    "test_database_bytes_before_removal": 28147047
+  },
+  "pending": [
+    "GitHub destination authorization already requested, no retry after rejection",
+    "Remote CI and compatible deployment",
+    "One initial aggregate and migration on full cut, then HTTP eight-client profile",
+    "Combined writes/faults/multiple workers and agreed workload/limits",
+    "Write overhead and summary-row contention must be accepted and measured"
+  ]
+}

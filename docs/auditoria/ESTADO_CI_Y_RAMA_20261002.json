@@ -1,0 +1,42 @@
+{
+  "allow_force_pushes": false,
+  "required_conversation_resolution": true,
+  "successful_runs": [
+    {
+      "event": "push",
+      "html_url": "https://github.com/jul1annt/PLATAFORMA-DE-DETECCION-TEMPRANA-DE-CORRUPCION-MEDIANTE-DATOS-ABIERTOS-PUBLICOS/actions/runs/36988283914",
+      "status": "completed",
+      "head_sha": "d31c4a377691f3edefdbc3bbbf7f74331ca9d319",
+      "conclusion": "success",
+      "id": 36988283914
+    },
+    {
+      "event": "pull_request",
+      "html_url": "https://github.com/jul1annt/PLATAFORMA-DE-DETECCION-TEMPRANA-DE-CORRUPCION-MEDIANTE-DATOS-ABIERTOS-PUBLICOS/actions/runs/36988288049",
+      "status": "completed",
+      "head_sha": "d31c4a377691f3edefdbc3bbbf7f74331ca9d319",
+      "conclusion": "success",
+      "id": 36988288049
+    }
+  ],
+  "checked_at_utc": "2026-10-02T09:11:28.6673069Z",
+  "enforce_admins": true,
+  "commit_sha": "e39f1030fee6e6f3f794a8655e43a190fa15e36d",
+  "protected": true,
+  "allow_deletions": false,
+  "branch": "main",
+  "required_status_checks": {
+    "checks": [
+      {
+        "app_id": 15368,
+        "context": "backend"
+      },
+      {
+        "app_id": 15368,
+        "context": "frontend"
+      }
+    ],
+    "strict": true
+  },
+  "pull_request_url": "https://github.com/jul1annt/PLATAFORMA-DE-DETECCION-TEMPRANA-DE-CORRUPCION-MEDIANTE-DATOS-ABIERTOS-PUBLICOS/pull/1"
+}

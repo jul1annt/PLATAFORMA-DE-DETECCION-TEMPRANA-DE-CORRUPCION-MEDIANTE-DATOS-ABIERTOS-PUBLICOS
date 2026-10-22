@@ -1,0 +1,248 @@
+{
+  "version": "base-analitica-pesos-v8",
+  "date_bogota": "2026-10-20",
+  "purpose": "Base documentada para desarrollo posterior, evaluación descriptiva y referencia independiente de modelos.",
+  "status": "REFERENCIA_NO_CALIBRADA_CON_PRIORIZACION_ROBUSTA",
+  "legacy": {
+    "unit": "proveedor_por_ejecucion",
+    "weights": {
+      "OUTLIER": 1.0,
+      "DUPLICADO_CORTO": 1.5,
+      "ABUSO_DIRECTO": 2.0
+    },
+    "formula": "OUTLIER*1 + DUPLICADO_CORTO*1.5 + ABUSO_DIRECTO*2",
+    "thresholds": {
+      "MEDIO": 2.0,
+      "ALTO": 5.0
+    },
+    "calibrated": false,
+    "reason_retained": "Reproducir resultados históricos; estos coeficientes no constituyen pesos científicamente validados.",
+    "known_problem": "Escalas heterogéneas: IQR no acotado frente a componentes de 0 a 10.",
+    "database_weights_changed": false
+  },
+  "development_baseline": {
+    "implementation": "Backend/modules/motor_riesgo/rules.py:chronological_baseline",
+    "unit": "operacion_y_etapa",
+    "families": [
+      {
+        "id": "IMPORTE_ATIPICO",
+        "weight": 1.0,
+        "contribution": "0 o 1 cuando IQR es evaluable",
+        "stages": [
+          "CONVOCATORIA",
+          "ADJUDICACION"
+        ]
+      },
+      {
+        "id": "COMPETENCIA",
+        "weight": 1.0,
+        "contribution": "0 o 1 cuando oferentes y modalidad estén verificados",
+        "stages": [
+          "ADJUDICACION"
+        ],
+        "automatic_capture_enabled": false
+      },
+      {
+        "id": "CONCENTRACION_REITERACION",
+        "weight": 1.0,
+        "contribution": "1 si directas_90d>=3 O reiteraciones_30d>=2; máximo 1 por familia",
+        "stages": [
+          "ADJUDICACION"
+        ]
+      }
+    ],
+    "equal_weights_rationale": "Referencia transparente sin evidencia para preferir una familia; no estimación de importancia causal o predictiva.",
+    "formula": "Conteo de familias detectadas; conservar por separado aplicabilidad y cobertura.",
+    "maximum_implemented_count": 3,
+    "minimum_iqr_peers": 30,
+    "iqr_multiplier": 1.5,
+    "peer_groups": [
+      "categoria",
+      "modalidad",
+      "año"
+    ],
+    "windows_days": {
+      "reiteraciones": 30,
+      "directas": 90
+    },
+    "thresholds_are_operational_choices": true,
+    "missingness": "No evaluado no significa ausencia; el conteo parcial es evidencia mínima observada, no un total de riesgo completo.",
+    "public_risk_levels_defined": false,
+    "index_0_100_enabled": false,
+    "publication_enabled": false,
+    "corruption_probability": false,
+    "compare_different_stages": false,
+    "coverage_implementation": "Backend/modules/motor_riesgo/baseline_coverage.py",
+    "coverage_policy": "binary-family-coverage-v1",
+    "coverage_states": [
+      "DETECTADA",
+      "SIN_SENAL",
+      "NO_EVALUABLE",
+      "NO_APLICA"
+    ],
+    "partial_score": "confirmed_signal_count es un límite inferior; complete_score=null si alguna familia aplicable no es evaluable.",
+    "interval": "[familias detectadas, familias detectadas + familias no evaluables]; no es intervalo de confianza.",
+    "family_or_semantics": "Una señal positiva demuestra la familia OR aunque otra sea desconocida; los estados individuales se conservan.",
+    "stage_separation": "Convocatoria: IQR; adjudicación: IQR, competencia verificada y concentración/reiteración.",
+    "competition_default": "No evaluable hasta verificar semántica; el comparador cronológico no habilita esa excepción.",
+    "model_approval": "Rechaza informes sin cobertura completa y política vigente del comparador.",
+    "coverage_record": "Detalle por operación en CLI; informes de entrenamiento con agregados y hash del detalle."
+  },
+  "changes_require": [
+    "Nueva versión de política y procedencia de datos y código",
+    "Evaluación de cobertura y ausencia de información futura",
+    "Análisis de sensibilidad y redundancia entre indicadores",
+    "Comparaciones por periodo, modalidad y sector",
+    "Etiquetas judiciales suficientes y evaluación independiente para afirmar capacidad predictiva",
+    "Criterios de aprobación del plan original antes de activar modelos"
+  ],
+  "descriptive_evaluation": "EVALUACION_PESOS_BASE_20261019.json",
+  "evidence_contacts_allowed": false,
+  "supersedes": "base-analitica-pesos-v6",
+  "normalization_lab": {
+    "policy": "legacy-normalization-lab-v1",
+    "implementation": "Backend/modules/motor_riesgo/weight_lab.py",
+    "unit": "resultado_legado_de_proveedor",
+    "census_rows": 31731,
+    "reference_sha256": "9ece481b9cdfe034d98cf754622e80f459ade357164f7139d46a51bb9b890d9d",
+    "report": "COMPARACION_NORMALIZACIONES_REV3_20261019.json",
+    "bounded_outlier": "s/(1+s)",
+    "bounded_reiteration_and_direct": "s/10",
+    "empirical_reference": "Referencia ECDF congelada con ceros conservados y empates medios",
+    "weights_for_equal_comparisons": {
+      "OUTLIER": 1,
+      "DUPLICADO_CORTO": 1,
+      "ABUSO_DIRECTO": 1
+    },
+    "deployment_selected": false,
+    "automatic_weight_optimization": false,
+    "historical_stage_predictors": false,
+    "statement": "Alternativas descriptivas; no sustituyen las familias corregidas ni acreditan mejor detección."
+  },
+  "current_cut_iqr_pilot": {
+    "policy": "complete-cohort-current-cut-v1",
+    "report": "REGLAS_CORREGIDAS_COHORTE_COMPLETA_2017_20261019.json",
+    "unit": "adjudicacion_identificada_en_cohorte_completa",
+    "cohort": "V1.80161500",
+    "period": 2017,
+    "raw_rows": 1698,
+    "eligible_peers": 1392,
+    "reference_sha256": "cf9e8767ba6c2980354fd123e6750f19afe477645b9f7c3ae19b6937464af0f8",
+    "training_eligible": false,
+    "temporal_scope": "current_cut_descriptive_not_stage_prediction",
+    "complete_risk_scores": 0,
+    "future_rule": "No convertir ausencia de señal IQR en riesgo bajo cuando otras familias sean desconocidas."
+  },
+  "current_cut_joint_pilot": {
+    "policy": "current-cut-joint-families-v1",
+    "implementation": "Backend/modules/motor_riesgo/joint_baseline.py",
+    "report": "EVALUACION_CONJUNTA_FAMILIAS_2017_REV2_20261019.json",
+    "targets": 1698,
+    "histories_accepted": 13,
+    "accepted_iqr_findings": 4,
+    "accepted_iqr_without_finding": 9,
+    "complete_descriptive_counts": 0,
+    "family_status_counts": {
+      "IMPORTE_ATIPICO": {
+        "SIN_SENAL": 1342,
+        "NO_EVALUABLE": 306,
+        "DETECTADA": 50
+      },
+      "COMPETENCIA": {
+        "NO_EVALUABLE": 1698
+      },
+      "CONCENTRACION_REITERACION": {
+        "NO_EVALUABLE": 1685,
+        "SIN_SENAL": 13
+      }
+    },
+    "database_generation_consistency_verified": false,
+    "training_eligible": false,
+    "model_index_enabled": false,
+    "publication_enabled": false,
+    "weight_change_selected": false
+  },
+  "integrated_rolling_diagnostic": {
+    "policy": "selected-source-capture-rolling-v1",
+    "implementation": "Backend/modules/motor_riesgo/rolling_materialize.py",
+    "anchor": "capture_time_not_historical_award",
+    "universe": "known_normalized_pairs_in_selected_source_capture",
+    "validation_receipt": "VALIDACION_INTEGRACION_SQL_VENTANAS_20261019.json",
+    "original_database_deployed": false
+  },
+  "competition_semantic_audit": {
+    "status": "AUDITADA_NO_HABILITADA_PARA_OFERENTE_UNICO",
+    "policy": "secop-registered-responses-context-v1",
+    "report": "AUDITORIA_CAMPOS_COMPETENCIA_REV2_20261020.json",
+    "selected_rows": 2536,
+    "observed_processes": 2456,
+    "source_dataset": "p6dx-8zbt",
+    "registered_unique_response_states": {
+      "UNO": 1770,
+      "CERO": 235,
+      "MULTIPLE": 531
+    },
+    "actual_bidder_field_verified": false,
+    "fallback_to_responses_or_invitations": false,
+    "added_to_risk_score": false,
+    "weight_changes": false,
+    "future_requirement": "New evidence of submitted/valid bids and lot scope, reviewed independently; do not reinterpret the audited response counters."
+  },
+  "annual_buyer_context": {
+    "policy": "buyer-annual-process-participation-v1",
+    "implementation": "Backend/modules/motor_riesgo/annual_materialize.py",
+    "metric": "maximum_supplier_process_participation_not_monetary_share_or_hhi",
+    "target_process_excluded": true,
+    "window_elapsed_hours": 8760,
+    "missing_dates_preserved": true,
+    "partial_denominator_ratio_enabled": false,
+    "report": "AUDITORIA_CONTEXTO_ANUAL_20261020.json",
+    "real_frame_rows": 1478,
+    "observed_publication_processes": 1190,
+    "publication_quality_rows": 231,
+    "observed_awarded_processes": 872,
+    "market_quality_rows": 854,
+    "concentration": null,
+    "monetary_market_share": false,
+    "hhi": false,
+    "weight_changes": false,
+    "training_capture_sources_versioned": true
+  },
+  "previous_policy": "POLITICA_PESOS_BASE_V7.json",
+  "robust_priority": {
+    "policy": "coverage-and-weight-robust-priority-v1",
+    "implementation": "Backend/modules/motor_riesgo/robust_priority.py",
+    "integrated_into": "Backend/modules/motor_riesgo/joint_baseline.py",
+    "central_family_weights": {
+      "IMPORTE_ATIPICO": 1,
+      "COMPETENCIA": 1,
+      "CONCENTRACION_REITERACION": 1
+    },
+    "sensitivity_box": {
+      "minimum": "0.80",
+      "maximum": "1.20",
+      "vertices_per_three_applicable_families": 8
+    },
+    "range_is_calibrated": false,
+    "missing_family_contribution": "[0, family_weight]",
+    "rank_bounds": "Conservative under every shared weight vector in the box and every unknown-family completion; ties remain unordered.",
+    "comparison_scope": "Same supplied cohort, stage and applicable-family set.",
+    "pattern_aggregation": "At most 27 family-status patterns per application group; no all-contract-pairs comparison.",
+    "review_routes": [
+      "REVISAR_SENALES_CONFIRMADAS",
+      "COMPLETAR_EVIDENCIA",
+      "SIN_SENAL_OBSERVADA"
+    ],
+    "review_routes_are_risk_levels": false,
+    "quality_missingness_increases_risk_score": false,
+    "real_pilot_report": "EVALUACION_CONJUNTA_FAMILIAS_2017_REV3_20261020.json",
+    "standalone_report": "PRIORIZACION_ROBUSTA_COHORTE_2017_20261020.json",
+    "pilot_targets": 1698,
+    "pilot_confirmed_signal_review": 50,
+    "pilot_evidence_completion": 1648,
+    "pilot_fully_resolved_priorities": 0,
+    "coefficients_changed": false,
+    "publication_enabled": false,
+    "training_eligible": false
+  }
+}

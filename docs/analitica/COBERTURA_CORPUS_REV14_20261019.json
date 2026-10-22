@@ -1,0 +1,29 @@
+{
+  "date_bogota": "2026-10-19",
+  "inventory": "INVENTARIO_CASOS_REVISION14_20261019.json",
+  "registry_sha256_bytes": "2c52b57c019b185ece2ca4b4b6878a3eda450286d47969979dceea32cdbe9f96",
+  "registered_candidates": 14,
+  "eligible_training_cases": 0,
+  "eligible_independent_positive_groups": 0,
+  "accepted_label_temporal_coverage": [],
+  "candidate_procurement_years": {
+    "2000": 1,
+    "2002": 1,
+    "2006": 1,
+    "2007": 1,
+    "2008": 1,
+    "2009": 1,
+    "2010": 1,
+    "2012": 1,
+    "2013": 2,
+    "2015": 1,
+    "2020": 5,
+    "2021": 2,
+    "2022": 1
+  },
+  "candidate_years_not_recorded": [],
+  "year_count_unit": "Registros candidatos con año declarado, no operaciones ni expedientes positivos independientes.",
+  "coverage_correction": "Conserva cómputo singular/plural e incorpora año 2020 para el candidato Centros Poblados; no implica una etiqueta admitida.",
+  "source_stage_observations_created_this_review": 0,
+  "training_performed": false
+}

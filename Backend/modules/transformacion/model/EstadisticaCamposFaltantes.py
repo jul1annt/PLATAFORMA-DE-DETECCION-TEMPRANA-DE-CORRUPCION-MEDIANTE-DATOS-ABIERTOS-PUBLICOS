@@ -5,8 +5,8 @@ from shared.base_model import Base
 
 class EstadisticaCamposFaltantes(Base):
     """
-    Contador acumulado de cuántas veces ha faltado cada campo obligatorio.
-    Se incrementa en +1 por cada registro que llega sin ese campo.
+    Conteo reconstruible de contratos procesados con cada campo obligatorio ausente.
+    El porcentaje usa como denominador todos los contratos procesados vigentes.
     """
     __tablename__ = "estadistica_campos_faltantes"
 
@@ -15,3 +15,4 @@ class EstadisticaCamposFaltantes(Base):
     contador_faltantes = Column(Integer,  nullable=False, default=0)
     porcentaje_total = Column(Numeric(5, 2), default=0.0)
     updated_at      = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
+    riesgo_desde_revision = Column(BigInteger, nullable=False, server_default='0')

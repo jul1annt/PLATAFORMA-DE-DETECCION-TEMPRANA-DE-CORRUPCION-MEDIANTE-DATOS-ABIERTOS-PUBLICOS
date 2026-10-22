@@ -1,0 +1,23 @@
+{
+  "created_at": "2026-10-19T22:05:57.297329+00:00",
+  "candidates": 14,
+  "eligible_cases": 0,
+  "report_hashes": {
+    "casos_candidatos.json": "2c52b57c019b185ece2ca4b4b6878a3eda450286d47969979dceea32cdbe9f96",
+    "INVENTARIO_CASOS_REVISION14_20261019.json": "69f4a5c461ff5e4933225d4924451c79667faf5ede024506055e7e0688b0360b",
+    "COBERTURA_CORPUS_REV14_20261019.json": "96134b03dd4fe31ff3709b82ed143651b34306d5285e696947a79227045ab597",
+    "SEGUIMIENTO_CENTROS_POBLADOS_20261019.json": "cac958021ea1ce3ba9cf796e32527f977e1ca9db3a346e2c7e224b616b9aa543",
+    "HALLAZGOS_JUDICIALES_REV14_20261019.md": "a66df2471a61f2c3bbdfaa08e8eee1020115c58c56144a9bc9ea0df02ca6e2da"
+  },
+  "institutional_pdf_sha256": "f9797a9c75d4e807fcd61fd0850d6ad8e55d5f2e1a249baac317614f0d047ed9",
+  "registry_and_exclusions_recomputed": true,
+  "coverage_recomputed": true,
+  "previous_backend_validation": "VALIDACION_FIRMEZA_DECLARADA_20261019.json",
+  "previous_validation_tracked_code_hashes_still_match": true,
+  "backend_tests_rerun": false,
+  "implementation_files_edited_this_review": false,
+  "database_accessed": false,
+  "models_trained": false,
+  "publication_changed": false,
+  "scope": "Documentary integrity and admission checks; not original conviction/finality certification or exhaustive judicial search."
+}

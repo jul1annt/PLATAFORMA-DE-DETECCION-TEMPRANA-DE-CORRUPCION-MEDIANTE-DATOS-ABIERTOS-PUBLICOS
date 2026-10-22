@@ -1,0 +1,9 @@
+{
+  "scope": "Documentos de contratación localizados en ANI para investigar variables por etapa, sin retrofechar capturas actuales",
+  "sources": [
+    {"id":"ani-ruta-sol-proceso-actualizado","kind":"PAGINA_PROCESO_ACTUAL","url":"https://www.ani.gov.co/zh/w/autopista-ruta-del-sol-sector-i-ii-y-iii-actualizacion"},
+    {"id":"ani-ruta-sol-pliegos-definitivos","kind":"DOCUMENTO_ETAPA_PENDIENTE","url":"https://www.ani.gov.co/sites/default/files/hiring/29336/2577/pliegos_de_condiciones_definitivos.pdf"},
+    {"id":"ani-ruta-sol-pliego-archivo-anterior","kind":"DOCUMENTO_ETAPA_PENDIENTE","url":"https://www.ani.gov.co/sites/default/files/contratos_anteriores/file_doc_procesos16310.pdf"},
+    {"id":"ani-nueva-ruta-sol-anexo-contexto","kind":"DOCUMENTO_POSTERIOR_CONTEXTO","url":"https://www.ani.gov.co/sites/default/files/hiring/29233/2581//anexo_4._modulo_i._requerimientos_tecnicos_financieros_juridicos_y_cargas_de_trabajo_nrds_ii_sm.pdf"}
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "at_utc": "2026-10-05T05:29:58.870289+00:00",
+  "job_id": 100,
+  "terminated_backend": 35512,
+  "committed_log": {
+    "id": 4,
+    "estado": "EN_PROCESO",
+    "total_evaluados": 26000,
+    "procesados": 5000,
+    "omitidos": 21000,
+    "universo": {
+      "tamano_lote": 1000,
+      "total_evaluados": 26000,
+      "forzar_reproceso": true,
+      "max_raw_secop_id": 9249545,
+      "total_candidatos": 9249545,
+      "background_job_id": 100,
+      "version_checkpoint": 1,
+      "ultimo_raw_secop_id": 26000,
+      "candidatos_verificados_en": "2026-10-05T05:15:42.506415+00:00",
+      "fecha_referencia_anomalias": "2026-10-05"
+    }
+  },
+  "reason": "Observer did not record expired log state; pause was not triggered. Preserve this committed prefix and repair the observer before resuming the same job."
+}

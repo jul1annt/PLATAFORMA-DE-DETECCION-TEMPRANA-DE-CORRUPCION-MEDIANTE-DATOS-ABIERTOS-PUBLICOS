@@ -4,7 +4,7 @@ import { Badge } from '../ui/Badge';
 import { Skeleton } from '../ui/Skeleton';
 import { fuentesService } from '../../services/fuentesService';
 import type { SincronizacionHistorialResponseDTO, EstadoSync } from '../../types/fuente';
-import { AlertCircle, CheckCircle2, Clock, Info } from 'lucide-react';
+import { AlertCircle, CheckCircle2, Clock, Info, ChevronLeft, ChevronRight } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 interface HistorialSyncModalProps {
@@ -15,26 +15,38 @@ interface HistorialSyncModalProps {
 }
 
 export const HistorialSyncModal: React.FC<HistorialSyncModalProps> = ({ isOpen, onClose, fuenteId, fuenteNombre }) => {
+  const PAGE_SIZE = 20;
   const [logs, setLogs] = useState<SincronizacionHistorialResponseDTO[]>([]);
+  const [total, setTotal] = useState(0);
+  const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (isOpen && fuenteId) {
-      fetchHistorial(fuenteId);
-    }
-  }, [isOpen, fuenteId]);
-
-  const fetchHistorial = async (id: number) => {
-    try {
+    if (!isOpen || !fuenteId) return;
+    let cancelled = false;
+    const timer = window.setTimeout(() => {
       setLoading(true);
-      const data = await fuentesService.getHistorialByFuenteId(id);
-      setLogs(data);
-    } catch (error) {
-      toast.error('Error al cargar el historial de sincronizaciones');
-    } finally {
-      setLoading(false);
-    }
-  };
+      void fuentesService.getPaginaHistorialByFuenteId(fuenteId, page, PAGE_SIZE)
+        .then((data) => {
+          if (!cancelled) {
+            setLogs(data.items);
+            setTotal(data.total);
+            const lastPage = Math.max(1, Math.ceil(data.total / PAGE_SIZE));
+            if (page > lastPage) setPage(lastPage);
+          }
+        })
+        .catch(() => {
+          if (!cancelled) toast.error('Error al cargar el historial de sincronizaciones');
+        })
+        .finally(() => {
+          if (!cancelled) setLoading(false);
+        });
+    }, 0);
+    return () => {
+      cancelled = true;
+      window.clearTimeout(timer);
+    };
+  }, [isOpen, fuenteId, page]);
 
   const getStatusConfig = (estado: EstadoSync) => {
     switch (estado) {
@@ -129,6 +141,29 @@ export const HistorialSyncModal: React.FC<HistorialSyncModalProps> = ({ isOpen, 
           </tbody>
         </table>
       </div>
+      {total > 0 && (
+        <div className="flex items-center justify-between gap-3 border-t border-slate-100 pt-3 mt-3">
+          <span className="text-xs text-slate-500">
+            Página {page} de {Math.max(1, Math.ceil(total / PAGE_SIZE))} · {total.toLocaleString('es-CO')} sincronizaciones
+          </span>
+          <div className="flex gap-2">
+            <button
+              onClick={() => setPage((current) => Math.max(1, current - 1))}
+              disabled={loading || page <= 1}
+              className="inline-flex items-center gap-1 rounded-lg border border-slate-200 px-3 py-1.5 text-xs text-slate-600 disabled:opacity-40"
+            >
+              <ChevronLeft size={14} /> Anterior
+            </button>
+            <button
+              onClick={() => setPage((current) => current + 1)}
+              disabled={loading || page >= Math.ceil(total / PAGE_SIZE)}
+              className="inline-flex items-center gap-1 rounded-lg border border-slate-200 px-3 py-1.5 text-xs text-slate-600 disabled:opacity-40"
+            >
+              Siguiente <ChevronRight size={14} />
+            </button>
+          </div>
+        </div>
+      )}
     </Modal>
   );
 };

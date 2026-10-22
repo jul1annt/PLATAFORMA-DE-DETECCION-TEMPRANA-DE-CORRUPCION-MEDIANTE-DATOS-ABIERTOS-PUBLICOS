@@ -1,0 +1,52 @@
+{
+  "checked_at_utc": "2026-10-02T11:47:00.144027+00:00",
+  "database": "plataforma_secop_refresh_20261001_test",
+  "source_signature_before": {
+    "filas": 9249545,
+    "min_actualizacion": "2026-10-01T17:30:18.584Z",
+    "max_actualizacion": "2026-10-01T17:30:18.584Z",
+    "sample_checked": 12,
+    "sample_missing": 0
+  },
+  "source_signature_after": {
+    "filas": 9249545,
+    "min_actualizacion": "2026-10-01T17:30:18.584Z",
+    "max_actualizacion": "2026-10-01T17:30:18.584Z",
+    "sample_checked": 12,
+    "sample_missing": 0
+  },
+  "local_total": 9249545,
+  "local_missing_socrata_ids": 0,
+  "local_unique_index_valid": true,
+  "local_by_publication_year": {
+    "2015": 5528,
+    "2016": 9904,
+    "2017": 43728,
+    "2018": 194742,
+    "2019": 186082,
+    "2020": 419702,
+    "2021": 652936,
+    "2022": 1038590,
+    "2023": 1531551,
+    "2024": 1670370,
+    "2025": 1934947,
+    "2026": 1434157,
+    "SIN_FECHA": 127308
+  },
+  "official_by_publication_year": {
+    "2015": 5528,
+    "2016": 9904,
+    "2017": 43728,
+    "2018": 194742,
+    "2019": 186082,
+    "2020": 419702,
+    "2021": 652936,
+    "2022": 1038590,
+    "2023": 1531551,
+    "2024": 1670370,
+    "2025": 1934947,
+    "2026": 1434157,
+    "SIN_FECHA": 127308
+  },
+  "complete": true
+}

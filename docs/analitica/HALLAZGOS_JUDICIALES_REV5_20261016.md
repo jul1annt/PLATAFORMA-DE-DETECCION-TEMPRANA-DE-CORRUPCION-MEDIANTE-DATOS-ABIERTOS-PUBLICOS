@@ -1,0 +1,15 @@
+# Revisión 5 del inventario judicial
+
+Se conserva [SEP077-2023, radicado 00542](https://www.cortesuprema.gov.co/corte/wp-content/uploads/prensa/SEP00077-2023.pdf), de 15/06/2023. SHA-256: `3d72edf1225e6745e470e48d63280bca3990e76ecb614501279713397fafb3dd`. El original tiene 218 páginas, incluidos salvamentos; la sentencia está numerada hasta 189. La revisión visual local comprobó las páginas 141 y 185–188.
+
+La parte resolutiva contiene condenas y nulidad parcial de otros cargos. No basta que un contrato aparezca mencionado: cada vínculo positivo exige revisión expresa de los hechos y de la decisión que cubre esa operación. El registro requiere `judicial_link`: hash de la sentencia, `outcome=CONDENA_CORRUPCION`, `reviewed=true`, `facts_locator` y `operative_locator`. Nulidades, absoluciones, investigaciones y fraude contractual no acreditan ese vínculo. Esta declaración revisada no sustituye los documentos físicos ni la firmeza.
+
+En la página 141 se ve `CO1.PCCNTR 3454253`, seguido del superíndice **196**. La extracción textual lo concatena; no se registra `3454253196` como ID. Se conserva como pista sin conciliar, sin asignar filas ni etiquetas. También se conserva una referencia contractual de 2021, que no equivale a un identificador SECOP.
+
+La página 188 admite apelación. No se obtuvo constancia de ejecutoria ni decisión del último recurso. Tampoco se acreditaron un vínculo positivo completo, variables históricas o la primera fecha de investigación. La apertura formal de 2022 no resuelve la cronología del SPOA referido desde 2020.
+
+El [seguimiento de identidad](SEGUIMIENTO_VINCULO_SEP077_20261016.json) conservó respuestas oficiales estrechas de contratos y procesos. La referencia de compra `CO1.BDOS.2729233` corresponde al portafolio; la fuente devuelve el proceso `CO1.REQ.2809361`, presente una vez en la copia aislada. No son el mismo tipo de identificador. Los IDs Socrata actual y guardado difieren, y ambos registros del proceso conservan `No Adjudicado`. Esto no acredita una identidad oficial de adjudicación ni permite sustituir IDs. La comparación inicial por el campo de proceso devolvió cero porque estaba comparando una referencia de portafolio; se conserva ese resultado para explicar la corrección. No hubo escrituras en SECOP ni en las tablas del corte.
+
+El [inventario reproducible](INVENTARIO_CASOS_REVISION5_20261016.json) contiene **ocho candidatos y cero aptos**. Los hechos de este candidato corresponden a 2020–2022, pero no acreditan todavía cobertura utilizable de entrenamiento. Se conservan las revisiones anteriores. No se entrenó ni activó ningún modelo.
+
+Se consultó también el índice oficial de autos de la Sala Especial: 146 enlaces de `iframe` observados, sin coincidencia para AEP050-2024. El registro privado conserva URL, fecha y hash de esa consulta. La búsqueda es parcial: no acredita que ese auto no exista ni determina la firmeza de SEP077-2023. No se reemplaza el documento judicial por una referencia de un buscador o editor jurídico.
