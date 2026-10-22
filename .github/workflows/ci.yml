@@ -6,22 +6,7 @@ on:
 
 jobs:
   backend:
-    runs-on: ubuntu-latest
-    services:
-      postgres:
-        # Docker Official Image mirror avoids shared-runner Docker Hub pull limits.
-        image: public.ecr.aws/docker/library/postgres:15
-        env:
-          POSTGRES_DB: plataforma_test
-          POSTGRES_USER: plataforma
-          POSTGRES_PASSWORD: test_only_password
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd "pg_isready -U plataforma -d plataforma_test"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+    runs-on: ubuntu-24.04
     defaults:
       run:
         working-directory: Backend
@@ -34,6 +19,11 @@ jobs:
       TEST_DATABASE_URL: postgresql://plataforma:test_only_password@localhost:5432/plataforma_test
     steps:
       - uses: actions/checkout@v4
+      - name: Start PostgreSQL 16
+        run: |
+          sudo systemctl start postgresql.service
+          sudo -u postgres psql -c "CREATE ROLE plataforma LOGIN PASSWORD 'test_only_password'"
+          sudo -u postgres psql -c "CREATE DATABASE plataforma_test OWNER plataforma"
       - uses: actions/setup-python@v5
         with:
           python-version: '3.13'
