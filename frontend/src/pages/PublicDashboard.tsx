@@ -74,7 +74,7 @@ export const PublicDashboard: React.FC = () => {
   const activeRequest = useRef<AbortController | null>(null);
 
   const loadData = useCallback(async () => {
-    if (activeRequest.current) return;
+    if (document.visibilityState !== 'visible' || activeRequest.current) return;
     const controller = new AbortController();
     activeRequest.current = controller;
     try {
@@ -84,30 +84,49 @@ export const PublicDashboard: React.FC = () => {
         .catch(() => { if (!controller.signal.aborted) setIndiciosState(null); });
       const publication=await getRiskStatus(controller.signal);
       const selected=publication?.public_cut_id ?? null;
-      const [m, providers, anomaly, historicalHigh] = await Promise.all([
-        getDashboardMetrics(controller.signal,selected),
-        getTopProviders(10, controller.signal,selected),
-        getAnomalyDistribution(controller.signal,selected),
-        getHistoricalHighCount(controller.signal,selected),
-      ]);
+      const m = await getDashboardMetrics(controller.signal,selected);
       if (controller.signal.aborted) return;
       if (!m || typeof m.total_contratos !== 'number') {
         throw new Error('El servicio de métricas no devolvió un resumen válido.');
       }
-      const metricsWithHistoricalHigh = {
-        ...m,
-        total_alto_riesgo: historicalHigh,
-        pct_alto_riesgo: m.total_contratos > 0 ? Number((historicalHigh / m.total_contratos * 100).toFixed(2)) : null,
-      };
-      setMetrics(metricsWithHistoricalHigh);
+      const initialHistoricalHigh = m.total_alto_riesgo ?? 0;
+      setMetrics(m);
       setRiskData([
-        { name: 'Alto histórico · alerta + incompleto', value: historicalHigh, color: '#ef4444' },
-        { name: 'Alerta sin dato incompleto', value: Math.max(0, m.total_sospechosos - historicalHigh), color: '#94a3b8' },
+        { name: 'Alto histórico · alerta + incompleto', value: initialHistoricalHigh, color: '#ef4444' },
+        { name: 'Alerta sin dato incompleto', value: Math.max(0, m.total_sospechosos - initialHistoricalHigh), color: '#94a3b8' },
       ]);
-      setTopProviders(providers);
-      setAnomalyData(anomaly);
       setPublicCutId(selected??null);
       setLastUpdated(new Date());
+
+      // Render the summary as soon as its compact aggregate is available. The
+      // history and ranking queries can scan much larger parts of the cut.
+      setLoading(false);
+      const ancillary = await Promise.allSettled([
+        getTopProviders(10, controller.signal,selected).then((providers) => {
+          if (!controller.signal.aborted) setTopProviders(providers);
+        }),
+        getAnomalyDistribution(controller.signal,selected).then((anomaly) => {
+          if (!controller.signal.aborted) setAnomalyData(anomaly);
+        }),
+        getHistoricalHighCount(controller.signal,selected).then((historicalHigh) => {
+          if (controller.signal.aborted) return;
+          setMetrics((current) => current ? {
+            ...current,
+            total_alto_riesgo: historicalHigh,
+            pct_alto_riesgo: current.total_contratos > 0
+              ? Number((historicalHigh / current.total_contratos * 100).toFixed(2))
+              : null,
+          } : current);
+          setRiskData([
+            { name: 'Alto histórico · alerta + incompleto', value: historicalHigh, color: '#ef4444' },
+            { name: 'Alerta sin dato incompleto', value: Math.max(0, m.total_sospechosos - historicalHigh), color: '#94a3b8' },
+          ]);
+        }),
+      ]);
+      if (controller.signal.aborted) return;
+      for (const result of ancillary) {
+        if (result.status === 'rejected') console.warn('No se pudo cargar un complemento del dashboard:', result.reason);
+      }
     } catch (err: unknown) {
       if (controller.signal.aborted) return;
       setError(getErrorMessage(err, 'Error al cargar el dashboard'));
@@ -120,15 +139,20 @@ export const PublicDashboard: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    const initial = window.setTimeout(() => {
+    const refreshWhenVisible = () => {
+      if (document.visibilityState !== 'visible') {
+        activeRequest.current?.abort();
+        return;
+      }
       void loadData();
-    }, 0);
-    const interval = window.setInterval(() => {
-      void loadData();
-    }, POLL_INTERVAL_MS);
+    };
+    const initial = window.setTimeout(refreshWhenVisible, 0);
+    const interval = window.setInterval(refreshWhenVisible, POLL_INTERVAL_MS);
+    document.addEventListener('visibilitychange', refreshWhenVisible);
     return () => {
       window.clearTimeout(initial);
       window.clearInterval(interval);
+      document.removeEventListener('visibilitychange', refreshWhenVisible);
       activeRequest.current?.abort();
       activeRequest.current = null;
     };

@@ -2,7 +2,9 @@ import axios from 'axios';
 import { clearStoredToken, getStoredToken } from '../authStorage';
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:8000',
+  // The local API binds to IPv4 loopback only. On Windows, `localhost` may
+  // resolve to ::1 first and leave browser requests waiting for an IPv6 server.
+  baseURL: import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000',
   headers: {
     'Content-Type': 'application/json',
   },
