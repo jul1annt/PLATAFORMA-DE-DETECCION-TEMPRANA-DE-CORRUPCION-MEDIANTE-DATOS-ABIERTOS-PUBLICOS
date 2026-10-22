@@ -49,7 +49,7 @@ El cliente HTTP usa `VITE_API_URL` como URL base del backend. Copia `.env.exampl
 cp .env.example .env.local
 ```
 
-Por ejemplo, en desarrollo local puedes usar `http://localhost:8000`; en integración o producción, configura el origen HTTPS real de FastAPI. Vite incorpora esta variable en el bundle durante el build, por lo que debes compilar de nuevo al cambiar de entorno. No guardes secretos en variables `VITE_*`, ya que quedan visibles en el navegador.
+Por ejemplo, en desarrollo local puedes usar `http://127.0.0.1:8000` si FastAPI escucha en IPv4; en integración o producción, configura el origen HTTPS real de FastAPI. Vite incorpora esta variable en el bundle durante el build, por lo que debes compilar de nuevo al cambiar de entorno. No guardes secretos en variables `VITE_*`, ya que quedan visibles en el navegador.
 
 ## Contratos de API y tipos
 

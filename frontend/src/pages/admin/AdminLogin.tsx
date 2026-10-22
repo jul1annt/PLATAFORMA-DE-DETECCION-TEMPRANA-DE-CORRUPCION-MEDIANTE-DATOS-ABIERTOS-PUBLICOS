@@ -5,6 +5,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ShieldCheck, Lock, User, AlertCircle } from 'lucide-react';
 import toast from 'react-hot-toast';
+import axios from 'axios';
 import { useAuth } from '../../context/useAuth';
 import { BackButton } from '../../components/navigation/BackButton';
 import type { LoginRequest } from '../../types/auth';
@@ -17,6 +18,25 @@ const loginSchema = z.object({
 });
 
 type LoginFormValues = z.infer<typeof loginSchema>;
+
+const loginErrorMessage = (error: unknown): string => {
+  if (axios.isAxiosError(error)) {
+    if (error.code === 'ECONNABORTED' || error.code === 'ETIMEDOUT') {
+      return 'El servidor está tardando demasiado en responder. Intenta de nuevo en un momento.';
+    }
+    if (!error.response) {
+      return 'No se pudo conectar con el servidor. Verifica que el backend esté activo.';
+    }
+    if (error.response.status === 401) {
+      return 'Credenciales incorrectas. Verifica usuario y contraseña.';
+    }
+    if (error.response.status === 429) {
+      return 'Demasiados intentos. Espera un momento antes de volver a probar.';
+    }
+    return 'El servidor no pudo completar el inicio de sesión. Intenta de nuevo más tarde.';
+  }
+  return 'No fue posible iniciar sesión. Intenta de nuevo.';
+};
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
@@ -41,8 +61,8 @@ const AdminLogin: React.FC = () => {
       await login(data);
       toast.success(`Bienvenido, ${values.username}`);
       navigate('/admin', { replace: true });
-    } catch {
-      toast.error('Credenciales incorrectas. Verifica usuario y contraseña.');
+    } catch (error: unknown) {
+      toast.error(loginErrorMessage(error));
     }
   };
 

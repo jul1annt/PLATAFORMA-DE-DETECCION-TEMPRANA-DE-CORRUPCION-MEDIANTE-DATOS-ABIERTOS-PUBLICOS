@@ -12,13 +12,17 @@ import type {
   MessageResponse,
 } from '../types/auth';
 
+const AUTH_REQUEST_TIMEOUT_MS = 20_000;
+
 export const authService = {
   /**
    * POST /api/auth/login
    * No JWT required.
    */
   login: async (data: LoginRequest): Promise<TokenResponse> => {
-    const response = await api.post<TokenResponse>('/api/auth/login', data);
+    const response = await api.post<TokenResponse>('/api/auth/login', data, {
+      timeout: AUTH_REQUEST_TIMEOUT_MS,
+    });
     return response.data;
   },
 
@@ -30,6 +34,7 @@ export const authService = {
     const response = await api.get<AdminResponse>('/api/auth/me', {
       headers: { Authorization: `Bearer ${token}` },
       signal,
+      timeout: AUTH_REQUEST_TIMEOUT_MS,
     });
     return response.data;
   },
