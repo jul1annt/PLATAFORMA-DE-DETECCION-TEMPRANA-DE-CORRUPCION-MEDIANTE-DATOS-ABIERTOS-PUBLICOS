@@ -70,6 +70,8 @@ jobs:
         run: npm ci --prefix ../tools/openapi-types
       - name: Verify generated API types
         run: npm run check --prefix ../tools/openapi-types
+      - name: Use current npm security audit client
+        run: npm install --global npm@11.6.2
       - name: Audit dependencies
         run: npm audit --audit-level=high
       - name: Test authentication client behavior
