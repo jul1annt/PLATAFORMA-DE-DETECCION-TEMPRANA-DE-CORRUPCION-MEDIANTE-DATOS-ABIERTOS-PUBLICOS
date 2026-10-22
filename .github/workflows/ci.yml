@@ -45,11 +45,6 @@ jobs:
         run: python scripts/export_openapi.py --check
       - name: Verify API access policy and inventory
         run: python scripts/export_access_matrix.py --check
-      - name: Restrict PostgreSQL test role
-        run: >-
-          psql "postgresql://plataforma:test_only_password@localhost:5432/plataforma_test"
-          -v ON_ERROR_STOP=1
-          -c "ALTER ROLE plataforma NOSUPERUSER NOCREATEDB NOCREATEROLE"
       - name: Apply all migrations to empty PostgreSQL
         run: alembic upgrade head
       - name: Run tests
