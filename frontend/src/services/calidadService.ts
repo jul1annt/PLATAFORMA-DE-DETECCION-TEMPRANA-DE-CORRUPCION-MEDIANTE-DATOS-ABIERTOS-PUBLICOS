@@ -5,12 +5,12 @@ import { procesamientoService } from './procesamientoService';
 
 export const calidadService = {
   getMetricasCalidad: async (signal?: AbortSignal): Promise<MetricasCalidadDTO> => {
-    const response = await api.get('/api/procesados/admin/metricas/calidad', { signal });
+    const response = await api.get('/api/procesados/metricas/calidad', { signal });
     return response.data;
   },
 
   getCamposFaltantes: async (signal?: AbortSignal): Promise<CampoFaltanteDTO[]> => {
-    const response = await api.get('/api/procesados/admin/metricas/campos-faltantes', { signal });
+    const response = await api.get('/api/procesados/metricas/campos-faltantes', { signal });
     return response.data;
   },
 
