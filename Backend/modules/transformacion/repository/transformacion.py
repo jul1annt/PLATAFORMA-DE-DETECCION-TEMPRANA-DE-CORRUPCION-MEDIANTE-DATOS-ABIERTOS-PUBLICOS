@@ -395,9 +395,7 @@ class TransformacionRepository:
         total, incompletos, sospechosos, alto, promedio = self._agregar_metricas_contratos()
         from modules.motor_riesgo.public_aggregates import cached_aggregates
         public_aggregate = cached_aggregates(self.session)
-        alto = (public_aggregate or {}).get('historical_high')
-        if alto is None:
-            alto = self.count_historical_high()
+        alto = (public_aggregate or {}).get('historical_high', alto)
         completos = total - incompletos
         porcentaje_completos = round(completos / total * 100, 2) if total else None
         porcentaje_incompletos = round(incompletos / total * 100, 2) if total else None

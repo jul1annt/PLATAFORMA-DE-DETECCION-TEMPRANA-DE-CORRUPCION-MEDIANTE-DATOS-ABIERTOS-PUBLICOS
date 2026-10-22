@@ -5,7 +5,7 @@ import hashlib
 import json
 import os
 import platform
-from pathlib import Path
+from pathlib import Path, PureWindowsPath
 import re
 import sys
 import uuid
@@ -97,8 +97,12 @@ def run(manifest_path, output):
         raise ValueError('Manifiesto de lote inválido')
     inputs, seen, total = [], set(), 0
     for entry in entries:
-        relative = Path(entry['path'])
-        if relative.is_absolute() or relative.drive or '..' in relative.parts:
+        input_name = entry['path']
+        relative = Path(input_name)
+        windows_relative = PureWindowsPath(input_name)
+        if (relative.is_absolute() or relative.drive or '..' in relative.parts
+                or windows_relative.is_absolute() or windows_relative.drive
+                or '..' in windows_relative.parts):
             raise ValueError('Ruta debe ser relativa al manifiesto')
         path = (manifest_path.parent / relative).resolve()
         if not path.is_relative_to(manifest_path.parent) or path in seen:

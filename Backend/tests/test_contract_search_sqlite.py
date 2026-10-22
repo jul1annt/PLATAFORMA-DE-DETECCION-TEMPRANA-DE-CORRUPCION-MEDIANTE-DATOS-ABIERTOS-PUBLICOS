@@ -53,8 +53,8 @@ def _engine_with_contracts():
                 modalidad_contratacion, estado_normalizado, nivel_confianza,
                 es_incompleto, es_sospechoso, clasificacion_riesgo, normalized_hash
             ) VALUES
-                (1, 'PROC-ACME-1', 'Alcaldía Norte', 'Acme SAS', '900111222-3', '900111222', 100, 'Licitación', 'Publicado', 90, 0, 0, 'ALTO', 'h1'),
-                (2, 'PROC-ACME-2', 'Alcaldía Sur', 'Acme Servicios', '900333444-5', '900333444', 200, 'Licitación', 'Publicado', 80, 1, 0, 'ALTO', 'h2'),
+                (1, 'PROC-ACME-1', 'Alcaldía Norte', 'Acme SAS', '900111222-3', '900111222', 100, 'Licitación', 'Publicado', 90, 1, 1, 'ALTO', 'h1'),
+                (2, 'PROC-ACME-2', 'Alcaldía Sur', 'Acme Servicios', '900333444-5', '900333444', 200, 'Licitación', 'Publicado', 80, 1, 1, 'ALTO', 'h2'),
                 (3, 'PROC-OTHER', 'Acme Central', 'Otro Proveedor', '800555666-7', '800555666', 300, 'Directa', 'Cerrado', 70, 0, 1, 'BAJO', 'h3')
             """
         )
