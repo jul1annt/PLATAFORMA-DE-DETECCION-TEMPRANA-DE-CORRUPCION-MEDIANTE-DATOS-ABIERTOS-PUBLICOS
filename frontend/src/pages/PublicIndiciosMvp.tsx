@@ -49,7 +49,6 @@ export function PublicIndiciosMvp() {
   const signal = query.get('senal') || '';
   const stage = query.get('etapa') || '';
   const term = query.get('q') || '';
-  const [termDraft, setTermDraft] = useState(term);
 
   const apiQuery = useMemo(() => {
     const params = new URLSearchParams({ page: String(page), size: String(PAGE_SIZE) });
@@ -70,10 +69,8 @@ export function PublicIndiciosMvp() {
 
   useEffect(() => {
     const controller = new AbortController();
-    setError(null);
-    setLoading(true);
     getIndiciosPage(apiQuery, controller.signal)
-      .then((result) => { setRows(result.items); setTotal(result.total); setHasMore(result.has_more); })
+      .then((result) => { setRows(result.items); setTotal(result.total); setHasMore(result.has_more); setError(null); })
       .catch((e: Error) => { if (e.name !== 'AbortError') { setRows([]); setTotal(null); setHasMore(false); setError(e.message); } })
       .finally(() => { if (!controller.signal.aborted) setLoading(false); });
     return () => controller.abort();
@@ -88,20 +85,11 @@ export function PublicIndiciosMvp() {
 
   const change = (key: string, value: string) => {
     const next = new URLSearchParams(query);
-    value ? next.set(key, value) : next.delete(key);
+    if (value) next.set(key, value);
+    else next.delete(key);
     if (key !== 'page') next.delete('page');
     setQuery(next);
   };
-
-  useEffect(() => {
-    setTermDraft(term);
-  }, [term]);
-
-  useEffect(() => {
-    if (termDraft === term) return;
-    const timer = window.setTimeout(() => change('q', termDraft.trim()), 350);
-    return () => window.clearTimeout(timer);
-  }, [termDraft, term]);
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900">
@@ -131,7 +119,7 @@ export function PublicIndiciosMvp() {
               <label className="text-sm font-medium text-slate-700">Resultado <select value={status} onChange={(e) => change('estado', e.target.value)} className="mt-1 block w-full rounded-lg border-slate-300 bg-white p-2.5 text-sm focus:border-indigo-600 focus:ring-indigo-600"><option value="">Todos</option><option value="CON_SENAL_CONFIRMADA">Con señal confirmada</option><option value="EVIDENCIA_INSUFICIENTE">Evidencia insuficiente</option><option value="SIN_SENAL_OBSERVADA">Sin señal observada</option><option value="NO_EVALUABLE">No evaluable</option></select></label>
               <label className="text-sm font-medium text-slate-700">Señal <select value={signal} onChange={(e) => change('senal', e.target.value)} className="mt-1 block w-full rounded-lg border-slate-300 bg-white p-2.5 text-sm focus:border-indigo-600 focus:ring-indigo-600"><option value="">Todas</option><option value="true">Con señal</option><option value="false">Sin señal confirmada</option></select></label>
               <label className="text-sm font-medium text-slate-700">Etapa <select value={stage} onChange={(e) => change('etapa', e.target.value)} className="mt-1 block w-full rounded-lg border-slate-300 bg-white p-2.5 text-sm focus:border-indigo-600 focus:ring-indigo-600"><option value="">Todas</option>{state.filters.stages.map((v) => <option key={v} value={v}>{v === 'ADJUDICACION' ? 'Adjudicación' : 'Convocatoria'}</option>)}</select></label>
-              <label className="text-sm font-medium text-slate-700">Entidad, proveedor o proceso <span className="relative mt-1 block"><Search size={16} className="absolute left-3 top-3 text-slate-400" aria-hidden="true" /><input value={termDraft} onChange={(e) => setTermDraft(e.target.value)} placeholder="Buscar texto (mín. 3 caracteres)" className="w-full rounded-lg border-slate-300 py-2.5 pl-9 pr-3 text-sm focus:border-indigo-600 focus:ring-indigo-600" /></span></label>
+              <label className="text-sm font-medium text-slate-700">Entidad, proveedor o proceso <span className="relative mt-1 block"><Search size={16} className="absolute left-3 top-3 text-slate-400" aria-hidden="true" /><input value={term} onChange={(e) => change('q', e.target.value)} placeholder="Buscar texto (mín. 3 caracteres)" className="w-full rounded-lg border-slate-300 py-2.5 pl-9 pr-3 text-sm focus:border-indigo-600 focus:ring-indigo-600" /></span></label>
             </div>
           </section>
 
